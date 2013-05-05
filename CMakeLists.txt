@@ -18,6 +18,7 @@ include_directories(
   )
 
 set( SRCS
+  mainwindow.cpp
   main.cpp
 )
 

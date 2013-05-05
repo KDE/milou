@@ -20,17 +20,35 @@
  *
  */
 
-#include <QtGui/QApplication>
-#include <KComponentData>
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-#include "mainwindow.h"
+#include <QtGui/QMainWindow>
+#include <QtGui/QLineEdit>
+#include <QtGui/QListView>
 
-int main( int argc, char ** argv ) {
-    KComponentData component( QByteArray("nepomuk-test") );
-    QApplication app( argc, argv );
+#include <nepomuk2/resourcemodel.h>
 
-    MainWindow w;
-    w.show();
+#include <Soprano/Util/AsyncQuery>
 
-    return app.exec();
-}
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+public:
+    explicit MainWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+
+private slots:
+    void slotTextChanged(const QString& text);
+
+    void slotNextReady(Soprano::Util::AsyncQuery*);
+    void slotFinished(Soprano::Util::AsyncQuery*);
+
+private:
+    QLineEdit* m_edit;
+    QListView* m_view;
+
+    Nepomuk2::Utils::ResourceModel* m_model;
+    Soprano::Util::AsyncQuery* m_query;
+};
+
+#endif // MAINWINDOW_H
