@@ -55,7 +55,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
 void MainWindow::slotTextChanged(const QString& text)
 {
     if( m_query ) {
-        m_query->deleteLater();
+        m_query->close();
+        delete m_query;
         m_query = 0;
     }
 
