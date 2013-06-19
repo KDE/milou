@@ -74,11 +74,10 @@ void MainWindow::slotTextChanged(const QString& text)
     kDebug() << sparqlQuery;
     Soprano::Model* model = Nepomuk2::ResourceManager::instance()->mainModel();
 
-    Soprano::Util::AsyncQuery* async = Soprano::Util::AsyncQuery::executeQuery( model, sparqlQuery,
-                                                                                Soprano::Query::QueryLanguageSparql );
+    m_query = Soprano::Util::AsyncQuery::executeQuery( model, sparqlQuery, Soprano::Query::QueryLanguageSparql );
 
-    connect( async, SIGNAL(nextReady(Soprano::Util::AsyncQuery*)), this, SLOT(slotNextReady(Soprano::Util::AsyncQuery*) ) );
-    connect( async, SIGNAL(finished(Soprano::Util::AsyncQuery*)), this, SLOT(slotFinished(Soprano::Util::AsyncQuery*)) );
+    connect( m_query, SIGNAL(nextReady(Soprano::Util::AsyncQuery*)), this, SLOT(slotNextReady(Soprano::Util::AsyncQuery*) ) );
+    connect( m_query, SIGNAL(finished(Soprano::Util::AsyncQuery*)), this, SLOT(slotFinished(Soprano::Util::AsyncQuery*)) );
 
     m_model->clear();
 }
@@ -95,5 +94,6 @@ void MainWindow::slotNextReady(Soprano::Util::AsyncQuery* query)
 
 void MainWindow::slotFinished(Soprano::Util::AsyncQuery* query)
 {
+    Q_ASSERT(m_query == query);
     m_query = 0;
 }
