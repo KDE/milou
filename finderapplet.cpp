@@ -29,6 +29,8 @@
 #include <KDebug>
 #include <KGlobal>
 #include <KStandardDirs>
+#include <KMimeType>
+#include <KRun>
 
 #include <Soprano/QueryResultIterator>
 
@@ -37,6 +39,11 @@
 #include <Nepomuk2/Query/LiteralTerm>
 
 #include <Nepomuk2/ResourceManager>
+#include <Nepomuk2/File>
+#include <Nepomuk2/Vocabulary/NIE>
+#include <Nepomuk2/Variant>
+
+using namespace Nepomuk2::Vocabulary;
 
 FinderApplet::FinderApplet(QObject* parent, const QVariantList& args)
     : Plasma::Applet(parent, args)
@@ -127,6 +134,18 @@ void FinderApplet::slotFinished(Soprano::Util::AsyncQuery* query)
     Q_ASSERT(m_query == query);
     m_query = 0;
 }
+
+void FinderApplet::run(int index)
+{
+    Nepomuk2::Resource res = m_model->resourceForIndex( m_model->index( index, 0 ) );
+
+    const KUrl nieUrl = res.toFile().url();
+    if( !nieUrl.isEmpty() ) {
+        kDebug() << "Running!!!" << nieUrl;
+        KRun::runUrl( nieUrl, res.property(NIE::mimeType()).toString(), 0 );
+    }
+}
+
 
 #include "finderapplet.moc"
 

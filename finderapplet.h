@@ -39,6 +39,7 @@ public:
 
 public slots:
     void setSearchText(const QString& text);
+    void run(int index);
 
 private slots:
     void slotNextReady(Soprano::Util::AsyncQuery*);

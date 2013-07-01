@@ -26,6 +26,7 @@ kde4_add_plugin(plasma_applet_nepomuk_finder ${SRCS})
 target_link_libraries(plasma_applet_nepomuk_finder
                        ${KDE4_PLASMA_LIBS}
                        ${KDE4_KDEUI_LIBS}
+                       ${KDE4_KIO_LIBS}
                        ${QT_QTDECLARATIVE_LIBRARY}
                        ${NEPOMUK_CORE_LIBRARY}
                        ${NEPOMUK_WIDGETS_LIBRARY}

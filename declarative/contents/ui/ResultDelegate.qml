@@ -8,6 +8,10 @@ PlasmaComponents.ListItem {
     id: resultDelegate
     enabled: true
 
+    onClicked: {
+        plasmoid.run(model.index)
+    }
+
     QtExtra.QIconItem {
         id: typePixmap
         width: height
