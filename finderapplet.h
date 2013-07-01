@@ -35,15 +35,20 @@ class FinderApplet : public Plasma::Applet
 public:
     FinderApplet(QObject* parent, const QVariantList& args);
 
-private slots:
-    void slotTextChanged(const QString& text);
+    virtual void init();
 
+public slots:
+    void setSearchText(const QString& text);
+
+private slots:
     void slotNextReady(Soprano::Util::AsyncQuery*);
     void slotFinished(Soprano::Util::AsyncQuery*);
 
 private:
     Nepomuk2::Utils::ResourceModel* m_model;
     Soprano::Util::AsyncQuery* m_query;
+
+    Plasma::DeclarativeWidget* m_declarative;
 };
 
 #endif // FINDER_APPLET_H

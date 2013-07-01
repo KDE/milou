@@ -21,8 +21,14 @@
  */
 
 #include "finderapplet.h"
-#include <KDebug>
 #include <Soprano/Model>
+
+#include <QDeclarativeEngine>
+#include <QDeclarativeContext>
+
+#include <KDebug>
+#include <KGlobal>
+#include <KStandardDirs>
 
 #include <Soprano/QueryResultIterator>
 
@@ -36,11 +42,13 @@ FinderApplet::FinderApplet(QObject* parent, const QVariantList& args)
     : Plasma::Applet(parent, args)
     , m_query(0)
 {
-    /*
-    m_edit = new QLineEdit( this );
-    connect( m_edit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)) );
-
+    m_declarative = new Plasma::DeclarativeWidget(this);
     m_model = new Nepomuk2::Utils::ResourceModel( this );
+
+    setAutoFillBackground( true );
+    setMinimumHeight( 300 );
+    setMinimumWidth( 100 );
+    /*
     m_view = new QListView( this );
     m_view->setModel( m_model );
 
@@ -53,7 +61,26 @@ FinderApplet::FinderApplet(QObject* parent, const QVariantList& args)
     */
 }
 
-void FinderApplet::slotTextChanged(const QString& text)
+void FinderApplet::init()
+{
+    Plasma::Applet::init();
+
+    kDebug() << "APPLET ID:" << id();
+
+    if (m_declarative) {
+        QString qmlFile = KGlobal::dirs()->findResource("data", "plasma/plasmoids/org.kde.nepomuk.finder/contents/ui/main.qml");
+        kDebug() << "LOADING: " << qmlFile;
+        m_declarative->setQmlPath(qmlFile);
+
+        QDeclarativeContext* context = m_declarative->engine()->rootContext();
+        context->setContextProperty( "plasmoid", this );
+        context->setContextProperty( "resultsModel", m_model );
+
+        //setSearchText( "Coldplay" );
+    }
+}
+
+void FinderApplet::setSearchText(const QString& text)
 {
     if( m_query ) {
         m_query->close();

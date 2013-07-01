@@ -32,7 +32,7 @@ target_link_libraries(plasma_applet_nepomuk_finder
                        ${SOPRANO_LIBRARIES}
 )
 
-#install(DIRECTORY declarative/ DESTINATION ${DATA_INSTALL_DIR}/plasma/plasmoids/org.kde.nepomuk.finder)
+install(DIRECTORY declarative/ DESTINATION ${DATA_INSTALL_DIR}/plasma/plasmoids/org.kde.nepomuk.finder)
 install(TARGETS plasma_applet_nepomuk_finder DESTINATION ${PLUGIN_INSTALL_DIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/metadata.desktop DESTINATION ${SERVICES_INSTALL_DIR}
         RENAME plasma-applet-nepomuk-finder.desktop)
