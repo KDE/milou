@@ -20,22 +20,20 @@
  *
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef FINDER_APPLET_H
+#define FINDER_APPLET_H
 
-#include <QtGui/QMainWindow>
-#include <QtGui/QLineEdit>
-#include <QtGui/QListView>
+#include <Plasma/Applet>
+#include <Plasma/DeclarativeWidget>
 
 #include <nepomuk2/resourcemodel.h>
-
 #include <Soprano/Util/AsyncQuery>
 
-class MainWindow : public QMainWindow
+class FinderApplet : public Plasma::Applet
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    FinderApplet(QObject* parent, const QVariantList& args);
 
 private slots:
     void slotTextChanged(const QString& text);
@@ -44,11 +42,8 @@ private slots:
     void slotFinished(Soprano::Util::AsyncQuery*);
 
 private:
-    QLineEdit* m_edit;
-    QListView* m_view;
-
     Nepomuk2::Utils::ResourceModel* m_model;
     Soprano::Util::AsyncQuery* m_query;
 };
 
-#endif // MAINWINDOW_H
+#endif // FINDER_APPLET_H

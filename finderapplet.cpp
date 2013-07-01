@@ -20,10 +20,9 @@
  *
  */
 
-#include "mainwindow.h"
+#include "finderapplet.h"
 #include <KDebug>
 #include <Soprano/Model>
-#include <QBoxLayout>
 
 #include <Soprano/QueryResultIterator>
 
@@ -33,10 +32,11 @@
 
 #include <Nepomuk2/ResourceManager>
 
-MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
-    : QMainWindow(parent, flags)
+FinderApplet::FinderApplet(QObject* parent, const QVariantList& args)
+    : Plasma::Applet(parent, args)
     , m_query(0)
 {
+    /*
     m_edit = new QLineEdit( this );
     connect( m_edit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)) );
 
@@ -50,9 +50,10 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     layout->addWidget( m_view );
 
     setCentralWidget( mainWidget );
+    */
 }
 
-void MainWindow::slotTextChanged(const QString& text)
+void FinderApplet::slotTextChanged(const QString& text)
 {
     if( m_query ) {
         m_query->close();
@@ -83,18 +84,23 @@ void MainWindow::slotTextChanged(const QString& text)
     m_model->clear();
 }
 
-void MainWindow::slotNextReady(Soprano::Util::AsyncQuery* query)
+void FinderApplet::slotNextReady(Soprano::Util::AsyncQuery* query)
 {
     if( query->next() ) {
         const QUrl uri = query->binding(0).uri();
         if( uri.scheme() == QLatin1String("http") )
             return;
+        kDebug() << uri;
         m_model->addResource( uri );
     }
 }
 
-void MainWindow::slotFinished(Soprano::Util::AsyncQuery* query)
+void FinderApplet::slotFinished(Soprano::Util::AsyncQuery* query)
 {
     Q_ASSERT(m_query == query);
     m_query = 0;
 }
+
+#include "finderapplet.moc"
+
+K_EXPORT_PLASMA_APPLET(org.kde.nepomuk.finder, FinderApplet)

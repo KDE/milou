@@ -18,19 +18,22 @@ include_directories(
   )
 
 set( SRCS
-  mainwindow.cpp
-  main.cpp
+  finderapplet.cpp
 )
 
-kde4_add_executable(nepomuk-finder ${SRCS})
+kde4_add_plugin(plasma_applet_nepomuk_finder ${SRCS})
 
-target_link_libraries( nepomuk-finder
-  ${KDE4_KDEUI_LIBS}
-  ${KDE4_KIO_LIBS}
-  ${NEPOMUK_CORE_LIBRARY}
-  ${NEPOMUK_WIDGETS_LIBRARY}
-  ${SOPRANO_LIBRARIES}
-  )
+target_link_libraries(plasma_applet_nepomuk_finder
+                       ${KDE4_PLASMA_LIBS}
+                       ${KDE4_KDEUI_LIBS}
+                       ${QT_QTDECLARATIVE_LIBRARY}
+                       ${NEPOMUK_CORE_LIBRARY}
+                       ${NEPOMUK_WIDGETS_LIBRARY}
+                       ${SOPRANO_LIBRARIES}
+)
 
-install(TARGETS nepomuk-finder
-        DESTINATION ${BIN_INSTALL_DIR})
+#install(DIRECTORY declarative/ DESTINATION ${DATA_INSTALL_DIR}/plasma/plasmoids/org.kde.nepomuk.finder)
+install(TARGETS plasma_applet_nepomuk_finder DESTINATION ${PLUGIN_INSTALL_DIR})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/metadata.desktop DESTINATION ${SERVICES_INSTALL_DIR}
+        RENAME plasma-applet-nepomuk-finder.desktop)
+
