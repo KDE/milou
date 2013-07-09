@@ -80,7 +80,7 @@ void FinderApplet::init()
         m_declarative->setQmlPath(qmlFile);
 
         QDeclarativeContext* context = m_declarative->engine()->rootContext();
-        context->setContextProperty( "plasmoid", this );
+        context->setContextProperty( "finderApplet", this );
         context->setContextProperty( "resultsModel", m_model );
 
         //setSearchText( "Coldplay" );

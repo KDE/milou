@@ -22,7 +22,7 @@ Item {
         placeholderText: i18n("Search..")
 
         onTextChanged: {
-            plasmoid.setSearchText( text )
+            finderApplet.setSearchText( text )
         }
     }
 
@@ -43,5 +43,10 @@ Item {
 
             boundsBehavior: Flickable.StopAtBounds
         }
+    }
+
+    Component.onCompleted: {
+        plasmoid.aspectRatioMode = IgnoreAspectRatio;
+        plasmoid.popupIcon = "nepomuk";
     }
 }
