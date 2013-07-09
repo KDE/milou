@@ -2,7 +2,7 @@
 Name=Finder
 Comment=Applet for finding anything
 Type=Service
-ServiceTypes=Plasma/Applet
+ServiceTypes=Plasma/Applet,Plasma/PopupApplet
 Icon=nepomuk
 
 #X-Plasma-DefaultSize=128,128
