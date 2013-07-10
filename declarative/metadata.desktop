@@ -2,12 +2,15 @@
 Name=Finder
 Comment=Applet for finding anything
 Type=Service
-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
+ServiceTypes=Plasma/Applet
 Icon=nepomuk
 
-#X-Plasma-DefaultSize=128,128
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-DefaultSize=200,300
 
-X-KDE-Library=plasma_applet_nepomuk_finder
+X-KDE-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
+
 X-KDE-PluginInfo-Name=org.kde.nepomuk.finder
 X-KDE-PluginInfo-Category=Online Services
 X-KDE-PluginInfo-Author=Vishesh Handa
@@ -15,3 +18,6 @@ X-KDE-PluginInfo-Email=me@vhanda.in
 X-KDE-PluginInfo-Version=0.1
 X-KDE-PluginInfo-Website=http://nepomuk.kde.org
 X-KDE-PluginInfo-License=LGPL
+
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-EnabledByDefault=true

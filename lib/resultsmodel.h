@@ -20,36 +20,42 @@
  *
  */
 
-#ifndef FINDER_APPLET_H
-#define FINDER_APPLET_H
+#ifndef NEPOMUK2_RESULTSMODEL_H
+#define NEPOMUK2_RESULTSMODEL_H
 
-#include <Plasma/Applet>
-#include <Plasma/DeclarativeWidget>
+#include <QAbstractListModel>
 
-#include <nepomuk2/resourcemodel.h>
+#include <Nepomuk2/Query/Result>
 #include <Soprano/Util/AsyncQuery>
 
-class FinderApplet : public Plasma::Applet
+namespace Nepomuk2 {
+
+class ResultsModel : public QAbstractListModel
 {
     Q_OBJECT
-public:
-    FinderApplet(QObject* parent, const QVariantList& args);
+    Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
 
-    virtual void init();
+public:
+    explicit ResultsModel(QObject* parent = 0);
+
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+
+    QString queryString();
 
 public slots:
-    void setSearchText(const QString& text);
-    void run(int index);
+    void setQueryString(const QString& string);
 
 private slots:
     void slotNextReady(Soprano::Util::AsyncQuery*);
     void slotFinished(Soprano::Util::AsyncQuery*);
 
 private:
-    Nepomuk2::Utils::ResourceModel* m_model;
+    QList<Query::Result> m_results;
     Soprano::Util::AsyncQuery* m_query;
 
-    Plasma::DeclarativeWidget* m_declarative;
+    QString m_queryString;
 };
+}
 
-#endif // FINDER_APPLET_H
+#endif // NEPOMUK2_RESULTSMODEL_H

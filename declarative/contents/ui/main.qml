@@ -4,6 +4,7 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.qtextracomponents 0.1 as QtExtra
+import org.kde.nepomuk 0.1 as Nepomuk
 
 Item {
     id: mainWidget
@@ -22,7 +23,7 @@ Item {
         placeholderText: i18n("Search..")
 
         onTextChanged: {
-            finderApplet.setSearchText( text )
+            resultModel.setQueryString( text )
         }
     }
 
@@ -38,9 +39,11 @@ Item {
             id: listView
             clip: true
 
-            model: resultsModel
+            model: Nepomuk.ResultsModel {
+                id: resultModel
+                queryString: "Coldplay"
+            }
             delegate: ResultDelegate {}
-
             boundsBehavior: Flickable.StopAtBounds
         }
     }
