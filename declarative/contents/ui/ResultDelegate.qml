@@ -9,7 +9,7 @@ PlasmaComponents.ListItem {
     enabled: true
 
     onClicked: {
-        plasmoid.run(model.index)
+        Qt.openUrlExternally(model.url)
     }
 
     QtExtra.QIconItem {

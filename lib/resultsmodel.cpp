@@ -32,14 +32,21 @@
 #include <Nepomuk2/Query/LiteralTerm>
 
 #include <Nepomuk2/Resource>
+#include <Nepomuk2/Variant>
 #include <Nepomuk2/ResourceManager>
+#include <Nepomuk2/Vocabulary/NIE>
 
 #include <Soprano/Model>
 
 using namespace Nepomuk2;
+using namespace Nepomuk2::Vocabulary;
 
 ResultsModel::ResultsModel(QObject* parent): QAbstractListModel(parent)
 {
+    QHash<int, QByteArray> roles = roleNames();
+    roles.insert(UrlRole, "url");
+
+    setRoleNames(roles);
 }
 
 int ResultsModel::rowCount(const QModelIndex& parent) const
@@ -75,6 +82,9 @@ QVariant ResultsModel::data(const QModelIndex& index, int role) const
                 return QVariant();
         }
     }
+
+    case UrlRole:
+        return res.property(NIE::url()).toUrl();
 
     default:
         return QVariant();

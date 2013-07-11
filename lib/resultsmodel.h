@@ -36,6 +36,10 @@ class ResultsModel : public QAbstractListModel
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
 
 public:
+    enum Roles {
+        UrlRole = Qt::UserRole + 1
+    };
+
     explicit ResultsModel(QObject* parent = 0);
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
