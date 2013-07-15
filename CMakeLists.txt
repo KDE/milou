@@ -11,7 +11,7 @@ include(KDE4Defaults)
 
 add_subdirectory(lib)
 
-install(DIRECTORY declarative/ DESTINATION ${DATA_INSTALL_DIR}/plasma/plasmoids/org.kde.nepomuk.finder)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/declarative/metadata.desktop DESTINATION ${SERVICES_INSTALL_DIR}
+install(DIRECTORY plasmoid/ DESTINATION ${DATA_INSTALL_DIR}/plasma/plasmoids/org.kde.nepomuk.finder)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/plasmoid/metadata.desktop DESTINATION ${SERVICES_INSTALL_DIR}
         RENAME plasma-applet-nepomuk-finder.desktop)
 
