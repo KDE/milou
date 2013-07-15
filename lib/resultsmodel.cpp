@@ -37,9 +37,11 @@
 #include <Nepomuk2/Vocabulary/NIE>
 
 #include <Soprano/Model>
+#include <Soprano/Vocabulary/NAO>
 
 using namespace Nepomuk2;
 using namespace Nepomuk2::Vocabulary;
+using namespace Soprano::Vocabulary;
 
 ResultsModel::ResultsModel(QObject* parent)
     : QAbstractListModel(parent)
@@ -88,6 +90,12 @@ QVariant ResultsModel::data(const QModelIndex& index, int role) const
 
     case UrlRole:
         return res.property(NIE::url()).toUrl();
+
+    case ModifiedRole:
+        return res.property(NIE::lastModified()).toDateTime();
+
+    case CreatedRole:
+        return res.property(NIE::created()).toDateTime();
 
     default:
         return QVariant();

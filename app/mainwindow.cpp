@@ -21,6 +21,8 @@
  */
 
 #include "mainwindow.h"
+#include "resultsmodel.h"
+#include "sidebar.h"
 #include <KIcon>
 
 #include <QVBoxLayout>
@@ -35,25 +37,60 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
 
     m_model = new Nepomuk2::ResultsModel(this);
+    m_sortProxyModel = new QSortFilterProxyModel(this);
+    m_sortProxyModel->setSourceModel(m_model);
+    m_sortProxyModel->setDynamicSortFilter(true);
+
     m_view = new QListView(this);
-    m_view->setModel(m_model);
+    m_view->setModel(m_sortProxyModel);
     m_view->setWordWrap(true);
 
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(m_lineEdit);
     layout->addWidget(m_view);
 
+    m_sidebar = new Sidebar(this);
+    connect(m_sidebar, SIGNAL(sortOrderChanged()), this, SLOT(slotSortOrderChanged()));
+    connect(m_sidebar, SIGNAL(dateFilterChanged()), this, SLOT(slotDateFilterChanged()));
+
+    QHBoxLayout* hLayout = new QHBoxLayout();
+    hLayout->addItem(layout);
+    hLayout->addWidget(m_sidebar);
+
     QWidget* mainWidget = new QWidget();
-    mainWidget->setLayout(layout);
+    mainWidget->setLayout(hLayout);
     setCentralWidget(mainWidget);
 }
 
 MainWindow::~MainWindow()
 {
-
 }
 
 void MainWindow::slotTextChanged(const QString& text)
 {
     m_model->setQueryString(text);
 }
+
+void MainWindow::slotSortOrderChanged()
+{
+    Sidebar::SortOrder order = m_sidebar->sortOrder();
+
+    if (order == Sidebar::SortModified) {
+        m_sortProxyModel->setSortRole(Nepomuk2::ResultsModel::ModifiedRole);
+    }
+    else if (order == Sidebar::SortCreated) {
+        m_sortProxyModel->setSortRole(Nepomuk2::ResultsModel::CreatedRole);
+    }
+    else {
+        // FIXME: This sorts by name. Not relevance!!
+        m_sortProxyModel->setSortRole(Qt::DisplayRole);
+    }
+
+    m_sortProxyModel->sort(0);
+}
+
+void MainWindow::slotDateFilterChanged()
+{
+
+}
+

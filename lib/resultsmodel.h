@@ -40,7 +40,9 @@ class NEPOMUK_FINDER_EXPORT ResultsModel : public QAbstractListModel
 
 public:
     enum Roles {
-        UrlRole = Qt::UserRole + 1
+        UrlRole = Qt::UserRole + 1,
+        ModifiedRole,
+        CreatedRole
     };
 
     explicit ResultsModel(QObject* parent = 0);

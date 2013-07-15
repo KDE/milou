@@ -1,4 +1,5 @@
 set( APP_SRCS
+  sidebar.cpp
   mainwindow.cpp
   main.cpp
 )

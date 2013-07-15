@@ -20,38 +20,48 @@
  *
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef SIDEBAR_H
+#define SIDEBAR_H
 
-#include <QMainWindow>
-#include <QSortFilterProxyModel>
-#include <QListView>
-#include <QLineEdit>
+#include <QWidget>
+#include <QRadioButton>
 
-namespace Nepomuk2 {
-    class ResultsModel;
-}
-class Sidebar;
-
-class MainWindow : public QMainWindow
+class Sidebar : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
-    virtual ~MainWindow();
+    explicit Sidebar(QWidget* parent = 0, Qt::WindowFlags f = 0);
 
-private slots:
-    void slotTextChanged(const QString& text);
-    void slotSortOrderChanged();
-    void slotDateFilterChanged();
+    enum SortOrder {
+        SortRelevance,
+        SortModified,
+        SortCreated
+    };
+
+    SortOrder sortOrder();
+
+    enum FilterDate {
+        FilterDateAnything,
+        FilterDateWeek,
+        FilterDateMonth,
+        FilterDateYear
+    };
+
+    FilterDate filterDate();
+
+signals:
+    void sortOrderChanged();
+    void dateFilterChanged();
 
 private:
-    Nepomuk2::ResultsModel* m_model;
-    QSortFilterProxyModel* m_sortProxyModel;
-    QListView* m_view;
+    QRadioButton* m_sortRelevanceButton;
+    QRadioButton* m_sortModifiedButton;
+    QRadioButton* m_sortCreatedButton;
 
-    QLineEdit* m_lineEdit;
-    Sidebar* m_sidebar;
+    QRadioButton* m_dateAnythingButton;
+    QRadioButton* m_dateLast7DaysButton;
+    QRadioButton* m_dateLast30DaysButton;
+    QRadioButton* m_dateLastYearButton;
 };
 
-#endif // MAINWINDOW_H
+#endif // SIDEBAR_H
