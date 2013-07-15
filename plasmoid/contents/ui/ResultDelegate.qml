@@ -14,8 +14,8 @@ PlasmaComponents.ListItem {
 
     QtExtra.QIconItem {
         id: typePixmap
-        width: height
-        height: parent.height
+        width: 24
+        height: 24
 
         icon: model.decoration
         smooth: true
