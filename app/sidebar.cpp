@@ -40,6 +40,8 @@ Sidebar::Sidebar(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
     m_sortModifiedButton = new QRadioButton(i18n("Modified"), m_sortGroup);
     m_sortCreatedButton = new QRadioButton(i18n("Created"), m_sortGroup);
 
+    m_sortRelevanceButton->setChecked(true);
+
     connect(m_sortRelevanceButton, SIGNAL(toggled(bool)), this, SIGNAL(sortOrderChanged()));
     connect(m_sortModifiedButton, SIGNAL(toggled(bool)), this, SIGNAL(sortOrderChanged()));
     connect(m_sortCreatedButton, SIGNAL(toggled(bool)), this, SIGNAL(sortOrderChanged()));
@@ -53,6 +55,8 @@ Sidebar::Sidebar(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
     m_dateLast7DaysButton = new QRadioButton(i18n("Last 7 days"), m_dateGroup);
     m_dateLast30DaysButton = new QRadioButton(i18n("Last 30 days"), m_dateGroup);
     m_dateLastYearButton = new QRadioButton(i18n("Last year"), m_dateGroup);
+
+    m_dateAnythingButton->setChecked(true);
 
     connect(m_dateAnythingButton, SIGNAL(toggled(bool)), this, SIGNAL(dateFilterChanged()));
     connect(m_dateLast7DaysButton, SIGNAL(toggled(bool)), this, SIGNAL(dateFilterChanged()));

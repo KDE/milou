@@ -21,6 +21,7 @@
  */
 
 #include "resultsmodel.h"
+#include "queryrunnable.h"
 
 #include <KDebug>
 #include <KIcon>
@@ -45,9 +46,11 @@ using namespace Soprano::Vocabulary;
 
 ResultsModel::ResultsModel(QObject* parent)
     : QAbstractListModel(parent)
-    , m_query(0)
+    , m_queryTask(0)
     , m_queryLimit(0)
 {
+    qRegisterMetaType<Query::Result>("Query::Result");
+
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(UrlRole, "url");
 
@@ -109,10 +112,9 @@ QString ResultsModel::queryString()
 
 void ResultsModel::setQueryString(const QString& text)
 {
-    if( m_query ) {
-        m_query->close();
-        delete m_query;
-        m_query = 0;
+    if( m_queryTask ) {
+        m_queryTask->stop();
+        m_queryTask = 0;
     }
 
     if( text.length() < 4 ) {
@@ -125,40 +127,36 @@ void ResultsModel::setQueryString(const QString& text)
     kDebug() << text;
 
     Nepomuk2::Query::LiteralTerm literalTerm( text + "*" );
-    Nepomuk2::Query::Query query( literalTerm );
+    Nepomuk2::Query::FileQuery query( literalTerm );
     query.setLimit( m_queryLimit );
 
     QString sparqlQuery = query.toFileQuery().toSparqlQuery();
     kDebug() << sparqlQuery;
 
-    Soprano::Model* model = Nepomuk2::ResourceManager::instance()->mainModel();
-    m_query = Soprano::Util::AsyncQuery::executeQuery(model, sparqlQuery, Soprano::Query::QueryLanguageSparql);
+    m_queryTask = new QueryRunnable( query );
+    connect(m_queryTask, SIGNAL(queryResult(Query::Result)), this, SLOT(slotQueryResult(Query::Result)));
+    connect(m_queryTask, SIGNAL(finished(QueryRunnable*)), this, SLOT(slotQueryFinished(QueryRunnable*)));
 
-    connect(m_query, SIGNAL(nextReady(Soprano::Util::AsyncQuery*)), this, SLOT(slotNextReady(Soprano::Util::AsyncQuery*)));
-    connect(m_query, SIGNAL(finished(Soprano::Util::AsyncQuery*)), this, SLOT(slotFinished(Soprano::Util::AsyncQuery*)));
+    QThreadPool::globalInstance()->start(m_queryTask);
 
     beginResetModel();
     m_results.clear();
     endResetModel();
 }
 
-void ResultsModel::slotNextReady(Soprano::Util::AsyncQuery* query)
+void ResultsModel::slotQueryResult(const Query::Result& result)
 {
-    if( query->next() ) {
-        const QUrl uri = query->binding(0).uri();
-        Query::Result result(Resource::fromResourceUri( uri ));
+    kDebug() << result.resource().uri();
 
-        beginInsertRows(QModelIndex(), m_results.size(), m_results.size());
-        m_results << result;
-        kDebug() << uri;
-        endInsertRows();
-    }
+    beginInsertRows(QModelIndex(), m_results.size(), m_results.size());
+    m_results << result;
+    endInsertRows();
 }
 
-void ResultsModel::slotFinished(Soprano::Util::AsyncQuery* query)
+void ResultsModel::slotQueryFinished(QueryRunnable* runnable)
 {
-    Q_ASSERT(m_query == query);
-    m_query = 0;
+    //Q_ASSERT(runnable == m_queryTask);
+    m_queryTask = 0;
 }
 
 int ResultsModel::queryLimit()

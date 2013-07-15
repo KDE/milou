@@ -1,5 +1,6 @@
 
 set (finder_lib_SRCS
+    queryrunnable.cpp
     resultsmodel.cpp
 )
 

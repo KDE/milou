@@ -26,11 +26,13 @@
 #include "nepomuk_finder_export.h"
 
 #include <QAbstractListModel>
+#include <QThreadPool>
 
 #include <Nepomuk2/Query/Result>
-#include <Soprano/Util/AsyncQuery>
 
 namespace Nepomuk2 {
+
+class QueryRunnable;
 
 class NEPOMUK_FINDER_EXPORT ResultsModel : public QAbstractListModel
 {
@@ -58,12 +60,13 @@ public slots:
     void setQueryLimit(int limit);
 
 private slots:
-    void slotNextReady(Soprano::Util::AsyncQuery*);
-    void slotFinished(Soprano::Util::AsyncQuery*);
+    void slotQueryResult(const Query::Result& result);
+    void slotQueryFinished(QueryRunnable* runnable);
 
 private:
     QList<Query::Result> m_results;
-    Soprano::Util::AsyncQuery* m_query;
+
+    QueryRunnable* m_queryTask;
 
     QString m_queryString;
     int m_queryLimit;
