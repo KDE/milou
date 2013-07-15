@@ -44,6 +44,7 @@ using namespace Nepomuk2::Vocabulary;
 ResultsModel::ResultsModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_query(0)
+    , m_queryLimit(0)
 {
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(UrlRole, "url");
@@ -117,7 +118,7 @@ void ResultsModel::setQueryString(const QString& text)
 
     Nepomuk2::Query::LiteralTerm literalTerm( text + "*" );
     Nepomuk2::Query::Query query( literalTerm );
-    query.setLimit( 10 );
+    query.setLimit( m_queryLimit );
 
     QString sparqlQuery = query.toFileQuery().toSparqlQuery();
     kDebug() << sparqlQuery;
@@ -152,5 +153,13 @@ void ResultsModel::slotFinished(Soprano::Util::AsyncQuery* query)
     m_query = 0;
 }
 
+int ResultsModel::queryLimit()
+{
+    return m_queryLimit;
+}
 
+void ResultsModel::setQueryLimit(int limit)
+{
+    m_queryLimit = limit;
+}
 

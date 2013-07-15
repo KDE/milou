@@ -42,6 +42,7 @@ Item {
             model: Nepomuk.ResultsModel {
                 id: resultModel
                 queryString: "Coldplay"
+                queryLimit: 10
             }
             delegate: ResultDelegate {}
             boundsBehavior: Flickable.StopAtBounds

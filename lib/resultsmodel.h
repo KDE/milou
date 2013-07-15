@@ -36,6 +36,7 @@ class NEPOMUK_FINDER_EXPORT ResultsModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
+    Q_PROPERTY(int queryLimit READ queryLimit WRITE setQueryLimit)
 
 public:
     enum Roles {
@@ -48,9 +49,11 @@ public:
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
     QString queryString();
+    int queryLimit();
 
 public slots:
     void setQueryString(const QString& string);
+    void setQueryLimit(int limit);
 
 private slots:
     void slotNextReady(Soprano::Util::AsyncQuery*);
@@ -61,6 +64,7 @@ private:
     Soprano::Util::AsyncQuery* m_query;
 
     QString m_queryString;
+    int m_queryLimit;
 };
 }
 
