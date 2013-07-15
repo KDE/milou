@@ -23,6 +23,8 @@
 #ifndef NEPOMUK2_RESULTSMODEL_H
 #define NEPOMUK2_RESULTSMODEL_H
 
+#include "nepomuk_finder_export.h"
+
 #include <QAbstractListModel>
 
 #include <Nepomuk2/Query/Result>
@@ -30,7 +32,7 @@
 
 namespace Nepomuk2 {
 
-class ResultsModel : public QAbstractListModel
+class NEPOMUK_FINDER_EXPORT ResultsModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)

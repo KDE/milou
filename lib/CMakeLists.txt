@@ -5,17 +5,16 @@ include_directories(
   ${SOPRANO_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}
   ${NEPOMUK_CORE_INCLUDE_DIR}
+  ${CMAKE_SOURCE_DIR}/lib
 )
 
-
-set (finder_plugin_SRCS
+set (finder_lib_SRCS
     resultsmodel.cpp
-    qmlplugins.cpp
 )
 
-kde4_add_library (nepomukfinderqmlplugin SHARED ${finder_plugin_SRCS})
+kde4_add_library(nepomukfinder SHARED ${finder_lib_SRCS})
 
-target_link_libraries (nepomukfinderqmlplugin
+target_link_libraries (nepomukfinder
     ${QT_QTSCRIPT_LIBRARY}
     ${QT_QTDECLARATIVE_LIBRARY}
     ${KDE4_KDECORE_LIBS}
@@ -24,5 +23,6 @@ target_link_libraries (nepomukfinderqmlplugin
     ${NEPOMUK_WIDGETS_LIBRARY}
 )
 
-install (TARGETS nepomukfinderqmlplugin DESTINATION ${IMPORTS_INSTALL_DIR}/org/kde/nepomuk)
-install (FILES qmldir DESTINATION ${IMPORTS_INSTALL_DIR}/org/kde/nepomuk)
+install(TARGETS nepomukfinder EXPORT NepomukFinderLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+
+add_subdirectory(qml)
