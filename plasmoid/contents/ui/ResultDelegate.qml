@@ -29,11 +29,13 @@ PlasmaComponents.ListItem {
     PlasmaComponents.Label {
         id: displayLabel
         text: model.display
+        wrapMode: Text.WordWrap
 
         anchors {
             left: typePixmap.right
             leftMargin: 5
             verticalCenter: parent.verticalCenter
+            right: parent.right
         }
     }
 }

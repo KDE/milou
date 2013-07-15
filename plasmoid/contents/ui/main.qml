@@ -44,7 +44,9 @@ Item {
                 queryString: "Coldplay"
                 queryLimit: 10
             }
-            delegate: ResultDelegate {}
+            delegate: ResultDelegate {
+                width: listView.width
+            }
             boundsBehavior: Flickable.StopAtBounds
         }
     }
