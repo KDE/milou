@@ -41,7 +41,9 @@
 using namespace Nepomuk2;
 using namespace Nepomuk2::Vocabulary;
 
-ResultsModel::ResultsModel(QObject* parent): QAbstractListModel(parent)
+ResultsModel::ResultsModel(QObject* parent)
+    : QAbstractListModel(parent)
+    , m_query(0)
 {
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(UrlRole, "url");
