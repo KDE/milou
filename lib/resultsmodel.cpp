@@ -126,7 +126,13 @@ void ResultsModel::setQueryString(const QString& text)
 
     kDebug() << text;
 
-    Nepomuk2::Query::LiteralTerm literalTerm( text + "*" );
+    QStringList strList = text.split(' ');
+    QString searchString;
+    foreach(const QString& str, strList) {
+        searchString += str + "* ";
+    }
+
+    Nepomuk2::Query::LiteralTerm literalTerm( searchString );
     Nepomuk2::Query::FileQuery query( literalTerm );
     query.setLimit( m_queryLimit );
 
