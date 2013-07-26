@@ -22,9 +22,13 @@ Item {
         focus: true
         placeholderText: i18n("Search..")
 
-        onTextChanged: {
-            resultModel.setQueryString( text )
+        Timer {
+            id: timer
+            interval: 200
+            onTriggered: resultModel.setQueryString( searchField.text )
         }
+
+        onTextChanged: timer.restart()
     }
 
     PlasmaExtras.ScrollArea {
