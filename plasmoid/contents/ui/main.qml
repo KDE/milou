@@ -39,10 +39,10 @@ Item {
             id: listView
             clip: true
 
-            model: Nepomuk.ResultsModel {
+            model: Nepomuk.ResultListModel {
                 id: resultModel
                 queryString: "Coldplay"
-                queryLimit: 10
+                queryLimit: 2
             }
             delegate: ResultDelegate {
                 width: listView.width

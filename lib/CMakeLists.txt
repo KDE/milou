@@ -2,6 +2,7 @@
 set (finder_lib_SRCS
     queryrunnable.cpp
     resultsmodel.cpp
+    resultlistmodel.cpp
 )
 
 kde4_add_library(nepomukfinder SHARED ${finder_lib_SRCS})
