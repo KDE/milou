@@ -28,10 +28,6 @@ using namespace Nepomuk2;
 
 ResultListModel::ResultListModel(QObject* parent): QAbstractProxyModel(parent)
 {
-    QHash<int, QByteArray> roles = roleNames();
-    roles.insert(TypeRole, "type");
-
-    setRoleNames(roles);
     setSourceModel(new Nepomuk2::ResultsModel(this));
 }
 
@@ -52,6 +48,10 @@ void ResultListModel::setSourceModel(QAbstractItemModel* sourceModel)
             this, SLOT(onSourceModelReset()));
 
     QAbstractProxyModel::setSourceModel(sourceModel);
+
+    QHash<int, QByteArray> roles = sourceModel->roleNames();
+    roles.insert(TypeRole, "type");
+    setRoleNames(roles);
 }
 
 int ResultListModel::columnCount(const QModelIndex& parent) const

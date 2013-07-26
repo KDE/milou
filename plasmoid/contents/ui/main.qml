@@ -52,6 +52,22 @@ Item {
                 width: listView.width
             }
             boundsBehavior: Flickable.StopAtBounds
+
+            section.property: "type"
+
+            // FIXME: Beautify this!!
+            section.delegate: Component {
+                Rectangle {
+                    height: childrenRect.height
+                    color: "lightsteelblue"
+
+                    Text {
+                        text: section
+                        font.bold: true
+                    }
+                }
+            }
+
         }
     }
 
