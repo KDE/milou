@@ -25,8 +25,9 @@
 
 #include <QMainWindow>
 #include <QSortFilterProxyModel>
-#include <QListView>
+#include <QTreeView>
 #include <QLineEdit>
+#include <QTimer>
 
 namespace Nepomuk2 {
     class ResultsModel;
@@ -45,13 +46,17 @@ private slots:
     void slotSortOrderChanged();
     void slotDateFilterChanged();
 
+    void slotTextTimerTimeout();
+
 private:
     Nepomuk2::ResultsModel* m_model;
     QSortFilterProxyModel* m_sortProxyModel;
-    QListView* m_view;
+    QTreeView* m_view;
 
     QLineEdit* m_lineEdit;
     Sidebar* m_sidebar;
+
+    QTimer m_textChangeTimer;
 };
 
 #endif // MAINWINDOW_H

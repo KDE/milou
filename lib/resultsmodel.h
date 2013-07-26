@@ -25,16 +25,17 @@
 
 #include "nepomuk_finder_export.h"
 
-#include <QAbstractListModel>
+#include <QAbstractItemModel>
 #include <QThreadPool>
 
 #include <Nepomuk2/Query/Result>
+#include <Nepomuk2/Query/Query>
 
 namespace Nepomuk2 {
 
 class QueryRunnable;
 
-class NEPOMUK_FINDER_EXPORT ResultsModel : public QAbstractListModel
+class NEPOMUK_FINDER_EXPORT ResultsModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
@@ -51,6 +52,10 @@ public:
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+    virtual QModelIndex parent(const QModelIndex& child) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     QString queryString();
     int queryLimit();
@@ -60,16 +65,21 @@ public slots:
     void setQueryLimit(int limit);
 
 private slots:
-    void slotQueryResult(const Query::Result& result);
+    void slotQueryResult(QueryRunnable* runnable, const Query::Result& result);
     void slotQueryFinished(QueryRunnable* runnable);
 
 private:
-    QList<Query::Result> m_results;
-
-    QueryRunnable* m_queryTask;
+    QHash<QUrl, QList<Query::Result> > m_results;
 
     QString m_queryString;
     int m_queryLimit;
+
+    QList<QUrl> m_queryTypes;
+
+    // Maps a query with the kind of results it returns
+    QHash<QueryRunnable*, QUrl> m_queryTypeMap;
+
+    QueryRunnable* newQueryTask(const Query::Query& query);
 };
 }
 

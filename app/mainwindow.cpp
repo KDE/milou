@@ -37,13 +37,17 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
 
     m_model = new Nepomuk2::ResultsModel(this);
-    m_sortProxyModel = new QSortFilterProxyModel(this);
+    /*m_sortProxyModel = new QSortFilterProxyModel(this);
     m_sortProxyModel->setSourceModel(m_model);
-    m_sortProxyModel->setDynamicSortFilter(true);
+    m_sortProxyModel->setDynamicSortFilter(true);*/
 
-    m_view = new QListView(this);
-    m_view->setModel(m_sortProxyModel);
+    m_view = new QTreeView(this);
+    //m_view->setModel(m_sortProxyModel);
+    m_view->setModel(m_model);
     m_view->setWordWrap(true);
+    m_view->setAlternatingRowColors(true);
+    m_view->setHeaderHidden(true);
+    m_view->setAnimated(true);
 
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(m_lineEdit);
@@ -60,16 +64,26 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     QWidget* mainWidget = new QWidget();
     mainWidget->setLayout(hLayout);
     setCentralWidget(mainWidget);
+
+    m_textChangeTimer.setInterval( 300 );
+    m_textChangeTimer.setSingleShot(true);
+    connect(&m_textChangeTimer, SIGNAL(timeout()), this, SLOT(slotTextTimerTimeout()));
 }
 
 MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::slotTextChanged(const QString& text)
+void MainWindow::slotTextChanged(const QString&)
 {
-    m_model->setQueryString(text);
+    m_textChangeTimer.start();
 }
+
+void MainWindow::slotTextTimerTimeout()
+{
+    m_model->setQueryString(m_lineEdit->text());
+}
+
 
 void MainWindow::slotSortOrderChanged()
 {

@@ -39,7 +39,7 @@ public:
     void stop();
 
 signals:
-    void queryResult(const Query::Result& result);
+    void queryResult(QueryRunnable* queryRunnable, const Query::Result& result);
     void finished(QueryRunnable* queryRunnable);
 
 private:

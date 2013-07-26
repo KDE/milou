@@ -36,7 +36,7 @@ void QueryRunnable::run()
 {
     Query::ResultIterator it(m_query);
     while (it.next() && !m_stop) {
-        emit queryResult(it.current());
+        emit queryResult(this, it.current());
     }
 
     emit finished(this);
