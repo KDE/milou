@@ -31,6 +31,20 @@ Item {
         onTextChanged: timer.restart()
     }
 
+    Component {
+        id: sectionDelegate
+        Item {
+            Text {
+                id: sectionText
+                text: section
+                font.bold: true
+
+                x: 5
+                y: 7
+            }
+        }
+    }
+
     PlasmaExtras.ScrollArea {
         anchors {
             top: searchField.bottom
@@ -54,20 +68,7 @@ Item {
             boundsBehavior: Flickable.StopAtBounds
 
             section.property: "type"
-
-            // FIXME: Beautify this!!
-            section.delegate: Component {
-                Rectangle {
-                    height: childrenRect.height
-                    color: "lightsteelblue"
-
-                    Text {
-                        text: section
-                        font.bold: true
-                    }
-                }
-            }
-
+            section.delegate: sectionDelegate
         }
     }
 

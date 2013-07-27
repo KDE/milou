@@ -23,6 +23,7 @@ PlasmaComponents.ListItem {
         anchors {
             left: parent.left
             verticalCenter: parent.verticalCenter
+            leftMargin: 80
         }
     }
 
