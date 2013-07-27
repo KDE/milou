@@ -75,5 +75,11 @@ Item {
     Component.onCompleted: {
         plasmoid.aspectRatioMode = IgnoreAspectRatio;
         plasmoid.popupIcon = "nepomuk";
+
+        plasmoid.popupEvent.connect(setTextFieldFocus)
+    }
+
+    function setTextFieldFocus(shown) {
+        searchField.focus = shown
     }
 }
