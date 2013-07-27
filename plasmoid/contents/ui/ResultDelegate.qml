@@ -14,8 +14,8 @@ PlasmaComponents.ListItem {
 
     QtExtra.QIconItem {
         id: typePixmap
-        width: 24
-        height: 24
+        width: 16
+        height: 16
 
         icon: model.decoration
         smooth: true
@@ -32,6 +32,7 @@ PlasmaComponents.ListItem {
         wrapMode: Text.Wrap
 
         width: parent.width
+        height: 16
 
         elide: Text.ElideRight
         maximumLineCount: 1
