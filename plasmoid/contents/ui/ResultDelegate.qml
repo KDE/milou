@@ -29,7 +29,12 @@ PlasmaComponents.ListItem {
     PlasmaComponents.Label {
         id: displayLabel
         text: model.display
-        wrapMode: Text.WordWrap
+        wrapMode: Text.Wrap
+
+        width: parent.width
+
+        elide: Text.ElideRight
+        maximumLineCount: 1
 
         anchors {
             left: typePixmap.right
