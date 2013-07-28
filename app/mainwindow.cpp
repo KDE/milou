@@ -26,8 +26,54 @@
 #include <KIcon>
 
 #include <QVBoxLayout>
+#include <QDateTime>
 
+namespace {
+    class SortFilterProxyModel : public QSortFilterProxyModel {
+    public:
+        SortFilterProxyModel(QObject* parent = 0) : QSortFilterProxyModel(parent) {}
 
+        bool filterAcceptsRow(int row, const QModelIndex& parent) const {
+            if (m_filter == Sidebar::FilterDateAnything) {
+                return true;
+            }
+
+            if (!parent.isValid())
+                return true;
+
+            QModelIndex index = sourceModel()->index(row, 0, parent);
+            QDateTime modified = sourceModel()->data(index, Nepomuk2::ResultsModel::ModifiedRole).toDateTime();
+            if (m_filter == Sidebar::FilterDateWeek) {
+                QDateTime weekAgo = QDateTime::currentDateTime();
+                weekAgo = weekAgo.addDays(-7);
+
+                return modified >= weekAgo;
+            }
+
+            if (m_filter == Sidebar::FilterDateMonth) {
+                QDateTime monthAgo = QDateTime::currentDateTime();
+                monthAgo = monthAgo.addMonths(-1);
+
+                return modified >= monthAgo;
+            }
+
+            if (m_filter == Sidebar::FilterDateYear) {
+                QDateTime yearAgo = QDateTime::currentDateTime();
+                yearAgo = yearAgo.addYears(-1);
+
+                return modified >= yearAgo;
+            }
+            return true;
+        }
+
+        void setFilter(Sidebar::FilterDate filter) {
+            m_filter = filter;
+            invalidateFilter();
+        }
+    private:
+        Sidebar::FilterDate m_filter;
+    };
+}
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags)
 {
@@ -39,7 +85,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     m_model = new Nepomuk2::ResultsModel(this);
     connect(m_model, SIGNAL(listingFinished(QString)), this, SLOT(slotListingFinished()));
 
-    m_sortProxyModel = new QSortFilterProxyModel(this);
+    m_sortProxyModel = new SortFilterProxyModel(this);
     m_sortProxyModel->setSourceModel(m_model);
     m_sortProxyModel->setDynamicSortFilter(true);
 
@@ -110,6 +156,6 @@ void MainWindow::slotSortOrderChanged()
 
 void MainWindow::slotDateFilterChanged()
 {
-
+    dynamic_cast<SortFilterProxyModel*>(m_sortProxyModel)->setFilter(m_sidebar->filterDate());
 }
 
