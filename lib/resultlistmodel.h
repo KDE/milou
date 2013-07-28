@@ -66,6 +66,10 @@ public slots:
     void setQueryString(const QString& string);
     void setQueryLimit(int limit);
 
+signals:
+    void listingFinished(const QString& queryString);
+    void listingStarted(const QString& queryString);
+
 private slots:
     void onSourceRowsInserted(const QModelIndex &parent, int start, int end);
     void onSourceRowsRemoved(const QModelIndex &parent, int start, int end);

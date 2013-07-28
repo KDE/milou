@@ -64,6 +64,18 @@ public slots:
     void setQueryString(const QString& string);
     void setQueryLimit(int limit);
 
+signals:
+    /**
+     * Emitted after the model is done populating itself with results
+     * for the query string \p queryString
+     *
+     * \sa setQueryString
+     */
+    void listingFinished(const QString& queryString);
+
+    /// Emitted after one result has been added
+    void listingStarted(const QString& queryString);
+
 private slots:
     void slotQueryResult(QueryRunnable* runnable, const Query::Result& result);
     void slotQueryFinished(QueryRunnable* runnable);

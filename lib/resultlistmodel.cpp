@@ -46,6 +46,10 @@ void ResultListModel::setSourceModel(QAbstractItemModel* sourceModel)
             this, SLOT(onSourceModelAboutToBeReset()));
     connect(sourceModel, SIGNAL(modelReset()),
             this, SLOT(onSourceModelReset()));
+    connect(sourceModel, SIGNAL(listingFinished(QString)),
+            this, SIGNAL(listingFinished(QString)));
+    connect(sourceModel, SIGNAL(listingStarted(QString)),
+            this, SIGNAL(listingStarted(QString)));
 
     QAbstractProxyModel::setSourceModel(sourceModel);
 

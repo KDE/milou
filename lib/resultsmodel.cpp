@@ -250,6 +250,10 @@ void ResultsModel::slotQueryResult(QueryRunnable* runnable, const Query::Result&
     if (!insertPos) {
         beginInsertRows(QModelIndex(), m_results.size(), m_results.size());
         endInsertRows();
+
+        if (m_results.size() == 1) {
+            emit listingStarted(m_queryString);
+        }
     }
 
     kDebug() << (void*)runnable << type << result.resource().uri();
@@ -259,6 +263,10 @@ void ResultsModel::slotQueryFinished(QueryRunnable* runnable)
 {
     //kDebug() << (void*)runnable;
     m_queryTypeMap.remove(runnable);
+
+    if (m_queryTypeMap.isEmpty()) {
+        emit listingFinished(m_queryString);
+    }
 }
 
 int ResultsModel::queryLimit()

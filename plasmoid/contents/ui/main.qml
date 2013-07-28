@@ -60,7 +60,12 @@ Item {
             model: Nepomuk.ResultListModel {
                 id: resultModel
                 queryString: "Coldplay"
-                queryLimit: 2
+                queryLimit: 5
+
+                onListingStarted: {
+                    listView.focus = true
+                    listView.currentIndex = 0
+                }
             }
             delegate: ResultDelegate {
                 width: listView.width
