@@ -22,6 +22,8 @@ Item {
         focus: true
         placeholderText: i18n("Search..")
 
+        Keys.forwardTo: listView
+
         Timer {
             id: timer
             interval: 200
@@ -63,13 +65,27 @@ Item {
                 queryLimit: 5
 
                 onListingStarted: {
-                    listView.focus = true
                     listView.currentIndex = 0
                 }
             }
             delegate: ResultDelegate {
+                id: resultDelegate
                 width: listView.width
+
+                // See Keys.onReturnPressed
+                property variant theModel: model
             }
+            //
+            // vHanda: Ideally this should have gotten handled in the delagte's onReturnPressed
+            // code, but the ListView doesn't seem forward keyboard events to the delgate when
+            // it is not in activeFocus. Even manually adds Keys.forwardTo: resultDelegate
+            // doesn't make any difference!
+            Keys.onReturnPressed: {
+                // This is absolutely mental. But it does not seem to work in any other way
+                // Ideally something as simple as currentItem.url should work!
+                Qt.openUrlExternally(currentItem.theModel.url)
+            }
+
             boundsBehavior: Flickable.StopAtBounds
 
             section.property: "type"
