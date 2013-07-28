@@ -61,7 +61,6 @@ Item {
 
             model: Nepomuk.ResultListModel {
                 id: resultModel
-                queryString: "Coldplay"
                 queryLimit: 5
 
                 onListingStarted: {
