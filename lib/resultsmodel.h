@@ -64,6 +64,8 @@ public slots:
     void setQueryString(const QString& string);
     void setQueryLimit(int limit);
 
+    void clear();
+
 signals:
     /**
      * Emitted after the model is done populating itself with results

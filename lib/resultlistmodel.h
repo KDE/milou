@@ -66,6 +66,8 @@ public slots:
     void setQueryString(const QString& string);
     void setQueryLimit(int limit);
 
+    void clear();
+
 signals:
     void listingFinished(const QString& queryString);
     void listingStarted(const QString& queryString);

@@ -291,4 +291,14 @@ QueryRunnable* ResultsModel::newQueryTask(const Query::Query& query)
     return task;
 }
 
+void ResultsModel::clear()
+{
+    beginResetModel();
+    m_results.clear();
+    m_queryTypeMap.clear();
+    m_queryString.clear();
+    endResetModel();
+}
+
+
 

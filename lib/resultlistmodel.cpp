@@ -228,6 +228,11 @@ void ResultListModel::setQueryString(const QString& string)
     qobject_cast<Nepomuk2::ResultsModel*>(sourceModel())->setQueryString(string);
 }
 
+void ResultListModel::clear()
+{
+    qobject_cast<Nepomuk2::ResultsModel*>(sourceModel())->clear();
+}
+
 
 
 
