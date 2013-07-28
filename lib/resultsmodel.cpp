@@ -248,12 +248,9 @@ void ResultsModel::slotQueryResult(QueryRunnable* runnable, const Query::Result&
     int parentRow = m_queryTypes.indexOf(type);
 
     int insertPos = m_results.value(type).size();
-    beginInsertRows(createIndex(parentRow, 0, -1), insertPos, insertPos);
-    m_results[type].append(result);
-    endInsertRows();
-
     if (!insertPos) {
         beginInsertRows(QModelIndex(), m_results.size(), m_results.size());
+        m_results.insert(type, QList<Query::Result>());
         endInsertRows();
 
         if (m_results.size() == 1) {
@@ -261,7 +258,11 @@ void ResultsModel::slotQueryResult(QueryRunnable* runnable, const Query::Result&
         }
     }
 
-    kDebug() << (void*)runnable << type << result.resource().uri();
+    beginInsertRows(createIndex(parentRow, 0, -1), insertPos, insertPos);
+    m_results[type].append(result);
+    endInsertRows();
+
+    //kDebug() << (void*)runnable << type << result.resource().uri();
 }
 
 void ResultsModel::slotQueryFinished(QueryRunnable* runnable)
