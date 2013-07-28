@@ -48,7 +48,10 @@ Item {
         }
     }
 
-    PlasmaExtras.ScrollArea {
+    ListView {
+        id: listView
+        clip: true
+
         anchors {
             top: searchField.bottom
             left: parent.left
@@ -56,41 +59,36 @@ Item {
             bottom: parent.bottom
         }
 
-        flickableItem: ListView {
-            id: listView
-            clip: true
+        model: Nepomuk.ResultListModel {
+            id: resultModel
+            queryLimit: 5
 
-            model: Nepomuk.ResultListModel {
-                id: resultModel
-                queryLimit: 5
-
-                onListingStarted: {
-                    listView.currentIndex = 0
-                }
+            onListingStarted: {
+                listView.currentIndex = 0
             }
-            delegate: ResultDelegate {
-                id: resultDelegate
-                width: listView.width
-
-                // See Keys.onReturnPressed
-                property variant theModel: model
-            }
-            //
-            // vHanda: Ideally this should have gotten handled in the delagte's onReturnPressed
-            // code, but the ListView doesn't seem forward keyboard events to the delgate when
-            // it is not in activeFocus. Even manually adds Keys.forwardTo: resultDelegate
-            // doesn't make any difference!
-            Keys.onReturnPressed: {
-                // This is absolutely mental. But it does not seem to work in any other way
-                // Ideally something as simple as currentItem.url should work!
-                Qt.openUrlExternally(currentItem.theModel.url)
-            }
-
-            boundsBehavior: Flickable.StopAtBounds
-
-            section.property: "type"
-            section.delegate: sectionDelegate
         }
+        delegate: ResultDelegate {
+            id: resultDelegate
+            width: listView.width
+
+            // See Keys.onReturnPressed
+            property variant theModel: model
+        }
+        //
+        // vHanda: Ideally this should have gotten handled in the delagte's onReturnPressed
+        // code, but the ListView doesn't seem forward keyboard events to the delgate when
+        // it is not in activeFocus. Even manually adds Keys.forwardTo: resultDelegate
+        // doesn't make any difference!
+        Keys.onReturnPressed: {
+            // This is absolutely mental. But it does not seem to work in any other way
+            // Ideally something as simple as currentItem.url should work!
+            Qt.openUrlExternally(currentItem.theModel.url)
+        }
+
+        boundsBehavior: Flickable.StopAtBounds
+
+        section.property: "type"
+        section.delegate: sectionDelegate
     }
 
     Component.onCompleted: {
