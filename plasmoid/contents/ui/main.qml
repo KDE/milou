@@ -58,6 +58,11 @@ Item {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+
+            // vHanda: Random number - Is there some way to use consisten margins?
+            //         PlasmaCore.FrameSvg does have margins, but one needs to construct
+            //          a PlasmaCore.FrameSvg for that
+            topMargin: 5
         }
 
         model: Nepomuk.ResultListModel {
