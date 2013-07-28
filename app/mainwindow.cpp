@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
 
     m_model = new Nepomuk2::ResultsModel(this);
+    connect(m_model, SIGNAL(listingFinished(QString)), this, SLOT(slotListingFinished()));
+
     m_sortProxyModel = new QSortFilterProxyModel(this);
     m_sortProxyModel->setSourceModel(m_model);
     m_sortProxyModel->setDynamicSortFilter(true);
@@ -83,6 +85,10 @@ void MainWindow::slotTextTimerTimeout()
     m_model->setQueryString(m_lineEdit->text());
 }
 
+void MainWindow::slotListingFinished()
+{
+    m_view->expandAll();
+}
 
 void MainWindow::slotSortOrderChanged()
 {

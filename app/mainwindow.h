@@ -48,6 +48,7 @@ private slots:
 
     void slotTextTimerTimeout();
 
+    void slotListingFinished();
 private:
     Nepomuk2::ResultsModel* m_model;
     QSortFilterProxyModel* m_sortProxyModel;
