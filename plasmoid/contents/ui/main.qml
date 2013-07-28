@@ -8,7 +8,7 @@ import org.kde.nepomuk 0.1 as Nepomuk
 
 Item {
     id: mainWidget
-    property int minimumWidth: 200
+    property int minimumWidth: 300
     property int minimumHeight: 500
 
     PlasmaComponents.TextField {
