@@ -9,7 +9,8 @@ import org.kde.nepomuk 0.1 as Nepomuk
 Item {
     id: mainWidget
     property int minimumWidth: 300
-    property int minimumHeight: 500
+    property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
+    property int maximumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
 
     PlasmaComponents.TextField {
         id: searchField
