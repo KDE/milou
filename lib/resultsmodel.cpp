@@ -202,6 +202,11 @@ QString ResultsModel::queryString()
 
 void ResultsModel::setQueryString(const QString& text)
 {
+    if (text.trimmed() == m_queryString.trimmed()) {
+        return;
+    }
+    m_queryString = text;
+
     QHash<QueryRunnable*, QUrl>::iterator it = m_queryTypeMap.begin();
     for(; it != m_queryTypeMap.end(); it++) {
         it.key()->stop();
