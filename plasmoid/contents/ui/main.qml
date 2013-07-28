@@ -14,6 +14,7 @@ Item {
 
     PlasmaComponents.TextField {
         id: searchField
+        clearButtonShown: true
         anchors {
             left: parent.left
             right: parent.right
