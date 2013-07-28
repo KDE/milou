@@ -37,13 +37,12 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags flags)
     connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
 
     m_model = new Nepomuk2::ResultsModel(this);
-    /*m_sortProxyModel = new QSortFilterProxyModel(this);
+    m_sortProxyModel = new QSortFilterProxyModel(this);
     m_sortProxyModel->setSourceModel(m_model);
-    m_sortProxyModel->setDynamicSortFilter(true);*/
+    m_sortProxyModel->setDynamicSortFilter(true);
 
     m_view = new QTreeView(this);
-    //m_view->setModel(m_sortProxyModel);
-    m_view->setModel(m_model);
+    m_view->setModel(m_sortProxyModel);
     m_view->setWordWrap(true);
     m_view->setAlternatingRowColors(true);
     m_view->setHeaderHidden(true);
