@@ -36,10 +36,29 @@ SourcesModel::SourcesModel(QObject* parent)
     roles.insert(TypeRole, "type");
 
     setRoleNames(roles);
+
+    m_types << QLatin1String("Audio");
+    m_types << QLatin1String("Video");
+    m_types << QLatin1String("Image");
+    m_types << QLatin1String("Document");
+    m_types << QLatin1String("Email");
 }
 
 SourcesModel::~SourcesModel()
 {
+}
+
+Match SourcesModel::fetchMatch(int row) const
+{
+    foreach(const QString& type, m_types) {
+        TypeData data = m_matches.value(type);
+        if (row < data.shown.size())
+            return data.shown[row];
+        else
+            row -= data.shown.size();
+    }
+
+    return Match();
 }
 
 QVariant SourcesModel::data(const QModelIndex& index, int role) const
@@ -47,10 +66,10 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= m_matches.size())
+    if (index.row() >= m_size)
         return QVariant();
 
-    Match m = m_matches[index.row()];
+    Match m = fetchMatch(index.row());
     switch(role) {
         case Qt::DisplayRole:
             return m.displayLabel;
@@ -73,12 +92,22 @@ int SourcesModel::rowCount(const QModelIndex& parent) const
     if (parent.isValid())
         return 0;
 
-    return m_matches.size();
+    return m_size;
 }
 
-QString SourcesModel::queryString()
+QString SourcesModel::queryString() const
 {
     return m_queryString;
+}
+
+int SourcesModel::queryLimit() const
+{
+    return m_queryLimit;
+}
+
+void SourcesModel::setQueryLimit(int limit)
+{
+    m_queryLimit = limit;
 }
 
 void SourcesModel::setQueryString(const QString& str)
@@ -88,26 +117,85 @@ void SourcesModel::setQueryString(const QString& str)
     }
     m_queryString = str;
 
-    beginResetModel();
-    m_matches.clear();
-    endResetModel();
-
+    clear();
     foreach (AbstractSource* source, m_sources) {
         source->query(str);
     }
 }
 
+//
+// Tries to make sure that all the types have the same number
+// of visible items
+//
 void SourcesModel::slotMatchAdded(const Match& m)
 {
-    beginInsertRows(QModelIndex(), m_matches.size(), m_matches.size());
-    m_matches << m;
-    endInsertRows();
+    const QString matchType = m.type;
+
+    if (m_size == m_queryLimit) {
+        int maxShownItems = 0;
+        QString maxShownType;
+        foreach (const QString& type, m_types) {
+            TypeData data = m_matches.value(type);
+            if (data.shown.size() >= maxShownItems) {
+                maxShownItems = data.shown.size();
+                maxShownType = type;
+            }
+        }
+
+        if (maxShownType == matchType) {
+            m_matches[matchType].hidden.append(m);
+            return;
+        }
+
+        // Remove the last shown row from maxShownType
+        // and add it to matchType
+        int removeRowPos = fetchRowCount(maxShownType);
+        removeRowPos += m_matches[maxShownType].shown.size() - 1;
+
+        beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
+        Match transferMatch = m_matches[maxShownType].shown.takeLast();
+        m_matches[maxShownType].hidden.append(transferMatch);
+        endInsertRows();
+
+        int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
+        beginInsertRows(QModelIndex(), insertPos, insertPos);
+        m_matches[matchType].shown.append(m);
+        endInsertRows();
+    }
+    else {
+        int pos = 0;
+        foreach (const QString& type, m_types) {
+            pos += m_matches.value(type).shown.size();
+            if (type == matchType) {
+                break;
+            }
+        }
+
+        beginInsertRows(QModelIndex(), pos, pos);
+        m_matches[matchType].shown.append(m);
+        m_size++;
+        endInsertRows();
+    }
+}
+
+int SourcesModel::fetchRowCount(const QString& type) const
+{
+    int c = 0;
+    foreach (const QString& t, m_types) {
+        if (t == type)
+            break;
+
+        c += m_matches.value(t).shown.size();
+    }
+
+    return c;
 }
 
 void SourcesModel::clear()
 {
     beginResetModel();
     m_matches.clear();
+    m_size = 0;
     endResetModel();
 }
 

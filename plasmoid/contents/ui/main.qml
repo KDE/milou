@@ -67,7 +67,7 @@ Item {
 
         model: Nepomuk.SourcesModel {
             id: resultModel
-            //queryLimit: 5
+            queryLimit: 20
 
             //onListingStarted: {
             //    listView.currentIndex = 0

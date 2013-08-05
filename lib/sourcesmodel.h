@@ -31,6 +31,7 @@ class NEPOMUK_FINDER_EXPORT SourcesModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
+    Q_PROPERTY(int queryLimit READ queryLimit WRITE setQueryLimit)
 public:
     explicit SourcesModel(QObject* parent = 0);
     virtual ~SourcesModel();
@@ -43,18 +44,36 @@ public:
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
-    QString queryString();
+    QString queryString() const;
+    int queryLimit() const;
+
 public slots:
     void setQueryString(const QString& str);
+    void setQueryLimit(int limit);
     void clear();
 
 private slots:
     void slotMatchAdded(const Match& m);
+
 public:
-    QList<Match> m_matches;
+    // The types are ordered based on the preference
+    QList<QString> m_types;
+
+    struct TypeData {
+        QList<Match> shown;
+        QList<Match> hidden;
+    };
+    QHash<QString, TypeData> m_matches;
+    int m_size;
+
     QString m_queryString;
+    int m_queryLimit;
 
     QList<AbstractSource*> m_sources;
+
+    /// Returns the number of visible rows before \p type
+    int fetchRowCount(const QString& type) const;
+    Match fetchMatch(int row) const;
 };
 
 #endif // SOURCESMODEL_H
