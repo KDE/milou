@@ -78,7 +78,7 @@ void NepomukSource::query(const QString& text)
         m_size = 0;
     }
 
-    if( text.length() < 4 ) {
+    if(text.length() < 4) {
         return;
     }
 
@@ -94,6 +94,7 @@ void NepomukSource::query(const QString& text)
     Query::Query query(literalTerm);
     query.setLimit(queryLimit()*5); // 5 is for the number of types we show!
 
+    m_size = 0;
     m_queryTask = new QueryRunnable(query);
     connect(m_queryTask, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
             this, SLOT(slotQueryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
@@ -105,17 +106,23 @@ void NepomukSource::query(const QString& text)
 
 void NepomukSource::slotQueryFinished(Nepomuk2::QueryRunnable* runnable)
 {
-    Q_UNUSED(runnable);
+    Q_ASSERT(runnable == m_queryTask);
+    m_queryTask = 0;
 }
 
 
 void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result)
 {
-    Q_UNUSED(runnable);
+    if (!m_queryTask)
+        return;
+
+    Q_ASSERT(runnable == m_queryTask);
 
     // The *2 is arbitrary. We're taking the assumption that we get the results with the types
     // jumbled up and not all of one type after another. Otherwise this would have to be 5*.
     if (m_size >= queryLimit()*2) {
+        m_queryTask->stop();
+        m_queryTask = 0;
         return;
     }
 
