@@ -41,10 +41,8 @@ public slots:
     void slotQueryFinished(Nepomuk2::QueryRunnable* runnable);
 
 private:
-    int m_audioResults;
-    int m_videoResults;
-    int m_emailResults;
-    int m_documentsResults;
+    Nepomuk2::QueryRunnable* m_queryTask;
+    int m_size;
 };
 
 #endif // NEPOMUKSOURCE_H

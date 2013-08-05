@@ -52,11 +52,18 @@ using namespace Soprano::Vocabulary;
 
 NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
 {
-
+    m_size = 0;
+    m_queryTask = 0;
 }
 
 void NepomukSource::query(const QString& text)
 {
+    if (m_queryTask) {
+        m_queryTask->stop();
+        m_queryTask = 0;
+        m_size = 0;
+    }
+
     if( text.length() < 4 ) {
         return;
     }
@@ -76,15 +83,15 @@ void NepomukSource::query(const QString& text)
     properties << Nepomuk2::Query::Query::RequestProperty(NIE::url(), true);
     query.setRequestProperties(properties);
 
-    //query.setLimit(m_queryLimit);
+    query.setLimit(queryLimit()*5); // 5 is for the number of types we show!
 
-    QueryRunnable* task = new QueryRunnable(query);
-    connect(task, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
+    m_queryTask = new QueryRunnable(query);
+    connect(m_queryTask, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
             this, SLOT(slotQueryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
-    connect(task, SIGNAL(finished(Nepomuk2::QueryRunnable*)),
+    connect(m_queryTask, SIGNAL(finished(Nepomuk2::QueryRunnable*)),
             this, SLOT(slotQueryFinished(Nepomuk2::QueryRunnable*)));
 
-    QThreadPool::globalInstance()->start(task);
+    QThreadPool::globalInstance()->start(m_queryTask);
 }
 
 void NepomukSource::slotQueryFinished(Nepomuk2::QueryRunnable* runnable)
@@ -96,6 +103,11 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
 {
     Q_UNUSED(runnable);
 
+    // The *2 is arbitrary. We're taking the assumption that we get the results with the types
+    // jumbled up and not all of one type after another. Otherwise this would have to be 5*.
+    if (m_size >= queryLimit()*2) {
+        return;
+    }
     Nepomuk2::Resource res(result.resource());
 
     Match match;
@@ -136,6 +148,7 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
         match.icon = res.genericIcon();
     }
 
+    m_size++;
     addMatch(match);
 }
 

@@ -31,3 +31,14 @@ void AbstractSource::addMatch(const Match& match)
 {
     emit matchAdded(match);
 }
+
+int AbstractSource::queryLimit()
+{
+    return m_queryLimit;
+}
+
+void AbstractSource::setQueryLimit(int limit)
+{
+    m_queryLimit = limit;
+}
+

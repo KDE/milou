@@ -44,11 +44,17 @@ public:
 
     virtual void query(const QString& string) = 0;
 
+    void setQueryLimit(int limit);
+    int queryLimit();
+
 protected:
     void addMatch(const Match& match);
 
 signals:
     void matchAdded(const Match& match);
+
+private:
+    int m_queryLimit;
 };
 
 #endif // ABSTRACTSOURCE_H

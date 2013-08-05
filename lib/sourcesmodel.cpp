@@ -115,6 +115,8 @@ int SourcesModel::queryLimit() const
 void SourcesModel::setQueryLimit(int limit)
 {
     m_queryLimit = limit;
+    foreach (AbstractSource* source, m_sources)
+        source->setQueryLimit(limit);
 }
 
 void SourcesModel::setQueryString(const QString& str)
