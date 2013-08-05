@@ -6,6 +6,7 @@ set (finder_lib_SRCS
 
     abstractsource.cpp
     nepomuksource.cpp
+    plasmarunnersource.cpp
     sourcesmodel.cpp
 )
 
@@ -17,6 +18,7 @@ target_link_libraries (nepomukfinder
     ${KDE4_KDECORE_LIBS}
     ${NEPOMUK_CORE_LIBRARY}
     ${NEPOMUK_WIDGETS_LIBRARY}
+    ${KDE4_PLASMA_LIBS}
 )
 
 install(TARGETS nepomukfinder EXPORT NepomukFinderLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})

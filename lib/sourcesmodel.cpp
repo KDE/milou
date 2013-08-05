@@ -22,14 +22,20 @@
 
 #include "sourcesmodel.h"
 #include "nepomuksource.h"
+#include "plasmarunnersource.h"
+#include <KDebug>
 
 SourcesModel::SourcesModel(QObject* parent)
 : QAbstractListModel(parent)
 {
-    AbstractSource* source = new NepomukSource(this);
-    connect(source, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+    AbstractSource* nepomukSource = new NepomukSource(this);
+    connect(nepomukSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
-    m_sources << source;
+    PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
+    connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+
+    m_sources << nepomukSource;
+    m_sources << plasmaRunnerSource;
 
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(UrlRole, "url");
@@ -37,6 +43,7 @@ SourcesModel::SourcesModel(QObject* parent)
 
     setRoleNames(roles);
 
+    m_types << QLatin1String("Application");
     m_types << QLatin1String("Audio");
     m_types << QLatin1String("Video");
     m_types << QLatin1String("Image");
