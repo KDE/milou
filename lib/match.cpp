@@ -20,27 +20,59 @@
  *
  */
 
-#ifndef PLASMARUNNERSOURCE_H
-#define PLASMARUNNERSOURCE_H
+#include "match.h"
 
-#include "abstractsource.h"
-#include <Plasma/RunnerManager>
-
-class PlasmaRunnerSource : public AbstractSource
+Match::Match(AbstractSource* source)
+    : m_source(source)
 {
-    Q_OBJECT
-public:
-    explicit PlasmaRunnerSource(QObject* parent = 0);
+}
 
-    virtual void query(const QString& string);
-    virtual void run(const Match& match);
+Match::~Match()
+{
 
-private slots:
-    void slotMatchesChanged(const QList<Plasma::QueryMatch>& matches);
+}
 
-private:
-    Plasma::RunnerManager* m_manager;
-    QHash<uint, Plasma::QueryMatch*> m_mapping;
-};
+AbstractSource* Match::source()
+{
+    return m_source;
+}
 
-#endif // PLASMARUNNERSOURCE_H
+void Match::setType(const QString& type)
+{
+    m_type = type;
+}
+
+QString Match::type() const
+{
+    return m_type;
+}
+
+void Match::setText(const QString& text)
+{
+    m_text = text;
+}
+
+QString Match::text() const
+{
+    return m_text;
+}
+
+void Match::setIcon(const QString& iconName)
+{
+    m_icon = iconName;
+}
+
+QString Match::icon() const
+{
+    return m_icon;
+}
+
+void Match::setData(const QVariant& data)
+{
+    m_data = data;
+}
+
+QVariant Match::data() const
+{
+    return m_data;
+}

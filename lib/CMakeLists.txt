@@ -5,6 +5,7 @@ set (finder_lib_SRCS
     resultlistmodel.cpp
 
     abstractsource.cpp
+    match.cpp
     nepomuksource.cpp
     plasmarunnersource.cpp
     sourcesmodel.cpp

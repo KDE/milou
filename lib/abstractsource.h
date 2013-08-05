@@ -26,17 +26,7 @@
 #include <QObject>
 #include <QUrl>
 
-class Match {
-public:
-    QUrl url;
-    QString type;
-
-    QUrl nepomukUri;
-    QString displayLabel;
-    QString icon;
-
-    int id;
-};
+#include "match.h"
 
 class AbstractSource : public QObject
 {

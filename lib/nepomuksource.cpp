@@ -109,44 +109,45 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     if (m_size >= queryLimit()*2) {
         return;
     }
-    Nepomuk2::Resource res(result.resource());
 
-    Match match;
-    match.url = result.requestProperty(NIE::url()).uri();
+    Nepomuk2::Resource res(result.resource());
+    const KUrl url = result.requestProperty(NIE::url()).uri();
+
+    Match match(this);
+    match.setData(QUrl(url));
 
     QList<QUrl> types = res.types();
     if (types.contains(NFO::Audio())) {
-        match.type = "Audio";
+        match.setType("Audio");
     }
     else if (types.contains(NFO::Document())) {
-        match.type = "Document";
+        match.setType("Document");
     }
     else if (types.contains(NFO::Image())) {
-        match.type = "Image";
+        match.setType("Image");
     }
     else if (types.contains(NFO::Video())) {
-        match.type = "Video";
+        match.setType("Video");
     }
     else if (types.contains(NMO::Email())) {
-        match.type = "Email";
+        match.setType("Email");
     }
     else {
         return;
     }
 
-    match.nepomukUri = res.uri();
-    if (match.url.isLocalFile()) {
-        match.displayLabel = KUrl(match.url).fileName();
+    if (url.isLocalFile()) {
+        match.setText(url.fileName());
 
-        KMimeType::Ptr mime = KMimeType::findByFileContent(match.url.toLocalFile());
+        KMimeType::Ptr mime = KMimeType::findByFileContent(url.toLocalFile());
         if (!mime.isNull()) {
-            match.icon = mime->iconName();
+            match.setIcon(mime->iconName());
         }
     }
     else {
         // TODO: Special handling for emails. Only fetch required properties!
-        match.displayLabel = res.genericLabel();
-        match.icon = res.genericIcon();
+        match.setText(res.genericLabel());
+        match.setIcon(res.genericIcon());
     }
 
     m_size++;
@@ -155,8 +156,9 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
 
 void NepomukSource::run(const Match& match)
 {
-    if (!match.url.isEmpty()) {
-        QDesktopServices::openUrl(match.url);
+    QUrl url = match.data().toUrl();
+    if (!url.isEmpty()) {
+        QDesktopServices::openUrl(url);
     }
 }
 

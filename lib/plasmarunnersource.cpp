@@ -45,21 +45,24 @@ void PlasmaRunnerSource::query(const QString& string)
 void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& matches)
 {
     foreach(const Plasma::QueryMatch& plasmaMatch, matches) {
-        Match match;
-        match.displayLabel = plasmaMatch.text();
-        match.icon = plasmaMatch.icon().name();
-        match.type = "Application";
-        match.id = qHash(plasmaMatch.text() + plasmaMatch.subtext());
+        Match match(this);
+        match.setText(plasmaMatch.text());
+        match.setIcon(plasmaMatch.icon().name());
+        match.setType(QLatin1String("Application"));
+
+        uint id = qHash(plasmaMatch.text() + plasmaMatch.subtext());
+        match.setData(id);
 
         addMatch(match);
-        m_mapping.insert(match.id, new Plasma::QueryMatch(plasmaMatch));
+        m_mapping.insert(id, new Plasma::QueryMatch(plasmaMatch));
     }
 }
 
 void PlasmaRunnerSource::run(const Match& match)
 {
-    if (m_mapping.contains(match.id)) {
-        Plasma::QueryMatch* plasmaMatch = m_mapping.value(match.id);
+    uint id = match.data().toUInt();
+    if (m_mapping.contains(id)) {
+        Plasma::QueryMatch* plasmaMatch = m_mapping.value(id);
         m_manager->run(*plasmaMatch);
     }
 }

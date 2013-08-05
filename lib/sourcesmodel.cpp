@@ -38,7 +38,6 @@ SourcesModel::SourcesModel(QObject* parent)
     m_sources << plasmaRunnerSource;
 
     QHash<int, QByteArray> roles = roleNames();
-    roles.insert(UrlRole, "url");
     roles.insert(TypeRole, "type");
 
     setRoleNames(roles);
@@ -65,7 +64,7 @@ Match SourcesModel::fetchMatch(int row) const
             row -= data.shown.size();
     }
 
-    return Match();
+    return Match(0);
 }
 
 QVariant SourcesModel::data(const QModelIndex& index, int role) const
@@ -79,16 +78,13 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
     Match m = fetchMatch(index.row());
     switch(role) {
         case Qt::DisplayRole:
-            return m.displayLabel;
+            return m.text();
 
         case Qt::DecorationRole:
-            return m.icon;
+            return m.icon();
 
         case TypeRole:
-            return m.type;
-
-        case UrlRole:
-            return m.url;
+            return m.type();
     }
 
     return QVariant();
@@ -138,7 +134,7 @@ void SourcesModel::setQueryString(const QString& str)
 //
 void SourcesModel::slotMatchAdded(const Match& m)
 {
-    const QString matchType = m.type;
+    const QString matchType = m.type();
 
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;
@@ -210,10 +206,7 @@ void SourcesModel::clear()
 
 void SourcesModel::run(int index)
 {
-    // FIXME: Shouldn't only that source be made to run it?
-    Match m = fetchMatch(index);
-    foreach(AbstractSource* source, m_sources) {
-        source->run(m);
-    }
+    Match match = fetchMatch(index);
+    match.source()->run(match);
 }
 
