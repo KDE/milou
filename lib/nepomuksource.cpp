@@ -71,6 +71,11 @@ void NepomukSource::query(const QString& text)
 
     Query::LiteralTerm literalTerm(searchString);
     Query::Query query(literalTerm);
+
+    QList<Nepomuk2::Query::Query::RequestProperty> properties;
+    properties << Nepomuk2::Query::Query::RequestProperty(NIE::url(), true);
+    query.setRequestProperties(properties);
+
     //query.setLimit(m_queryLimit);
 
     QueryRunnable* task = new QueryRunnable(query);
@@ -94,7 +99,7 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     Nepomuk2::Resource res(result.resource());
 
     Match match;
-    match.url = res.property(NIE::url()).toUrl();
+    match.url = result.requestProperty(NIE::url()).uri();
 
     QList<QUrl> types = res.types();
     if (types.contains(NFO::Audio())) {
