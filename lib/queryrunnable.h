@@ -39,8 +39,8 @@ public:
     void stop();
 
 signals:
-    void queryResult(QueryRunnable* queryRunnable, const Query::Result& result);
-    void finished(QueryRunnable* queryRunnable);
+    void queryResult(Nepomuk2::QueryRunnable* queryRunnable, const Nepomuk2::Query::Result& result);
+    void finished(Nepomuk2::QueryRunnable* queryRunnable);
 
 private:
     Query::Query m_query;

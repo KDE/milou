@@ -50,8 +50,6 @@ ResultsModel::ResultsModel(QObject* parent)
     : QAbstractItemModel(parent)
     , m_queryLimit(0)
 {
-    qRegisterMetaType<Query::Result>("Query::Result");
-
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(UrlRole, "url");
     roles.insert(CreatedRole, "created");
@@ -262,12 +260,12 @@ void ResultsModel::slotQueryResult(QueryRunnable* runnable, const Query::Result&
     m_results[type].append(result);
     endInsertRows();
 
-    //kDebug() << (void*)runnable << type << result.resource().uri();
+//    kDebug() << (void*)runnable << type << result.resource().uri();
 }
 
 void ResultsModel::slotQueryFinished(QueryRunnable* runnable)
 {
-    //kDebug() << (void*)runnable;
+//    kDebug() << (void*)runnable << m_queryTypeMap.value(runnable);
     m_queryTypeMap.remove(runnable);
 
     if (m_queryTypeMap.isEmpty()) {
@@ -288,9 +286,10 @@ void ResultsModel::setQueryLimit(int limit)
 QueryRunnable* ResultsModel::newQueryTask(const Query::Query& query)
 {
     QueryRunnable* task = new QueryRunnable( query );
-    connect(task, SIGNAL(queryResult(QueryRunnable*,Query::Result)),
-            this, SLOT(slotQueryResult(QueryRunnable*,Query::Result)));
-    connect(task, SIGNAL(finished(QueryRunnable*)), this, SLOT(slotQueryFinished(QueryRunnable*)));
+    connect(task, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
+            this, SLOT(slotQueryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
+    connect(task, SIGNAL(finished(Nepomuk2::QueryRunnable*)),
+            this, SLOT(slotQueryFinished(Nepomuk2::QueryRunnable*)));
 
     QThreadPool::globalInstance()->start(task);
 

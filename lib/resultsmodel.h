@@ -79,8 +79,8 @@ signals:
     void listingStarted(const QString& queryString);
 
 private slots:
-    void slotQueryResult(QueryRunnable* runnable, const Query::Result& result);
-    void slotQueryFinished(QueryRunnable* runnable);
+    void slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result);
+    void slotQueryFinished(Nepomuk2::QueryRunnable* runnable);
 
 private:
     QHash<QUrl, QList<Query::Result> > m_results;

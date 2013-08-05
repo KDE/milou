@@ -65,13 +65,13 @@ Item {
             topMargin: 5
         }
 
-        model: Nepomuk.ResultListModel {
+        model: Nepomuk.SourcesModel {
             id: resultModel
-            queryLimit: 5
+            //queryLimit: 5
 
-            onListingStarted: {
-                listView.currentIndex = 0
-            }
+            //onListingStarted: {
+            //    listView.currentIndex = 0
+            //}
         }
         delegate: ResultDelegate {
             id: resultDelegate

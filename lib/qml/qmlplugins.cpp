@@ -25,6 +25,7 @@
 
 #include "resultsmodel.h"
 #include "resultlistmodel.h"
+#include "sourcesmodel.h"
 
 void QmlPlugins::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 {
@@ -34,6 +35,7 @@ void QmlPlugins::registerTypes(const char *uri)
 {
     qmlRegisterType<Nepomuk2::ResultsModel> (uri, 0, 1, "ResultsModel");
     qmlRegisterType<Nepomuk2::ResultListModel> (uri, 0, 1, "ResultListModel");
+    qmlRegisterType<SourcesModel> (uri, 0, 1, "SourcesModel");
 }
 
 Q_EXPORT_PLUGIN2(nepomukfinderqmlplugin, QmlPlugins);

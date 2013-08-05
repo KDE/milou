@@ -20,31 +20,31 @@
  *
  */
 
+#ifndef NEPOMUKSOURCE_H
+#define NEPOMUKSOURCE_H
+
+#include "abstractsource.h"
 #include "queryrunnable.h"
 
-#include <Nepomuk2/Query/ResultIterator>
-#include <Nepomuk2/Resource>
+#include <Nepomuk2/Query/Result>
 
-using namespace Nepomuk2;
-
-QueryRunnable::QueryRunnable(const Query::Query& query)
-    : m_query(query)
-    , m_stop(false)
+class NepomukSource : public AbstractSource
 {
-    qRegisterMetaType<Nepomuk2::Query::Result>("Nepomuk2::Query::Result");
-}
+    Q_OBJECT
+public:
+    explicit NepomukSource(QObject* parent = 0);
 
-void QueryRunnable::run()
-{
-    Query::ResultIterator it(m_query);
-    while (it.next() && !m_stop) {
-        emit queryResult(this, it.current());
-    }
+    virtual void query(const QString& string);
 
-    emit finished(this);
-}
+public slots:
+    void slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result);
+    void slotQueryFinished(Nepomuk2::QueryRunnable* runnable);
 
-void QueryRunnable::stop()
-{
-    m_stop = true;
-}
+private:
+    int m_audioResults;
+    int m_videoResults;
+    int m_emailResults;
+    int m_documentsResults;
+};
+
+#endif // NEPOMUKSOURCE_H

@@ -20,31 +20,35 @@
  *
  */
 
-#include "queryrunnable.h"
+#ifndef ABSTRACTSOURCE_H
+#define ABSTRACTSOURCE_H
 
-#include <Nepomuk2/Query/ResultIterator>
-#include <Nepomuk2/Resource>
+#include <QObject>
+#include <QUrl>
 
-using namespace Nepomuk2;
+class Match {
+public:
+    QUrl url;
+    QString type;
 
-QueryRunnable::QueryRunnable(const Query::Query& query)
-    : m_query(query)
-    , m_stop(false)
+    QUrl nepomukUri;
+    QString displayLabel;
+    QString icon;
+};
+
+class AbstractSource : public QObject
 {
-    qRegisterMetaType<Nepomuk2::Query::Result>("Nepomuk2::Query::Result");
-}
+    Q_OBJECT
+public:
+    explicit AbstractSource(QObject* parent = 0);
 
-void QueryRunnable::run()
-{
-    Query::ResultIterator it(m_query);
-    while (it.next() && !m_stop) {
-        emit queryResult(this, it.current());
-    }
+    virtual void query(const QString& string) = 0;
 
-    emit finished(this);
-}
+protected:
+    void addMatch(const Match& match);
 
-void QueryRunnable::stop()
-{
-    m_stop = true;
-}
+signals:
+    void matchAdded(const Match& match);
+};
+
+#endif // ABSTRACTSOURCE_H

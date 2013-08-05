@@ -20,31 +20,41 @@
  *
  */
 
-#include "queryrunnable.h"
+#ifndef SOURCESMODEL_H
+#define SOURCESMODEL_H
 
-#include <Nepomuk2/Query/ResultIterator>
-#include <Nepomuk2/Resource>
+#include <QAbstractItemModel>
+#include "abstractsource.h"
+#include "nepomuk_finder_export.h"
 
-using namespace Nepomuk2;
-
-QueryRunnable::QueryRunnable(const Query::Query& query)
-    : m_query(query)
-    , m_stop(false)
+class NEPOMUK_FINDER_EXPORT SourcesModel : public QAbstractListModel
 {
-    qRegisterMetaType<Nepomuk2::Query::Result>("Nepomuk2::Query::Result");
-}
+    Q_OBJECT
+    Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
+public:
+    explicit SourcesModel(QObject* parent = 0);
+    virtual ~SourcesModel();
 
-void QueryRunnable::run()
-{
-    Query::ResultIterator it(m_query);
-    while (it.next() && !m_stop) {
-        emit queryResult(this, it.current());
-    }
+    enum Roles {
+        TypeRole = Qt::UserRole + 1,
+        UrlRole
+    };
 
-    emit finished(this);
-}
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
-void QueryRunnable::stop()
-{
-    m_stop = true;
-}
+    QString queryString();
+public slots:
+    void setQueryString(const QString& str);
+    void clear();
+
+private slots:
+    void slotMatchAdded(const Match& m);
+public:
+    QList<Match> m_matches;
+    QString m_queryString;
+
+    QList<AbstractSource*> m_sources;
+};
+
+#endif // SOURCESMODEL_H
