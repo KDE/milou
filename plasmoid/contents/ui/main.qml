@@ -85,6 +85,7 @@ Item {
         // doesn't make any difference!
         Keys.onReturnPressed: {
             resultModel.run(currentIndex);
+            plasmoid.hidePopup()
         }
 
         boundsBehavior: Flickable.StopAtBounds

@@ -18,6 +18,7 @@ PlasmaComponents.ListItem {
     onClicked: {
         listView.currentIndex = model.index
         listView.model.run(model.index);
+        plasmoid.hidePopup()
     }
 
     QtExtra.QIconItem {
