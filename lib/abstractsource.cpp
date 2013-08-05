@@ -27,6 +27,10 @@ AbstractSource::AbstractSource(QObject* parent): QObject(parent)
 
 }
 
+void AbstractSource::run(const Match&)
+{
+}
+
 void AbstractSource::addMatch(const Match& match)
 {
     emit matchAdded(match);

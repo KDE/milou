@@ -208,3 +208,12 @@ void SourcesModel::clear()
     endResetModel();
 }
 
+void SourcesModel::run(int index)
+{
+    // FIXME: Shouldn't only that source be made to run it?
+    Match m = fetchMatch(index);
+    foreach(AbstractSource* source, m_sources) {
+        source->run(m);
+    }
+}
+

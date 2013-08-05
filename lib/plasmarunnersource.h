@@ -33,12 +33,14 @@ public:
     explicit PlasmaRunnerSource(QObject* parent = 0);
 
     virtual void query(const QString& string);
+    virtual void run(const Match& match);
 
 private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& matches);
 
 private:
     Plasma::RunnerManager* m_manager;
+    QHash<int, Plasma::QueryMatch*> m_mapping;
 };
 
 #endif // PLASMARUNNERSOURCE_H

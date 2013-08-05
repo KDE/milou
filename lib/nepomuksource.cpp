@@ -23,6 +23,7 @@
 #include "nepomuksource.h"
 
 #include <QThreadPool>
+#include <QDesktopServices>
 
 #include <KIcon>
 #include <KDebug>
@@ -151,4 +152,12 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     m_size++;
     addMatch(match);
 }
+
+void NepomukSource::run(const Match& match)
+{
+    if (!match.url.isEmpty()) {
+        QDesktopServices::openUrl(match.url);
+    }
+}
+
 

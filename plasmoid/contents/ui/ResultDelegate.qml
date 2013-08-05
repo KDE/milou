@@ -16,11 +16,11 @@ PlasmaComponents.ListItem {
 
     // Try to find some signal called activated? and use that?
     onClicked: {
-        Qt.openUrlExternally(model.url)
         listView.currentIndex = model.index
+        listView.model.run(model.index);
     }
     Keys.onReturnPressed: {
-        Qt.openUrlExternally(model.url)
+        listView.model.run(model.index);
     }
 
     QtExtra.QIconItem {

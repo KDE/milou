@@ -52,6 +52,8 @@ public slots:
     void setQueryLimit(int limit);
     void clear();
 
+    void run(int index);
+
 private slots:
     void slotMatchAdded(const Match& m);
 

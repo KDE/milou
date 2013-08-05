@@ -36,6 +36,9 @@ PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
 
 void PlasmaRunnerSource::query(const QString& string)
 {
+    qDeleteAll(m_mapping.values());
+    m_mapping.clear();
+
     m_manager->launchQuery(string);
 }
 
@@ -46,8 +49,17 @@ void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& m
         match.displayLabel = plasmaMatch.text();
         match.icon = plasmaMatch.icon().name();
         match.type = "Application";
+        match.id = qHash(plasmaMatch.text() + plasmaMatch.subtext());
 
         addMatch(match);
+        m_mapping.insert(match.id, new Plasma::QueryMatch(plasmaMatch));
     }
 }
 
+void PlasmaRunnerSource::run(const Match& match)
+{
+    if (m_mapping.contains(match.id)) {
+        Plasma::QueryMatch* plasmaMatch = m_mapping.value(match.id);
+        m_manager->run(*plasmaMatch);
+    }
+}

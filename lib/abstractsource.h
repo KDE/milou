@@ -34,6 +34,8 @@ public:
     QUrl nepomukUri;
     QString displayLabel;
     QString icon;
+
+    int id;
 };
 
 class AbstractSource : public QObject
@@ -43,6 +45,7 @@ public:
     explicit AbstractSource(QObject* parent = 0);
 
     virtual void query(const QString& string) = 0;
+    virtual void run(const Match& match);
 
     void setQueryLimit(int limit);
     int queryLimit();
