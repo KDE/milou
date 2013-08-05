@@ -39,7 +39,7 @@ public:
     explicit Match(AbstractSource* source);
     ~Match();
 
-    AbstractSource* source();
+    AbstractSource* source() const;
 
     /**
      * Return a string which categorizes the result. This string

@@ -35,6 +35,7 @@ public:
     virtual void query(const QString& string);
     virtual void run(const Match& match);
 
+    virtual QStringList types();
 private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& matches);
 

@@ -61,6 +61,12 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
     m_resourceRetriver = new AsyncNepomukResourceRetriever(QVector<QUrl>() << RDF::type(), this);
     connect(m_resourceRetriver, SIGNAL(resourceReceived(QUrl,Nepomuk2::Resource)),
             this, SLOT(slotResourceReceived(QUrl,Nepomuk2::Resource)));
+
+    m_types << QLatin1String("Audio")
+            << QLatin1String("Video")
+            << QLatin1String("Image")
+            << QLatin1String("Document")
+            << QLatin1String("Email");
 }
 
 NepomukSource::~NepomukSource()
@@ -68,6 +74,10 @@ NepomukSource::~NepomukSource()
     m_resourceRetriver->cancelAll();
 }
 
+QStringList NepomukSource::types()
+{
+    return m_types;
+}
 
 void NepomukSource::query(const QString& text)
 {
@@ -92,7 +102,7 @@ void NepomukSource::query(const QString& text)
 
     Query::LiteralTerm literalTerm(searchString);
     Query::Query query(literalTerm);
-    query.setLimit(queryLimit()*5); // 5 is for the number of types we show!
+    query.setLimit(queryLimit() * m_types.size());
 
     m_size = 0;
     m_queryTask = new QueryRunnable(query);

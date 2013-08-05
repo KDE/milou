@@ -40,6 +40,12 @@ public:
     void setQueryLimit(int limit);
     int queryLimit();
 
+    /**
+     * Returns a list of types that the source can return. The
+     * source should not return anything but these types
+     */
+    virtual QStringList types() = 0;
+
 protected:
     void addMatch(const Match& match);
 

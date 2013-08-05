@@ -34,6 +34,11 @@ PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
 }
 
+QStringList PlasmaRunnerSource::types()
+{
+    return QStringList() << "Application";
+}
+
 void PlasmaRunnerSource::query(const QString& string)
 {
     qDeleteAll(m_mapping.values());

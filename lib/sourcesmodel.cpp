@@ -135,6 +135,7 @@ void SourcesModel::setQueryString(const QString& str)
 void SourcesModel::slotMatchAdded(const Match& m)
 {
     const QString matchType = m.type();
+    Q_ASSERT(m.source()->types().contains(matchType));
 
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;

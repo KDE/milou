@@ -32,7 +32,7 @@ Match::~Match()
 
 }
 
-AbstractSource* Match::source()
+AbstractSource* Match::source() const
 {
     return m_source;
 }
