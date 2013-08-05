@@ -160,7 +160,7 @@ void SourcesModel::slotMatchAdded(const Match& m)
         beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
         Match transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
-        endInsertRows();
+        endRemoveRows();
 
         int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
         beginInsertRows(QModelIndex(), insertPos, insertPos);
