@@ -19,9 +19,6 @@ PlasmaComponents.ListItem {
         listView.currentIndex = model.index
         listView.model.run(model.index);
     }
-    Keys.onReturnPressed: {
-        listView.model.run(model.index);
-    }
 
     QtExtra.QIconItem {
         id: typePixmap
