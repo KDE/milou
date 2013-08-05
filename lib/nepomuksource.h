@@ -28,11 +28,14 @@
 
 #include <Nepomuk2/Query/Result>
 
+class AsyncNepomukResourceRetriever;
+
 class NepomukSource : public AbstractSource
 {
     Q_OBJECT
 public:
     explicit NepomukSource(QObject* parent = 0);
+    virtual ~NepomukSource();
 
     virtual void query(const QString& string);
     virtual void run(const Match& match);
@@ -41,9 +44,12 @@ public slots:
     void slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result);
     void slotQueryFinished(Nepomuk2::QueryRunnable* runnable);
 
+    void slotResourceReceived(const QUrl& uri, const Nepomuk2::Resource& res);
 private:
     Nepomuk2::QueryRunnable* m_queryTask;
     int m_size;
+
+    AsyncNepomukResourceRetriever* m_resourceRetriver;
 };
 
 #endif // NEPOMUKSOURCE_H

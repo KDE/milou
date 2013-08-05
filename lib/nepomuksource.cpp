@@ -21,6 +21,7 @@
  */
 
 #include "nepomuksource.h"
+#include "asyncnepomukresourceretriever.h"
 
 #include <QThreadPool>
 #include <QDesktopServices>
@@ -46,6 +47,7 @@
 
 #include <Soprano/Model>
 #include <Soprano/Vocabulary/NAO>
+#include <Soprano/Vocabulary/RDF>
 
 using namespace Nepomuk2;
 using namespace Nepomuk2::Vocabulary;
@@ -55,12 +57,23 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
 {
     m_size = 0;
     m_queryTask = 0;
+
+    m_resourceRetriver = new AsyncNepomukResourceRetriever(QVector<QUrl>() << RDF::type(), this);
+    connect(m_resourceRetriver, SIGNAL(resourceReceived(QUrl,Nepomuk2::Resource)),
+            this, SLOT(slotResourceReceived(QUrl,Nepomuk2::Resource)));
 }
+
+NepomukSource::~NepomukSource()
+{
+    m_resourceRetriver->cancelAll();
+}
+
 
 void NepomukSource::query(const QString& text)
 {
     if (m_queryTask) {
         m_queryTask->stop();
+        m_resourceRetriver->cancelAll();
         m_queryTask = 0;
         m_size = 0;
     }
@@ -79,11 +92,6 @@ void NepomukSource::query(const QString& text)
 
     Query::LiteralTerm literalTerm(searchString);
     Query::Query query(literalTerm);
-
-    QList<Nepomuk2::Query::Query::RequestProperty> properties;
-    properties << Nepomuk2::Query::Query::RequestProperty(NIE::url(), true);
-    query.setRequestProperties(properties);
-
     query.setLimit(queryLimit()*5); // 5 is for the number of types we show!
 
     m_queryTask = new QueryRunnable(query);
@@ -100,6 +108,7 @@ void NepomukSource::slotQueryFinished(Nepomuk2::QueryRunnable* runnable)
     Q_UNUSED(runnable);
 }
 
+
 void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result)
 {
     Q_UNUSED(runnable);
@@ -110,8 +119,12 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
         return;
     }
 
-    Nepomuk2::Resource res(result.resource());
-    const KUrl url = result.requestProperty(NIE::url()).uri();
+    m_resourceRetriver->requestResource(result.resource().uri());
+}
+
+void NepomukSource::slotResourceReceived(const QUrl&, const Nepomuk2::Resource& res)
+{
+    const KUrl url = res.property(NIE::url()).toUrl();
 
     Match match(this);
     match.setData(QUrl(url));

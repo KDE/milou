@@ -9,6 +9,8 @@ set (finder_lib_SRCS
     nepomuksource.cpp
     plasmarunnersource.cpp
     sourcesmodel.cpp
+
+    asyncnepomukresourceretriever.cpp
 )
 
 kde4_add_library(nepomukfinder SHARED ${finder_lib_SRCS})
