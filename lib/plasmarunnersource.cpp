@@ -44,7 +44,7 @@ void PlasmaRunnerSource::query(const QString& string)
     qDeleteAll(m_mapping.values());
     m_mapping.clear();
 
-    m_manager->launchQuery(string);
+    //m_manager->launchQuery(string);
 }
 
 void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& matches)

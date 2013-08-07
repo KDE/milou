@@ -23,6 +23,8 @@
 #include "sourcesmodel.h"
 #include "nepomuksource.h"
 #include "plasmarunnersource.h"
+#include "applicationsource.h"
+
 #include <KDebug>
 
 SourcesModel::SourcesModel(QObject* parent)
@@ -34,8 +36,12 @@ SourcesModel::SourcesModel(QObject* parent)
     PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
     connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
+    ApplicationSource* appSource = new ApplicationSource(this);
+    connect(appSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+
     m_sources << nepomukSource;
     m_sources << plasmaRunnerSource;
+    m_sources << appSource;
 
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(TypeRole, "type");

@@ -8,6 +8,7 @@ set (finder_lib_SRCS
     match.cpp
     nepomuksource.cpp
     plasmarunnersource.cpp
+    applicationsource.cpp
     sourcesmodel.cpp
 
     asyncnepomukresourceretriever.cpp
@@ -19,6 +20,7 @@ target_link_libraries (nepomukfinder
     ${QT_QTSCRIPT_LIBRARY}
     ${QT_QTDECLARATIVE_LIBRARY}
     ${KDE4_KDECORE_LIBS}
+    ${KDE4_KIO_LIBS}
     ${NEPOMUK_CORE_LIBRARY}
     ${NEPOMUK_WIDGETS_LIBRARY}
     ${KDE4_PLASMA_LIBS}
