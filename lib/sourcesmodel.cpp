@@ -208,6 +208,9 @@ void SourcesModel::clear()
 void SourcesModel::run(int index)
 {
     Match match = fetchMatch(index);
-    match.source()->run(match);
+    AbstractSource* source = match.source();
+    if (source) {
+        source->run(match);
+    }
 }
 
