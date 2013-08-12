@@ -33,7 +33,11 @@ ApplicationSource::ApplicationSource(QObject* parent): AbstractSource(parent)
 
 QStringList ApplicationSource::types()
 {
-    return QStringList() << "Application";
+    QStringList types;
+    types << "Application";
+    types << "System Settings";
+
+    return types;
 }
 
 void ApplicationSource::query(const QString& string)
@@ -50,6 +54,20 @@ void ApplicationSource::query(const QString& string)
 
         Match match(this);
         match.setType("Application");
+        match.setText(service->name());
+        match.setIcon(service->icon());
+        match.setData(service->storageId());
+
+        addMatch(match);
+    }
+
+    services = KServiceTypeTrader::self()->query("KCModule", queryStr);
+    foreach (const KService::Ptr& service, services) {
+        if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
+            continue;
+
+        Match match(this);
+        match.setType("System Settings");
         match.setText(service->name());
         match.setIcon(service->icon());
         match.setData(service->storageId());

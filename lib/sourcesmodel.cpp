@@ -49,6 +49,7 @@ SourcesModel::SourcesModel(QObject* parent)
     setRoleNames(roles);
 
     m_types << QLatin1String("Application");
+    m_types << QLatin1String("System Settings");
     m_types << QLatin1String("Audio");
     m_types << QLatin1String("Video");
     m_types << QLatin1String("Image");
