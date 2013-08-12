@@ -128,9 +128,10 @@ void SourcesModel::setQueryString(const QString& str)
     if (str.trimmed() == m_queryString.trimmed()) {
         return;
     }
-    m_queryString = str;
 
     clear();
+    m_queryString = str;
+
     foreach (AbstractSource* source, m_sources) {
         source->query(str);
     }
@@ -142,6 +143,9 @@ void SourcesModel::setQueryString(const QString& str)
 //
 void SourcesModel::slotMatchAdded(const Match& m)
 {
+    if (m_queryString.isEmpty())
+        return;
+
     const QString matchType = m.type();
     Q_ASSERT(m.source()->types().contains(matchType));
 
@@ -210,6 +214,7 @@ void SourcesModel::clear()
     beginResetModel();
     m_matches.clear();
     m_size = 0;
+    m_queryString.clear();
     endResetModel();
 }
 
