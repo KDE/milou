@@ -5,10 +5,7 @@ Type=Service
 ServiceTypes=Plasma/Applet
 Icon=nepomuk
 
-X-Plasma-API=declarativeappletscript
-X-Plasma-MainScript=ui/main.qml
-X-Plasma-DefaultSize=200,300
-
+X-KDE-Library=nepomuk_finder_applet
 X-KDE-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
 
 X-KDE-PluginInfo-Name=org.kde.nepomuk.finder
