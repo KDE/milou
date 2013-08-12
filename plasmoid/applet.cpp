@@ -24,6 +24,10 @@
 
 #include <KGlobal>
 #include <KStandardDirs>
+#include <KConfigDialog>
+
+#include <QDeclarativeContext>
+#include <QDeclarativeEngine>
 
 Applet::Applet(QObject* parent, const QVariantList& args): PopupApplet(parent, args)
 {
@@ -38,6 +42,9 @@ void Applet::init()
 {
     m_declarativeWidget = new Plasma::DeclarativeWidget(this);
 
+    QDeclarativeContext* rootContext = m_declarativeWidget->engine()->rootContext();
+    rootContext->setContextProperty("plasmoid", this);
+
     QString qmlFile = KGlobal::dirs()->findResource("data", "plasma/plasmoids/org.kde.nepomuk.finder/contents/ui/main.qml");
     m_declarativeWidget->setQmlPath(qmlFile);
 
@@ -48,5 +55,18 @@ QGraphicsWidget* Applet::graphicsWidget()
 {
     return m_declarativeWidget;
 }
+
+void Applet::createConfigurationInterface(KConfigDialog* parent)
+{
+//    parent->addPage(widget, i18n("General"), icon());
+    Plasma::Applet::createConfigurationInterface(parent);
+}
+
+void Applet::popupEvent(bool show)
+{
+    emit popupEventSignal(show);
+}
+
+
 
 #include "applet.moc"

@@ -36,6 +36,14 @@ public:
     virtual void init();
     virtual QGraphicsWidget* graphicsWidget();
 
+    virtual void createConfigurationInterface(KConfigDialog* parent);
+
+signals:
+    void popupEventSignal(bool shown);
+
+protected:
+    virtual void popupEvent(bool show);
+
 private:
     Plasma::DeclarativeWidget* m_declarativeWidget;
 };

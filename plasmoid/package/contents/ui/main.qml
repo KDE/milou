@@ -95,10 +95,10 @@ Item {
     }
 
     Component.onCompleted: {
-        plasmoid.aspectRatioMode = IgnoreAspectRatio;
-        plasmoid.popupIcon = "nepomuk";
+        //plasmoid.aspectRatioMode = IgnoreAspectRatio;
+        //plasmoid.popupIcon = "nepomuk";
 
-        plasmoid.popupEvent.connect(setTextFieldFocus)
+        plasmoid.popupEventSignal.connect(setTextFieldFocus)
     }
 
     function setTextFieldFocus(shown) {
