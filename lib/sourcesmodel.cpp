@@ -53,6 +53,7 @@ SourcesModel::SourcesModel(QObject* parent)
     m_types << QLatin1String("Video");
     m_types << QLatin1String("Image");
     m_types << QLatin1String("Document");
+    m_types << QLatin1String("Folder");
     m_types << QLatin1String("Email");
 }
 

@@ -66,6 +66,7 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
             << QLatin1String("Video")
             << QLatin1String("Image")
             << QLatin1String("Document")
+            << QLatin1String("Folder")
             << QLatin1String("Email");
 }
 
@@ -158,6 +159,9 @@ void NepomukSource::slotResourceReceived(const QUrl&, const Nepomuk2::Resource& 
     }
     else if (types.contains(NFO::Video())) {
         match.setType("Video");
+    }
+    else if (types.contains(NFO::Folder())) {
+        match.setType("Folder");
     }
     else if (types.contains(NMO::Email())) {
         match.setType("Email");
