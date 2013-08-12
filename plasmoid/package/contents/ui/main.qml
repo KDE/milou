@@ -103,7 +103,7 @@ Item {
 
     function setTextFieldFocus(shown) {
         searchField.focus = shown
-        if (shown) {
+        if (!shown) {
             resultModel.clear()
             searchField.text = ""
         }
