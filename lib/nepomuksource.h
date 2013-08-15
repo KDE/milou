@@ -50,8 +50,6 @@ private:
     QHash<Nepomuk2::QueryRunnable*, MatchType*> m_queries;
     QThreadPool* m_threadPool;
 
-    int m_size;
-
     AsyncNepomukResourceRetriever* m_resourceRetriver;
 
     MatchType* m_audioType;

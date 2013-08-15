@@ -54,8 +54,6 @@ using namespace Soprano::Vocabulary;
 
 NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
 {
-    m_size = 0;
-
     m_resourceRetriver = new AsyncNepomukResourceRetriever(QVector<QUrl>() << RDF::type(), this);
     connect(m_resourceRetriver, SIGNAL(resourceReceived(QUrl,Nepomuk2::Resource)),
             this, SLOT(slotResourceReceived(QUrl,Nepomuk2::Resource)));
@@ -90,7 +88,6 @@ void NepomukSource::query(const QString& text)
         it.key()->stop();
     }
     m_queries.clear();
-    m_size = 0;
 
     if(text.length() < 4) {
         return;
@@ -128,9 +125,8 @@ void NepomukSource::query(const QString& text)
 
 void NepomukSource::slotQueryFinished(Nepomuk2::QueryRunnable* runnable)
 {
-    //Q_ASSERT(runnable == m_queryTask);
+    //Q_ASSERT(m_queries.contains(runnable));
     m_queries.remove(runnable);
-    //m_queryTask = 0;
 }
 
 
@@ -167,43 +163,17 @@ void NepomukSource::slotResourceReceived(const QUrl&, const Nepomuk2::Resource& 
     match.setData(QUrl(url));
 
     QList<QUrl> types = res.types();
-    if (m_audioType->isShown() && types.contains(NFO::Audio())) {
-        match.setType(m_audioType);
-    }
-    else if (m_documentType->isShown() && types.contains(NFO::Document())) {
-        match.setType(m_documentType);
-    }
-    else if (m_imageType->isShown() && types.contains(NFO::Image())) {
-        match.setType(m_imageType);
-    }
-    else if (m_videoType->isShown() && types.contains(NFO::Video())) {
-        match.setType(m_videoType);
-    }
-    else if (m_folderType->isShown() && types.contains(NFO::Folder())) {
-        match.setType(m_folderType);
-    }
-    else if (m_emailType->isShown() && types.contains(NMO::Email())) {
+    if (types.contains(NMO::Email())) {
         match.setType(m_emailType);
     }
     else {
         return;
     }
 
-    if (url.isLocalFile()) {
-        match.setText(url.fileName());
+    // TODO: Special handling for emails. Only fetch required properties!
+    match.setText(res.genericLabel());
+    match.setIcon(res.genericIcon());
 
-        KMimeType::Ptr mime = KMimeType::findByFileContent(url.toLocalFile());
-        if (!mime.isNull()) {
-            match.setIcon(mime->iconName());
-        }
-    }
-    else {
-        // TODO: Special handling for emails. Only fetch required properties!
-        match.setText(res.genericLabel());
-        match.setIcon(res.genericIcon());
-    }
-
-    m_size++;
     addMatch(match);
 }
 
