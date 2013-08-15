@@ -30,18 +30,18 @@
 SourcesModel::SourcesModel(QObject* parent)
 : QAbstractListModel(parent)
 {
-    AbstractSource* nepomukSource = new NepomukSource(this);
-    connect(nepomukSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
-
     PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
     connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
     ApplicationSource* appSource = new ApplicationSource(this);
     connect(appSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
+    AbstractSource* nepomukSource = new NepomukSource(this);
+    connect(nepomukSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+
+    m_sources << appSource;
     m_sources << nepomukSource;
     m_sources << plasmaRunnerSource;
-    m_sources << appSource;
 
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(TypeRole, "type");
