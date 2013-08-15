@@ -23,7 +23,6 @@
 #include "nepomuksource.h"
 #include "asyncnepomukresourceretriever.h"
 
-#include <QThreadPool>
 #include <QDesktopServices>
 
 #include <KIcon>
@@ -56,7 +55,6 @@ using namespace Soprano::Vocabulary;
 NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
 {
     m_size = 0;
-    m_queryTask = 0;
 
     m_resourceRetriver = new AsyncNepomukResourceRetriever(QVector<QUrl>() << RDF::type(), this);
     connect(m_resourceRetriver, SIGNAL(resourceReceived(QUrl,Nepomuk2::Resource)),
@@ -75,6 +73,9 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
           << m_folderType << m_emailType;
 
     setTypes(types);
+
+    m_threadPool = new QThreadPool(this);
+    m_threadPool->setMaxThreadCount(types.size());
 }
 
 NepomukSource::~NepomukSource()
@@ -84,12 +85,12 @@ NepomukSource::~NepomukSource()
 
 void NepomukSource::query(const QString& text)
 {
-    if (m_queryTask) {
-        m_queryTask->stop();
-        m_resourceRetriver->cancelAll();
-        m_queryTask = 0;
-        m_size = 0;
+    QHash<QueryRunnable*, MatchType*>::iterator it = m_queries.begin();
+    for(; it != m_queries.end(); it++) {
+        it.key()->stop();
     }
+    m_queries.clear();
+    m_size = 0;
 
     if(text.length() < 4) {
         return;
@@ -104,42 +105,58 @@ void NepomukSource::query(const QString& text)
     }
 
     Query::LiteralTerm literalTerm(searchString);
-    Query::Query query(literalTerm);
-    query.setLimit(queryLimit() * types().size());
 
-    m_size = 0;
-    m_queryTask = new QueryRunnable(query);
-    connect(m_queryTask, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
-            this, SLOT(slotQueryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
-    connect(m_queryTask, SIGNAL(finished(Nepomuk2::QueryRunnable*)),
-            this, SLOT(slotQueryFinished(Nepomuk2::QueryRunnable*)));
+    foreach(MatchType* type, types()) {
+        if (!type->shown())
+            continue;
 
-    QThreadPool::globalInstance()->start(m_queryTask);
+        // FIXME: Create customized queries for each of these
+        Query::ResourceTypeTerm typeTerm(fetchTypeFromName(type->name()));
+        Query::Query query(typeTerm && literalTerm);
+        query.setLimit(queryLimit());
+
+        QList<Query::Query::RequestProperty> requestProperties;
+        requestProperties << Query::Query::RequestProperty(NIE::url(), false);
+        query.setRequestProperties(requestProperties);
+
+        QueryRunnable* runnable = createQueryRunnable(query);
+        m_queries.insert(runnable, type);
+        // TODO: Take type priority into account?
+        m_threadPool->start(runnable);
+    }
 }
 
 void NepomukSource::slotQueryFinished(Nepomuk2::QueryRunnable* runnable)
 {
-    Q_ASSERT(runnable == m_queryTask);
-    m_queryTask = 0;
+    //Q_ASSERT(runnable == m_queryTask);
+    m_queries.remove(runnable);
+    //m_queryTask = 0;
 }
 
 
 void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result)
 {
-    if (!m_queryTask)
-        return;
+    Q_ASSERT(m_queries.contains(runnable));
 
-    Q_ASSERT(runnable == m_queryTask);
+    MatchType* type = m_queries.value(runnable);
+    if (type->name() != "Email") {
+        KUrl url = result.requestProperty(NIE::url()).uri();
 
-    // The *2 is arbitrary. We're taking the assumption that we get the results with the types
-    // jumbled up and not all of one type after another. Otherwise this would have to be 5*.
-    if (m_size >= queryLimit()*2) {
-        m_queryTask->stop();
-        m_queryTask = 0;
-        return;
+        Match match(this);
+        match.setText(url.fileName());
+        match.setType(type);
+        match.setData(QUrl(url));
+
+        KMimeType::Ptr mime = KMimeType::findByUrl(url);
+        if (!mime.isNull()) {
+            match.setIcon(mime->iconName());
+        }
+
+        addMatch(match);
     }
-
-    m_resourceRetriver->requestResource(result.resource().uri());
+    else {
+        m_resourceRetriver->requestResource(result.resource().uri());
+    }
 }
 
 void NepomukSource::slotResourceReceived(const QUrl&, const Nepomuk2::Resource& res)
@@ -198,4 +215,32 @@ void NepomukSource::run(const Match& match)
     }
 }
 
+QueryRunnable* NepomukSource::createQueryRunnable(const Query::Query& query)
+{
+    QueryRunnable* queryRunnable = new QueryRunnable(query);
+    connect(queryRunnable, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
+            this, SLOT(slotQueryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
+    connect(queryRunnable, SIGNAL(finished(Nepomuk2::QueryRunnable*)),
+            this, SLOT(slotQueryFinished(Nepomuk2::QueryRunnable*)));
+
+    return queryRunnable;
+}
+
+QUrl NepomukSource::fetchTypeFromName(const QString& name)
+{
+    if (name == "Audio")
+        return NFO::Audio();
+    if (name == "Video")
+        return NFO::Video();
+    if (name == "Image")
+        return NFO::Image();
+    if (name == "Document")
+        return NFO::Document();
+    if (name == "Email")
+        return NMO::Email();
+    if (name == "Folder")
+        return NFO::Folder();
+
+    return QUrl();
+}
 

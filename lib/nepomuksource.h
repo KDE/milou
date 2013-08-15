@@ -27,6 +27,7 @@
 #include "queryrunnable.h"
 
 #include <Nepomuk2/Query/Result>
+#include <QThreadPool>
 
 class AsyncNepomukResourceRetriever;
 
@@ -46,7 +47,9 @@ public slots:
 
     void slotResourceReceived(const QUrl& uri, const Nepomuk2::Resource& res);
 private:
-    Nepomuk2::QueryRunnable* m_queryTask;
+    QHash<Nepomuk2::QueryRunnable*, MatchType*> m_queries;
+    QThreadPool* m_threadPool;
+
     int m_size;
 
     AsyncNepomukResourceRetriever* m_resourceRetriver;
@@ -57,6 +60,9 @@ private:
     MatchType* m_imageType;
     MatchType* m_folderType;
     MatchType* m_emailType;
+
+    Nepomuk2::QueryRunnable* createQueryRunnable(const Nepomuk2::Query::Query& query);
+    QUrl fetchTypeFromName(const QString& name);
 };
 
 #endif // NEPOMUKSOURCE_H
