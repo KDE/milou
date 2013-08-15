@@ -69,9 +69,9 @@ Item {
             id: resultModel
             queryLimit: 20
 
-            //onListingStarted: {
-            //    listView.currentIndex = 0
-            //}
+            onRowsInserted: {
+                listView.currentIndex = 0
+            }
         }
         delegate: ResultDelegate {
             id: resultDelegate
