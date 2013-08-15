@@ -60,9 +60,6 @@ void SourcesModel::loadSettings()
     foreach(AbstractSource* source, m_sources)
         allTypes << source->types();
 
-    foreach(MatchType* type, allTypes)
-        m_typeNameMap.insert(type, type->name());
-
     KConfig config("nepomukfinderrc");
     KConfigGroup generalGroup = config.group("General");
     int numTypes = generalGroup.readEntry("NumTypes", 0);
@@ -133,7 +130,7 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
             return m.icon();
 
         case TypeRole:
-            return m_typeNameMap.value(m.type());
+            return m.type()->name();
     }
 
     return QVariant();
@@ -187,7 +184,7 @@ void SourcesModel::slotMatchAdded(const Match& m)
     if (m_queryString.isEmpty())
         return;
 
-    const QString matchType = m_typeNameMap.value(m.type());
+    const QString matchType = m.type()->name();
     //Q_ASSERT(m.source()->types().contains(matchType));
 
     if (m_size == m_queryLimit) {
