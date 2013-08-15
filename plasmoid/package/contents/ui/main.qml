@@ -93,6 +93,17 @@ Item {
             plasmoid.hidePopup()
         }
 
+        Keys.onTabPressed: {
+            currentIndex = (currentIndex + 1) % count
+        }
+
+        Keys.onBacktabPressed: {
+            if (currentIndex > 0)
+                currentIndex = currentIndex - 1
+            else
+                currentIndex = count - 1;
+        }
+
         boundsBehavior: Flickable.StopAtBounds
 
         section.property: "type"
