@@ -122,6 +122,8 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     Match m = fetchMatch(index.row());
+    Q_ASSERT(m.source());
+
     switch(role) {
         case Qt::DisplayRole:
             return m.text();
@@ -211,11 +213,13 @@ void SourcesModel::slotMatchAdded(const Match& m)
         beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
         Match transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
+        m_size--;
         endRemoveRows();
 
         int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
         beginInsertRows(QModelIndex(), insertPos, insertPos);
         m_matches[matchType].shown.append(m);
+        m_size++;
         endInsertRows();
     }
     else {
