@@ -34,6 +34,7 @@ class QueryRunnable : public QObject, public QRunnable
     Q_OBJECT
 public:
     QueryRunnable(const Query::Query& query);
+    QueryRunnable(const QString& query, const Query::RequestPropertyMap& map = Query::RequestPropertyMap());
     virtual void run();
 
     void stop();
@@ -44,6 +45,10 @@ signals:
 
 private:
     Query::Query m_query;
+
+    QString m_sparqlQuery;
+    Query::RequestPropertyMap m_requestPropMap;
+
     bool m_stop;
 };
 

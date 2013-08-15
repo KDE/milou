@@ -25,6 +25,8 @@
 #include <Nepomuk2/Query/ResultIterator>
 #include <Nepomuk2/Resource>
 
+#include <QScopedPointer>
+
 using namespace Nepomuk2;
 
 QueryRunnable::QueryRunnable(const Query::Query& query)
@@ -34,11 +36,25 @@ QueryRunnable::QueryRunnable(const Query::Query& query)
     qRegisterMetaType<Nepomuk2::Query::Result>("Nepomuk2::Query::Result");
 }
 
+QueryRunnable::QueryRunnable(const QString& query, const Query::RequestPropertyMap& map)
+    : m_sparqlQuery(query)
+    , m_requestPropMap(map)
+    , m_stop(false)
+{
+    qRegisterMetaType<Nepomuk2::Query::Result>("Nepomuk2::Query::Result");
+}
+
 void QueryRunnable::run()
 {
-    Query::ResultIterator it(m_query);
-    while (it.next() && !m_stop) {
-        emit queryResult(this, it.current());
+    QScopedPointer<Query::ResultIterator> it;
+
+    if (!m_sparqlQuery.isEmpty())
+        it.reset(new Query::ResultIterator(m_sparqlQuery, m_requestPropMap));
+    else
+        it.reset(new Query::ResultIterator(m_query));
+
+    while (it->next() && !m_stop) {
+        emit queryResult(this, it->current());
     }
 
     emit finished(this);

@@ -112,20 +112,9 @@ void NepomukSource::query(const QString& text)
         if (!type->shown())
             continue;
 
-        Query::ComparisonTerm ct(NIE::lastModified(), Query::Term());
-        ct.setSortWeight(1, Qt::DescendingOrder);
-
-        // FIXME: Create customized queries for each of these
-        Query::ResourceTypeTerm typeTerm(fetchTypeFromName(type->name()));
-        Query::Query query(typeTerm && literalTerm && ct);
-        query.setLimit(queryLimit());
-
-        QList<Query::Query::RequestProperty> requestProperties;
-        requestProperties << Query::Query::RequestProperty(NIE::url(), false);
-        query.setRequestProperties(requestProperties);
-
-        QueryRunnable* runnable = createQueryRunnable(query);
+        QueryRunnable* runnable = fetchQueryForType(text, type);
         m_queries.insert(runnable, type);
+
         // TODO: Take type priority into account?
         m_threadPool->start(runnable);
     }
@@ -205,6 +194,17 @@ QueryRunnable* NepomukSource::createQueryRunnable(const Query::Query& query)
     return queryRunnable;
 }
 
+QueryRunnable* NepomukSource::createQueryRunnable(const QString& sparql, const Nepomuk2::Query::RequestPropertyMap& map)
+{
+    QueryRunnable* queryRunnable = new QueryRunnable(sparql, map);
+    connect(queryRunnable, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
+            this, SLOT(slotQueryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
+    connect(queryRunnable, SIGNAL(finished(Nepomuk2::QueryRunnable*)),
+            this, SLOT(slotQueryFinished(Nepomuk2::QueryRunnable*)));
+
+    return queryRunnable;
+}
+
 QUrl NepomukSource::fetchTypeFromName(const QString& name)
 {
     if (name == "Audio")
@@ -222,4 +222,69 @@ QUrl NepomukSource::fetchTypeFromName(const QString& name)
 
     return QUrl();
 }
+
+namespace {
+    QString createContainsPattern(const QString& text) {
+        QStringList strList = text.split(' ');
+
+        QStringList termList;
+        QStringList regexList;
+        foreach(const QString& term, strList) {
+            if (term.size() < 4) {
+                regexList << QString::fromLatin1("REGEX(?o, '%1.*')").arg(term);
+                continue;
+            }
+
+            termList << QString::fromLatin1("'%1*'").arg(term);
+        }
+
+        if (regexList.isEmpty()) {
+            return QString::fromLatin1("FILTER(bif:contains(?o, \"%1\")).")
+                   .arg(termList.join(" AND "));
+        }
+        else {
+            return QString::fromLatin1("FILTER(bif:contains(?o, \"%1\") && %2).")
+                   .arg(termList.join(" AND "),
+                        regexList.join(" && "));
+        }
+    }
+}
+
+QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* type)
+{
+    if (type == m_imageType) {
+        QString query = QString::fromLatin1("select ?r ?url where { ?r a nfo:Image ; nie:lastModified ?m . "
+                                            " ?r nie:url ?url . "
+                                            " ?r ?p ?o . %2 "
+                                            " } ORDER BY DESC(?m) LIMIT %1")
+                        .arg(QString::number(queryLimit()),
+                             createContainsPattern(text));
+
+        Nepomuk2::Query::RequestPropertyMap map;
+        map.insert("url", NIE::url());
+
+        return createQueryRunnable(query, map);
+    }
+
+    QStringList strList = text.split(' ');
+    QString searchString;
+    foreach(const QString& str, strList) {
+        searchString += str + "* ";
+    }
+    Query::LiteralTerm literalTerm(searchString);
+
+    Query::ComparisonTerm ct(NIE::lastModified(), Query::Term());
+    ct.setSortWeight(1, Qt::DescendingOrder);
+
+    Query::ResourceTypeTerm typeTerm(fetchTypeFromName(type->name()));
+    Query::Query query(typeTerm && literalTerm && ct);
+    query.setLimit(queryLimit());
+
+    QList<Query::Query::RequestProperty> requestProperties;
+    requestProperties << Query::Query::RequestProperty(NIE::url(), false);
+    query.setRequestProperties(requestProperties);
+
+    return createQueryRunnable(query);
+}
+
 

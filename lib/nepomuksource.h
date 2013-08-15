@@ -61,7 +61,10 @@ private:
     MatchType* m_emailType;
 
     Nepomuk2::QueryRunnable* createQueryRunnable(const Nepomuk2::Query::Query& query);
+    Nepomuk2::QueryRunnable* createQueryRunnable(const QString& sparql, const Nepomuk2::Query::RequestPropertyMap& map);
+
     QUrl fetchTypeFromName(const QString& name);
+    Nepomuk2::QueryRunnable* fetchQueryForType(const QString& text, MatchType* type);
 };
 
 #endif // NEPOMUKSOURCE_H
