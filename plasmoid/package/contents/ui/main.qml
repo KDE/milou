@@ -8,7 +8,7 @@ import org.kde.nepomuk 0.1 as Nepomuk
 
 Item {
     id: mainWidget
-    property int minimumWidth: 300
+    property int minimumWidth: 450
     property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
     property int maximumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
 
@@ -43,7 +43,7 @@ Item {
                 text: section
                 font.bold: true
 
-                x: 5
+                x: 110 - width
                 y: 7
             }
         }
