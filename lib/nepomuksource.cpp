@@ -62,9 +62,9 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
 
     // FIXME: Find better icons!
     m_audioType = new MatchType("Audio", "audio");
-    m_videoType = new MatchType("Video", "videon");
+    m_videoType = new MatchType("Video", "video");
     m_imageType = new MatchType("Image", "image");
-    m_documentType = new MatchType("Document", "document");
+    m_documentType = new MatchType("Document", "application-pdf");
     m_folderType = new MatchType("Folder", "folder");
     m_emailType = new MatchType("Email", "mail-message");
 
