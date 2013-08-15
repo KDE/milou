@@ -35,13 +35,18 @@ Item {
         onTextChanged: timer.restart()
     }
 
+    PlasmaCore.Theme {
+        id: theme
+    }
+
     Component {
         id: sectionDelegate
         Item {
             Text {
                 id: sectionText
                 text: section
-                font.bold: true
+                color: theme.textColor
+                opacity: 0.5
 
                 x: 110 - width
                 y: 7
