@@ -35,6 +35,7 @@
 #include <Nepomuk2/Query/QueryParser>
 #include <Nepomuk2/Query/LiteralTerm>
 #include <Nepomuk2/Query/ResourceTypeTerm>
+#include <Nepomuk2/Query/ComparisonTerm>
 
 #include <Nepomuk2/Resource>
 #include <Nepomuk2/Variant>
@@ -111,9 +112,12 @@ void NepomukSource::query(const QString& text)
         if (!type->shown())
             continue;
 
+        Query::ComparisonTerm ct(NIE::lastModified(), Query::Term());
+        ct.setSortWeight(1, Qt::DescendingOrder);
+
         // FIXME: Create customized queries for each of these
         Query::ResourceTypeTerm typeTerm(fetchTypeFromName(type->name()));
-        Query::Query query(typeTerm && literalTerm);
+        Query::Query query(typeTerm && literalTerm && ct);
         query.setLimit(queryLimit());
 
         QList<Query::Query::RequestProperty> requestProperties;
