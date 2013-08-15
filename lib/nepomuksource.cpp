@@ -129,14 +129,15 @@ void NepomukSource::query(const QString& text)
 
 void NepomukSource::slotQueryFinished(Nepomuk2::QueryRunnable* runnable)
 {
-    //Q_ASSERT(m_queries.contains(runnable));
     m_queries.remove(runnable);
 }
 
 
 void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result)
 {
-    Q_ASSERT(m_queries.contains(runnable));
+    if (!m_queries.contains(runnable)) {
+        return;
+    }
 
     MatchType* type = m_queries.value(runnable);
     if (type->name() != "Email") {
