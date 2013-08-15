@@ -61,4 +61,7 @@ QList< MatchType* > AbstractSource::types()
     return m_types;
 }
 
+void AbstractSource::stop()
+{
+}
 

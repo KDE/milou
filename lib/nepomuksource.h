@@ -40,6 +40,7 @@ public:
 
     virtual void query(const QString& string);
     virtual void run(const Match& match);
+    virtual void stop();
 
 public slots:
     void slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result);

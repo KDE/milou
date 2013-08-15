@@ -48,6 +48,12 @@ public:
     QList<MatchType*> types();
     void setTypes(const QList<MatchType*> types);
 
+    /**
+     * Stop the last running query. By default this function
+     * does not do anything
+     */
+    virtual void stop();
+
 protected:
     void addMatch(const Match& match);
 

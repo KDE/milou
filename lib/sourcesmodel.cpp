@@ -257,6 +257,8 @@ void SourcesModel::clear()
     m_matches.clear();
     m_size = 0;
     m_queryString.clear();
+    foreach (AbstractSource* source, m_sources)
+        source->stop();
     endResetModel();
 }
 

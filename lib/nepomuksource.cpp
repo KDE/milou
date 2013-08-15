@@ -81,14 +81,18 @@ NepomukSource::~NepomukSource()
     m_resourceRetriver->cancelAll();
 }
 
-void NepomukSource::query(const QString& text)
+void NepomukSource::stop()
 {
     QHash<QueryRunnable*, MatchType*>::iterator it = m_queries.begin();
-    for(; it != m_queries.end(); it++) {
+    for (; it != m_queries.end(); it++) {
         it.key()->stop();
     }
     m_queries.clear();
+}
 
+void NepomukSource::query(const QString& text)
+{
+    stop();
     if(text.length() < 4) {
         return;
     }
