@@ -24,7 +24,9 @@
 #include <KIcon>
 #include <KConfig>
 #include <KConfigGroup>
+#include <KLocalizedString>
 
+#include <QLabel>
 #include <QVBoxLayout>
 #include <QListWidgetItem>
 
@@ -52,7 +54,10 @@ ConfigWidget::ConfigWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, 
         item->setIcon(KIcon(icon));
     }
 
+    QLabel* label = new QLabel(i18n("Only the selected components are shown in the search results"));
+
     QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(label);
     layout->addWidget(m_listWidget);
 }
 
