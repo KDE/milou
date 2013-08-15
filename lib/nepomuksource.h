@@ -40,8 +40,6 @@ public:
     virtual void query(const QString& string);
     virtual void run(const Match& match);
 
-    virtual QStringList types();
-
 public slots:
     void slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nepomuk2::Query::Result& result);
     void slotQueryFinished(Nepomuk2::QueryRunnable* runnable);
@@ -53,7 +51,12 @@ private:
 
     AsyncNepomukResourceRetriever* m_resourceRetriver;
 
-    QStringList m_types;
+    MatchType* m_audioType;
+    MatchType* m_videoType;
+    MatchType* m_documentType;
+    MatchType* m_imageType;
+    MatchType* m_folderType;
+    MatchType* m_emailType;
 };
 
 #endif // NEPOMUKSOURCE_H

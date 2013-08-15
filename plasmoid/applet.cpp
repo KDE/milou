@@ -21,6 +21,7 @@
  */
 
 #include "applet.h"
+#include "configwidget.h"
 
 #include <KGlobal>
 #include <KStandardDirs>
@@ -58,15 +59,22 @@ QGraphicsWidget* Applet::graphicsWidget()
 
 void Applet::createConfigurationInterface(KConfigDialog* parent)
 {
-//    parent->addPage(widget, i18n("General"), icon());
-    Plasma::Applet::createConfigurationInterface(parent);
+    ConfigWidget* widget = new ConfigWidget();
+    parent->addPage(widget, i18n("General"), icon());
+
+    connect(widget, SIGNAL(changed()), parent, SLOT(settingsModified()));
+
+    // The order matters. The config widget should be saved first
+    connect(parent, SIGNAL(applyClicked()), widget, SLOT(saveSettings()));
+    connect(parent, SIGNAL(okClicked()), widget, SLOT(saveSettings()));
+    connect(parent, SIGNAL(applyClicked()), this, SIGNAL(settingsChanged()));
+    connect(parent, SIGNAL(okClicked()), this, SIGNAL(settingsChanged()));
 }
 
 void Applet::popupEvent(bool show)
 {
     emit popupEventSignal(show);
 }
-
 
 
 #include "applet.moc"

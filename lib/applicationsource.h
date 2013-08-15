@@ -33,7 +33,10 @@ public:
 
     virtual void query(const QString& string);
     virtual void run(const Match& match);
-    virtual QStringList types();
+
+private:
+    MatchType* m_applicationType;
+    MatchType* m_kcmType;
 };
 
 #endif // APPLICATIONSOURCE_H

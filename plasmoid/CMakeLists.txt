@@ -1,5 +1,7 @@
 set(finder_applet_SRCS
-    applet.cpp)
+    applet.cpp
+    configwidget.cpp
+)
 
 kde4_add_plugin(nepomuk_finder_applet ${finder_applet_SRCS})
 target_link_libraries(nepomuk_finder_applet

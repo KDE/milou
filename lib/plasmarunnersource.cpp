@@ -34,11 +34,6 @@ PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
 }
 
-QStringList PlasmaRunnerSource::types()
-{
-    return QStringList() << "Application";
-}
-
 void PlasmaRunnerSource::query(const QString& string)
 {
     qDeleteAll(m_mapping.values());
@@ -53,7 +48,7 @@ void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& m
         Match match(this);
         match.setText(plasmaMatch.text());
         match.setIcon(plasmaMatch.icon().name());
-        match.setType(QLatin1String("Application"));
+        //match.setType(QLatin1String("Application"));
 
         uint id = qHash(plasmaMatch.text() + plasmaMatch.subtext());
         match.setData(id);

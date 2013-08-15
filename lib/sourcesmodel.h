@@ -52,6 +52,7 @@ public slots:
     void clear();
 
     void run(int index);
+    void loadSettings();
 
 private slots:
     void slotMatchAdded(const Match& m);
@@ -75,6 +76,8 @@ public:
     /// Returns the number of visible rows before \p type
     int fetchRowCount(const QString& type) const;
     Match fetchMatch(int row) const;
+
+    QHash<MatchType*, QString> m_typeNameMap;
 };
 
 #endif // SOURCESMODEL_H

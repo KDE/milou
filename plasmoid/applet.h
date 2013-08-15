@@ -40,6 +40,7 @@ public:
 
 signals:
     void popupEventSignal(bool shown);
+    void settingsChanged();
 
 protected:
     virtual void popupEvent(bool show);

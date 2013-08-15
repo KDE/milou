@@ -27,6 +27,11 @@ AbstractSource::AbstractSource(QObject* parent): QObject(parent)
 
 }
 
+AbstractSource::~AbstractSource()
+{
+    qDeleteAll(m_types);
+}
+
 void AbstractSource::run(const Match&)
 {
 }
@@ -45,4 +50,15 @@ void AbstractSource::setQueryLimit(int limit)
 {
     m_queryLimit = limit;
 }
+
+void AbstractSource::setTypes(const QList< MatchType* > types)
+{
+    m_types = types;
+}
+
+QList< MatchType* > AbstractSource::types()
+{
+    return m_types;
+}
+
 

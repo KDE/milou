@@ -62,22 +62,24 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
     connect(m_resourceRetriver, SIGNAL(resourceReceived(QUrl,Nepomuk2::Resource)),
             this, SLOT(slotResourceReceived(QUrl,Nepomuk2::Resource)));
 
-    m_types << QLatin1String("Audio")
-            << QLatin1String("Video")
-            << QLatin1String("Image")
-            << QLatin1String("Document")
-            << QLatin1String("Folder")
-            << QLatin1String("Email");
+    // FIXME: Find better icons!
+    m_audioType = new MatchType("Audio", "audio");
+    m_videoType = new MatchType("Video", "videon");
+    m_imageType = new MatchType("Image", "image");
+    m_documentType = new MatchType("Document", "document");
+    m_folderType = new MatchType("Folder", "folder");
+    m_emailType = new MatchType("Email", "mail-message");
+
+    QList<MatchType*> types;
+    types << m_audioType << m_videoType << m_imageType << m_documentType
+          << m_folderType << m_emailType;
+
+    setTypes(types);
 }
 
 NepomukSource::~NepomukSource()
 {
     m_resourceRetriver->cancelAll();
-}
-
-QStringList NepomukSource::types()
-{
-    return m_types;
 }
 
 void NepomukSource::query(const QString& text)
@@ -103,7 +105,7 @@ void NepomukSource::query(const QString& text)
 
     Query::LiteralTerm literalTerm(searchString);
     Query::Query query(literalTerm);
-    query.setLimit(queryLimit() * m_types.size());
+    query.setLimit(queryLimit() * types().size());
 
     m_size = 0;
     m_queryTask = new QueryRunnable(query);
@@ -148,23 +150,23 @@ void NepomukSource::slotResourceReceived(const QUrl&, const Nepomuk2::Resource& 
     match.setData(QUrl(url));
 
     QList<QUrl> types = res.types();
-    if (types.contains(NFO::Audio())) {
-        match.setType("Audio");
+    if (m_audioType->isShown() && types.contains(NFO::Audio())) {
+        match.setType(m_audioType);
     }
-    else if (types.contains(NFO::Document())) {
-        match.setType("Document");
+    else if (m_documentType->isShown() && types.contains(NFO::Document())) {
+        match.setType(m_documentType);
     }
-    else if (types.contains(NFO::Image())) {
-        match.setType("Image");
+    else if (m_imageType->isShown() && types.contains(NFO::Image())) {
+        match.setType(m_imageType);
     }
-    else if (types.contains(NFO::Video())) {
-        match.setType("Video");
+    else if (m_videoType->isShown() && types.contains(NFO::Video())) {
+        match.setType(m_videoType);
     }
-    else if (types.contains(NFO::Folder())) {
-        match.setType("Folder");
+    else if (m_folderType->isShown() && types.contains(NFO::Folder())) {
+        match.setType(m_folderType);
     }
-    else if (types.contains(NMO::Email())) {
-        match.setType("Email");
+    else if (m_emailType->isShown() && types.contains(NMO::Email())) {
+        match.setType(m_emailType);
     }
     else {
         return;

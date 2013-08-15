@@ -27,6 +27,7 @@
 #include <QVariant>
 
 class AbstractSource;
+class MatchType;
 
 /**
  * @class Match match.h
@@ -42,11 +43,11 @@ public:
     AbstractSource* source() const;
 
     /**
-     * Return a string which categorizes the result. This string
+     * Return a type which categorizes the result. This type
      * should ideally be registered in the AbstractSource
      */
-    QString type() const;
-    void setType(const QString& type);
+    MatchType* type() const;
+    void setType(MatchType* type);
 
     /**
      * Returns the text which will be displayed to the user
@@ -62,10 +63,37 @@ public:
 
 private:
     AbstractSource* m_source;
-    QString m_type;
+    MatchType* m_type;
+
     QString m_text;
     QString m_icon;
     QVariant m_data;
 };
 
+
+class MatchType {
+public:
+    MatchType();
+    MatchType(const QString& name, const QString& icon);
+
+    QString name();
+    void setName(const QString& n);
+
+    QString icon();
+    void setIcon(const QString& icon);
+
+    /**
+     * Returns true if these matches are going to be shown to the user
+     * If the matches are not going to be shown there is no point in generating
+     * them
+     */
+    bool isShown() const;
+    bool shown() const;
+    void setShown(bool s);
+
+private:
+    QString m_name;
+    QString m_icon;
+    bool m_shown;
+};
 #endif // MATCH_H

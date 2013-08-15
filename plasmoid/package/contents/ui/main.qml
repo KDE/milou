@@ -99,6 +99,7 @@ Item {
         //plasmoid.popupIcon = "nepomuk";
 
         plasmoid.popupEventSignal.connect(setTextFieldFocus)
+        plasmoid.settingsChanged.connect(loadSettings)
     }
 
     function setTextFieldFocus(shown) {
@@ -107,5 +108,9 @@ Item {
             resultModel.clear()
             searchField.text = ""
         }
+    }
+
+    function loadSettings() {
+        resultModel.loadSettings()
     }
 }

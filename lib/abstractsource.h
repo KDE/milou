@@ -33,6 +33,7 @@ class AbstractSource : public QObject
     Q_OBJECT
 public:
     explicit AbstractSource(QObject* parent = 0);
+    virtual ~AbstractSource();
 
     virtual void query(const QString& string) = 0;
     virtual void run(const Match& match);
@@ -41,10 +42,11 @@ public:
     int queryLimit();
 
     /**
-     * Returns a list of types that the source can return. The
-     * source should not return anything but these types
+     * Returns a list of types that the source can return. These
+     * sources should checked before each query.
      */
-    virtual QStringList types() = 0;
+    QList<MatchType*> types();
+    void setTypes(const QList<MatchType*> types);
 
 protected:
     void addMatch(const Match& match);
@@ -54,6 +56,7 @@ signals:
 
 private:
     int m_queryLimit;
+    QList<MatchType*> m_types;
 };
 
 #endif // ABSTRACTSOURCE_H

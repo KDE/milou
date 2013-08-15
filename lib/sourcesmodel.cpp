@@ -47,19 +47,60 @@ SourcesModel::SourcesModel(QObject* parent)
     roles.insert(TypeRole, "type");
 
     setRoleNames(roles);
-
-    m_types << QLatin1String("Application");
-    m_types << QLatin1String("System Settings");
-    m_types << QLatin1String("Audio");
-    m_types << QLatin1String("Video");
-    m_types << QLatin1String("Image");
-    m_types << QLatin1String("Document");
-    m_types << QLatin1String("Folder");
-    m_types << QLatin1String("Email");
+    loadSettings();
 }
 
 SourcesModel::~SourcesModel()
 {
+}
+
+void SourcesModel::loadSettings()
+{
+    QList<MatchType*> allTypes;
+    foreach(AbstractSource* source, m_sources)
+        allTypes << source->types();
+
+    foreach(MatchType* type, allTypes)
+        m_typeNameMap.insert(type, type->name());
+
+    KConfig config("nepomukfinderrc");
+    KConfigGroup generalGroup = config.group("General");
+    int numTypes = generalGroup.readEntry("NumTypes", 0);
+
+    if (numTypes != allTypes.size()) {
+        generalGroup.writeEntry("NumTypes", allTypes.size());
+
+        for(int i=0; i<allTypes.size(); i++) {
+            MatchType* type = allTypes[i];
+            KConfigGroup group = config.group("Type-" + QString::number(i));
+
+            group.writeEntry("Name", type->name());
+            group.writeEntry("Icon", type->icon());
+            group.writeEntry("Enabled", type->shown());
+
+            m_types << type->name();
+        }
+    }
+    else {
+        kDebug() << "Loading the settings";
+        for(int i=0; i<allTypes.size(); i++) {
+            MatchType* type = allTypes[i];
+            m_types << type->name();
+
+            KConfigGroup group = config.group("Type-" + QString::number(i));
+
+            QString name = group.readEntry("Name", QString());
+            bool shown = group.readEntry("Enabled", true);
+
+            // Update allTypes
+            foreach(MatchType* type, allTypes) {
+                if (type->name() == name) {
+                    kDebug() << type->name() << shown;
+                    type->setShown(shown);
+                }
+            }
+        }
+    }
 }
 
 Match SourcesModel::fetchMatch(int row) const
@@ -92,7 +133,7 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
             return m.icon();
 
         case TypeRole:
-            return m.type();
+            return m_typeNameMap.value(m.type());
     }
 
     return QVariant();
@@ -146,8 +187,8 @@ void SourcesModel::slotMatchAdded(const Match& m)
     if (m_queryString.isEmpty())
         return;
 
-    const QString matchType = m.type();
-    Q_ASSERT(m.source()->types().contains(matchType));
+    const QString matchType = m_typeNameMap.value(m.type());
+    //Q_ASSERT(m.source()->types().contains(matchType));
 
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;
@@ -226,4 +267,3 @@ void SourcesModel::run(int index)
         source->run(match);
     }
 }
-

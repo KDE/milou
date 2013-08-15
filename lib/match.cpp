@@ -37,12 +37,12 @@ AbstractSource* Match::source() const
     return m_source;
 }
 
-void Match::setType(const QString& type)
+void Match::setType(MatchType* type)
 {
     m_type = type;
 }
 
-QString Match::type() const
+MatchType* Match::type() const
 {
     return m_type;
 }
@@ -76,3 +76,57 @@ QVariant Match::data() const
 {
     return m_data;
 }
+
+//
+// Match Type
+//
+
+MatchType::MatchType()
+{
+
+}
+
+MatchType::MatchType(const QString& name, const QString& icon)
+    : m_name(name), m_icon(icon), m_shown(true)
+{
+
+}
+
+QString MatchType::name()
+{
+    return m_name;
+}
+
+void MatchType::setName(const QString& n)
+{
+    m_name = n;
+}
+
+QString MatchType::icon()
+{
+    return m_icon;
+}
+
+void MatchType::setIcon(const QString& icon)
+{
+    m_icon = icon;
+}
+
+
+bool MatchType::isShown() const
+{
+    return m_shown;
+}
+
+bool MatchType::shown() const
+{
+    return m_shown;
+}
+
+void MatchType::setShown(bool s)
+{
+    m_shown = s;
+}
+
+
+

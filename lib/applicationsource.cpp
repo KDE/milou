@@ -28,16 +28,13 @@
 
 ApplicationSource::ApplicationSource(QObject* parent): AbstractSource(parent)
 {
+    m_applicationType = new MatchType("Application", "bah");
+    m_kcmType = new MatchType("System Settings", "preferences-desktop");
 
-}
+    QList<MatchType*> types;
+    types << m_applicationType << m_kcmType;
 
-QStringList ApplicationSource::types()
-{
-    QStringList types;
-    types << "Application";
-    types << "System Settings";
-
-    return types;
+    setTypes(types);
 }
 
 void ApplicationSource::query(const QString& string)
@@ -46,33 +43,38 @@ void ApplicationSource::query(const QString& string)
         return;
 
     QString queryStr = QString("exist Exec and ('%1' ~~ Name)").arg(string);
-    KService::List services = KServiceTypeTrader::self()->query("Application", queryStr);
 
-    foreach (const KService::Ptr& service, services) {
-        if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
-            continue;
+    if (m_applicationType->isShown()) {
+        KService::List services = KServiceTypeTrader::self()->query("Application", queryStr);
 
-        Match match(this);
-        match.setType("Application");
-        match.setText(service->name());
-        match.setIcon(service->icon());
-        match.setData(service->storageId());
+        foreach (const KService::Ptr& service, services) {
+            if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
+                continue;
 
-        addMatch(match);
+            Match match(this);
+            match.setType(m_applicationType);
+            match.setText(service->name());
+            match.setIcon(service->icon());
+            match.setData(service->storageId());
+
+            addMatch(match);
+        }
     }
 
-    services = KServiceTypeTrader::self()->query("KCModule", queryStr);
-    foreach (const KService::Ptr& service, services) {
-        if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
-            continue;
+    if (m_kcmType->isShown()) {
+        KService::List services = KServiceTypeTrader::self()->query("KCModule", queryStr);
+        foreach (const KService::Ptr& service, services) {
+            if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
+                continue;
 
-        Match match(this);
-        match.setType("System Settings");
-        match.setText(service->name());
-        match.setIcon(service->icon());
-        match.setData(service->storageId());
+            Match match(this);
+            match.setType(m_kcmType);
+            match.setText(service->name());
+            match.setIcon(service->icon());
+            match.setData(service->storageId());
 
-        addMatch(match);
+            addMatch(match);
+        }
     }
 }
 

@@ -20,27 +20,27 @@
  *
  */
 
-#ifndef PLASMARUNNERSOURCE_H
-#define PLASMARUNNERSOURCE_H
+#ifndef CONFIGWIDGET_H
+#define CONFIGWIDGET_H
 
-#include "abstractsource.h"
-#include <Plasma/RunnerManager>
+#include <QListWidget>
+#include <KConfigDialog>
 
-class PlasmaRunnerSource : public AbstractSource
+class ConfigWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlasmaRunnerSource(QObject* parent = 0);
+    explicit ConfigWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
+    virtual ~ConfigWidget();
 
-    virtual void query(const QString& string);
-    virtual void run(const Match& match);
+public slots:
+    void saveSettings();
 
-private slots:
-    void slotMatchesChanged(const QList<Plasma::QueryMatch>& matches);
+signals:
+    void changed();
 
 private:
-    Plasma::RunnerManager* m_manager;
-    QHash<uint, Plasma::QueryMatch*> m_mapping;
+    QListWidget* m_listWidget;
 };
 
-#endif // PLASMARUNNERSOURCE_H
+#endif // CONFIGWIDGET_H
