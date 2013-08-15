@@ -41,6 +41,8 @@ private slots:
 private:
     Plasma::RunnerManager* m_manager;
     QHash<uint, Plasma::QueryMatch*> m_mapping;
+
+    MatchType* m_bookmarkType;
 };
 
 #endif // PLASMARUNNERSOURCE_H

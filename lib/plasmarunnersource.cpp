@@ -28,10 +28,17 @@
 PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
 {
     m_manager = new Plasma::RunnerManager(this);
-    m_manager->setAllowedRunners(QStringList() << "services");
+    m_manager->setAllowedRunners(QStringList() << "bookmarks");
 
     connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
+
+    m_bookmarkType = new MatchType("Bookmarks", "bookmarks");
+
+    QList<MatchType*> types;
+    types << m_bookmarkType;
+
+    setTypes(types);
 }
 
 void PlasmaRunnerSource::query(const QString& string)
@@ -39,7 +46,7 @@ void PlasmaRunnerSource::query(const QString& string)
     qDeleteAll(m_mapping.values());
     m_mapping.clear();
 
-    //m_manager->launchQuery(string);
+    m_manager->launchQuery(string);
 }
 
 void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& matches)
@@ -48,7 +55,7 @@ void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& m
         Match match(this);
         match.setText(plasmaMatch.text());
         match.setIcon(plasmaMatch.icon().name());
-        //match.setType(QLatin1String("Application"));
+        match.setType(m_bookmarkType);
 
         uint id = qHash(plasmaMatch.text() + plasmaMatch.subtext());
         match.setData(id);
