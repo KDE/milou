@@ -228,7 +228,7 @@ QUrl NepomukSource::fetchTypeFromName(const QString& name)
 }
 
 namespace {
-    QString createContainsPattern(const QString& var, const QString& text) {
+    QString createContainsPattern(const QString& var, const QString& text, const QString& scoreVar) {
         QStringList strList = text.split(' ');
 
         QStringList termList;
@@ -242,15 +242,14 @@ namespace {
             termList << QString::fromLatin1("'%1*'").arg(term);
         }
 
-        if (regexList.isEmpty()) {
-            return QString::fromLatin1("FILTER(bif:contains(%1, \"%2\")).")
-                   .arg(var, termList.join(" AND "));
+        QString pattern = QString::fromLatin1("%1 bif:contains \"%2\" OPTION (score %3).")
+                          .arg(var, termList.join(" AND "), scoreVar);
+
+        if (!regexList.isEmpty()) {
+            pattern += QString::fromLatin1(" FILTER(%1) .")
+                       .arg(regexList.join(" && "));
         }
-        else {
-            return QString::fromLatin1("FILTER(bif:contains(?o, \"%1\") && %2).")
-                   .arg(termList.join(" AND "),
-                        regexList.join(" && "));
-        }
+        return pattern;
     }
 }
 
@@ -260,9 +259,9 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
         QString query = QString::fromLatin1("select distinct ?r ?url where { ?r a nfo:Image ; nie:lastModified ?m . "
                                             " ?r nie:url ?url . "
                                             " ?r ?p ?o . %2 "
-                                            " } ORDER BY DESC(?m) LIMIT %1")
+                                            " } ORDER BY DESC(?sc) DESC(?m) LIMIT %1")
                         .arg(QString::number(queryLimit()),
-                             createContainsPattern("?o", text));
+                             createContainsPattern("?o", text, "?sc"));
 
         Nepomuk2::Query::RequestPropertyMap map;
         map.insert("url", NIE::url());
@@ -278,9 +277,9 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
                                             " ?r nie:url ?url ; nmo:messageSubject ?sub ."
                                             " { ?r ?p ?o . %2 } UNION"
                                             " { ?r ?p ?r2 . ?r2 ?p2 ?o . %2 }"
-                                            " } ORDER BY DESC(?m) LIMIT %1")
+                                            " } ORDER BY DESC(?sc) DESC(?m) LIMIT %1")
                         .arg(QString::number(queryLimit()),
-                             createContainsPattern("?o", text));
+                             createContainsPattern("?o", text, "?sc"));
 
         Nepomuk2::Query::RequestPropertyMap map;
         map.insert("url", NIE::url());
@@ -293,9 +292,9 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
         QString query = QString::fromLatin1("select distinct ?r ?url where { ?r a nfo:Folder ; nie:lastModified ?m . "
                                             " ?r nie:url ?url . "
                                             " ?r nfo:fileName ?o . %2 "
-                                            " } ORDER BY DESC(?m) LIMIT %1")
+                                            " } ORDER BY DESC(?sc) DESC(?m) LIMIT %1")
                         .arg(QString::number(queryLimit()),
-                             createContainsPattern("?o", text));
+                             createContainsPattern("?o", text, "?sc"));
 
         Nepomuk2::Query::RequestPropertyMap map;
         map.insert("url", NIE::url());
@@ -308,9 +307,9 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
                                         " ?r nie:url ?url . "
                                         " { ?r ?p ?o . %2 } UNION"
                                         " { ?r ?p ?r2 . ?r2 ?p2 ?o . %2 }"
-                                        " } ORDER BY DESC(?m) LIMIT %1")
+                                        " } ORDER BY DESC(?sc) DESC(?m) LIMIT %1")
                     .arg(QString::number(queryLimit()),
-                         createContainsPattern("?o", text),
+                         createContainsPattern("?o", text, "?sc"),
                          Soprano::Node::resourceToN3(fetchTypeFromName(type->name())));
 
     Nepomuk2::Query::RequestPropertyMap map;
