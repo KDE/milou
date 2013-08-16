@@ -28,8 +28,8 @@
 
 ApplicationSource::ApplicationSource(QObject* parent): AbstractSource(parent)
 {
-    m_applicationType = new MatchType("Application", "bah");
-    m_kcmType = new MatchType("System Settings", "preferences-desktop");
+    m_applicationType = new MatchType(i18n("Applications"), "bah");
+    m_kcmType = new MatchType(i18n("System Settings"), "preferences-desktop");
 
     QList<MatchType*> types;
     types << m_applicationType << m_kcmType;

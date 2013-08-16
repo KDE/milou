@@ -60,12 +60,12 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
             this, SLOT(slotResourceReceived(QUrl,Nepomuk2::Resource)));
 
     // FIXME: Find better icons!
-    m_audioType = new MatchType("Audio", "audio");
-    m_videoType = new MatchType("Video", "video");
-    m_imageType = new MatchType("Image", "image");
-    m_documentType = new MatchType("Document", "application-pdf");
-    m_folderType = new MatchType("Folder", "folder");
-    m_emailType = new MatchType("Email", "mail-message");
+    m_audioType = new MatchType(i18n("Audio"), "audio");
+    m_videoType = new MatchType(i18n("Videos"), "video");
+    m_imageType = new MatchType(i18n("Images"), "image");
+    m_documentType = new MatchType(i18n("Documents"), "application-pdf");
+    m_folderType = new MatchType(i18n("Folders"), "folder");
+    m_emailType = new MatchType(i18n("Emails"), "mail-message");
 
     QList<MatchType*> types;
     types << m_audioType << m_videoType << m_imageType << m_documentType
@@ -213,15 +213,15 @@ QUrl NepomukSource::fetchTypeFromName(const QString& name)
 {
     if (name == "Audio")
         return NFO::Audio();
-    if (name == "Video")
+    if (name == "Videos")
         return NFO::Video();
-    if (name == "Image")
+    if (name == "Images")
         return NFO::Image();
-    if (name == "Document")
+    if (name == "Documents")
         return NFO::Document();
-    if (name == "Email")
+    if (name == "Emails")
         return NMO::Email();
-    if (name == "Folder")
+    if (name == "Folders")
         return NFO::Folder();
 
     return QUrl();

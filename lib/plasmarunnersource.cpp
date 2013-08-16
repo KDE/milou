@@ -33,7 +33,7 @@ PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
     connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
 
-    m_bookmarkType = new MatchType("Bookmarks", "bookmarks");
+    m_bookmarkType = new MatchType(i18n("Bookmarks"), "bookmarks");
 
     QList<MatchType*> types;
     types << m_bookmarkType;
