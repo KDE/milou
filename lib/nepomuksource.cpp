@@ -298,6 +298,22 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
         return createQueryRunnable(query, map);
     }
 
+
+    QString query = QString::fromLatin1("select distinct ?r ?url where { ?r a %3 ; nie:lastModified ?m . "
+                                        " ?r nie:url ?url . "
+                                        " { ?r ?p ?o . %2 } UNION"
+                                        " { ?r ?p ?r2 . ?r2 ?p2 ?o . %2 }"
+                                        " } ORDER BY DESC(?m) LIMIT %1")
+                    .arg(QString::number(queryLimit()),
+                         createContainsPattern("?o", text),
+                         Soprano::Node::resourceToN3(fetchTypeFromName(type->name())));
+
+    Nepomuk2::Query::RequestPropertyMap map;
+    map.insert("url", NIE::url());
+
+    return createQueryRunnable(query, map);
+
+    /*
     QStringList strList = text.split(' ');
     QString searchString;
     foreach(const QString& str, strList) {
@@ -317,6 +333,7 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
     query.setRequestProperties(requestProperties);
 
     return createQueryRunnable(query);
+    */
 }
 
 
