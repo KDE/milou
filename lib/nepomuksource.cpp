@@ -284,6 +284,20 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
         return createQueryRunnable(query, map);
     }
 
+    if (type == m_folderType) {
+        QString query = QString::fromLatin1("select ?r ?url where { ?r a nfo:Folder ; nie:lastModified ?m . "
+                                            " ?r nie:url ?url . "
+                                            " ?r nfo:fileName ?o . %2 "
+                                            " } ORDER BY DESC(?m) LIMIT %1")
+                        .arg(QString::number(queryLimit()),
+                             createContainsPattern("?o", text));
+
+        Nepomuk2::Query::RequestPropertyMap map;
+        map.insert("url", NIE::url());
+
+        return createQueryRunnable(query, map);
+    }
+
     QStringList strList = text.split(' ');
     QString searchString;
     foreach(const QString& str, strList) {
