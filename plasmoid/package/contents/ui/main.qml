@@ -12,17 +12,31 @@ Item {
     property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
     property int maximumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
 
+    PlasmaComponents.Label {
+        id: searchText
+        anchors {
+            left: parent.left
+            right: searchField.left
+            top: parent.top
+
+            rightMargin: 10
+        }
+        horizontalAlignment: Text.AlignRight
+        width: 120
+        text: i18n("Search")
+    }
+
     PlasmaComponents.TextField {
         id: searchField
         clearButtonShown: true
         anchors {
-            left: parent.left
             right: parent.right
             top: parent.top
         }
+        // vHanda: If a know a better way of aligning everything, feel free to change this
+        width: 450 - 120
 
         focus: true
-        placeholderText: i18n("Enter Search Terms")
 
         Keys.forwardTo: listView
 
