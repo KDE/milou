@@ -133,24 +133,28 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     }
 
     MatchType* type = m_queries.value(runnable);
-    if (type->name() != "Email") {
-        KUrl url = result.requestProperty(NIE::url()).uri();
+    KUrl url = result.requestProperty(NIE::url()).uri();
 
-        Match match(this);
+    Match match(this);
+    match.setType(type);
+    match.setData(QUrl(url));
+
+    if (type == m_emailType) {
+        QString subject = result.requestProperty(NMO::messageSubject()).literal().toString();
+        match.setText(subject);
+        match.setIcon(QLatin1String("internet-mail"));
+    }
+    else {
         match.setText(url.fileName());
-        match.setType(type);
-        match.setData(QUrl(url));
 
         KMimeType::Ptr mime = KMimeType::findByUrl(url);
         if (!mime.isNull()) {
             match.setIcon(mime->iconName());
         }
+    }
 
-        addMatch(match);
-    }
-    else {
-        m_resourceRetriver->requestResource(result.resource().uri());
-    }
+    addMatch(match);
+    //m_resourceRetriver->requestResource(result.resource().uri());
 }
 
 void NepomukSource::slotResourceReceived(const QUrl&, const Nepomuk2::Resource& res)
@@ -270,8 +274,8 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
         // TODO: Maybe ?p in the first union could be replaced by
         //       FILTER(?p in (plainText, messageSubject)). Need to check with the virtuoso optimizer
         //
-        QString query = QString::fromLatin1("select distinct ?r ?url where { ?r a nmo:Email ; nmo:sentDate ?m . "
-                                            " ?r nie:url ?url . "
+        QString query = QString::fromLatin1("select distinct ?r ?url ?sub where { ?r a nmo:Email ; nmo:sentDate ?m . "
+                                            " ?r nie:url ?url ; nmo:messageSubject ?sub ."
                                             " { ?r ?p ?o . %2 } UNION"
                                             " { ?r ?p ?r2 . ?r2 ?p2 ?o . %2 }"
                                             " } ORDER BY DESC(?m) LIMIT %1")
@@ -280,6 +284,7 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
 
         Nepomuk2::Query::RequestPropertyMap map;
         map.insert("url", NIE::url());
+        map.insert("sub", NMO::messageSubject());
 
         return createQueryRunnable(query, map);
     }
