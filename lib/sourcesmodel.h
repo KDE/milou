@@ -24,6 +24,8 @@
 #define SOURCESMODEL_H
 
 #include <QAbstractItemModel>
+#include <QVector>
+
 #include "abstractsource.h"
 #include "nepomuk_finder_export.h"
 
@@ -59,7 +61,7 @@ private slots:
 
 public:
     // The types are ordered based on the preference
-    QList<QString> m_types;
+    QVector<QString> m_types;
 
     struct TypeData {
         QList<Match> shown;

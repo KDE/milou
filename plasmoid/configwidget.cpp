@@ -30,12 +30,16 @@
 #include <QVBoxLayout>
 #include <QListWidgetItem>
 
-// FIXME: Allow the list items to be rearranged thereby giving each item
-//        a different priority
 ConfigWidget::ConfigWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
 {
     m_listWidget = new QListWidget(this);
+    m_listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_listWidget->setDragDropMode(QAbstractItemView::InternalMove);
+    m_listWidget->setAlternatingRowColors(true);
+
     connect(m_listWidget, SIGNAL(itemChanged(QListWidgetItem*)),
+            this, SIGNAL(changed()));
+    connect(m_listWidget->model(), SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
             this, SIGNAL(changed()));
 
     KConfig config("nepomukfinderrc");
@@ -55,9 +59,17 @@ ConfigWidget::ConfigWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, 
     }
 
     QLabel* label = new QLabel(i18n("Only the selected components are shown in the search results"));
+    label->setAlignment(Qt::AlignHCenter);
+
+    QLabel* label2 = new QLabel(i18n("Drag categories to change the order in which results appear"));
+    QFont fo = label2->font();
+    fo.setBold(true);
+    label2->setFont(fo);
+    label2->setAlignment(Qt::AlignHCenter);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(label);
+    layout->addWidget(label2);
     layout->addWidget(m_listWidget);
 }
 
@@ -74,6 +86,8 @@ void ConfigWidget::saveSettings()
         QListWidgetItem* item = m_listWidget->item(i);
 
         KConfigGroup group = config.group("Type-" + QString::number(i));
+        group.writeEntry("Name", item->text());
+        group.writeEntry("Icon", item->icon().name());
         group.writeEntry("Enabled", (item->checkState() == Qt::Checked));
     }
 }

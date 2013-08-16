@@ -80,10 +80,9 @@ void SourcesModel::loadSettings()
     }
     else {
         kDebug() << "Loading the settings";
-        for(int i=0; i<allTypes.size(); i++) {
-            MatchType* type = allTypes[i];
-            m_types << type->name();
+        m_types.resize(allTypes.size());
 
+        for(int i=0; i<allTypes.size(); i++) {
             KConfigGroup group = config.group("Type-" + QString::number(i));
 
             QString name = group.readEntry("Name", QString());
@@ -92,8 +91,9 @@ void SourcesModel::loadSettings()
             // Update allTypes
             foreach(MatchType* type, allTypes) {
                 if (type->name() == name) {
-                    kDebug() << type->name() << shown;
+                    kDebug() << i << type->name() << shown;
                     type->setShown(shown);
+                    m_types[i] = name;
                 }
             }
         }
