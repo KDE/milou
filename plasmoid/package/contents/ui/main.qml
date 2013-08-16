@@ -22,7 +22,7 @@ Item {
         }
 
         focus: true
-        placeholderText: i18n("Search..")
+        placeholderText: i18n("Enter Search Terms")
 
         Keys.forwardTo: listView
 
@@ -86,7 +86,7 @@ Item {
         //
         // vHanda: Ideally this should have gotten handled in the delagte's onReturnPressed
         // code, but the ListView doesn't seem forward keyboard events to the delgate when
-        // it is not in activeFocus. Even manually adds Keys.forwardTo: resultDelegate
+        // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
         // doesn't make any difference!
         Keys.onReturnPressed: {
             resultModel.run(currentIndex);
