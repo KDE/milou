@@ -224,14 +224,14 @@ QUrl NepomukSource::fetchTypeFromName(const QString& name)
 }
 
 namespace {
-    QString createContainsPattern(const QString& text) {
+    QString createContainsPattern(const QString& var, const QString& text) {
         QStringList strList = text.split(' ');
 
         QStringList termList;
         QStringList regexList;
         foreach(const QString& term, strList) {
             if (term.size() < 4) {
-                regexList << QString::fromLatin1("REGEX(?o, '%1.*')").arg(term);
+                regexList << QString::fromLatin1("REGEX(%1, '%2.*')").arg(var, term);
                 continue;
             }
 
@@ -239,8 +239,8 @@ namespace {
         }
 
         if (regexList.isEmpty()) {
-            return QString::fromLatin1("FILTER(bif:contains(?o, \"%1\")).")
-                   .arg(termList.join(" AND "));
+            return QString::fromLatin1("FILTER(bif:contains(%1, \"%2\")).")
+                   .arg(var, termList.join(" AND "));
         }
         else {
             return QString::fromLatin1("FILTER(bif:contains(?o, \"%1\") && %2).")
@@ -258,7 +258,25 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
                                             " ?r ?p ?o . %2 "
                                             " } ORDER BY DESC(?m) LIMIT %1")
                         .arg(QString::number(queryLimit()),
-                             createContainsPattern(text));
+                             createContainsPattern("?o", text));
+
+        Nepomuk2::Query::RequestPropertyMap map;
+        map.insert("url", NIE::url());
+
+        return createQueryRunnable(query, map);
+    }
+
+    if (type == m_emailType) {
+        // TODO: Maybe ?p in the first union could be replaced by
+        //       FILTER(?p in (plainText, messageSubject)). Need to check with the virtuoso optimizer
+        //
+        QString query = QString::fromLatin1("select ?r ?url where { ?r a nmo:Email ; nmo:sentDate ?m . "
+                                            " ?r nie:url ?url . "
+                                            " { ?r ?p ?o . %2 } UNION"
+                                            " { ?r ?p ?r2 . ?r2 ?p2 ?o . %2 }"
+                                            " } ORDER BY DESC(?m) LIMIT %1")
+                        .arg(QString::number(queryLimit()),
+                             createContainsPattern("?o", text));
 
         Nepomuk2::Query::RequestPropertyMap map;
         map.insert("url", NIE::url());
