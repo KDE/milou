@@ -253,7 +253,7 @@ namespace {
 QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* type)
 {
     if (type == m_imageType) {
-        QString query = QString::fromLatin1("select ?r ?url where { ?r a nfo:Image ; nie:lastModified ?m . "
+        QString query = QString::fromLatin1("select distinct ?r ?url where { ?r a nfo:Image ; nie:lastModified ?m . "
                                             " ?r nie:url ?url . "
                                             " ?r ?p ?o . %2 "
                                             " } ORDER BY DESC(?m) LIMIT %1")
@@ -270,7 +270,7 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
         // TODO: Maybe ?p in the first union could be replaced by
         //       FILTER(?p in (plainText, messageSubject)). Need to check with the virtuoso optimizer
         //
-        QString query = QString::fromLatin1("select ?r ?url where { ?r a nmo:Email ; nmo:sentDate ?m . "
+        QString query = QString::fromLatin1("select distinct ?r ?url where { ?r a nmo:Email ; nmo:sentDate ?m . "
                                             " ?r nie:url ?url . "
                                             " { ?r ?p ?o . %2 } UNION"
                                             " { ?r ?p ?r2 . ?r2 ?p2 ?o . %2 }"
@@ -285,7 +285,7 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
     }
 
     if (type == m_folderType) {
-        QString query = QString::fromLatin1("select ?r ?url where { ?r a nfo:Folder ; nie:lastModified ?m . "
+        QString query = QString::fromLatin1("select distinct ?r ?url where { ?r a nfo:Folder ; nie:lastModified ?m . "
                                             " ?r nie:url ?url . "
                                             " ?r nfo:fileName ?o . %2 "
                                             " } ORDER BY DESC(?m) LIMIT %1")
