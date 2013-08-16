@@ -60,7 +60,7 @@ QGraphicsWidget* Applet::graphicsWidget()
 void Applet::createConfigurationInterface(KConfigDialog* parent)
 {
     ConfigWidget* widget = new ConfigWidget();
-    parent->addPage(widget, i18n("General"), icon());
+    parent->addPage(widget, i18n("Search Results"), icon());
 
     connect(widget, SIGNAL(changed()), parent, SLOT(settingsModified()));
 
