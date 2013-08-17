@@ -55,9 +55,9 @@ using namespace Soprano::Vocabulary;
 
 NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
 {
-    m_resourceRetriver = new AsyncNepomukResourceRetriever(QVector<QUrl>() << RDF::type(), this);
-    connect(m_resourceRetriver, SIGNAL(resourceReceived(QUrl,Nepomuk2::Resource)),
-            this, SLOT(slotResourceReceived(QUrl,Nepomuk2::Resource)));
+    //m_resourceRetriver = new AsyncNepomukResourceRetriever(QVector<QUrl>() << RDF::type(), this);
+    //connect(m_resourceRetriver, SIGNAL(resourceReceived(QUrl,Nepomuk2::Resource)),
+    //        this, SLOT(slotResourceReceived(QUrl,Nepomuk2::Resource)));
 
     // FIXME: Find better icons!
     m_audioType = new MatchType(i18n("Audio"), "audio");
@@ -79,7 +79,7 @@ NepomukSource::NepomukSource(QObject* parent): AbstractSource(parent)
 
 NepomukSource::~NepomukSource()
 {
-    m_resourceRetriver->cancelAll();
+    //m_resourceRetriver->cancelAll();
 }
 
 void NepomukSource::stop()
@@ -172,7 +172,6 @@ void NepomukSource::slotResourceReceived(const QUrl&, const Nepomuk2::Resource& 
         return;
     }
 
-    // TODO: Special handling for emails. Only fetch required properties!
     match.setText(res.genericLabel());
     match.setIcon(res.genericIcon());
 
@@ -187,17 +186,6 @@ void NepomukSource::run(const Match& match)
     }
 }
 
-QueryRunnable* NepomukSource::createQueryRunnable(const Query::Query& query)
-{
-    QueryRunnable* queryRunnable = new QueryRunnable(query);
-    connect(queryRunnable, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
-            this, SLOT(slotQueryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
-    connect(queryRunnable, SIGNAL(finished(Nepomuk2::QueryRunnable*)),
-            this, SLOT(slotQueryFinished(Nepomuk2::QueryRunnable*)));
-
-    return queryRunnable;
-}
-
 QueryRunnable* NepomukSource::createQueryRunnable(const QString& sparql, const Nepomuk2::Query::RequestPropertyMap& map)
 {
     QueryRunnable* queryRunnable = new QueryRunnable(sparql, map);
@@ -209,22 +197,22 @@ QueryRunnable* NepomukSource::createQueryRunnable(const QString& sparql, const N
     return queryRunnable;
 }
 
-QUrl NepomukSource::fetchTypeFromName(const QString& name)
+QString NepomukSource::fetchRdfType(MatchType* type) const
 {
-    if (name == "Audio")
-        return NFO::Audio();
-    if (name == "Videos")
-        return NFO::Video();
-    if (name == "Images")
-        return NFO::Image();
-    if (name == "Documents")
-        return NFO::Document();
-    if (name == "Emails")
-        return NMO::Email();
-    if (name == "Folders")
-        return NFO::Folder();
+    if (type == m_audioType)
+        return QLatin1String("nfo:Audio");
+    if (type == m_videoType)
+        return QLatin1String("nfo:Video");
+    if (type == m_imageType)
+        return QLatin1String("nfo:Image");
+    if (type == m_documentType)
+        return QLatin1String("nfo:Document");
+    if (type == m_emailType)
+        return QLatin1String("nmo:Email");
+    if (type == m_folderType)
+        return QLatin1String("nfo:Folder");
 
-    return QUrl();
+    return QString();
 }
 
 namespace {
@@ -270,9 +258,6 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
     }
 
     if (type == m_emailType) {
-        // TODO: Maybe ?p in the first union could be replaced by
-        //       FILTER(?p in (plainText, messageSubject)). Need to check with the virtuoso optimizer
-        //
         QString query = QString::fromLatin1("select distinct ?r ?url ?sub where { ?r a nmo:Email ; nmo:sentDate ?m . "
                                             " ?r nie:url ?url ; nmo:messageSubject ?sub ."
                                             " { ?r ?p ?o . %2 } UNION"
@@ -310,34 +295,12 @@ QueryRunnable* NepomukSource::fetchQueryForType(const QString& text, MatchType* 
                                         " } ORDER BY DESC(?sc) DESC(?m) LIMIT %1")
                     .arg(QString::number(queryLimit()),
                          createContainsPattern("?o", text, "?sc"),
-                         Soprano::Node::resourceToN3(fetchTypeFromName(type->name())));
+                         fetchRdfType(type));
 
     Nepomuk2::Query::RequestPropertyMap map;
     map.insert("url", NIE::url());
 
     return createQueryRunnable(query, map);
-
-    /*
-    QStringList strList = text.split(' ');
-    QString searchString;
-    foreach(const QString& str, strList) {
-        searchString += str + "* ";
-    }
-    Query::LiteralTerm literalTerm(searchString);
-
-    Query::ComparisonTerm ct(NIE::lastModified(), Query::Term());
-    ct.setSortWeight(1, Qt::DescendingOrder);
-
-    Query::ResourceTypeTerm typeTerm(fetchTypeFromName(type->name()));
-    Query::Query query(typeTerm && literalTerm && ct);
-    query.setLimit(queryLimit());
-
-    QList<Query::Query::RequestProperty> requestProperties;
-    requestProperties << Query::Query::RequestProperty(NIE::url(), false);
-    query.setRequestProperties(requestProperties);
-
-    return createQueryRunnable(query);
-    */
 }
 
 
