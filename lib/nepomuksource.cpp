@@ -94,7 +94,7 @@ void NepomukSource::stop()
 void NepomukSource::query(const QString& text)
 {
     stop();
-    if(text.length() < 4) {
+    if(text.length() < 3) {
         return;
     }
 
@@ -220,10 +220,9 @@ namespace {
         QStringList strList = text.split(' ');
 
         QStringList termList;
-        QStringList regexList;
         foreach(const QString& term, strList) {
             if (term.size() < 4) {
-                regexList << QString::fromLatin1("REGEX(%1, '%2.*')").arg(var, term);
+                termList << QString::fromLatin1("'%1'").arg(term);
                 continue;
             }
 
@@ -233,10 +232,6 @@ namespace {
         QString pattern = QString::fromLatin1("%1 bif:contains \"%2\" OPTION (score %3).")
                           .arg(var, termList.join(" AND "), scoreVar);
 
-        if (!regexList.isEmpty()) {
-            pattern += QString::fromLatin1(" FILTER(%1) .")
-                       .arg(regexList.join(" && "));
-        }
         return pattern;
     }
 }
