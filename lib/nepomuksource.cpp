@@ -140,8 +140,12 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     match.setData(QUrl(url));
 
     if (type == m_emailType) {
-        QString subject = result.requestProperty(NMO::messageSubject()).literal().toString();
-        match.setText(subject);
+        QString subject = result.requestProperty(NMO::messageSubject()).literal().toString().simplified();
+        if (!subject.isEmpty())
+            match.setText(subject);
+        else
+            match.setText(QLatin1String("No Subject"));
+
         match.setIcon(QLatin1String("internet-mail"));
     }
     else {
