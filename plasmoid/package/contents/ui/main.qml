@@ -134,9 +134,7 @@ Item {
 
     function setTextFieldFocus(shown) {
         searchField.focus = shown
-        if (!shown) {
-            searchField.selectAll();
-        }
+        searchField.selectAll();
     }
 
     function loadSettings() {
