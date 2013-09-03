@@ -49,6 +49,6 @@ private:
     Plasma::DeclarativeWidget* m_declarativeWidget;
 };
 
-K_EXPORT_PLASMA_APPLET(nepomuk_finder_applet, Applet)
+K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
 
 #endif // APPLET_H

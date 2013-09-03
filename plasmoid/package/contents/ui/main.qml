@@ -4,7 +4,7 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.qtextracomponents 0.1 as QtExtra
-import org.kde.nepomuk 0.1 as Nepomuk
+import org.kde.milou 0.1 as Milou
 
 Item {
     id: mainWidget
@@ -84,7 +84,7 @@ Item {
             topMargin: 5
         }
 
-        model: Nepomuk.SourcesModel {
+        model: Milou.SourcesModel {
             id: resultModel
             queryLimit: 20
 

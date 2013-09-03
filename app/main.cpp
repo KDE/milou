@@ -30,9 +30,9 @@
 
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData("nepomukfinder", 0, ki18n("NepomukFinder"),
+    KAboutData aboutData("milou", 0, ki18n("Milou"),
                          "0.1",
-                         ki18n("Finder is an application for finding stuff"),
+                         ki18n("Milou is an application for finding stuff"),
                          KAboutData::License_LGPL_V2,
                          ki18n("(C) 2013, Vishesh Handa"));
     aboutData.addAuthor(ki18n("Vishesh Handa"), ki18n("Maintainer"), "me@vhanda.in");

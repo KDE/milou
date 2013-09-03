@@ -27,9 +27,9 @@
 #include <QVector>
 
 #include "abstractsource.h"
-#include "nepomuk_finder_export.h"
+#include "milou_export.h"
 
-class NEPOMUK_FINDER_EXPORT SourcesModel : public QAbstractListModel
+class MILOU_EXPORT SourcesModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)

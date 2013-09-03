@@ -60,7 +60,7 @@ void SourcesModel::loadSettings()
     foreach(AbstractSource* source, m_sources)
         allTypes << source->types();
 
-    KConfig config("nepomukfinderrc");
+    KConfig config("milourc");
     KConfigGroup generalGroup = config.group("General");
     int numTypes = generalGroup.readEntry("NumTypes", 0);
 

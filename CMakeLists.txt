@@ -1,4 +1,4 @@
-project(nepomuk-finder)
+project(milou)
 
 find_package(KDE4 REQUIRED)
 find_package(NepomukCore REQUIRED)

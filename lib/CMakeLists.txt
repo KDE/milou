@@ -1,5 +1,5 @@
 
-set (finder_lib_SRCS
+set (lib_SRCS
     queryrunnable.cpp
     resultsmodel.cpp
     resultlistmodel.cpp
@@ -14,9 +14,9 @@ set (finder_lib_SRCS
     asyncnepomukresourceretriever.cpp
 )
 
-kde4_add_library(nepomukfinder SHARED ${finder_lib_SRCS})
+kde4_add_library(milou SHARED ${lib_SRCS})
 
-target_link_libraries (nepomukfinder
+target_link_libraries (milou
     ${QT_QTSCRIPT_LIBRARY}
     ${QT_QTDECLARATIVE_LIBRARY}
     ${KDE4_KDECORE_LIBS}
@@ -26,6 +26,6 @@ target_link_libraries (nepomukfinder
     ${KDE4_PLASMA_LIBS}
 )
 
-install(TARGETS nepomukfinder EXPORT NepomukFinderLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 add_subdirectory(qml)

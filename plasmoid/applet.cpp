@@ -46,7 +46,7 @@ void Applet::init()
     QDeclarativeContext* rootContext = m_declarativeWidget->engine()->rootContext();
     rootContext->setContextProperty("plasmoid", this);
 
-    QString qmlFile = KGlobal::dirs()->findResource("data", "plasma/plasmoids/org.kde.nepomuk.finder/contents/ui/main.qml");
+    QString qmlFile = KGlobal::dirs()->findResource("data", "plasma/plasmoids/org.kde.milou/contents/ui/main.qml");
     m_declarativeWidget->setQmlPath(qmlFile);
 
     Plasma::Applet::init();

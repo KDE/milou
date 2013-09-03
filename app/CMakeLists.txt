@@ -4,16 +4,16 @@ set( APP_SRCS
   main.cpp
 )
 
-kde4_add_executable(nepomuk-finder ${APP_SRCS})
+kde4_add_executable(milou-app ${APP_SRCS})
 
-target_link_libraries( nepomuk-finder
+target_link_libraries(milou-app
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KIO_LIBS}
   ${NEPOMUK_CORE_LIBRARY}
   ${NEPOMUK_WIDGETS_LIBRARY}
   ${SOPRANO_LIBRARIES}
-  nepomukfinder
+  milou
   )
 
-install(TARGETS nepomuk-finder
+install(TARGETS milou-app
         DESTINATION ${BIN_INSTALL_DIR})

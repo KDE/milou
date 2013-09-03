@@ -42,7 +42,7 @@ ConfigWidget::ConfigWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, 
     connect(m_listWidget->model(), SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
             this, SIGNAL(changed()));
 
-    KConfig config("nepomukfinderrc");
+    KConfig config("milourc");
     KConfigGroup generalGroup = config.group("General");
     int numTypes = generalGroup.readEntry("NumTypes", 0);
 
@@ -79,7 +79,7 @@ ConfigWidget::~ConfigWidget()
 
 void ConfigWidget::saveSettings()
 {
-    KConfig config("nepomukfinderrc");
+    KConfig config("milourc");
 
     int size = m_listWidget->count();
     for(int i=0; i<size; i++) {

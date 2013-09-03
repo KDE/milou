@@ -23,7 +23,7 @@
 #ifndef RESULTLISTMODEL_H
 #define RESULTLISTMODEL_H
 
-#include "nepomuk_finder_export.h"
+#include "milou_export.h"
 
 #include <QAbstractProxyModel>
 
@@ -33,7 +33,7 @@ namespace Nepomuk2 {
  * This takes a ResultsModel as a source and converts it into a list model
  * which can easily be used via QML
  */
-class NEPOMUK_FINDER_EXPORT ResultListModel : public QAbstractProxyModel
+class MILOU_EXPORT ResultListModel : public QAbstractProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)

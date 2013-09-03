@@ -17,22 +17,22 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef _NEPOMUK2_FINDER_EXPORT_H
-#define _NEPOMUK2_FINDER_EXPORT_H
+#ifndef _MILOU_EXPORT_H
+#define _MILOU_EXPORT_H
 
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
 
-#ifndef NEPOMUK_FINDER_EXPORT
+#ifndef MILOU_EXPORT
 # if defined(KDELIBS_STATIC_LIBS)
    /* No export/import for static libraries */
-#  define NEPOMUK_FINDER_EXPORT
-# elif defined(MAKE_NEPOMUKFINDER_LIB)
+#  define MILOU_EXPORT
+# elif defined(MAKE_MILOU_LIB)
    /* We are building this library */
-#  define NEPOMUK_FINDER_EXPORT KDE_EXPORT
+#  define MILOU_EXPORT KDE_EXPORT
 # else
    /* We are using this library */
-#  define NEPOMUK_FINDER_EXPORT KDE_IMPORT
+#  define MILOU_EXPORT KDE_IMPORT
 # endif
 #endif
 

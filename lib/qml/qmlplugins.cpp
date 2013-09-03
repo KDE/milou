@@ -38,4 +38,4 @@ void QmlPlugins::registerTypes(const char *uri)
     qmlRegisterType<SourcesModel> (uri, 0, 1, "SourcesModel");
 }
 
-Q_EXPORT_PLUGIN2(nepomukfinderqmlplugin, QmlPlugins);
+Q_EXPORT_PLUGIN2(milouqmlplugin, QmlPlugins);

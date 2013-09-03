@@ -23,7 +23,7 @@
 #ifndef NEPOMUK2_RESULTSMODEL_H
 #define NEPOMUK2_RESULTSMODEL_H
 
-#include "nepomuk_finder_export.h"
+#include "milou_export.h"
 
 #include <QAbstractItemModel>
 #include <QThreadPool>
@@ -35,7 +35,7 @@ namespace Nepomuk2 {
 
 class QueryRunnable;
 
-class NEPOMUK_FINDER_EXPORT ResultsModel : public QAbstractItemModel
+class MILOU_EXPORT ResultsModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
