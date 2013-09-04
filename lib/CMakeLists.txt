@@ -8,6 +8,7 @@ set (lib_SRCS
     nepomuksource.cpp
     plasmarunnersource.cpp
     applicationsource.cpp
+    calculatorsource.cpp
     sourcesmodel.cpp
 
     nepomuk/asyncnepomukresourceretriever.cpp

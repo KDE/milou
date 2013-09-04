@@ -98,6 +98,12 @@ void NepomukSource::query(const QString& text)
         return;
     }
 
+    // Do not use calculator things
+    if (text.contains(QRegExp("[0-9]"))) {
+        if (text.contains('*') || text.contains('+') || text.contains('-'))
+            return;
+    }
+
     kDebug() << text;
 
     QStringList strList = text.split(' ');
