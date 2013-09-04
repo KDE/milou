@@ -46,7 +46,7 @@ Item {
             right: parent.right
             top: parent.top
         }
-        // vHanda: If a know a better way of aligning everything, feel free to change this
+        // vHanda: If you know a better way of aligning everything, feel free to change this
         width: 450 - 120
 
         focus: true
@@ -56,7 +56,7 @@ Item {
         Timer {
             id: timer
             interval: 200
-            onTriggered: resultModel.setQueryString( searchField.text )
+            onTriggered: resultModel.setQueryString(searchField.text)
         }
 
         onTextChanged: timer.restart()
