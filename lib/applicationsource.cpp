@@ -47,44 +47,41 @@ void ApplicationSource::query(const QString& term)
     if (!term.size())
         return;
 
+    if (!m_applicationType->isShown() && !m_kcmType->isShown())
+        return;
+
     QSet<QString> seen;
     QString queryStr = QString("exist Exec and ('%1' ~~ Name)").arg(term);
 
-    if (m_applicationType->isShown()) {
-        KService::List services = KServiceTypeTrader::self()->query("Application", queryStr);
+    KService::List services = KServiceTypeTrader::self()->query("Application", queryStr);
+    services += KServiceTypeTrader::self()->query("KCModule", queryStr);
 
-        foreach (const KService::Ptr& service, services) {
-            if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
+    foreach (const KService::Ptr& service, services) {
+        if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
+            continue;
+
+        Match match(this);
+        bool isKcm = service->serviceTypes().contains("KCModule");
+        if (isKcm) {
+            if (!m_kcmType->isShown())
                 continue;
 
-            Match match(this);
-            match.setType(m_applicationType);
-            match.setText(service->name());
-            match.setIcon(service->icon());
-            match.setData(service->storageId());
-
-            addMatch(match);
-            seen.insert(service->storageId());
-            seen.insert(service->exec());
-        }
-    }
-
-    if (m_kcmType->isShown()) {
-        KService::List services = KServiceTypeTrader::self()->query("KCModule", queryStr);
-        foreach (const KService::Ptr& service, services) {
-            if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
-                continue;
-
-            Match match(this);
             match.setType(m_kcmType);
-            match.setText(service->name());
-            match.setIcon(service->icon());
-            match.setData(service->storageId());
-
-            addMatch(match);
-            seen.insert(service->storageId());
-            seen.insert(service->exec());
         }
+        else {
+            if (!m_applicationType->isShown())
+                continue;
+
+            match.setType(m_applicationType);
+        }
+
+        match.setText(service->name());
+        match.setIcon(service->icon());
+        match.setData(service->storageId());
+
+        addMatch(match);
+        seen.insert(service->storageId());
+        seen.insert(service->exec());
     }
 
     // If the term length is < 3, no real point searching the Keywords and GenericName
@@ -100,71 +97,48 @@ void ApplicationSource::query(const QString& term)
         queryStr = QString("exist Exec and ( (exist Keywords and '%1' ~subin Keywords) or (exist GenericName and '%1' ~~ GenericName) or (exist Name and '%1' ~~ Name) or ('%1' ~~ Exec) )").arg(term);
     }
 
-    if (m_applicationType->isShown()) {
-        KService::List services = KServiceTypeTrader::self()->query("Application", queryStr);
-        foreach (const KService::Ptr &service, services) {
-            if (service->noDisplay()) {
-                continue;
-            }
-
-            const QString id = service->storageId();
-            const QString name = service->desktopEntryName();
-            const QString exec = service->exec();
-
-            if (seen.contains(id) || seen.contains(exec)) {
-                continue;
-            }
-
-            // If the term was < 3 chars and NOT at the beginning of the App's name or Exec, then
-            // chances are the user doesn't want that app.
-            if (term.size() < 3 && !(name.startsWith(term) || exec.startsWith(term))) {
-                continue;
-            }
-
-            Match match(this);
-            match.setType(m_applicationType);
-            match.setText(service->name());
-            match.setIcon(service->icon());
-            match.setData(service->storageId());
-
-            addMatch(match);
-            seen.insert(service->storageId());
-            seen.insert(service->exec());
+    services = KServiceTypeTrader::self()->query("Application", queryStr);
+    services += KServiceTypeTrader::self()->query("KCModule", queryStr);
+    foreach (const KService::Ptr &service, services) {
+        if (service->noDisplay()) {
+            continue;
         }
-    }
 
-    if (m_kcmType->isShown()) {
-        KService::List services = KServiceTypeTrader::self()->query("KCModule", queryStr);
-        foreach (const KService::Ptr &service, services) {
-            if (service->noDisplay()) {
+        const QString id = service->storageId();
+        const QString name = service->desktopEntryName();
+        const QString exec = service->exec();
+
+        if (seen.contains(id) || seen.contains(exec)) {
+            continue;
+        }
+
+        // If the term was < 3 chars and NOT at the beginning of the App's name or Exec, then
+        // chances are the user doesn't want that app.
+        if (term.size() < 3 && !(name.startsWith(term) || exec.startsWith(term))) {
+            continue;
+        }
+
+        Match match(this);
+        bool isKcm = service->serviceTypes().contains("KCModule");
+        if (isKcm) {
+            if (!m_kcmType->isShown())
                 continue;
-            }
 
-            const QString id = service->storageId();
-            const QString name = service->desktopEntryName();
-            const QString exec = service->exec();
-
-            if (seen.contains(id) || seen.contains(exec)) {
-                //kDebug() << "already seen" << id << exec;
-                continue;
-            }
-
-            // If the term was < 3 chars and NOT at the beginning of the App's name or Exec, then
-            // chances are the user doesn't want that app.
-            if (term.size() < 3 && !(name.startsWith(term) || exec.startsWith(term))) {
-                continue;
-            }
-
-            Match match(this);
             match.setType(m_kcmType);
-            match.setText(service->name());
-            match.setIcon(service->icon());
-            match.setData(service->storageId());
-
-            addMatch(match);
-            seen.insert(service->storageId());
-            seen.insert(service->exec());
         }
+        else {
+            if (!m_applicationType->isShown())
+                continue;
+
+            match.setType(m_applicationType);
+        }
+        match.setText(service->name());
+        match.setIcon(service->icon());
+        match.setData(service->storageId());
+
+        addMatch(match);
+        seen.insert(service->storageId());
+        seen.insert(service->exec());
     }
 }
 
