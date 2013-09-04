@@ -196,6 +196,9 @@ void SourcesModel::slotMatchAdded(const Match& m)
     if (m_queryString.isEmpty())
         return;
 
+    if (!m.type()->isShown())
+        return;
+
     const QString matchType = m.type()->name();
     //Q_ASSERT(m.source()->types().contains(matchType));
 
