@@ -9,8 +9,21 @@ import org.kde.milou 0.1 as Milou
 Item {
     id: mainWidget
     property int minimumWidth: 450
-    property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
-    property int maximumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
+    property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin
+    property int maximumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin
+
+    // The wrapper just exists for giving an appropriate top margin
+    // when it is placed on the top edge of the screen
+    Item {
+        id: wrapper
+
+        property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
+        property int maximumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
+
+        anchors {
+            fill: parent
+            topMargin: plasmoid.isTopEdge() ? 7 : 0
+        }
 
     PlasmaComponents.Label {
         id: searchText
@@ -140,4 +153,6 @@ Item {
     function loadSettings() {
         resultModel.loadSettings()
     }
+}
+
 }

@@ -76,5 +76,10 @@ void Applet::popupEvent(bool show)
     emit popupEventSignal(show);
 }
 
+bool Applet::isTopEdge()
+{
+    return location() == Plasma::TopEdge;
+}
+
 
 #include "applet.moc"

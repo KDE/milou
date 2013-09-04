@@ -38,6 +38,9 @@ public:
 
     virtual void createConfigurationInterface(KConfigDialog* parent);
 
+public slots:
+    bool isTopEdge();
+
 signals:
     void popupEventSignal(bool shown);
     void settingsChanged();
