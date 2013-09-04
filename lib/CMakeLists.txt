@@ -1,6 +1,5 @@
 
 set (lib_SRCS
-    queryrunnable.cpp
     resultsmodel.cpp
     resultlistmodel.cpp
 
@@ -11,7 +10,8 @@ set (lib_SRCS
     applicationsource.cpp
     sourcesmodel.cpp
 
-    asyncnepomukresourceretriever.cpp
+    nepomuk/asyncnepomukresourceretriever.cpp
+    nepomuk/queryrunnable.cpp
 )
 
 kde4_add_library(milou SHARED ${lib_SRCS})

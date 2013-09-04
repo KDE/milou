@@ -21,7 +21,7 @@
  */
 
 #include "nepomuksource.h"
-#include "asyncnepomukresourceretriever.h"
+#include "nepomuk/asyncnepomukresourceretriever.h"
 
 #include <QDesktopServices>
 

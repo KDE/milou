@@ -21,7 +21,7 @@
  */
 
 #include "resultsmodel.h"
-#include "queryrunnable.h"
+#include "nepomuk/queryrunnable.h"
 
 #include <KDebug>
 #include <KIcon>

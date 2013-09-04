@@ -24,7 +24,7 @@
 #define NEPOMUKSOURCE_H
 
 #include "abstractsource.h"
-#include "queryrunnable.h"
+#include "nepomuk/queryrunnable.h"
 
 #include <Nepomuk2/Query/Result>
 #include <QThreadPool>
