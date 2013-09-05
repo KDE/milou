@@ -25,134 +25,47 @@ Item {
             topMargin: plasmoid.isTopEdge() ? 7 : 0
         }
 
-    PlasmaComponents.Label {
-        id: searchText
-        anchors {
-            left: parent.left
-            right: searchField.left
-            top: parent.top
+        SearchField {
+            id: searchField
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
 
-            rightMargin: 10
-        }
-        horizontalAlignment: Text.AlignRight
-        width: 120
-        text: i18n("Search")
-    }
-
-    PlasmaComponents.TextField {
-        id: searchField
-        clearButtonShown: true
-        anchors {
-            right: parent.right
-            top: parent.top
-        }
-        // vHanda: If you know a better way of aligning everything, feel free to change this
-        width: 450 - 120
-
-        focus: true
-
-        Keys.forwardTo: listView
-
-        Timer {
-            id: timer
-            interval: 200
-            onTriggered: resultModel.setQueryString(searchField.text)
-        }
-
-        onTextChanged: timer.restart()
-    }
-
-    PlasmaCore.Theme {
-        id: theme
-    }
-
-    Component {
-        id: sectionDelegate
-        Item {
-            Text {
-                id: sectionText
-                text: section
-                color: theme.textColor
-                opacity: 0.5
-
-                x: 110 - width
-                y: 7
+            onTextChanged: {
+                listView.setQueryString(text)
             }
         }
-    }
 
-    ListView {
-        id: listView
-        clip: true
+        ResultsView {
+            id: listView
 
-        anchors {
-            top: searchField.bottom
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
+            anchors {
+                top: searchField.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
 
-            // vHanda: Random number - Is there some way to use consisten margins?
-            //         PlasmaCore.FrameSvg does have margins, but one needs to construct
-            //          a PlasmaCore.FrameSvg for that
-            topMargin: 5
-        }
-
-        model: Milou.SourcesModel {
-            id: resultModel
-            queryLimit: 20
-
-            onRowsInserted: {
-                listView.currentIndex = 0
+                // vHanda: Random number - Is there some way to use consisten margins?
+                //         PlasmaCore.FrameSvg does have margins, but one needs to construct
+                //          a PlasmaCore.FrameSvg for that
+                topMargin: 5
             }
         }
-        delegate: ResultDelegate {
-            id: resultDelegate
-            width: listView.width
+
+        Component.onCompleted: {
+            plasmoid.popupEventSignal.connect(setTextFieldFocus)
+            plasmoid.settingsChanged.connect(loadSettings)
         }
 
-        //
-        // vHanda: Ideally this should have gotten handled in the delagte's onReturnPressed
-        // code, but the ListView doesn't seem forward keyboard events to the delgate when
-        // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
-        // doesn't make any difference!
-        Keys.onReturnPressed: {
-            resultModel.run(currentIndex);
-            plasmoid.hidePopup()
+        function setTextFieldFocus(shown) {
+            searchField.setFocus();
+            searchField.selectAll();
         }
 
-        Keys.onTabPressed: {
-            currentIndex = (currentIndex + 1) % count
+        function loadSettings() {
+            listView.loadSettings()
         }
-
-        Keys.onBacktabPressed: {
-            if (currentIndex > 0)
-                currentIndex = currentIndex - 1
-            else
-                currentIndex = count - 1;
-        }
-
-        boundsBehavior: Flickable.StopAtBounds
-
-        section.property: "type"
-        section.delegate: sectionDelegate
     }
-
-    Component.onCompleted: {
-        //plasmoid.aspectRatioMode = IgnoreAspectRatio;
-        //plasmoid.popupIcon = "nepomuk";
-
-        plasmoid.popupEventSignal.connect(setTextFieldFocus)
-        plasmoid.settingsChanged.connect(loadSettings)
-    }
-
-    function setTextFieldFocus(shown) {
-        searchField.focus = shown
-        searchField.selectAll();
-    }
-
-    function loadSettings() {
-        resultModel.loadSettings()
-    }
-}
-
 }
