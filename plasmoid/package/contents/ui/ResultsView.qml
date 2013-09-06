@@ -50,10 +50,6 @@ ListView {
 
     boundsBehavior: Flickable.StopAtBounds
 
-    PlasmaCore.Theme {
-        id: theme
-    }
-
     Component {
         id: sectionDelegate
         Item {
