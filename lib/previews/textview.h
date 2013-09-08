@@ -20,50 +20,16 @@
  *
  */
 
-#ifndef PREVIEW_H
-#define PREVIEW_H
+#ifndef TEXTVIEW_H
+#define TEXTVIEW_H
 
-#include <QDeclarativeItem>
-#include "milou_export.h"
+#include <QWidget>
 
-#include <kio/previewjob.h>
-
-class MILOU_EXPORT Preview : public QDeclarativeItem
+class TextView : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QString mimetype READ mimetype WRITE setMimetype)
-    Q_PROPERTY(QString url READ url WRITE setUrl)
-    Q_PROPERTY(bool loaded READ loaded)
 public:
-    Preview(QDeclarativeItem* parent = 0);
-    virtual ~Preview();
-
-    virtual void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* );
-
-    QString mimetype();
-    void setMimetype(const QString& mime);
-
-    QString url();
-    void setUrl(const QString& url);
-
-    bool loaded() const { return m_loaded; }
-signals:
-    void loadingFinished();
-    void loadingFailed();
-
-public slots:
-    void refresh();
-
-private slots:
-    void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
-
-private:
-    bool m_loaded;
-    QString m_mimetype;
-    QString m_url;
-
-    QPixmap m_pixmap;
-    QWidget* m_widget;
+    explicit TextView(const QString& url, QWidget* parent = 0, Qt::WindowFlags f = 0);
 };
 
-#endif // PREVIEW_H
+#endif // TEXTVIEW_H

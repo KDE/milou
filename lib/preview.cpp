@@ -21,6 +21,7 @@
  */
 
 #include "preview.h"
+#include "previews/textview.h"
 
 #include <KService>
 #include <KDebug>
@@ -34,8 +35,14 @@
 Preview::Preview(QDeclarativeItem* parent)
     : QDeclarativeItem(parent)
     , m_loaded(false)
+    , m_widget(0)
 {
     setFlag(QGraphicsItem::ItemHasNoContents, false);
+}
+
+Preview::~Preview()
+{
+    delete m_widget;
 }
 
 void Preview::paint(QPainter* painter, const QStyleOptionGraphicsItem* item, QWidget* widget)
@@ -86,6 +93,16 @@ void Preview::refresh()
         else {
             kDebug() << "Could not load okular service!";
         }
+    }
+    else if (m_mimetype.startsWith("text")) {
+        m_widget = new TextView(KUrl(m_url).toLocalFile(), 0);
+
+        QGraphicsProxyWidget* proxyWidget = new QGraphicsProxyWidget(this);
+        proxyWidget->setWidget(m_widget);
+        proxyWidget->resize(256, 256);
+
+        m_loaded = true;
+        emit loadingFinished();
     }
     else {
         emit loadingFailed();
