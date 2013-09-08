@@ -30,6 +30,11 @@
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QApplication>
+#include <QDesktopWidget>
+
 Applet::Applet(QObject* parent, const QVariantList& args): PopupApplet(parent, args)
 {
     setPopupIcon("nepomuk");
@@ -81,5 +86,66 @@ bool Applet::isTopEdge()
     return location() == Plasma::TopEdge;
 }
 
+
+// Copied adapted from kde-workspace/libs/plasmagenericshell/widgetexplorer/widgetexplorer.cpp
+QPoint Applet::tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight)
+{
+    if (!item) {
+        return QPoint();
+    }
+
+    // Find view
+    if (!item->scene()) {
+        return QPoint();
+    }
+
+    QList<QGraphicsView*> views = item->scene()->views();
+    if (views.isEmpty()) {
+        return QPoint();
+    }
+
+    QGraphicsView *view = 0;
+    if (views.size() == 1) {
+        view = views[0];
+    } else {
+        QGraphicsView *found = 0;
+        QGraphicsView *possibleFind = 0;
+
+        foreach (QGraphicsView *v, views) {
+            if (v->sceneRect().intersects(item->sceneBoundingRect()) ||
+                v->sceneRect().contains(item->scenePos())) {
+                if (v->isActiveWindow()) {
+                    found = v;
+                } else {
+                    possibleFind = v;
+                }
+            }
+        }
+        view = found ? found : possibleFind;
+    }
+
+    if (!view) {
+        return QPoint();
+    }
+
+    // Compute tip pos
+    QRect itemRect(
+        view->mapToGlobal(view->mapFromScene(item->scenePos())),
+                   item->boundingRect().size().toSize());
+
+    const int margin = 10;
+
+    QPoint pos;
+    pos.setY(itemRect.top() - tipHeight/2 + itemRect.height()/2);
+    pos.setX(itemRect.right() + margin);
+
+    // Choose right edge if no space on left edge
+    const QRect avail = QApplication::desktop()->availableGeometry(view);
+    if (pos.x() + itemRect.width() > avail.right()) {
+        pos.setX(itemRect.left() - tipWidth - margin);
+    }
+
+    return pos;
+}
 
 #include "applet.moc"

@@ -62,8 +62,8 @@ PlasmaComponents.ListItem {
         id: dialog
         mainItem: Milou.Preview {
             id: preview
-            width: 100
-            height: 100
+            width: 200
+            height: 200
 
             onLoadingFinished: {
                 dialog.visible = true
@@ -85,10 +85,8 @@ PlasmaComponents.ListItem {
 
         hoverEnabled: true
         onEntered: {
-            //FIXME: We'll need better positioning in the future
-            var point = dialog.popupPosition(resultDelegate, Qt.AlignCenter)
-            //var point = plasmoid.tooltipPosition(resultDelegate, 100, 100);
-            dialog.x = point.x + 50
+            var point = plasmoid.tooltipPosition(resultDelegate, dialog.width, dialog.height);
+            dialog.x = point.x
             dialog.y = point.y
 
             preview.mimetype = model.previewType

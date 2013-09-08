@@ -38,6 +38,8 @@ public:
 
     virtual void createConfigurationInterface(KConfigDialog* parent);
 
+    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
+
 public slots:
     bool isTopEdge();
 
