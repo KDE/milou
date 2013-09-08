@@ -61,6 +61,12 @@ public:
     QVariant data() const;
     void setData(const QVariant& data);
 
+    QString previewType() const;
+    void setPreviewType(const QString& type);
+
+    QString previewUrl() const;
+    void setPreviewUrl(const QString& url);
+
 private:
     AbstractSource* m_source;
     MatchType* m_type;
@@ -68,6 +74,9 @@ private:
     QString m_text;
     QString m_icon;
     QVariant m_data;
+
+    QString m_previewType;
+    QString m_previewUrl;
 };
 
 

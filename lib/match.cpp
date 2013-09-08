@@ -77,6 +77,29 @@ QVariant Match::data() const
     return m_data;
 }
 
+QString Match::previewType() const
+{
+    return m_previewType;
+}
+
+QString Match::previewUrl() const
+{
+    return m_previewUrl;
+}
+
+void Match::setPreviewType(const QString& type)
+{
+    m_previewType = type;
+}
+
+void Match::setPreviewUrl(const QString& url)
+{
+    m_previewUrl = url;
+}
+
+
+
+
 //
 // Match Type
 //

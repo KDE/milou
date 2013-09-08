@@ -144,6 +144,8 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     Match match(this);
     match.setType(type);
     match.setData(QUrl(url));
+    match.setPreviewUrl(url.url());
+    match.setPreviewType(KMimeType::findByUrl(url)->name());
 
     if (type == m_emailType) {
         QString subject = result.requestProperty(NMO::messageSubject()).literal().toString().simplified();

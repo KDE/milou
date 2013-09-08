@@ -50,6 +50,8 @@ SourcesModel::SourcesModel(QObject* parent)
 
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(TypeRole, "type");
+    roles.insert(PreviewTypeRole, "previewType");
+    roles.insert(PreviewUrlRole, "previewUrl");
 
     setRoleNames(roles);
     loadSettings();
@@ -143,6 +145,12 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
 
         case TypeRole:
             return m.type()->name();
+
+        case PreviewTypeRole:
+            return m.previewType();
+
+        case PreviewUrlRole:
+            return m.previewUrl();
     }
 
     return QVariant();

@@ -26,6 +26,7 @@
 #include "resultsmodel.h"
 #include "resultlistmodel.h"
 #include "sourcesmodel.h"
+#include "preview.h"
 
 void QmlPlugins::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 {
@@ -36,6 +37,7 @@ void QmlPlugins::registerTypes(const char *uri)
     qmlRegisterType<Nepomuk2::ResultsModel> (uri, 0, 1, "ResultsModel");
     qmlRegisterType<Nepomuk2::ResultListModel> (uri, 0, 1, "ResultListModel");
     qmlRegisterType<SourcesModel> (uri, 0, 1, "SourcesModel");
+    qmlRegisterType<Preview> (uri, 0, 1, "Preview");
 }
 
 Q_EXPORT_PLUGIN2(milouqmlplugin, QmlPlugins);

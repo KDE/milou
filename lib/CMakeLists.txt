@@ -10,6 +10,7 @@ set (lib_SRCS
     applicationsource.cpp
     calculatorsource.cpp
     sourcesmodel.cpp
+    preview.cpp
 
     nepomuk/asyncnepomukresourceretriever.cpp
     nepomuk/queryrunnable.cpp
