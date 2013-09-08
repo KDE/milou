@@ -64,9 +64,33 @@ void Preview::refresh()
         m_loaded = false;
         job->start();
     }
+    else if (m_mimetype == QLatin1String("application/pdf")
+             || m_mimetype == QLatin1String("application/epub+zip")
+             || m_mimetype == QLatin1String("application/x-mobipocket-ebook"))
+    {
+        // FIXME: You will need to create your own config file, so that the last accessed page
+        //        is not opened
+        KService::Ptr service = KService::serviceByDesktopName("okular_part");
+        if (service) {
+            KParts::ReadOnlyPart* part = service->createInstance<KParts::ReadOnlyPart>(this, QVariantList() << QString("ViewerWidget"));
+            part->openUrl(KUrl(m_url));
+
+            QGraphicsProxyWidget* proxyWidget = new QGraphicsProxyWidget(this);
+            proxyWidget->setWidget(part->widget());
+
+            part->widget()->resize(256, 256);
+
+            m_loaded = true;
+            emit loadingFinished();
+        }
+        else {
+            kDebug() << "Could not load okular service!";
+        }
+    }
     else {
         emit loadingFailed();
     }
+
 }
 
 void Preview::slotGotPreview(const KFileItem& item, const QPixmap& pixmap)

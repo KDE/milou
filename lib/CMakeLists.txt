@@ -26,6 +26,7 @@ target_link_libraries (milou
     ${NEPOMUK_CORE_LIBRARY}
     ${NEPOMUK_WIDGETS_LIBRARY}
     ${KDE4_PLASMA_LIBS}
+    ${KDE4_KPARTS_LIBS}
 )
 
 install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
