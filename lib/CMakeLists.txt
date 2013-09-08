@@ -12,6 +12,7 @@ set (lib_SRCS
     sourcesmodel.cpp
     preview.cpp
     previewplugin.cpp
+    reversemodel.cpp
 
     nepomuk/asyncnepomukresourceretriever.cpp
     nepomuk/queryrunnable.cpp

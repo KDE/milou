@@ -12,13 +12,22 @@ ListView {
 
     clip: true
 
-    model: Milou.SourcesModel {
-        id: resultModel
-        queryLimit: 20
-
-        onRowsInserted: {
-            listView.currentIndex = 0
+    model: Milou.ReverseModel {
+        sourceModel: Milou.SourcesModel {
+            id: resultModel
+            queryLimit: 20
         }
+        onRowsInserted: {
+            if (reversed) {
+                // The extra -1 is because the SourcesModel is slightly strange and cannot
+                // have an overlapping removeRows when insertingRows
+                listView.currentIndex = listView.count - 1 - 1
+            }
+            else
+                listView.currentIndex = 0
+        }
+
+        reversed: plasmoid.isBottomEdge()
     }
 
     delegate: ResultDelegate {
@@ -32,7 +41,7 @@ ListView {
     // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
     // doesn't make any difference!
     Keys.onReturnPressed: {
-        resultModel.run(currentIndex);
+        listView.model.run(currentIndex);
         plasmoid.hidePopup()
     }
 

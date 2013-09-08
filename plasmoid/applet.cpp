@@ -81,11 +81,15 @@ void Applet::popupEvent(bool show)
     emit popupEventSignal(show);
 }
 
-bool Applet::isTopEdge()
+bool Applet::isTopEdge() const
 {
     return location() == Plasma::TopEdge;
 }
 
+bool Applet::isBottomEdge() const
+{
+    return location() == Plasma::BottomEdge;
+}
 
 // Copied adapted from kde-workspace/libs/plasmagenericshell/widgetexplorer/widgetexplorer.cpp
 QPoint Applet::tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight)
