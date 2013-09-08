@@ -68,9 +68,6 @@ PlasmaComponents.ListItem {
             onLoadingFinished: {
                 dialog.visible = true
             }
-            onLoadingFailed: {
-                dialog.visible = false
-            }
         }
 
         Component.onCompleted: {

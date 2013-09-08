@@ -20,16 +20,23 @@
  *
  */
 
-#include "textview.h"
+#include "textplugin.h"
 
 #include <QFile>
 #include <QVBoxLayout>
 #include <QTextEdit>
 #include <QTextStream>
 
-TextView::TextView(const QString& url, QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
+TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
+    : PreviewPlugin(parent)
 {
-    QFile file(url);
+}
+
+void TextPlugin::generatePreview(const QUrl& url, const QString& mimetype)
+{
+    Q_UNUSED(mimetype);
+
+    QFile file(url.toLocalFile());
     if (!file.open(QIODevice::ReadOnly)) {
         return;
     }
@@ -37,12 +44,12 @@ TextView::TextView(const QString& url, QWidget* parent, Qt::WindowFlags f): QWid
     QTextStream stream(&file);
     const QString text = stream.readAll();
 
-    QTextEdit* textEdit = new QTextEdit(this);
+    QTextEdit* textEdit = new QTextEdit(0);
     textEdit->setText(text);
     textEdit->setReadOnly(true);
     textEdit->setWordWrapMode(QTextOption::WordWrap);
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-    layout->addWidget(textEdit);
+    emit previewGenerated(textEdit);
 }
+
+MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin")

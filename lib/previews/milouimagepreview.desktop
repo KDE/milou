@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=MilouPreviewPlugin
+X-KDE-Library=milouimageplugin
+Name=Milou Image Preview Plugin
+Comment=Preview generated for image files

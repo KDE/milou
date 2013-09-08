@@ -21,9 +21,10 @@
  */
 
 #include "preview.h"
-#include "previews/textview.h"
+#include "previewplugin.h"
 
 #include <KService>
+#include <KServiceTypeTrader>
 #include <KDebug>
 #include <kparts/mainwindow.h>
 
@@ -35,14 +36,23 @@
 Preview::Preview(QDeclarativeItem* parent)
     : QDeclarativeItem(parent)
     , m_loaded(false)
-    , m_widget(0)
+    , m_declarativeItem(0)
 {
     setFlag(QGraphicsItem::ItemHasNoContents, false);
+
+    m_plugins = allPlugins();
+    foreach(Milou::PreviewPlugin* plugin, m_plugins) {
+        connect(plugin, SIGNAL(previewGenerated(QWidget*)),
+                this, SLOT(slotPreviewGenerated(QWidget*)));
+        connect(plugin, SIGNAL(previewGenerated(QDeclarativeItem*)),
+                this, SLOT(slotPreviewGenerated(QDeclarativeItem*)));
+    }
+
+    m_proxyWidget = new QGraphicsProxyWidget(this);
 }
 
 Preview::~Preview()
 {
-    delete m_widget;
 }
 
 void Preview::paint(QPainter* painter, const QStyleOptionGraphicsItem* item, QWidget* widget)
@@ -56,66 +66,34 @@ void Preview::paint(QPainter* painter, const QStyleOptionGraphicsItem* item, QWi
 
 void Preview::refresh()
 {
-    if (m_mimetype.startsWith("image/")) {
-        // Create a preview job and draw the pixmap!
-        KFileItemList itemList;
-
-        KUrl url(m_url);
-        itemList << KFileItem(url, m_mimetype, mode_t());
-
-        KIO::PreviewJob* job = new KIO::PreviewJob(itemList, QSize(256, 256));
-
-        connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
-                this, SLOT(slotGotPreview(KFileItem,QPixmap)));
-
-        m_loaded = false;
-        job->start();
-    }
-    else if (m_mimetype == QLatin1String("application/pdf")
-             || m_mimetype == QLatin1String("application/epub+zip")
-             || m_mimetype == QLatin1String("application/x-mobipocket-ebook"))
-    {
-        // FIXME: You will need to create your own config file, so that the last accessed page
-        //        is not opened
-        KService::Ptr service = KService::serviceByDesktopName("okular_part");
-        if (service) {
-            KParts::ReadOnlyPart* part = service->createInstance<KParts::ReadOnlyPart>(this, QVariantList() << QString("ViewerWidget"));
-            part->openUrl(KUrl(m_url));
-
-            QGraphicsProxyWidget* proxyWidget = new QGraphicsProxyWidget(this);
-            proxyWidget->setWidget(part->widget());
-
-            part->widget()->resize(256, 256);
-
-            m_loaded = true;
-            emit loadingFinished();
-        }
-        else {
-            kDebug() << "Could not load okular service!";
+    m_loaded = false;
+    foreach (Milou::PreviewPlugin* plugin, m_plugins) {
+        foreach (const QString& mime, plugin->mimetypes()) {
+            if (m_mimetype.startsWith(mime)) {
+                plugin->generatePreview(KUrl(m_url), m_mimetype);
+            }
         }
     }
-    else if (m_mimetype.startsWith("text")) {
-        m_widget = new TextView(KUrl(m_url).toLocalFile(), 0);
-
-        QGraphicsProxyWidget* proxyWidget = new QGraphicsProxyWidget(this);
-        proxyWidget->setWidget(m_widget);
-        proxyWidget->resize(256, 256);
-
-        m_loaded = true;
-        emit loadingFinished();
-    }
-    else {
-        emit loadingFailed();
-    }
-
 }
 
-void Preview::slotGotPreview(const KFileItem& item, const QPixmap& pixmap)
+void Preview::slotPreviewGenerated(QWidget* widget)
 {
-    Q_UNUSED(item);
+    delete m_proxyWidget->widget();
+    m_proxyWidget->setWidget(widget);
+    m_proxyWidget->resize(width(), height());
 
-    m_pixmap = pixmap;
-    update();
+    m_loaded = true;
+    emit loadingFinished();
+}
+
+void Preview::slotPreviewGenerated(QDeclarativeItem* item)
+{
+    delete m_declarativeItem;
+
+    m_declarativeItem = item;
+    item->setParentItem(this);
+    item->setWidth(width());
+    item->setHeight(height());
 
     m_loaded = true;
     emit loadingFinished();
@@ -155,4 +133,27 @@ void Preview::setUrl(const QString& url)
 QString Preview::url()
 {
     return m_url;
+}
+
+QList<Milou::PreviewPlugin*> Preview::allPlugins()
+{
+    KService::List serviceList = KServiceTypeTrader::self()->query( "MilouPreviewPlugin" );
+    QList<Milou::PreviewPlugin*> plugins;
+
+    KService::List::const_iterator it;
+    for( it = serviceList.constBegin(); it != serviceList.constEnd(); it++ ) {
+        KService::Ptr service = *it;
+
+        QString error;
+        Milou::PreviewPlugin* p = service->createInstance<Milou::PreviewPlugin>(this, QVariantList(), &error);
+        if(!p) {
+            kError() << "Could not create PreviewPlugin:" << service->library();
+            kError() << error;
+            continue;
+        }
+
+        plugins << p;
+    }
+
+    return plugins;
 }

@@ -20,16 +20,15 @@
  *
  */
 
-#ifndef TEXTVIEW_H
-#define TEXTVIEW_H
+#include "previewplugin.h"
 
-#include <QWidget>
+using namespace Milou;
 
-class TextView : public QWidget
+PreviewPlugin::PreviewPlugin(QObject* parent)
+    : QObject(parent)
 {
-    Q_OBJECT
-public:
-    explicit TextView(const QString& url, QWidget* parent = 0, Qt::WindowFlags f = 0);
-};
+}
 
-#endif // TEXTVIEW_H
+PreviewPlugin::~PreviewPlugin()
+{
+}

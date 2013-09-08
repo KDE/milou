@@ -26,7 +26,10 @@
 #include <QDeclarativeItem>
 #include "milou_export.h"
 
-#include <kio/previewjob.h>
+
+namespace Milou {
+    class PreviewPlugin;
+}
 
 class MILOU_EXPORT Preview : public QDeclarativeItem
 {
@@ -34,6 +37,7 @@ class MILOU_EXPORT Preview : public QDeclarativeItem
     Q_PROPERTY(QString mimetype READ mimetype WRITE setMimetype)
     Q_PROPERTY(QString url READ url WRITE setUrl)
     Q_PROPERTY(bool loaded READ loaded)
+
 public:
     Preview(QDeclarativeItem* parent = 0);
     virtual ~Preview();
@@ -47,15 +51,16 @@ public:
     void setUrl(const QString& url);
 
     bool loaded() const { return m_loaded; }
+
 signals:
     void loadingFinished();
-    void loadingFailed();
 
 public slots:
     void refresh();
 
 private slots:
-    void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
+    void slotPreviewGenerated(QWidget* widget);
+    void slotPreviewGenerated(QDeclarativeItem* item);
 
 private:
     bool m_loaded;
@@ -63,7 +68,11 @@ private:
     QString m_url;
 
     QPixmap m_pixmap;
-    QWidget* m_widget;
+    QGraphicsProxyWidget* m_proxyWidget;
+    QDeclarativeItem* m_declarativeItem;
+
+    QList<Milou::PreviewPlugin*> m_plugins;
+    QList<Milou::PreviewPlugin*> allPlugins();
 };
 
 #endif // PREVIEW_H

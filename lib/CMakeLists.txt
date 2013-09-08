@@ -11,8 +11,7 @@ set (lib_SRCS
     calculatorsource.cpp
     sourcesmodel.cpp
     preview.cpp
-
-    previews/textview.cpp
+    previewplugin.cpp
 
     nepomuk/asyncnepomukresourceretriever.cpp
     nepomuk/queryrunnable.cpp
@@ -28,9 +27,13 @@ target_link_libraries (milou
     ${NEPOMUK_CORE_LIBRARY}
     ${NEPOMUK_WIDGETS_LIBRARY}
     ${KDE4_PLASMA_LIBS}
-    ${KDE4_KPARTS_LIBS}
 )
+
+install(
+  FILES miloupreviewplugin.desktop
+  DESTINATION ${SERVICETYPES_INSTALL_DIR})
 
 install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 add_subdirectory(qml)
+add_subdirectory(previews)

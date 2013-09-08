@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=MilouPreviewPlugin
+X-KDE-Library=miloutextplugin
+Name=Milou Text Preview Plugin
+Comment=Preview generated for text files
