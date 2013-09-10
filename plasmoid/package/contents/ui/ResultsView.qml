@@ -137,6 +137,9 @@ ListView {
         onTriggered: {
             if (preview.loaded)
                 dialog.visible = true
+            else
+                dialog.visible = false
+
         }
     }
 
