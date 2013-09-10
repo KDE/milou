@@ -22,6 +22,9 @@
 
 #include "previewplugin.h"
 
+#include <QTextDocument>
+#include <QTextCursor>
+
 using namespace Milou;
 
 PreviewPlugin::PreviewPlugin(QObject* parent)
@@ -32,6 +35,36 @@ PreviewPlugin::PreviewPlugin(QObject* parent)
 
 PreviewPlugin::~PreviewPlugin()
 {
+}
+
+void PreviewPlugin::setUrl(const KUrl& url)
+{
+    m_url = url;
+}
+
+KUrl PreviewPlugin::url() const
+{
+    return m_url;
+}
+
+void PreviewPlugin::setMimetype(const QString& mimetype)
+{
+    m_mimetype = mimetype;
+}
+
+QString PreviewPlugin::mimetype() const
+{
+    return m_mimetype;
+}
+
+void PreviewPlugin::setHighlight(const QString& term)
+{
+    m_highlight = term;
+}
+
+QString PreviewPlugin::highlight() const
+{
+    return m_highlight;
 }
 
 void PreviewPlugin::setContext(QDeclarativeContext* context)

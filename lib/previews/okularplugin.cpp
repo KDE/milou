@@ -29,20 +29,17 @@ OkularPlugin::OkularPlugin(QObject* parent, const QVariantList& ): PreviewPlugin
 {
 }
 
-void OkularPlugin::generatePreview(const QUrl& url, const QString& mimetype)
+void OkularPlugin::generatePreview()
 {
-    Q_UNUSED(mimetype);
-
     // FIXME: You will need to create your own config file, so that the last accessed page
     //        is not opened
     KService::Ptr service = KService::serviceByDesktopName("okular_part");
     if (service) {
-        kDebug() << url << mimetype;
         QVariantList args;
         args << QLatin1String("ViewerWidget");
 
         KParts::ReadOnlyPart* part = service->createInstance<KParts::ReadOnlyPart>(this, args);
-        part->openUrl(KUrl(url));
+        part->openUrl(url());
 
         emit previewGenerated(part->widget());
     }

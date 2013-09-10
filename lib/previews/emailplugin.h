@@ -32,7 +32,7 @@ class EmailPlugin : public Milou::PreviewPlugin
 public:
     explicit EmailPlugin(QObject* parent, const QVariantList&);
 
-    virtual void generatePreview(const QUrl& url, const QString& mimetype);
+    virtual void generatePreview();
     virtual QStringList mimetypes() {
         return QStringList() << QString("message/rfc822");
     }

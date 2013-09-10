@@ -31,9 +31,8 @@ class OkularPlugin : public Milou::PreviewPlugin
 public:
     explicit OkularPlugin(QObject* parent, const QVariantList&);
 
-    virtual void generatePreview(const QUrl& url, const QString& mimetype);
+    virtual void generatePreview();
     virtual QStringList mimetypes() {
-        QStringList types;
         return QStringList() << QLatin1String("application/pdf")
                              << QLatin1String("application/epub+zip")
                              << QLatin1String("application/x-mobipocket-ebook");

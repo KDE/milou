@@ -85,10 +85,14 @@ void Preview::refresh()
     }
 
     m_loaded = false;
+    KUrl url(m_url);
     foreach (Milou::PreviewPlugin* plugin, m_plugins) {
         foreach (const QString& mime, plugin->mimetypes()) {
             if (m_mimetype.startsWith(mime)) {
-                plugin->generatePreview(KUrl(m_url), m_mimetype);
+                plugin->setUrl(url);
+                plugin->setMimetype(m_mimetype);
+                plugin->setHighlight(m_highlight);
+                plugin->generatePreview();
             }
         }
     }
@@ -130,7 +134,7 @@ void Preview::clear()
     }
 }
 
-QString Preview::mimetype()
+QString Preview::mimetype() const
 {
     return m_mimetype;
 }
@@ -151,9 +155,19 @@ void Preview::setUrl(const QString& url)
     }
 }
 
-QString Preview::url()
+QString Preview::url() const
 {
     return m_url;
+}
+
+void Preview::setHighlight(const QString& highlight)
+{
+    m_highlight = highlight;
+}
+
+QString Preview::highlight() const
+{
+    return m_highlight;
 }
 
 QList<Milou::PreviewPlugin*> Preview::allPlugins()

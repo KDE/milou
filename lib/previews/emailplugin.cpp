@@ -37,17 +37,14 @@ EmailPlugin::EmailPlugin(QObject* parent, const QVariantList& )
 
 }
 
-void EmailPlugin::generatePreview(const QUrl& url, const QString& mimetype)
+void EmailPlugin::generatePreview()
 {
-    kDebug() << url << mimetype;
-    Q_UNUSED(mimetype);
-
-    if (url.scheme() != QLatin1String("akonadi")) {
+    if (url().scheme() != QLatin1String("akonadi")) {
         kError() << "We only support akonadi urls";
         return;
     }
 
-    Akonadi::ItemFetchJob* job = new Akonadi::ItemFetchJob(Akonadi::Item::fromUrl(KUrl(url)));
+    Akonadi::ItemFetchJob* job = new Akonadi::ItemFetchJob(Akonadi::Item::fromUrl(url()));
     job->fetchScope().fetchFullPayload();
     connect(job, SIGNAL(itemsReceived(Akonadi::Item::List)),
             this, SLOT(slotItemsReceived(Akonadi::Item::List)));

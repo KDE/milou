@@ -32,11 +32,9 @@ TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
 {
 }
 
-void TextPlugin::generatePreview(const QUrl& url, const QString& mimetype)
+void TextPlugin::generatePreview()
 {
-    Q_UNUSED(mimetype);
-
-    QFile file(url.toLocalFile());
+    QFile file(url().toLocalFile());
     if (!file.open(QIODevice::ReadOnly)) {
         return;
     }

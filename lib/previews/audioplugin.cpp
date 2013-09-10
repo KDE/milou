@@ -42,7 +42,7 @@ AudioPlugin::AudioPlugin(QObject* parent, const QVariantList&): PreviewPlugin(pa
     m_pool->setMaxThreadCount(2);
 }
 
-void AudioPlugin::generatePreview(const QUrl& url, const QString&)
+void AudioPlugin::generatePreview()
 {
     const QString query = QString::fromLatin1("select ?title ?per ?album ?duration where {"
                                               " ?r nie:url %1 . "
@@ -51,7 +51,7 @@ void AudioPlugin::generatePreview(const QUrl& url, const QString&)
                                               " OPTIONAL { ?r nmm:performer ?a . ?a nco:fullname ?per . }"
                                               " OPTIONAL { ?r nmm:musicAlbum ?al . ?al nie:title ?album . }"
                                               " } LIMIT 1")
-                          .arg(Soprano::Node::resourceToN3(url));
+                          .arg(Soprano::Node::resourceToN3(url()));
 
     Nepomuk2::Query::RequestPropertyMap map;
     map.insert("title", NIE::title());

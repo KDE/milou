@@ -26,6 +26,7 @@
 #include <QUrl>
 #include <QDeclarativeItem>
 
+#include <KUrl>
 #include <KService>
 #include "milou_export.h"
 
@@ -48,8 +49,10 @@ public:
     /**
      * Generates a preview widget/graphicsItem which is then returned via
      * the appropriate signal
+     *
+     * \sa previewGenerated
      */
-    virtual void generatePreview(const QUrl& url, const QString& mimetype) = 0;
+    virtual void generatePreview() = 0;
 
     /**
      * Retrieve the context, this allows you to create
@@ -59,12 +62,36 @@ public:
 
     void setContext(QDeclarativeContext* context);
 
+    /**
+     * The url of the preview being generated
+     */
+    KUrl url() const;
+    void setUrl(const KUrl& url);
+
+    /**
+     * The mimetype of the url for whcih the preview
+     * should be generated
+     */
+    QString mimetype() const;
+    void setMimetype(const QString& mimetype);
+
+    /**
+     * A term that should be highlighted in the preview
+     * that is generated
+     */
+    QString highlight() const;
+    void setHighlight(const QString& term);
+
 signals:
     void previewGenerated(QWidget* widget);
     void previewGenerated(QDeclarativeItem* graphicsItem);
 
 private:
     QDeclarativeContext* m_context;
+
+    KUrl m_url;
+    QString m_highlight;
+    QString m_mimetype;
 };
 
 }

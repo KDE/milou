@@ -34,7 +34,7 @@ public:
     virtual QStringList mimetypes() {
         return QStringList() << QLatin1String("text/");
     }
-    virtual void generatePreview(const QUrl& url, const QString& mimetype);
+    virtual void generatePreview();
 };
 
 #endif // TEXTVIEW_H

@@ -36,6 +36,7 @@ class MILOU_EXPORT Preview : public QDeclarativeItem
     Q_OBJECT
     Q_PROPERTY(QString mimetype READ mimetype WRITE setMimetype)
     Q_PROPERTY(QString url READ url WRITE setUrl)
+    Q_PROPERTY(QString highlight READ highlight WRITE setHighlight)
     Q_PROPERTY(bool loaded READ loaded)
 
 public:
@@ -44,11 +45,14 @@ public:
 
     virtual void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* );
 
-    QString mimetype();
+    QString mimetype() const;
     void setMimetype(const QString& mime);
 
-    QString url();
+    QString url() const;
     void setUrl(const QString& url);
+
+    QString highlight() const;
+    void setHighlight(const QString& highlight);
 
     bool loaded() const { return m_loaded; }
     void clear();
@@ -69,6 +73,7 @@ private:
     bool m_loaded;
     QString m_mimetype;
     QString m_url;
+    QString m_highlight;
 
     QString m_oldMimetype;
     QString m_oldUrl;

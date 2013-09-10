@@ -74,6 +74,7 @@ ListView {
 
     function setQueryString(string) {
         resultModel.queryString = string
+        preview.highlight = string
     }
 
     // Tooltip

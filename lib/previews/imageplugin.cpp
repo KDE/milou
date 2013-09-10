@@ -28,10 +28,10 @@ ImagePlugin::ImagePlugin(QObject* parent, const QVariantList& ): PreviewPlugin(p
 
 }
 
-void ImagePlugin::generatePreview(const QUrl& url, const QString& mimetype)
+void ImagePlugin::generatePreview()
 {
     KFileItemList itemList;
-    itemList << KFileItem(url, mimetype, mode_t());
+    itemList << KFileItem(url(), mimetype(), mode_t());
 
     KIO::PreviewJob* job = new KIO::PreviewJob(itemList, QSize(256, 256));
 
