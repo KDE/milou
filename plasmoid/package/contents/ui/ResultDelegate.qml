@@ -91,6 +91,7 @@ PlasmaComponents.ListItem {
         onEntered: {
             preview.mimetype = model.previewType
             preview.url = model.previewUrl
+            preview.refresh()
 
             if (preview.loaded)
                 dialog.visible = true

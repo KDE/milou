@@ -106,28 +106,12 @@ QString Preview::mimetype()
 
 void Preview::setMimetype(const QString& mime)
 {
-    bool changed = false;
-
-    if (m_mimetype != mime) {
-        m_mimetype = mime;
-        changed = true;
-    }
-
-    if(changed && !m_url.isEmpty())
-        refresh();
+    m_mimetype = mime;
 }
 
 void Preview::setUrl(const QString& url)
 {
-    bool changed = false;
-
-    if (m_url != url) {
-        m_url = url;
-        changed = true;
-    }
-
-    if(changed && !m_mimetype.isEmpty())
-        refresh();
+    m_url = url;
 }
 
 QString Preview::url()
