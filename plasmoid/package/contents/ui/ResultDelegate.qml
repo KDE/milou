@@ -60,12 +60,19 @@ PlasmaComponents.ListItem {
     // Tooltip
     PlasmaCore.Dialog {
         id: dialog
+
         mainItem: Milou.Preview {
             id: preview
-            width: 200
-            height: 200
+
+            // Why does setting the width/height later not work?
+            width: 256
+            height: 256
 
             onLoadingFinished: {
+                var point = plasmoid.tooltipPosition(resultDelegate, preview.width, preview.height);
+                dialog.x = point.x
+                dialog.y = point.y
+
                 dialog.visible = true
             }
         }
@@ -82,10 +89,6 @@ PlasmaComponents.ListItem {
 
         hoverEnabled: true
         onEntered: {
-            var point = plasmoid.tooltipPosition(resultDelegate, dialog.width, dialog.height);
-            dialog.x = point.x
-            dialog.y = point.y
-
             preview.mimetype = model.previewType
             preview.url = model.previewUrl
 
