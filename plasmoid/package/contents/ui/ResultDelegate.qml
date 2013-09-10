@@ -56,39 +56,12 @@ PlasmaComponents.ListItem {
         }
     }
 
-
     // Tooltip
-    PlasmaCore.Dialog {
-        id: dialog
-
-        mainItem: Milou.Preview {
-            id: preview
-
-            // Why does setting the width/height later not work?
-            width: 256
-            height: 256
-
-            onLoadingFinished: {
-                var point = plasmoid.tooltipPosition(resultDelegate, preview.width, preview.height);
-                dialog.x = point.x
-                dialog.y = point.y
-
-                dialog.visible = true
-            }
-        }
-
-        Component.onCompleted: {
-            dialog.setAttribute(Qt.WA_X11NetWmWindowTypeToolTip, true)
-            dialog.windowFlags = Qt.Window|Qt.WindowStaysOnTopHint|Qt.X11BypassWindowManagerHint
-        }
-    }
-
     MouseArea {
         anchors.fill: parent
-        enabled: true
-
         hoverEnabled: true
         onEntered: {
+            dialog.delegate = resultDelegate
             // vHanda: Maybe this should be moved to the preview class?
             var mime = preview.mimetype
             var url = preview.url

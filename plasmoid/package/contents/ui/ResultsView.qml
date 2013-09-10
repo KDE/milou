@@ -75,4 +75,31 @@ ListView {
     function setQueryString(string) {
         resultModel.queryString = string
     }
+
+    // Tooltip
+    PlasmaCore.Dialog {
+        id: dialog
+        property Item delegate
+
+        mainItem: Milou.Preview {
+            id: preview
+
+            // Why does setting the width/height later not work?
+            width: 256
+            height: 256
+
+            onLoadingFinished: {
+                var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, preview.height);
+                dialog.x = point.x
+                dialog.y = point.y
+
+                dialog.visible = true
+            }
+        }
+
+        Component.onCompleted: {
+            dialog.setAttribute(Qt.WA_X11NetWmWindowTypeToolTip, true)
+            dialog.windowFlags = Qt.Window|Qt.WindowStaysOnTopHint|Qt.X11BypassWindowManagerHint
+        }
+    }
 }
