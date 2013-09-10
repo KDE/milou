@@ -33,7 +33,10 @@ void ImagePlugin::generatePreview()
     KFileItemList itemList;
     itemList << KFileItem(url(), mimetype(), mode_t());
 
-    KIO::PreviewJob* job = new KIO::PreviewJob(itemList, QSize(256, 256));
+    QStringList enabledPlugins;
+    enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "videopreview" << "ffmpegthumbs";
+
+    KIO::PreviewJob* job = new KIO::PreviewJob(itemList, QSize(256, 256), &enabledPlugins);
 
     connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(slotGotPreview(KFileItem,QPixmap)));

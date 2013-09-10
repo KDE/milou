@@ -34,7 +34,7 @@ public:
 
     virtual void generatePreview();
     virtual QStringList mimetypes() {
-        return QStringList() << QLatin1String("image/");
+        return QStringList() << QLatin1String("image/") << QLatin1String("video/");
     }
 
 private slots:
