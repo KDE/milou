@@ -63,6 +63,8 @@ private slots:
     void slotPreviewGenerated(QWidget* widget);
     void slotPreviewGenerated(QDeclarativeItem* item);
 
+    void setPluginContexts();
+
 private:
     bool m_loaded;
     QString m_mimetype;

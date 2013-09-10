@@ -32,6 +32,8 @@
 #include <QGraphicsProxyWidget>
 #include <QTextEdit>
 #include <QTimer>
+#include <QDeclarativeContext>
+#include <QDeclarativeEngine>
 
 Preview::Preview(QDeclarativeItem* parent)
     : QDeclarativeItem(parent)
@@ -49,6 +51,17 @@ Preview::Preview(QDeclarativeItem* parent)
     }
 
     m_proxyWidget = new QGraphicsProxyWidget(this);
+
+    // When the object is created, it doesn't have a QDeclarativeContext
+    QTimer::singleShot(0, this, SLOT(setPluginContexts()));
+}
+
+void Preview::setPluginContexts()
+{
+    QDeclarativeContext* context = QDeclarativeEngine::contextForObject(this);
+    foreach(Milou::PreviewPlugin* plugin, m_plugins) {
+        plugin->setContext(context);
+    }
 }
 
 Preview::~Preview()

@@ -20,27 +20,30 @@
  *
  */
 
+#ifndef AUDIOPLUGIN_H
+#define AUDIOPLUGIN_H
+
 #include "previewplugin.h"
+#include "nepomuk/queryrunnable.h"
 
-using namespace Milou;
+#include <QThreadPool>
 
-PreviewPlugin::PreviewPlugin(QObject* parent)
-    : QObject(parent)
-    , m_context(0)
+class AudioPlugin : public Milou::PreviewPlugin
 {
-}
+    Q_OBJECT
+public:
+    explicit AudioPlugin(QObject* parent, const QVariantList&);
 
-PreviewPlugin::~PreviewPlugin()
-{
-}
+    virtual void generatePreview(const QUrl& url, const QString& mimetype);
+    virtual QStringList mimetypes() {
+        return QStringList() << QLatin1String("audio/");
+    }
 
-void PreviewPlugin::setContext(QDeclarativeContext* context)
-{
-    m_context = context;
-}
+private slots:
+    void queryResult(Nepomuk2::QueryRunnable*, const Nepomuk2::Query::Result& results);
 
-QDeclarativeContext* PreviewPlugin::context()
-{
-    return m_context;
-}
+private:
+    QThreadPool* m_pool;
+};
 
+#endif // AUDIOPLUGIN_H

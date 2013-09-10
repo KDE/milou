@@ -51,9 +51,20 @@ public:
      */
     virtual void generatePreview(const QUrl& url, const QString& mimetype) = 0;
 
+    /**
+     * Retrieve the context, this allows you to create
+     * your own preview plugins in QML
+     */
+    QDeclarativeContext* context();
+
+    void setContext(QDeclarativeContext* context);
+
 signals:
     void previewGenerated(QWidget* widget);
     void previewGenerated(QDeclarativeItem* graphicsItem);
+
+private:
+    QDeclarativeContext* m_context;
 };
 
 }

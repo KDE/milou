@@ -81,3 +81,23 @@ DESTINATION ${SERVICES_INSTALL_DIR})
 install(
 TARGETS milouokularplugin
 DESTINATION ${PLUGIN_INSTALL_DIR})
+
+#
+# Audio
+#
+kde4_add_plugin(milouaudioplugin audioplugin.cpp ../nepomuk/queryrunnable.cpp)
+
+target_link_libraries(milouaudioplugin
+    milou
+    ${KDE4_KIO_LIBS}
+    ${QT_QTDECLARATIVE_LIBRARY}
+    ${NEPOMUK_CORE_LIBRARY}
+)
+
+install(
+FILES milouaudiopreview.desktop
+DESTINATION ${SERVICES_INSTALL_DIR})
+
+install(
+TARGETS milouaudioplugin
+DESTINATION ${PLUGIN_INSTALL_DIR})
