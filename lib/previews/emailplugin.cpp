@@ -101,6 +101,7 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
 
     QTextEdit* edit = new QTextEdit();
     edit->setDocument(doc);
+    edit->setReadOnly(true);
 
     emit previewGenerated(edit);
 }
