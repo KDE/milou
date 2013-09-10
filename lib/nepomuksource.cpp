@@ -145,7 +145,6 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     match.setType(type);
     match.setData(QUrl(url));
     match.setPreviewUrl(url.url());
-    match.setPreviewType(KMimeType::findByUrl(url)->name());
 
     if (type == m_emailType) {
         QString subject = result.requestProperty(NMO::messageSubject()).literal().toString().simplified();
@@ -155,6 +154,7 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
             match.setText(QLatin1String("No Subject"));
 
         match.setIcon(QLatin1String("internet-mail"));
+        match.setPreviewType(QLatin1String("message/rfc822"));
     }
     else {
         match.setText(url.fileName());
@@ -162,6 +162,7 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
         KMimeType::Ptr mime = KMimeType::findByUrl(url);
         if (!mime.isNull()) {
             match.setIcon(mime->iconName());
+            match.setPreviewType(mime->name());
         }
     }
 
