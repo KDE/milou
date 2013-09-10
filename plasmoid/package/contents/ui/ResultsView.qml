@@ -96,6 +96,20 @@ ListView {
                 if (!showTimer.running)
                     dialog.visible = true
             }
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onEntered: {
+                    if (dialog.visible)
+                        hideTimer.stop()
+                }
+
+                onExited: {
+                    hideTimer.start()
+                }
+            }
         }
 
         Component.onCompleted: {
