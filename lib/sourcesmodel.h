@@ -41,7 +41,8 @@ public:
     enum Roles {
         TypeRole = Qt::UserRole + 1,
         PreviewTypeRole,
-        PreviewUrlRole
+        PreviewUrlRole,
+        PreviewLabelRole
     };
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

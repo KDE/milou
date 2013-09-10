@@ -21,6 +21,7 @@
  */
 
 #include "match.h"
+#include <KUrl>
 
 Match::Match(AbstractSource* source)
     : m_source(source)
@@ -97,8 +98,22 @@ void Match::setPreviewUrl(const QString& url)
     m_previewUrl = url;
 }
 
+QString Match::previewLabel()
+{
+    if (m_previewLabel.isEmpty()) {
+        KUrl url(m_previewUrl);
+        if (!url.isEmpty() && url.isLocalFile())
+            return KUrl(m_previewUrl).directory(KUrl::AppendTrailingSlash);
+        else
+            return m_text;
+    }
+    return m_previewLabel;
+}
 
-
+void Match::setPreviewLabel(const QString& label)
+{
+    m_previewLabel = label;
+}
 
 //
 // Match Type

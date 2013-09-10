@@ -19,6 +19,7 @@ QtExtra.MouseEventListener {
 
             preview.mimetype = model.previewType;
             preview.url = model.previewUrl;
+            urlLabel.text = model.previewLabel
             preview.refresh();
         } else {
            dialog.delegate = null;

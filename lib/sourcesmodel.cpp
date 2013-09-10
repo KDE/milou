@@ -52,6 +52,7 @@ SourcesModel::SourcesModel(QObject* parent)
     roles.insert(TypeRole, "type");
     roles.insert(PreviewTypeRole, "previewType");
     roles.insert(PreviewUrlRole, "previewUrl");
+    roles.insert(PreviewLabelRole, "previewLabel");
 
     setRoleNames(roles);
     loadSettings();
@@ -151,6 +152,9 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
 
         case PreviewUrlRole:
             return m.previewUrl();
+
+        case PreviewLabelRole:
+            return m.previewLabel();
     }
 
     return QVariant();

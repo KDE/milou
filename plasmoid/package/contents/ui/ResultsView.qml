@@ -81,20 +81,37 @@ ListView {
         id: dialog
         property Item delegate
 
-        mainItem: Milou.Preview {
-            id: preview
+        mainItem: Item {
+            width: childrenRect.width
+            height: childrenRect.height
 
-            // Why does setting the width/height later not work?
-            width: 256
-            height: 256
+            Milou.Preview {
+                id: preview
 
-            onLoadingFinished: {
-                var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, preview.height);
-                dialog.x = point.x
-                dialog.y = point.y
+                // Why does setting the width/height later not work?
+                width: 256
+                height: 256
 
-                if (!showTimer.running)
-                    dialog.visible = true
+                onLoadingFinished: {
+                    var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, preview.height);
+                    dialog.x = point.x
+                    dialog.y = point.y
+
+                    if (!showTimer.running)
+                        dialog.visible = true
+                }
+            }
+
+            PlasmaComponents.Label {
+                id: urlLabel
+                anchors {
+                    top: preview.bottom
+                    topMargin: 5
+                }
+                width: preview.width
+                height: 16
+                elide: Text.ElideLeft
+                horizontalAlignment: Text.AlignHCenter
             }
 
             MouseArea {
@@ -139,7 +156,6 @@ ListView {
                 dialog.visible = true
             else
                 dialog.visible = false
-
         }
     }
 
@@ -152,5 +168,4 @@ ListView {
             dialog.visible = false
         }
     }
-
 }
