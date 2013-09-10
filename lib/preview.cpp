@@ -78,7 +78,8 @@ void Preview::refresh()
 
 void Preview::slotPreviewGenerated(QWidget* widget)
 {
-    delete m_proxyWidget->widget();
+    clear();
+
     m_proxyWidget->setWidget(widget);
     m_proxyWidget->resize(width(), height());
 
@@ -88,7 +89,7 @@ void Preview::slotPreviewGenerated(QWidget* widget)
 
 void Preview::slotPreviewGenerated(QDeclarativeItem* item)
 {
-    delete m_declarativeItem;
+    clear();
 
     m_declarativeItem = item;
     item->setParentItem(this);
@@ -97,6 +98,18 @@ void Preview::slotPreviewGenerated(QDeclarativeItem* item)
 
     m_loaded = true;
     emit loadingFinished();
+}
+
+void Preview::clear()
+{
+    if (m_proxyWidget->widget()) {
+        m_proxyWidget->widget()->deleteLater();
+        m_proxyWidget->setWidget(0);
+    }
+    if (m_declarativeItem) {
+        m_declarativeItem->deleteLater();
+        m_declarativeItem = 0;
+    }
 }
 
 QString Preview::mimetype()

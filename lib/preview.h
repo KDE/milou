@@ -51,6 +51,7 @@ public:
     void setUrl(const QString& url);
 
     bool loaded() const { return m_loaded; }
+    void clear();
 
 signals:
     void loadingFinished();
