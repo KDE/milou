@@ -100,6 +100,7 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     edit->setDocument(doc);
     edit->setReadOnly(true);
 
+    highlight(doc);
     emit previewGenerated(edit);
 }
 

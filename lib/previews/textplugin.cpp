@@ -47,6 +47,7 @@ void TextPlugin::generatePreview()
     textEdit->setReadOnly(true);
     textEdit->setWordWrapMode(QTextOption::WordWrap);
 
+    highlight(textEdit->document());
     emit previewGenerated(textEdit);
 }
 

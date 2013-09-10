@@ -77,3 +77,20 @@ QDeclarativeContext* PreviewPlugin::context()
     return m_context;
 }
 
+void PreviewPlugin::highlight(const QTextDocument* doc) const
+{
+    QTextCharFormat highlightFormat;
+    highlightFormat.setBackground(QBrush(Qt::yellow));
+
+    QTextCursor cursor;
+    while (1) {
+        cursor = doc->find(highlight(), cursor);
+        if (cursor.isNull())
+            break;
+
+        QString selection = cursor.selectedText();
+        cursor.removeSelectedText();
+        cursor.insertText(selection, highlightFormat);
+    }
+}
+

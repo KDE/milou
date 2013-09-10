@@ -86,6 +86,12 @@ signals:
     void previewGenerated(QWidget* widget);
     void previewGenerated(QDeclarativeItem* graphicsItem);
 
+protected:
+    /**
+     * Highlights all the occurance of highlight in the document
+     */
+    void highlight(const QTextDocument* doc) const;
+
 private:
     QDeclarativeContext* m_context;
 
