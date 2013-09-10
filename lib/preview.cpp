@@ -66,6 +66,11 @@ void Preview::paint(QPainter* painter, const QStyleOptionGraphicsItem* item, QWi
 
 void Preview::refresh()
 {
+    if (m_oldUrl == m_url && m_oldMimetype == m_mimetype) {
+        emit loadingFinished();
+        return;
+    }
+
     m_loaded = false;
     foreach (Milou::PreviewPlugin* plugin, m_plugins) {
         foreach (const QString& mime, plugin->mimetypes()) {
@@ -119,12 +124,18 @@ QString Preview::mimetype()
 
 void Preview::setMimetype(const QString& mime)
 {
-    m_mimetype = mime;
+    if (m_mimetype != mime) {
+        m_oldMimetype = m_mimetype;
+        m_mimetype = mime;
+    }
 }
 
 void Preview::setUrl(const QString& url)
 {
-    m_url = url;
+    if (m_url != url) {
+        m_oldUrl = m_url;
+        m_url = url;
+    }
 }
 
 QString Preview::url()

@@ -68,6 +68,9 @@ private:
     QString m_mimetype;
     QString m_url;
 
+    QString m_oldMimetype;
+    QString m_oldUrl;
+
     QPixmap m_pixmap;
     QGraphicsProxyWidget* m_proxyWidget;
     QDeclarativeItem* m_declarativeItem;

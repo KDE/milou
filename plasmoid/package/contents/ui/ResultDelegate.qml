@@ -62,17 +62,10 @@ PlasmaComponents.ListItem {
         hoverEnabled: true
         onEntered: {
             dialog.delegate = resultDelegate
-            // vHanda: Maybe this should be moved to the preview class?
-            var mime = preview.mimetype
-            var url = preview.url
 
             preview.mimetype = model.previewType
             preview.url = model.previewUrl
-            if (mime != preview.mimetype || url != preview.url)
-                preview.refresh()
-
-            if (preview.loaded)
-                dialog.visible = true
+            preview.refresh()
         }
 
         onExited: {
