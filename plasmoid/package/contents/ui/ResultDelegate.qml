@@ -69,7 +69,7 @@ PlasmaComponents.ListItem {
         }
 
         onExited: {
-            dialog.visible = false
+            dialog.delegate = null
         }
     }
 }

@@ -93,7 +93,8 @@ ListView {
                 dialog.x = point.x
                 dialog.y = point.y
 
-                dialog.visible = true
+                if (!showTimer.running)
+                    dialog.visible = true
             }
         }
 
@@ -101,5 +102,38 @@ ListView {
             dialog.setAttribute(Qt.WA_X11NetWmWindowTypeToolTip, true)
             dialog.windowFlags = Qt.Window|Qt.WindowStaysOnTopHint|Qt.X11BypassWindowManagerHint
         }
+
+        onDelegateChanged: {
+            if (delegate) {
+                showTimer.start()
+                hideTimer.stop()
+            }
+            else {
+                showTimer.stop()
+                hideTimer.start()
+            }
+        }
     }
+
+    Timer {
+        id: showTimer
+        interval: 500
+        repeat: false
+
+        onTriggered: {
+            if (preview.loaded)
+                dialog.visible = true
+        }
+    }
+
+    Timer {
+        id: hideTimer
+        interval: 500
+        repeat: false
+
+        onTriggered: {
+            dialog.visible = false
+        }
+    }
+
 }
