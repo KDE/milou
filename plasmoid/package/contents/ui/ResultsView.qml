@@ -16,7 +16,6 @@ ListView {
         id: resultModel
         queryLimit: 20
 
-
         onRowsInserted: {
             listView.currentIndex = 0
         }
@@ -82,16 +81,24 @@ ListView {
         id: dialog
         property Item delegate
 
-        mainItem: Item {
+        mainItem: QtExtra.MouseEventListener {
+            hoverEnabled: true
+
             width: childrenRect.width
             height: childrenRect.height
 
+            onContainsMouseChanged: {
+                if (containsMouse) {
+                    if (dialog.visible)
+                        hideTimer.stop()
+                }
+                else {
+                    hideTimer.start()
+                }
+            }
+
             Milou.Preview {
                 id: preview
-
-                // Why does setting the width/height later not work?
-                width: 256
-                height: 256
 
                 onLoadingFinished: {
                     var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, preview.height);
@@ -113,20 +120,6 @@ ListView {
                 height: 16
                 elide: Text.ElideLeft
                 horizontalAlignment: Text.AlignHCenter
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-
-                onEntered: {
-                    if (dialog.visible)
-                        hideTimer.stop()
-                }
-
-                onExited: {
-                    hideTimer.start()
-                }
             }
         }
 

@@ -99,6 +99,9 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     QTextEdit* edit = new QTextEdit();
     edit->setDocument(doc);
     edit->setReadOnly(true);
+    // Maybe the height should be reduced based on the contents? Also maybe the width
+    // could be increased for html emails
+    edit->resize(384, 384);
 
     highlight(doc);
     emit previewGenerated(edit);

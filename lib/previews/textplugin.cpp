@@ -48,6 +48,9 @@ void TextPlugin::generatePreview()
     textEdit->setWordWrapMode(QTextOption::WordWrap);
 
     highlight(textEdit->document());
+
+    // Maybe the height should be reduced based on the contents?
+    textEdit->resize(384, 384);
     emit previewGenerated(textEdit);
 }
 

@@ -36,7 +36,8 @@ void ImagePlugin::generatePreview()
     QStringList enabledPlugins;
     enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "videopreview" << "ffmpegthumbs";
 
-    KIO::PreviewJob* job = new KIO::PreviewJob(itemList, QSize(256, 256), &enabledPlugins);
+    KIO::PreviewJob* job = new KIO::PreviewJob(itemList, QSize(512, 512), &enabledPlugins);
+    job->setScaleType(KIO::PreviewJob::ScaledAndCached);
 
     connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(slotGotPreview(KFileItem,QPixmap)));
@@ -61,6 +62,8 @@ void ImagePlugin::slotGotPreview(const KFileItem&, const QPixmap& pixmap)
     ImageItem* declarativeItem = new ImageItem();
     declarativeItem->m_pixmap = pixmap;
     declarativeItem->setFlag(QGraphicsItem::ItemHasNoContents, false);
+    declarativeItem->setWidth(pixmap.width());
+    declarativeItem->setHeight(pixmap.height());
 
     emit previewGenerated(declarativeItem);
 }

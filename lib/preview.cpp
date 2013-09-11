@@ -103,7 +103,9 @@ void Preview::slotPreviewGenerated(QWidget* widget)
     clear();
 
     m_proxyWidget->setWidget(widget);
-    m_proxyWidget->resize(width(), height());
+
+    setWidth(widget->width());
+    setHeight(widget->height());
 
     m_loaded = true;
     emit loadingFinished();
@@ -115,8 +117,9 @@ void Preview::slotPreviewGenerated(QDeclarativeItem* item)
 
     m_declarativeItem = item;
     item->setParentItem(this);
-    item->setWidth(width());
-    item->setHeight(height());
+
+    setWidth(item->width());
+    setHeight(item->height());
 
     m_loaded = true;
     emit loadingFinished();
