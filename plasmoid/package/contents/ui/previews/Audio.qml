@@ -10,34 +10,48 @@ Item {
     property variant keys
     property variant values
     property int length
+    property string iconName
 
     width: childrenRect.width
     height: childrenRect.height
 
-    Column {
-        PlasmaComponents.Label {
-            text: title
-            height: 32
-            color: theme.textColor
-            font.pointSize: theme.defaultFont.pointSize * 1.5
+    Row {
+
+        QtExtra.QIconItem {
+            id: iconItem
+            width: height
+            height: rightSide.height
+
+            icon: iconName
+            smooth: true
         }
 
-        Repeater {
-            model: length
+        Column {
+            id: rightSide
+            PlasmaComponents.Label {
+                text: title
+                height: 32
+                color: theme.textColor
+                font.pointSize: theme.defaultFont.pointSize * 1.5
+            }
 
-            Row {
-                PlasmaComponents.Label {
-                    text: keys[index]
-                    height: 16
-                    color: theme.textColor
-                    opacity: 0.5
-                }
+            Repeater {
+                model: length
 
-                PlasmaComponents.Label {
-                    text: values[index]
-                    height: 16
-                    color: theme.textColor
-                    elide: Text.ElideRight
+                Row {
+                    PlasmaComponents.Label {
+                        text: keys[index]
+                        height: 16
+                        color: theme.textColor
+                        opacity: 0.5
+                    }
+
+                    PlasmaComponents.Label {
+                        text: values[index]
+                        height: 16
+                        color: theme.textColor
+                        elide: Text.ElideRight
+                    }
                 }
             }
         }

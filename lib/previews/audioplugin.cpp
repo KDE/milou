@@ -77,7 +77,6 @@ void AudioPlugin::queryResult(Nepomuk2::QueryRunnable* , const Nepomuk2::Query::
     }
 
     QDeclarativeItem* item = qobject_cast<QDeclarativeItem*>(component->create());
-    item->setProperty("title", results.requestProperty(NIE::title()).literal().toString());
 
     QStringList keys;
     keys << i18n("Artist: ") << i18n("Album: ") << i18n("Duration: ");
@@ -91,9 +90,11 @@ void AudioPlugin::queryResult(Nepomuk2::QueryRunnable* , const Nepomuk2::Query::
     time = time.addSecs(duration);
     values << time.toString();
 
+    item->setProperty("title", results.requestProperty(NIE::title()).literal().toString());
     item->setProperty("keys", QVariant::fromValue(keys));
     item->setProperty("values", QVariant::fromValue(values));
     item->setProperty("length", keys.length());
+    item->setProperty("iconName", QLatin1String("audio-x-flac"));
 
     emit previewGenerated(item);
 }
