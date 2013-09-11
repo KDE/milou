@@ -26,15 +26,15 @@ QtExtra.MouseEventListener {
         }
     }
 
+    // FIXME
+    // This has been done so that the current item looks selected
+    // We need a proper fix in PlasmaComponents.ListItem to show the currentItem
+    // as selected
+    opacity: ListView.isCurrentItem ? 0.5 : 1
+
     PlasmaComponents.ListItem {
         id: listItem
         enabled: true
-
-        // FIXME
-        // This has been done so that the current item looks selected
-        // We need a proper fix in PlasmaComponents.ListItem to show the currentItem
-        // as selected
-        opacity: ListView.isCurrentItem ? 0.5 : 1
 
         // Try to find some signal called activated? and use that?
         onClicked: {
