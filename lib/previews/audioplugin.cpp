@@ -88,7 +88,10 @@ void AudioPlugin::queryResult(Nepomuk2::QueryRunnable* , const Nepomuk2::Query::
     int duration = results.requestProperty(NFO::duration()).literal().toInt();
     QTime time;
     time = time.addSecs(duration);
-    values << time.toString();
+    if (time.hour())
+        values << time.toString();
+    else
+        values << time.toString("m:ss");
 
     item->setProperty("title", results.requestProperty(NIE::title()).literal().toString());
     item->setProperty("keys", QVariant::fromValue(keys));
