@@ -30,6 +30,7 @@
 #include <QTextDocument>
 #include <QTextCursor>
 #include <QTextEdit>
+#include <QTextTable>
 
 EmailPlugin::EmailPlugin(QObject* parent, const QVariantList& )
     : PreviewPlugin(parent)
@@ -79,21 +80,44 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     f.setBold(true);
     boldCharFormat.setFont(f);
 
+    QTextBlockFormat rightAlignment;
+    rightAlignment.setAlignment(Qt::AlignRight);
+
+    QTextBlockFormat leftAlignment;
+    leftAlignment.setAlignment(Qt::AlignLeft);
+    leftAlignment.setLeftMargin(3);
+
     QTextDocument* doc = new QTextDocument(this);
     QTextCursor cursor(doc);
-    cursor.insertText("To: ", greyCharFormat);
-    cursor.insertText(to->asUnicodeString() + "\n", normalCharFormat);
 
-    cursor.insertText("Subject: ", greyCharFormat);
-    cursor.insertText(subject->asUnicodeString() + "\n", boldCharFormat);
+    QTextTable* table = cursor.insertTable(4, 2);
+    table->cellAt(0, 0).firstCursorPosition().setBlockFormat(rightAlignment);
+    table->cellAt(0, 0).firstCursorPosition().insertText("From:", greyCharFormat);
+    table->cellAt(0, 1).firstCursorPosition().setBlockFormat(leftAlignment);
+    table->cellAt(0, 1).firstCursorPosition().insertText(from->asUnicodeString(), normalCharFormat);
 
-    cursor.insertText("Date: ", greyCharFormat);
-    cursor.insertText(date->asUnicodeString() + "\n", normalCharFormat);
+    table->cellAt(1, 0).firstCursorPosition().setBlockFormat(rightAlignment);
+    table->cellAt(1, 0).firstCursorPosition().insertText("To:", greyCharFormat);
+    table->cellAt(1, 1).firstCursorPosition().setBlockFormat(leftAlignment);
+    table->cellAt(1, 1).firstCursorPosition().insertText(to->asUnicodeString(), normalCharFormat);
 
-    cursor.insertText("From: ", greyCharFormat);
-    cursor.insertText(from->asUnicodeString() + "\n", normalCharFormat);
+    table->cellAt(2, 0).firstCursorPosition().setBlockFormat(rightAlignment);
+    table->cellAt(2, 0).firstCursorPosition().insertText("Date:", greyCharFormat);
+    table->cellAt(2, 1).firstCursorPosition().setBlockFormat(leftAlignment);
+    table->cellAt(2, 1).firstCursorPosition().insertText(date->asUnicodeString(), normalCharFormat);
 
-    cursor.insertText("\n");
+    table->cellAt(3, 0).firstCursorPosition().setBlockFormat(rightAlignment);
+    table->cellAt(3, 0).firstCursorPosition().insertText("Subject:", greyCharFormat);
+    table->cellAt(3, 1).firstCursorPosition().setBlockFormat(leftAlignment);
+    table->cellAt(3, 1).firstCursorPosition().insertText(subject->asUnicodeString(), boldCharFormat);
+
+    QTextTableFormat tableFormat;
+    tableFormat.setBorder(0);
+    table->setFormat(tableFormat);
+
+    cursor = table->lastCursorPosition();
+    cursor.setPosition(cursor.position()+1);
+    cursor.insertText("\n\n");
     cursor.insertText(textContent->decodedText(true, true), normalCharFormat);
 
     QTextEdit* edit = new QTextEdit();
