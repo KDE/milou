@@ -1,15 +1,19 @@
 [Desktop Entry]
 Name=Milou
+Name[de]=Milou
 Name[nl]=Milou
 Name[pt]=Milou
 Name[pt_BR]=Milou
+Name[sk]=Milou
 Name[sv]=Milou
 Name[uk]=Milou
 Name[x-test]=xxMilouxx
 Comment=Applet for finding anything
+Comment[de]=Miniprogramm zur Suche
 Comment[nl]=Applet voor zoeken naar van alles
 Comment[pt]='Applet' para pesquisar de tudo
 Comment[pt_BR]=Miniaplicativo para encontrar qualquer coisa
+Comment[sk]=Applet na hľadanie všetkého
 Comment[sv]=Miniprogram för att hitta vad som helst
 Comment[uk]=Аплет для пошуку будь-чого
 Comment[x-test]=xxApplet for finding anythingxx
