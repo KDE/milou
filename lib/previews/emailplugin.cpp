@@ -68,6 +68,8 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     KMime::Headers::From *from = msg.from();
     KMime::Headers::To *to = msg.to(false);
     KMime::Headers::Date* date = msg.date(false);
+    QString dateString = KGlobal::locale()->formatDateTime(date->dateTime(),
+                                                           KLocale::FancyShortDate, KLocale::Seconds);
     KMime::Content *textContent = msg.textContent();
 
     QTextCharFormat greyCharFormat;
@@ -104,7 +106,7 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(rightAlignment);
     table->cellAt(2, 0).firstCursorPosition().insertText("Date:", greyCharFormat);
     table->cellAt(2, 1).firstCursorPosition().setBlockFormat(leftAlignment);
-    table->cellAt(2, 1).firstCursorPosition().insertText(date->asUnicodeString(), normalCharFormat);
+    table->cellAt(2, 1).firstCursorPosition().insertText(dateString, normalCharFormat);
 
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(rightAlignment);
     table->cellAt(3, 0).firstCursorPosition().insertText("Subject:", greyCharFormat);
