@@ -7,9 +7,12 @@ import org.kde.qtextracomponents 0.1 as QtExtra
 
 Item {
     property string title
-    property string artist
-    property string album
-    property string duration
+    property variant keys
+    property variant values
+    property int length
+
+    width: childrenRect.width
+    height: childrenRect.height
 
     Column {
         PlasmaComponents.Label {
@@ -19,51 +22,23 @@ Item {
             font.pointSize: theme.defaultFont.pointSize * 1.5
         }
 
-        Row {
-            PlasmaComponents.Label {
-                text: i18n("Artist: ")
-                height: 16
-                color: theme.textColor
-                opacity: 0.5
-            }
+        Repeater {
+            model: length
 
-            PlasmaComponents.Label {
-                text: artist
-                height: 16
-                color: theme.textColor
-                elide: Text.ElideRight
-            }
-        }
+            Row {
+                PlasmaComponents.Label {
+                    text: keys[index]
+                    height: 16
+                    color: theme.textColor
+                    opacity: 0.5
+                }
 
-        Row {
-            PlasmaComponents.Label {
-                text: i18n("Album: ")
-                height: 16
-                color: theme.textColor
-                opacity: 0.5
-            }
-
-            PlasmaComponents.Label {
-                text: album
-                height: 16
-                color: theme.textColor
-                elide: Text.ElideRight
-            }
-        }
-
-        Row {
-            PlasmaComponents.Label {
-                text: i18n("Duration: ")
-                height: 16
-                color: theme.textColor
-                opacity: 0.5
-            }
-
-            PlasmaComponents.Label {
-                text: duration
-                height: 16
-                color: theme.textColor
-                elide: Text.ElideRight
+                PlasmaComponents.Label {
+                    text: values[index]
+                    height: 16
+                    color: theme.textColor
+                    elide: Text.ElideRight
+                }
             }
         }
     }

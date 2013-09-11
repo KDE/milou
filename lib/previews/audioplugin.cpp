@@ -78,13 +78,22 @@ void AudioPlugin::queryResult(Nepomuk2::QueryRunnable* , const Nepomuk2::Query::
 
     QDeclarativeItem* item = qobject_cast<QDeclarativeItem*>(component->create());
     item->setProperty("title", results.requestProperty(NIE::title()).literal().toString());
-    item->setProperty("artist", results.requestProperty(NMM::performer()).literal().toString());
-    item->setProperty("album", results.requestProperty(NMM::musicAlbum()).literal().toString());
+
+    QStringList keys;
+    keys << i18n("Artist: ") << i18n("Album: ") << i18n("Duration: ");
+
+    QStringList values;
+    values << results.requestProperty(NMM::performer()).literal().toString();
+    values << results.requestProperty(NMM::musicAlbum()).literal().toString();
 
     int duration = results.requestProperty(NFO::duration()).literal().toInt();
     QTime time;
     time = time.addSecs(duration);
-    item->setProperty("duration", time.toString());
+    values << time.toString();
+
+    item->setProperty("keys", QVariant::fromValue(keys));
+    item->setProperty("values", QVariant::fromValue(values));
+    item->setProperty("length", keys.length());
 
     emit previewGenerated(item);
 }
