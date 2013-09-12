@@ -22,6 +22,7 @@
 
 #include "match.h"
 #include <KUrl>
+#include <QDir>
 
 Match::Match(AbstractSource* source)
     : m_source(source)
@@ -102,8 +103,12 @@ QString Match::previewLabel()
 {
     if (m_previewLabel.isEmpty()) {
         KUrl url(m_previewUrl);
-        if (!url.isEmpty() && url.isLocalFile())
-            return KUrl(m_previewUrl).directory(KUrl::AppendTrailingSlash);
+        if (!url.isEmpty() && url.isLocalFile()) {
+            QString path = KUrl(m_previewUrl).directory(KUrl::AppendTrailingSlash);
+            if (path.startsWith(QDir::homePath()))
+                path.replace(QDir::homePath(), QLatin1String("~"));
+            return path;
+        }
         else
             return m_text;
     }
