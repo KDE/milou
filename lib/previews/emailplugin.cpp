@@ -60,14 +60,14 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     Akonadi::Item item = itemList.first();
 
     KMime::Message msg;
-    //kDebug() << item.payloadData();
     msg.setContent(item.payloadData());
+    msg.setFrozen(true);
     msg.parse();
 
     KMime::Headers::Subject *subject = msg.subject();
     KMime::Headers::From *from = msg.from();
-    KMime::Headers::To *to = msg.to(false);
-    KMime::Headers::Date* date = msg.date(false);
+    KMime::Headers::To *to = msg.to();
+    KMime::Headers::Date* date = msg.date();
     QString dateString = KGlobal::locale()->formatDateTime(date->dateTime(),
                                                            KLocale::FancyShortDate, KLocale::Seconds);
     KMime::Content *textContent = msg.textContent();
