@@ -234,6 +234,16 @@ namespace {
 
         QStringList termList;
         foreach(const QString& term, strList) {
+            // Virtuoso thinks - is a delimiting character and wants
+            // 4 characters after it in order to use a *
+            if (term.contains('-')) {
+                int diff = term.length() - term.indexOf('-') - 1;
+                if (diff < 4) {
+                    termList << QString::fromLatin1("'%1'").arg(term);
+                    continue;
+                }
+            }
+
             if (term.size() < 4) {
                 termList << QString::fromLatin1("'%1'").arg(term);
                 continue;
