@@ -24,6 +24,8 @@
 
 #include <KUrl>
 #include <KMime/Message>
+#include <KMimeType>
+#include <KIcon>
 
 #include <Akonadi/ItemFetchScope>
 
@@ -121,6 +123,24 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     cursor.setPosition(cursor.position()+1);
     cursor.insertText("\n\n");
     insertEmailBody(cursor, textContent->decodedText(true, true));
+
+    // Attachments
+    KMime::Content::List list = msg.attachments();
+    if (list.count())
+        cursor.insertText(i18n("Attachments:\n"), greyCharFormat);
+    foreach (KMime::Content* c, list) {
+        KMime::Headers::ContentType* contentType = c->contentType(false);
+
+        KMimeType::Ptr mimetype = KMimeType::mimeType(contentType->mimeType());
+        if (!mimetype->isValid())
+            continue;
+
+        QString iconName = mimetype->iconName();
+        QImage icon = KIcon(iconName).pixmap(32, 32).toImage();
+
+        cursor.insertImage(icon);
+        cursor.insertText(contentType->name() + "\n");
+    }
 
     QTextEdit* edit = new QTextEdit();
     edit->setDocument(doc);
