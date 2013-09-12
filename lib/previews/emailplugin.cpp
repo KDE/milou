@@ -94,22 +94,22 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
 
     QTextTable* table = cursor.insertTable(4, 2);
     table->cellAt(0, 0).firstCursorPosition().setBlockFormat(rightAlignment);
-    table->cellAt(0, 0).firstCursorPosition().insertText("From:", greyCharFormat);
+    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("From:"), greyCharFormat);
     table->cellAt(0, 1).firstCursorPosition().setBlockFormat(leftAlignment);
     table->cellAt(0, 1).firstCursorPosition().insertText(from->asUnicodeString(), normalCharFormat);
 
     table->cellAt(1, 0).firstCursorPosition().setBlockFormat(rightAlignment);
-    table->cellAt(1, 0).firstCursorPosition().insertText("To:", greyCharFormat);
+    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("To:"), greyCharFormat);
     table->cellAt(1, 1).firstCursorPosition().setBlockFormat(leftAlignment);
     table->cellAt(1, 1).firstCursorPosition().insertText(to->asUnicodeString(), normalCharFormat);
 
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(rightAlignment);
-    table->cellAt(2, 0).firstCursorPosition().insertText("Date:", greyCharFormat);
+    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Date:"), greyCharFormat);
     table->cellAt(2, 1).firstCursorPosition().setBlockFormat(leftAlignment);
     table->cellAt(2, 1).firstCursorPosition().insertText(dateString, normalCharFormat);
 
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(rightAlignment);
-    table->cellAt(3, 0).firstCursorPosition().insertText("Subject:", greyCharFormat);
+    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Subject:"), greyCharFormat);
     table->cellAt(3, 1).firstCursorPosition().setBlockFormat(leftAlignment);
     table->cellAt(3, 1).firstCursorPosition().insertText(subject->asUnicodeString(), boldCharFormat);
 
