@@ -213,7 +213,7 @@ QueryRunnable* NepomukSource::createQueryRunnable(const QString& sparql, const N
 QString NepomukSource::fetchRdfType(MatchType* type) const
 {
     if (type == m_audioType)
-        return QLatin1String("nfo:Audio");
+        return QLatin1String("nmm:MusicPiece");
     if (type == m_videoType)
         return QLatin1String("nfo:Video");
     if (type == m_imageType)
