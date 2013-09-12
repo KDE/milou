@@ -230,7 +230,7 @@ QString NepomukSource::fetchRdfType(MatchType* type) const
 
 namespace {
     QString createContainsPattern(const QString& var, const QString& text, const QString& scoreVar) {
-        QStringList strList = text.split(' ');
+        QStringList strList = text.split(' ', QString::SkipEmptyParts);
 
         QStringList termList;
         foreach(const QString& term, strList) {
