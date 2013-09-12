@@ -120,7 +120,7 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     cursor = table->lastCursorPosition();
     cursor.setPosition(cursor.position()+1);
     cursor.insertText("\n\n");
-    cursor.insertText(textContent->decodedText(true, true), normalCharFormat);
+    insertEmailBody(cursor, textContent->decodedText(true, true));
 
     QTextEdit* edit = new QTextEdit();
     edit->setDocument(doc);
@@ -131,6 +131,27 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
 
     highlight(doc);
     emit previewGenerated(edit);
+}
+
+// Inserts quoted text in green
+void EmailPlugin::insertEmailBody(QTextCursor& cursor, const QString& body)
+{
+    QTextCharFormat greenFormat;
+    greenFormat.setForeground(QBrush(Qt::darkGreen));
+
+    QString b(body);
+    QTextStream stream(&b, QIODevice::ReadOnly);
+    while (!stream.atEnd()) {
+        QString line = stream.readLine();
+        if (line.startsWith('>')) {
+            cursor.insertText(line, greenFormat);
+            cursor.insertText("\n");
+        }
+        else {
+            cursor.insertText(line, QTextCharFormat());
+            cursor.insertText("\n");
+        }
+    }
 }
 
 MILOU_EXPORT_PREVIEW(EmailPlugin, "milouemailplugin")

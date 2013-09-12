@@ -39,6 +39,8 @@ public:
 
 private slots:
     void slotItemsReceived(const Akonadi::Item::List& itemList);
+private:
+    void insertEmailBody(QTextCursor& cursor, const QString& body);
 };
 
 #endif // EMAILPLUGIN_H
