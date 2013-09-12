@@ -41,7 +41,9 @@ void OkularPlugin::generatePreview()
         KParts::ReadOnlyPart* part = service->createInstance<KParts::ReadOnlyPart>(this, args);
         part->openUrl(url());
 
-        emit previewGenerated(part->widget());
+        QWidget* widget = part->widget();
+        widget->resize(384, 384);
+        emit previewGenerated(widget);
     }
     else {
         kError() << "Could not load okular service!";
