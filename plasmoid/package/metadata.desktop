@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Milou
+Name[cs]=Milou
 Name[de]=Milou
 Name[nl]=Milou
 Name[pt]=Milou
@@ -9,6 +10,7 @@ Name[sv]=Milou
 Name[uk]=Milou
 Name[x-test]=xxMilouxx
 Comment=Applet for finding anything
+Comment[cs]=Applet pro hledání čehokoliv
 Comment[de]=Miniprogramm zur Suche
 Comment[nl]=Applet voor zoeken naar van alles
 Comment[pt]='Applet' para pesquisar de tudo
