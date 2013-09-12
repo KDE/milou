@@ -23,8 +23,6 @@
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeContext>
 
-#include "resultsmodel.h"
-#include "resultlistmodel.h"
 #include "sourcesmodel.h"
 #include "preview.h"
 #include "reversemodel.h"
@@ -35,8 +33,6 @@ void QmlPlugins::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 
 void QmlPlugins::registerTypes(const char *uri)
 {
-    qmlRegisterType<Nepomuk2::ResultsModel> (uri, 0, 1, "ResultsModel");
-    qmlRegisterType<Nepomuk2::ResultListModel> (uri, 0, 1, "ResultListModel");
     qmlRegisterType<SourcesModel> (uri, 0, 1, "SourcesModel");
     qmlRegisterType<Preview> (uri, 0, 1, "Preview");
     qmlRegisterType<ReverseModel> (uri, 0, 1, "ReverseModel");

@@ -1,8 +1,5 @@
 
 set (lib_SRCS
-    resultsmodel.cpp
-    resultlistmodel.cpp
-
     abstractsource.cpp
     match.cpp
     nepomuksource.cpp
