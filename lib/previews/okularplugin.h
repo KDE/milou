@@ -35,7 +35,13 @@ public:
     virtual QStringList mimetypes() {
         return QStringList() << QLatin1String("application/pdf")
                              << QLatin1String("application/epub+zip")
-                             << QLatin1String("application/x-mobipocket-ebook");
+                             << QLatin1String("application/x-mobipocket-ebook")
+                             << QLatin1String("application/vnd.oasis.opendocument.text")
+                             // Comic books
+                             << QLatin1String("application/x-cbt")
+                             << QLatin1String("application/x-cbr")
+                             << QLatin1String("application/x-cbz");
+
     }
 };
 
