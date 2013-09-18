@@ -175,11 +175,11 @@ QString Preview::highlight() const
 
 QList<Milou::PreviewPlugin*> Preview::allPlugins()
 {
-    KService::List serviceList = KServiceTypeTrader::self()->query( "MilouPreviewPlugin" );
+    KService::List serviceList = KServiceTypeTrader::self()->query("MilouPreviewPlugin");
     QList<Milou::PreviewPlugin*> plugins;
 
     KService::List::const_iterator it;
-    for( it = serviceList.constBegin(); it != serviceList.constEnd(); it++ ) {
+    for (it = serviceList.constBegin(); it != serviceList.constEnd(); it++) {
         KService::Ptr service = *it;
 
         QString error;
