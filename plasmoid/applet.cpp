@@ -143,10 +143,12 @@ QPoint Applet::tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeigh
     pos.setY(itemRect.top() - tipHeight/2 + itemRect.height()/2);
     pos.setX(itemRect.right() + margin);
 
-    // Choose right edge if no space on left edge
+    // Choose left edge if no space on right edge
     const QRect avail = QApplication::desktop()->availableGeometry(view);
-    if (pos.x() + itemRect.width() > avail.right()) {
-        pos.setX(itemRect.left() - tipWidth - margin);
+    if (pos.x() + tipWidth > avail.right()) {
+        // HACK: The tipWidth doesn't seem to accurately reflect the actual width
+        //       Hence the extra -25 to make it look good.
+        pos.setX(itemRect.left() - tipWidth - margin - 25);
     }
 
     // HACK: The +30 is to account for other margins
