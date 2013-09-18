@@ -15,12 +15,11 @@ QtExtra.MouseEventListener {
 
     onContainsMouseChanged: {
         if (containsMouse) {
-            dialog.delegate = resultDelegate;
-
             preview.mimetype = model.previewType;
             preview.url = model.previewUrl;
             urlLabel.text = model.previewLabel
-            preview.refresh();
+
+            dialog.delegate = resultDelegate;
         } else {
             dialog.prevDelegate = dialog.delegate
             dialog.delegate = null;

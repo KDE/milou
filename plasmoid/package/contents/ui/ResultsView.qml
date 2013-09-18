@@ -119,8 +119,22 @@ ListView {
                     dialog.x = point.x
                     dialog.y = point.y
 
-                    if (!showTimer.running)
+                    // dialog.visible = true
+                    // We cannot do this because PlasmaCore Dialog is strange. If we just set visible
+                    // to true, the width and height are never updated
+                    // Therefore we give it time to update its width and height
+                    plasmaDialogIsSlowTimer.start();
+                }
+
+                Timer {
+                    id: plasmaDialogIsSlowTimer
+                    // Plasma::Dialog has a timer of 150 internally
+                    interval: 155
+                    repeat: false
+
+                    onTriggered: {
                         dialog.visible = true
+                    }
                 }
             }
 
@@ -165,10 +179,9 @@ ListView {
         repeat: false
 
         onTriggered: {
-            if (preview.loaded)
-                dialog.visible = true
-            else
-                dialog.visible = false
+            if (dialog.prevDelegate != dialog.delegate) {
+                preview.refresh();
+            }
         }
     }
 
