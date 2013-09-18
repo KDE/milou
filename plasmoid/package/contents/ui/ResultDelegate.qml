@@ -22,7 +22,8 @@ QtExtra.MouseEventListener {
             urlLabel.text = model.previewLabel
             preview.refresh();
         } else {
-           dialog.delegate = null;
+            dialog.prevDelegate = dialog.delegate
+            dialog.delegate = null;
         }
     }
 

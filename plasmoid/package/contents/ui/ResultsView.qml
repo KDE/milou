@@ -89,6 +89,7 @@ ListView {
     PlasmaCore.Dialog {
         id: dialog
         property Item delegate
+        property Item prevDelegate
 
         mainItem: QtExtra.MouseEventListener {
             hoverEnabled: true
@@ -141,10 +142,15 @@ ListView {
             dialog.windowFlags = Qt.Window|Qt.WindowStaysOnTopHint|Qt.X11BypassWindowManagerHint
         }
 
+        // The delegate changes when the mouse hover starts on an item
         onDelegateChanged: {
             if (delegate) {
                 showTimer.start()
                 hideTimer.stop()
+
+                if (prevDelegate != delegate) {
+                    dialog.visible = false
+                }
             }
             else {
                 showTimer.stop()
