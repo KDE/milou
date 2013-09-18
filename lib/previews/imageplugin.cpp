@@ -34,9 +34,14 @@ void ImagePlugin::generatePreview()
     itemList << KFileItem(url(), mimetype(), mode_t());
 
     QStringList enabledPlugins;
-    enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "videopreview" << "ffmpegthumbs";
+    enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "videopreview" << "ffmpegthumbs"
+                   << "directorythumbnail";
 
-    KIO::PreviewJob* job = new KIO::PreviewJob(itemList, QSize(512, 512), &enabledPlugins);
+    QSize size(512, 512);
+    if (mimetype() == QLatin1String("inode/directory")) {
+        size = QSize(256, 256);
+    }
+    KIO::PreviewJob* job = new KIO::PreviewJob(itemList, size, &enabledPlugins);
     job->setScaleType(KIO::PreviewJob::ScaledAndCached);
 
     connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
