@@ -127,7 +127,7 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     // Attachments
     KMime::Content::List list = msg.attachments();
     if (list.count())
-        cursor.insertText(i18n("Attachments:\n"), greyCharFormat);
+        cursor.insertText(i18n("\nAttachments:\n\n"), greyCharFormat);
     foreach (KMime::Content* c, list) {
         KMime::Headers::ContentType* contentType = c->contentType(false);
 
