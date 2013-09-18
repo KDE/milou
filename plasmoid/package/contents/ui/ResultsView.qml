@@ -113,7 +113,8 @@ ListView {
                     if (!dialog.delegate)
                         return
 
-                    var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, preview.height);
+                    var height = preview.height + urlLabel.height + urlLabel.anchors.topMargin
+                    var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, height)
                     dialog.x = point.x
                     dialog.y = point.y
 

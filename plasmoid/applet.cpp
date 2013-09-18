@@ -149,7 +149,15 @@ QPoint Applet::tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeigh
         pos.setX(itemRect.left() - tipWidth - margin);
     }
 
-    return pos;
+    // HACK: The +30 is to account for other margins
+    QRect finalRect(pos.x(), pos.y(), tipWidth, tipHeight + 30);
+
+    if (finalRect.bottom() > avail.bottom()) {
+        int diff = finalRect.bottom() - avail.bottom();
+        finalRect.moveTop(finalRect.top() - diff);
+    }
+
+    return QPoint(finalRect.x(), finalRect.y());
 }
 
 #include "applet.moc"
