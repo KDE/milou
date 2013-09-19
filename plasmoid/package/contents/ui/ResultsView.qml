@@ -85,6 +85,10 @@ ListView {
         preview.highlight = string
     }
 
+    onCurrentItemChanged: {
+        showPreview()
+    }
+
     // Tooltip
     PlasmaCore.Dialog {
         id: dialog
@@ -189,8 +193,21 @@ ListView {
         repeat: false
 
         onTriggered: {
-            dialog.visible = false
-            preview.clear()
+            clearPreview()
         }
+    }
+
+    function clearPreview() {
+        dialog.visible = false
+        preview.clear()
+    }
+
+    function showPreview() {
+        preview.mimetype = currentItem.theModel.previewType;
+        preview.url = currentItem.theModel.previewUrl;
+        urlLabel.text = currentItem.theModel.previewLabel
+
+        dialog.delegate = null
+        dialog.delegate = currentItem
     }
 }

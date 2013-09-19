@@ -7,6 +7,7 @@ import org.kde.milou 0.1 as Milou
 
 QtExtra.MouseEventListener {
     id: resultDelegate
+    property variant theModel: model
 
     width: listItem.implicitWidth
     height: listItem.implicitHeight
