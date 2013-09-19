@@ -50,6 +50,7 @@ void VideoPlugin::generatePreview()
     layout->addWidget(seekSlider);
 
     player->play();
+    player->resize(300, 300);
 
     emit previewGenerated(widget);
 }
