@@ -44,6 +44,7 @@ void VideoPlugin::generatePreview()
 
     Phonon::SeekSlider* seekSlider = new Phonon::SeekSlider(widget);
     seekSlider->setMediaObject(player->mediaObject());
+    seekSlider->setIconVisible(false);
 
     layout->addWidget(player);
     layout->addWidget(seekSlider);
