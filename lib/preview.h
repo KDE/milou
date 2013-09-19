@@ -55,13 +55,13 @@ public:
     void setHighlight(const QString& highlight);
 
     bool loaded() const { return m_loaded; }
-    void clear();
 
 signals:
     void loadingFinished();
 
 public slots:
     void refresh();
+    void clear();
 
 private slots:
     void slotPreviewGenerated(QWidget* widget);

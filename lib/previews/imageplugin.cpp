@@ -34,8 +34,7 @@ void ImagePlugin::generatePreview()
     itemList << KFileItem(url(), mimetype(), mode_t());
 
     QStringList enabledPlugins;
-    enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "videopreview" << "ffmpegthumbs"
-                   << "directorythumbnail";
+    enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "directorythumbnail";
 
     QSize size(512, 512);
     if (mimetype() == QLatin1String("inode/directory")) {

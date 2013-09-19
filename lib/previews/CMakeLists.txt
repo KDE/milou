@@ -101,3 +101,5 @@ DESTINATION ${SERVICES_INSTALL_DIR})
 install(
 TARGETS milouaudioplugin
 DESTINATION ${PLUGIN_INSTALL_DIR})
+
+add_subdirectory(videos)
