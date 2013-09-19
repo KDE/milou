@@ -179,9 +179,7 @@ ListView {
         repeat: false
 
         onTriggered: {
-            if (dialog.prevDelegate != dialog.delegate) {
-                preview.refresh();
-            }
+            preview.refresh();
         }
     }
 
@@ -192,6 +190,7 @@ ListView {
 
         onTriggered: {
             dialog.visible = false
+            preview.clear()
         }
     }
 }
