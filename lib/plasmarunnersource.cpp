@@ -58,6 +58,7 @@ void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& m
         match.setType(m_bookmarkType);
         // The Bookmark runner stores the url in the data as a string
         match.setPreviewUrl(plasmaMatch.data().toString());
+        match.setPreviewType(QLatin1String("html"));
 
         uint id = qHash(plasmaMatch.text() + plasmaMatch.subtext());
         match.setData(id);

@@ -102,4 +102,23 @@ install(
 TARGETS milouaudioplugin
 DESTINATION ${PLUGIN_INSTALL_DIR})
 
+#
+# Bookmarks
+#
+kde4_add_plugin(miloubookmarkplugin bookmarkplugin.cpp)
+
+target_link_libraries(miloubookmarkplugin
+    milou
+    ${KDE4_KIO_LIBS}
+    ${QT_QTWEBKIT_LIBRARY}
+)
+
+install(
+FILES miloubookmarkpreview.desktop
+DESTINATION ${SERVICES_INSTALL_DIR})
+
+install(
+TARGETS miloubookmarkplugin
+DESTINATION ${PLUGIN_INSTALL_DIR})
+
 add_subdirectory(videos)
