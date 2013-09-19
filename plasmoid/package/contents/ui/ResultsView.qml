@@ -175,7 +175,7 @@ ListView {
 
     Timer {
         id: showTimer
-        interval: 500
+        interval: 340
         repeat: false
 
         onTriggered: {
