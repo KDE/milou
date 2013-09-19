@@ -80,7 +80,8 @@ void Preview::paint(QPainter* painter, const QStyleOptionGraphicsItem* item, QWi
 void Preview::refresh()
 {
     if (m_oldUrl == m_url && m_oldMimetype == m_mimetype) {
-        emit loadingFinished();
+        if (m_declarativeItem || m_proxyWidget->widget())
+            emit loadingFinished();
         return;
     }
 
