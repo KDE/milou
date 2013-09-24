@@ -20,41 +20,38 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#include "textplugin.h"
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include <QFile>
+#include <QVBoxLayout>
+#include <QTextEdit>
+#include <QTextStream>
 
-class Applet : public Plasma::PopupApplet
+TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
+    : PreviewPlugin(parent)
 {
-    Q_OBJECT
-public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+}
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+void TextPlugin::generatePreview()
+{
+    QFile file(url().toLocalFile());
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
+    QTextStream stream(&file);
+    const QString text = stream.readAll();
 
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
+    QTextEdit* textEdit = new QTextEdit(0);
+    textEdit->setText(text);
+    textEdit->setReadOnly(true);
+    textEdit->setWordWrapMode(QTextOption::WordWrap);
 
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
+    highlight(textEdit->document());
 
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
+    // Maybe the height should be reduced based on the contents?
+    textEdit->resize(384, 384);
+    emit previewGenerated(textEdit);
+}
 
-protected:
-    virtual void popupEvent(bool show);
-
-private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
-};
-
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin")

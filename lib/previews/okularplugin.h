@@ -20,41 +20,29 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#ifndef OKULARPLUGIN_H
+#define OKULARPLUGIN_H
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include "previewplugin.h"
 
-class Applet : public Plasma::PopupApplet
+class OkularPlugin : public Milou::PreviewPlugin
 {
     Q_OBJECT
 public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+    explicit OkularPlugin(QObject* parent, const QVariantList&);
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+    virtual void generatePreview();
+    virtual QStringList mimetypes() {
+        return QStringList() << QLatin1String("application/pdf")
+                             << QLatin1String("application/epub+zip")
+                             << QLatin1String("application/x-mobipocket-ebook")
+                             << QLatin1String("application/vnd.oasis.opendocument.text")
+                             // Comic books
+                             << QLatin1String("application/x-cbt")
+                             << QLatin1String("application/x-cbr")
+                             << QLatin1String("application/x-cbz");
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
-
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
-
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
-
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
-
-protected:
-    virtual void popupEvent(bool show);
-
-private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
+    }
 };
 
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+#endif // OKULARPLUGIN_H

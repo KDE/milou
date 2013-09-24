@@ -61,6 +61,22 @@ public:
     QVariant data() const;
     void setData(const QVariant& data);
 
+    QString previewType() const;
+    void setPreviewType(const QString& type);
+
+    QString previewUrl() const;
+    void setPreviewUrl(const QString& url);
+
+    /**
+     * This different from the normal text. It is shown
+     * when a preview is being display, and can therefore
+     * be much longer.
+     *
+     * It's by default the folder path if the preview url
+     * is local, otherwise it returns the text
+     */
+    QString previewLabel();
+    void setPreviewLabel(const QString& label);
 private:
     AbstractSource* m_source;
     MatchType* m_type;
@@ -68,6 +84,10 @@ private:
     QString m_text;
     QString m_icon;
     QVariant m_data;
+
+    QString m_previewType;
+    QString m_previewUrl;
+    QString m_previewLabel;
 };
 
 

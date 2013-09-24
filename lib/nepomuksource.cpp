@@ -144,15 +144,17 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
     Match match(this);
     match.setType(type);
     match.setData(QUrl(url));
+    match.setPreviewUrl(url.url());
 
     if (type == m_emailType) {
         QString subject = result.requestProperty(NMO::messageSubject()).literal().toString().simplified();
-        if (!subject.isEmpty())
-            match.setText(subject);
-        else
-            match.setText(QLatin1String("No Subject"));
+        if (subject.isEmpty())
+            subject = QLatin1String("No Subject");
 
+        match.setText(subject);
+        match.setPreviewLabel(subject);
         match.setIcon(QLatin1String("internet-mail"));
+        match.setPreviewType(QLatin1String("message/rfc822"));
     }
     else {
         match.setText(url.fileName());
@@ -160,6 +162,7 @@ void NepomukSource::slotQueryResult(Nepomuk2::QueryRunnable* runnable, const Nep
         KMimeType::Ptr mime = KMimeType::findByUrl(url);
         if (!mime.isNull()) {
             match.setIcon(mime->iconName());
+            match.setPreviewType(mime->name());
         }
     }
 
@@ -210,7 +213,7 @@ QueryRunnable* NepomukSource::createQueryRunnable(const QString& sparql, const N
 QString NepomukSource::fetchRdfType(MatchType* type) const
 {
     if (type == m_audioType)
-        return QLatin1String("nfo:Audio");
+        return QLatin1String("nmm:MusicPiece");
     if (type == m_videoType)
         return QLatin1String("nfo:Video");
     if (type == m_imageType)
@@ -227,10 +230,20 @@ QString NepomukSource::fetchRdfType(MatchType* type) const
 
 namespace {
     QString createContainsPattern(const QString& var, const QString& text, const QString& scoreVar) {
-        QStringList strList = text.split(' ');
+        QStringList strList = text.split(' ', QString::SkipEmptyParts);
 
         QStringList termList;
         foreach(const QString& term, strList) {
+            // Virtuoso thinks - is a delimiting character and wants
+            // 4 characters after it in order to use a *
+            if (term.contains('-')) {
+                int diff = term.length() - term.indexOf('-') - 1;
+                if (diff < 4) {
+                    termList << QString::fromLatin1("'%1'").arg(term);
+                    continue;
+                }
+            }
+
             if (term.size() < 4) {
                 termList << QString::fromLatin1("'%1'").arg(term);
                 continue;

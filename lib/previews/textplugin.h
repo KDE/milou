@@ -20,41 +20,21 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#ifndef TEXTVIEW_H
+#define TEXTVIEW_H
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include "previewplugin.h"
 
-class Applet : public Plasma::PopupApplet
+class TextPlugin : public Milou::PreviewPlugin
 {
     Q_OBJECT
 public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+    explicit TextPlugin(QObject* parent, const QVariantList&);
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
-
-    virtual void createConfigurationInterface(KConfigDialog* parent);
-
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
-
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
-
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
-
-protected:
-    virtual void popupEvent(bool show);
-
-private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
+    virtual QStringList mimetypes() {
+        return QStringList() << QLatin1String("text/");
+    }
+    virtual void generatePreview();
 };
 
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+#endif // TEXTVIEW_H

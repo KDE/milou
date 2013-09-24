@@ -20,41 +20,30 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#ifndef AUDIOPLUGIN_H
+#define AUDIOPLUGIN_H
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include "previewplugin.h"
+#include "nepomuk/queryrunnable.h"
 
-class Applet : public Plasma::PopupApplet
+#include <QThreadPool>
+
+class AudioPlugin : public Milou::PreviewPlugin
 {
     Q_OBJECT
 public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+    explicit AudioPlugin(QObject* parent, const QVariantList&);
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+    virtual void generatePreview();
+    virtual QStringList mimetypes() {
+        return QStringList() << QLatin1String("audio/");
+    }
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
-
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
-
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
-
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
-
-protected:
-    virtual void popupEvent(bool show);
+private slots:
+    void queryResult(Nepomuk2::QueryRunnable*, const Nepomuk2::Query::Result& results);
 
 private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
+    QThreadPool* m_pool;
 };
 
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+#endif // AUDIOPLUGIN_H

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=MilouPreviewPlugin
+X-KDE-Library=milouemailplugin
+Name=Milou Email Preview Plugin
+Comment=Preview generated for emails

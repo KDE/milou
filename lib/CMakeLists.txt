@@ -1,8 +1,5 @@
 
 set (lib_SRCS
-    resultsmodel.cpp
-    resultlistmodel.cpp
-
     abstractsource.cpp
     match.cpp
     nepomuksource.cpp
@@ -10,6 +7,9 @@ set (lib_SRCS
     applicationsource.cpp
     calculatorsource.cpp
     sourcesmodel.cpp
+    preview.cpp
+    previewplugin.cpp
+    reversemodel.cpp
 
     nepomuk/asyncnepomukresourceretriever.cpp
     nepomuk/queryrunnable.cpp
@@ -27,6 +27,11 @@ target_link_libraries (milou
     ${KDE4_PLASMA_LIBS}
 )
 
+install(
+  FILES miloupreviewplugin.desktop
+  DESTINATION ${SERVICETYPES_INSTALL_DIR})
+
 install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 add_subdirectory(qml)
+add_subdirectory(previews)

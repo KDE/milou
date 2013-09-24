@@ -20,41 +20,39 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#include "videoplugin.h"
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include <QVBoxLayout>
 
-class Applet : public Plasma::PopupApplet
+#include <Phonon/VideoPlayer>
+#include <Phonon/SeekSlider>
+
+VideoPlugin::VideoPlugin(QObject* parent, const QVariantList& ): PreviewPlugin(parent)
 {
-    Q_OBJECT
-public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+}
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
+void VideoPlugin::generatePreview()
+{
+    QWidget* widget = new QWidget();
+    QVBoxLayout* layout = new QVBoxLayout(widget);
+    layout->setMargin(0);
+    layout->setSpacing(0);
 
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
+    Phonon::VideoPlayer* player = new Phonon::VideoPlayer(widget);
+    player->load(Phonon::MediaSource(url()));
 
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
+    Phonon::SeekSlider* seekSlider = new Phonon::SeekSlider(widget);
+    seekSlider->setMediaObject(player->mediaObject());
+    seekSlider->setIconVisible(false);
 
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
+    layout->addWidget(player);
+    layout->addWidget(seekSlider);
 
-protected:
-    virtual void popupEvent(bool show);
+    player->play();
+    player->resize(300, 300);
 
-private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
-};
+    emit previewGenerated(widget);
+}
 
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+MILOU_EXPORT_PREVIEW(VideoPlugin, "milouvideoplugin")

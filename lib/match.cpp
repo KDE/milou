@@ -21,6 +21,8 @@
  */
 
 #include "match.h"
+#include <KUrl>
+#include <QDir>
 
 Match::Match(AbstractSource* source)
     : m_source(source)
@@ -75,6 +77,47 @@ void Match::setData(const QVariant& data)
 QVariant Match::data() const
 {
     return m_data;
+}
+
+QString Match::previewType() const
+{
+    return m_previewType;
+}
+
+QString Match::previewUrl() const
+{
+    return m_previewUrl;
+}
+
+void Match::setPreviewType(const QString& type)
+{
+    m_previewType = type;
+}
+
+void Match::setPreviewUrl(const QString& url)
+{
+    m_previewUrl = url;
+}
+
+QString Match::previewLabel()
+{
+    if (m_previewLabel.isEmpty()) {
+        KUrl url(m_previewUrl);
+        if (!url.isEmpty() && url.isLocalFile()) {
+            QString path = KUrl(m_previewUrl).directory(KUrl::AppendTrailingSlash);
+            if (path.startsWith(QDir::homePath()))
+                path.replace(QDir::homePath(), QLatin1String("~"));
+            return path;
+        }
+        else
+            return m_text;
+    }
+    return m_previewLabel;
+}
+
+void Match::setPreviewLabel(const QString& label)
+{
+    m_previewLabel = label;
 }
 
 //

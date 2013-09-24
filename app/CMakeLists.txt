@@ -2,6 +2,9 @@ set( APP_SRCS
   sidebar.cpp
   mainwindow.cpp
   main.cpp
+  resultlistmodel.cpp
+  resultsmodel.cpp
+  ../lib/nepomuk/queryrunnable.cpp
 )
 
 kde4_add_executable(milou-app ${APP_SRCS})

@@ -20,41 +20,35 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#include "okularplugin.h"
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include <KParts/ReadOnlyPart>
+#include <KDebug>
 
-class Applet : public Plasma::PopupApplet
+OkularPlugin::OkularPlugin(QObject* parent, const QVariantList& ): PreviewPlugin(parent)
 {
-    Q_OBJECT
-public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+}
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+void OkularPlugin::generatePreview()
+{
+    // FIXME: You will need to create your own config file, so that the last accessed page
+    //        is not opened
+    KService::Ptr service = KService::serviceByDesktopName("okular_part");
+    if (service) {
+        QVariantList args;
+        args << QLatin1String("ViewerWidget");
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
+        KParts::ReadOnlyPart* part = service->createInstance<KParts::ReadOnlyPart>(this, args);
+        part->openUrl(url());
 
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
+        QWidget* widget = part->widget();
+        widget->resize(384, 384);
+        emit previewGenerated(widget);
+    }
+    else {
+        kError() << "Could not load okular service!";
+    }
+}
 
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
 
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
-
-protected:
-    virtual void popupEvent(bool show);
-
-private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
-};
-
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+MILOU_EXPORT_PREVIEW(OkularPlugin, "milouokularplugin")

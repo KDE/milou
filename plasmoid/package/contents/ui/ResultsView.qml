@@ -12,14 +12,22 @@ ListView {
 
     clip: true
 
-    model: Milou.SourcesModel {
-        id: resultModel
-        queryLimit: 20
-
-
-        onRowsInserted: {
-            listView.currentIndex = 0
+    model: Milou.ReverseModel {
+        sourceModel: Milou.SourcesModel {
+            id: resultModel
+            queryLimit: 20
         }
+        onRowsInserted: {
+            if (reversed) {
+                // The extra -1 is because the SourcesModel is slightly strange and cannot
+                // have an overlapping removeRows when insertingRows
+                listView.currentIndex = listView.count - 1 - 1
+            }
+            else
+                listView.currentIndex = 0
+        }
+
+        reversed: plasmoid.isBottomEdge()
     }
 
     delegate: ResultDelegate {
@@ -33,7 +41,7 @@ ListView {
     // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
     // doesn't make any difference!
     Keys.onReturnPressed: {
-        resultModel.run(currentIndex);
+        listView.model.run(currentIndex);
         plasmoid.hidePopup()
     }
 
@@ -74,5 +82,145 @@ ListView {
 
     function setQueryString(string) {
         resultModel.queryString = string
+        preview.highlight = string
+    }
+
+    Timer {
+        id: delayedShowPreview
+        interval: 50
+        repeat: false
+
+        onTriggered: {
+            showPreview();
+        }
+    }
+
+    onCurrentItemChanged: {
+        // We need a delay because we want the currentIndex to be 0 when inserting items
+        // and the preview to be shown on index 0, and not on the current index which may
+        // have changed becuase an item was inserted somewhere
+        delayedShowPreview.start()
+    }
+
+    // Tooltip
+    PlasmaCore.Dialog {
+        id: dialog
+        property Item delegate
+        property Item prevDelegate
+
+        mainItem: QtExtra.MouseEventListener {
+            hoverEnabled: true
+
+            width: childrenRect.width
+            height: childrenRect.height
+
+            onContainsMouseChanged: {
+                if (containsMouse) {
+                    if (dialog.visible)
+                        hideTimer.stop()
+                }
+                else {
+                    hideTimer.start()
+                }
+            }
+
+            Milou.Preview {
+                id: preview
+
+                onLoadingFinished: {
+                    if (!dialog.delegate)
+                        return
+
+                    var height = preview.height + urlLabel.height + urlLabel.anchors.topMargin
+                    var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, height)
+                    dialog.x = point.x
+                    dialog.y = point.y
+
+                    // dialog.visible = true
+                    // We cannot do this because PlasmaCore Dialog is strange. If we just set visible
+                    // to true, the width and height are never updated
+                    // Therefore we give it time to update its width and height
+                    plasmaDialogIsSlowTimer.start();
+                }
+
+                Timer {
+                    id: plasmaDialogIsSlowTimer
+                    // Plasma::Dialog has a timer of 150 internally
+                    interval: 155
+                    repeat: false
+
+                    onTriggered: {
+                        dialog.visible = true
+                    }
+                }
+            }
+
+            PlasmaComponents.Label {
+                id: urlLabel
+                anchors {
+                    top: preview.bottom
+                    topMargin: 5
+                }
+                width: preview.width
+                height: 16
+                elide: Text.ElideLeft
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+        Component.onCompleted: {
+            dialog.setAttribute(Qt.WA_X11NetWmWindowTypeToolTip, true)
+            dialog.windowFlags = Qt.Window|Qt.WindowStaysOnTopHint|Qt.X11BypassWindowManagerHint
+        }
+
+        // The delegate changes when the mouse hover starts on an item
+        onDelegateChanged: {
+            if (delegate) {
+                showTimer.start()
+                hideTimer.stop()
+
+                if (prevDelegate != delegate) {
+                    dialog.visible = false
+                }
+            }
+            else {
+                showTimer.stop()
+                hideTimer.start()
+            }
+        }
+    }
+
+    Timer {
+        id: showTimer
+        interval: 340
+        repeat: false
+
+        onTriggered: {
+            preview.refresh();
+        }
+    }
+
+    Timer {
+        id: hideTimer
+        interval: 500
+        repeat: false
+
+        onTriggered: {
+            clearPreview()
+        }
+    }
+
+    function clearPreview() {
+        dialog.visible = false
+        preview.clear()
+    }
+
+    function showPreview() {
+        preview.mimetype = currentItem.theModel.previewType;
+        preview.url = currentItem.theModel.previewUrl;
+        urlLabel.text = currentItem.theModel.previewLabel
+
+        dialog.delegate = null
+        dialog.delegate = currentItem
     }
 }

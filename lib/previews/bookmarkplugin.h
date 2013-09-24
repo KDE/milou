@@ -20,41 +20,23 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#ifndef BOOKMARKPLUGIN_H
+#define BOOKMARKPLUGIN_H
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include "previewplugin.h"
 
-class Applet : public Plasma::PopupApplet
+class BookmarkPlugin : public Milou::PreviewPlugin
 {
     Q_OBJECT
 public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+    explicit BookmarkPlugin(QObject* parent, const QVariantList&);
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+    virtual void generatePreview();
+    virtual QStringList mimetypes() {
+        return QStringList() << QLatin1String("html");
+    }
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
-
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
-
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
-
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
-
-protected:
-    virtual void popupEvent(bool show);
-
-private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
+private slots:
 };
 
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+#endif // BOOKMARKPLUGIN_H

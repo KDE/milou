@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=MilouPreviewPlugin
+X-KDE-Library=milouokularplugin
+Name=Milou Okular Preview Plugin
+Comment=Preview generated for documents via Okular

@@ -20,41 +20,27 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#ifndef IMAGEPLUGIN_H
+#define IMAGEPLUGIN_H
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include "previewplugin.h"
+#include <kio/previewjob.h>
 
-class Applet : public Plasma::PopupApplet
+class ImagePlugin : public Milou::PreviewPlugin
 {
     Q_OBJECT
 public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+    explicit ImagePlugin(QObject* parent, const QVariantList&);
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+    virtual void generatePreview();
+    virtual QStringList mimetypes() {
+        return QStringList() << QLatin1String("image/")
+                             << QLatin1String("video/")
+                             << QLatin1String("inode/directory");
+    }
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
-
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
-
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
-
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
-
-protected:
-    virtual void popupEvent(bool show);
-
-private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
+private slots:
+    void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
 };
 
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+#endif // IMAGEPLUGIN_H

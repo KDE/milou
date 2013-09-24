@@ -9,11 +9,11 @@ import org.kde.milou 0.1 as Milou
 Item {
     id: mainWidget
     property int minimumWidth: 450
-    property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin
-    property int maximumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin
+    property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
+    property int maximumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
 
-    // The wrapper just exists for giving an appropriate top margin
-    // when it is placed on the top edge of the screen
+    // The wrapper just exists for giving an appropriate top/bottom margin
+    // when it is placed on the top/bottom edge of the screen
     Item {
         id: wrapper
 
@@ -23,16 +23,16 @@ Item {
         anchors {
             fill: parent
             topMargin: plasmoid.isTopEdge() ? 7 : 0
+            bottomMargin: plasmoid.isBottomEdge() ? 7 : 0
         }
 
         SearchField {
             id: searchField
+
             anchors {
-                top: parent.top
                 left: parent.left
                 right: parent.right
             }
-
             onTextChanged: {
                 listView.setQueryString(text)
             }
@@ -42,26 +42,45 @@ Item {
             id: listView
 
             anchors {
-                top: searchField.bottom
                 left: parent.left
                 right: parent.right
-                bottom: parent.bottom
 
                 // vHanda: Random number - Is there some way to use consisten margins?
                 //         PlasmaCore.FrameSvg does have margins, but one needs to construct
                 //          a PlasmaCore.FrameSvg for that
-                topMargin: 5
+                topMargin: plasmoid.isBottomEdge() ? 0 : 5
+                bottomMargin: plasmoid.isBottomEdge() ? 5 : 0
             }
         }
 
         Component.onCompleted: {
             plasmoid.popupEventSignal.connect(setTextFieldFocus)
             plasmoid.settingsChanged.connect(loadSettings)
+
+            if (!plasmoid.isBottomEdge()) {
+                // Normal view
+                searchField.anchors.top = wrapper.top
+                listView.anchors.top = searchField.bottom
+                listView.anchors.bottom = wrapper.bottom
+            }
+            else {
+                // When on the bottom
+                listView.anchors.top = wrapper.top
+                listView.anchors.bottom = searchField.top
+                searchField.anchors.bottom = wrapper.bottom
+            }
         }
 
         function setTextFieldFocus(shown) {
             searchField.setFocus();
             searchField.selectAll();
+
+            if (shown) {
+                listView.showPreview()
+            }
+            else {
+                listView.clearPreview()
+            }
         }
 
         function loadSettings() {

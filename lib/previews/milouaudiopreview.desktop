@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=MilouPreviewPlugin
+X-KDE-Library=milouaudioplugin
+Name=Milou Audio Preview Plugin
+Comment=Preview generated for audio files

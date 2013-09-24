@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=MilouPreviewPlugin
+X-KDE-Library=miloubookmarkplugin
+Name=Milou Bookmark Preview Plugin
+Comment=Preview generated for bookmarks

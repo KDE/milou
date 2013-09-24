@@ -20,41 +20,27 @@
  *
  */
 
-#ifndef APPLET_H
-#define APPLET_H
+#ifndef EMAILPLUGIN_H
+#define EMAILPLUGIN_H
 
-#include <Plasma/PopupApplet>
-#include <Plasma/DeclarativeWidget>
+#include "previewplugin.h"
+#include <Akonadi/ItemFetchJob>
 
-class Applet : public Plasma::PopupApplet
+class EmailPlugin : public Milou::PreviewPlugin
 {
     Q_OBJECT
 public:
-    Applet(QObject* parent, const QVariantList& args);
-    virtual ~Applet();
+    explicit EmailPlugin(QObject* parent, const QVariantList&);
 
-    virtual void init();
-    virtual QGraphicsWidget* graphicsWidget();
+    virtual void generatePreview();
+    virtual QStringList mimetypes() {
+        return QStringList() << QString("message/rfc822");
+    }
 
-    virtual void createConfigurationInterface(KConfigDialog* parent);
-
-    Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
-
-public slots:
-    bool isTopEdge() const;
-    bool isBottomEdge() const;
-
-signals:
-    void popupEventSignal(bool shown);
-    void settingsChanged();
-
-protected:
-    virtual void popupEvent(bool show);
-
+private slots:
+    void slotItemsReceived(const Akonadi::Item::List& itemList);
 private:
-    Plasma::DeclarativeWidget* m_declarativeWidget;
+    void insertEmailBody(QTextCursor& cursor, const QString& body);
 };
 
-K_EXPORT_PLASMA_APPLET(milou_applet, Applet)
-
-#endif // APPLET_H
+#endif // EMAILPLUGIN_H
