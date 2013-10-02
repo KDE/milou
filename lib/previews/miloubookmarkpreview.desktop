@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=miloubookmarkplugin
 Name=Milou Bookmark Preview Plugin
+Name[de]=Milou-Vorschaumodul für Lesezeichen
 Name[pt]='Plugin' de Antevisão de Favoritos do Milou
 Name[pt_BR]=Plugin de previsão de favoritos do Milou
 Name[sv]=Milou insticksprogram för förhandsgranskning av bokmärken

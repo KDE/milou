@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=milouemailplugin
 Name=Milou Email Preview Plugin
+Name[de]=Milou-Vorschaumodul für E-Mails
 Name[pt]='Plugin' de Antevisão de E-Mail do Milou
 Name[pt_BR]=Plugin de previsão de e-mail do Milou
 Name[sv]=Milou insticksprogram för förhandsgranskning av e-post

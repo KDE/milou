@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=milouokularplugin
 Name=Milou Okular Preview Plugin
+Name[de]=Milou-Vorschaumodul für Okular
 Name[pt]='Plugin' de Antevisão do Okular do Milou
 Name[pt_BR]=Plugin de previsão do Okular do Milou
 Name[sv]=Milou Okular insticksprogram för förhandsgranskning

@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=milouimageplugin
 Name=Milou Image Preview Plugin
+Name[de]=Milou-Vorschaumodul für Bilder
 Name[pt]='Plugin' de Antevisão de Imagens do Milou
 Name[pt_BR]=Plugin de previsão de imagem do Milou
 Name[sv]=Milou insticksprogram för förhandsgranskning av bilder
