@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=milouaudioplugin
 Name=Milou Audio Preview Plugin
+Name[de]=Milou-Vorschaumodul für Audio
 Name[pt]='Plugin' de Antevisão de Áudio do Milou
 Name[pt_BR]=Plugin de previsão de áudio do Milou
 Name[sv]=Milou insticksprogram för förhandsgranskning av ljud
