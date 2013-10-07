@@ -3,6 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=MilouPreviewPlugin
 Comment=Milou Preview Plugin
 Comment[de]=Milou-Vorschaumodul
+Comment[hu]=Milou előnézet bővítmény
 Comment[pt]='Plugin' de Antevisão do Milou
 Comment[pt_BR]=Plugin de previsão do Milou
 Comment[sv]=Milou insticksprogram för förhandsgranskning
