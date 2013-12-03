@@ -10,8 +10,6 @@ target_link_libraries (milouqmlplugin
     ${QT_QTDECLARATIVE_LIBRARY}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KDEUI_LIBS}
-    ${NEPOMUK_CORE_LIBRARY}
-    ${NEPOMUK_WIDGETS_LIBRARY}
     milou
 )
 

@@ -20,38 +20,43 @@
  *
  */
 
-#ifndef NEPOMUK2_QUERYRUNNABLE_H
-#define NEPOMUK2_QUERYRUNNABLE_H
+#ifndef BALOOSOURCE_H
+#define BALOOSOURCE_H
 
-#include <QRunnable>
-#include <Nepomuk2/Query/Query>
-#include <Nepomuk2/Query/Result>
+#include "abstractsource.h"
+#include <baloo/queryrunnable.h>
 
-namespace Nepomuk2 {
+#include <QThreadPool>
 
-class QueryRunnable : public QObject, public QRunnable
+class BalooSource : public AbstractSource
 {
     Q_OBJECT
 public:
-    QueryRunnable(const Query::Query& query);
-    QueryRunnable(const QString& query, const Query::RequestPropertyMap& map = Query::RequestPropertyMap());
-    virtual void run();
+    explicit BalooSource(QObject* parent = 0);
+    virtual ~BalooSource();
 
-    void stop();
+    virtual void query(const QString& string);
+    virtual void run(const Match& match);
+    virtual void stop();
 
-signals:
-    void queryResult(Nepomuk2::QueryRunnable* queryRunnable, const Nepomuk2::Query::Result& result);
-    void finished(Nepomuk2::QueryRunnable* queryRunnable);
+public slots:
+    void slotQueryResult(Baloo::QueryRunnable* runnable, const Baloo::Result& result);
+    void slotQueryFinished(Baloo::QueryRunnable* runnable);
 
 private:
-    Query::Query m_query;
+    QHash<Baloo::QueryRunnable*, MatchType*> m_queries;
+    QThreadPool* m_threadPool;
 
-    QString m_sparqlQuery;
-    Query::RequestPropertyMap m_requestPropMap;
+    MatchType* m_audioType;
+    MatchType* m_videoType;
+    MatchType* m_documentType;
+    MatchType* m_imageType;
+    MatchType* m_folderType;
+    MatchType* m_emailType;
 
-    bool m_stop;
+    QHash<MatchType*, QString> m_typeHash;
+
+    Baloo::QueryRunnable* fetchQueryForType(const QString& text, MatchType* type);
 };
 
-}
-
-#endif // NEPOMUK2_QUERYRUNNABLE_H
+#endif // BALOOSOURCE_H

@@ -2,7 +2,7 @@
 set (lib_SRCS
     abstractsource.cpp
     match.cpp
-    nepomuksource.cpp
+    baloosource.cpp
     plasmarunnersource.cpp
     applicationsource.cpp
     calculatorsource.cpp
@@ -10,9 +10,6 @@ set (lib_SRCS
     preview.cpp
     previewplugin.cpp
     reversemodel.cpp
-
-    nepomuk/asyncnepomukresourceretriever.cpp
-    nepomuk/queryrunnable.cpp
 )
 
 kde4_add_library(milou SHARED ${lib_SRCS})
@@ -22,9 +19,8 @@ target_link_libraries (milou
     ${QT_QTDECLARATIVE_LIBRARY}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KIO_LIBS}
-    ${NEPOMUK_CORE_LIBRARY}
-    ${NEPOMUK_WIDGETS_LIBRARY}
     ${KDE4_PLASMA_LIBS}
+    ${BALOO_LIBRARIES}
 )
 
 install(

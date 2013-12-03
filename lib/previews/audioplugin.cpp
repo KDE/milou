@@ -30,43 +30,20 @@
 #include <QDeclarativeContext>
 #include <QDateTime>
 
-#include <Nepomuk2/Vocabulary/NIE>
-#include <Nepomuk2/Vocabulary/NMM>
-#include <Nepomuk2/Vocabulary/NFO>
-
-using namespace Nepomuk2::Vocabulary;
-
 AudioPlugin::AudioPlugin(QObject* parent, const QVariantList&): PreviewPlugin(parent)
 {
-    m_pool = new QThreadPool(this);
-    m_pool->setMaxThreadCount(2);
 }
 
 void AudioPlugin::generatePreview()
 {
-    const QString query = QString::fromLatin1("select ?title ?per ?album ?duration where {"
-                                              " ?r nie:url %1 . "
-                                              " OPTIONAL { ?r nie:title ?title . }"
-                                              " OPTIONAL { ?r nfo:duration ?duration . }"
-                                              " OPTIONAL { ?r nmm:performer ?a . ?a nco:fullname ?per . }"
-                                              " OPTIONAL { ?r nmm:musicAlbum ?al . ?al nie:title ?album . }"
-                                              " } LIMIT 1")
-                          .arg(Soprano::Node::resourceToN3(url()));
+    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(url().toLocalFile());
+    connect(job, SIGNAL(fileReceived(Baloo::File)),
+            this, SLOT(slotFileReceived(Baloo::File)));
 
-    Nepomuk2::Query::RequestPropertyMap map;
-    map.insert("title", NIE::title());
-    map.insert("per", NMM::performer());
-    map.insert("album", NMM::musicAlbum());
-    map.insert("duration", NFO::duration());
-
-    Nepomuk2::QueryRunnable* runnable = new Nepomuk2::QueryRunnable(query, map);
-    connect(runnable, SIGNAL(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)),
-            this, SLOT(queryResult(Nepomuk2::QueryRunnable*,Nepomuk2::Query::Result)));
-
-    m_pool->start(runnable);
+    job->start();
 }
 
-void AudioPlugin::queryResult(Nepomuk2::QueryRunnable* , const Nepomuk2::Query::Result& results)
+void AudioPlugin::slotFileReceived(const Baloo::File& file)
 {
     QString qmlFile = KGlobal::dirs()->findResource("data", "plasma/plasmoids/org.kde.milou/contents/ui/previews/Audio.qml");
 
@@ -82,10 +59,10 @@ void AudioPlugin::queryResult(Nepomuk2::QueryRunnable* , const Nepomuk2::Query::
     keys << i18n("Artist: ") << i18n("Album: ") << i18n("Duration: ");
 
     QStringList values;
-    values << results.requestProperty(NMM::performer()).literal().toString();
-    values << results.requestProperty(NMM::musicAlbum()).literal().toString();
+    values << file.property("artist").toString();
+    values << file.property("album").toString();
 
-    int duration = results.requestProperty(NFO::duration()).literal().toInt();
+    int duration = file.property("duration").toInt();
     QTime time;
     time = time.addSecs(duration);
     if (time.hour())
@@ -93,7 +70,7 @@ void AudioPlugin::queryResult(Nepomuk2::QueryRunnable* , const Nepomuk2::Query::
     else
         values << time.toString("m:ss");
 
-    item->setProperty("title", results.requestProperty(NIE::title()).literal().toString());
+    item->setProperty("title", file.property("title").toString());
     item->setProperty("keys", QVariant::fromValue(keys));
     item->setProperty("values", QVariant::fromValue(values));
     item->setProperty("length", keys.length());

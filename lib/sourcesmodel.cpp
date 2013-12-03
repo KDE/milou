@@ -21,7 +21,7 @@
  */
 
 #include "sourcesmodel.h"
-#include "nepomuksource.h"
+#include "baloosource.h"
 #include "plasmarunnersource.h"
 #include "applicationsource.h"
 #include "calculatorsource.h"
@@ -37,14 +37,14 @@ SourcesModel::SourcesModel(QObject* parent)
     ApplicationSource* appSource = new ApplicationSource(this);
     connect(appSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
-    AbstractSource* nepomukSource = new NepomukSource(this);
-    connect(nepomukSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+    AbstractSource* balooSource = new BalooSource(this);
+    connect(balooSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
     AbstractSource* calculatorsource = new CalculatorSource(this);
     connect(calculatorsource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
     m_sources << appSource;
-    m_sources << nepomukSource;
+    m_sources << balooSource;
     m_sources << plasmaRunnerSource;
     m_sources << calculatorsource;
 

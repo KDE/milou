@@ -85,13 +85,13 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 # Audio
 #
-kde4_add_plugin(milouaudioplugin audioplugin.cpp ../nepomuk/queryrunnable.cpp)
+kde4_add_plugin(milouaudioplugin audioplugin.cpp)
 
 target_link_libraries(milouaudioplugin
     milou
     ${KDE4_KIO_LIBS}
     ${QT_QTDECLARATIVE_LIBRARY}
-    ${NEPOMUK_CORE_LIBRARY}
+    ${BALOO_LIBRARIES}
 )
 
 install(

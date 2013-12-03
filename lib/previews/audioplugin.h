@@ -24,9 +24,7 @@
 #define AUDIOPLUGIN_H
 
 #include "previewplugin.h"
-#include "nepomuk/queryrunnable.h"
-
-#include <QThreadPool>
+#include <baloo/file.h>
 
 class AudioPlugin : public Milou::PreviewPlugin
 {
@@ -40,10 +38,7 @@ public:
     }
 
 private slots:
-    void queryResult(Nepomuk2::QueryRunnable*, const Nepomuk2::Query::Result& results);
-
-private:
-    QThreadPool* m_pool;
+    void slotFileReceived(const Baloo::File& file);
 };
 
 #endif // AUDIOPLUGIN_H
