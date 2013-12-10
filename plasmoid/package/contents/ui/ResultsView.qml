@@ -85,23 +85,6 @@ ListView {
         preview.highlight = string
     }
 
-    Timer {
-        id: delayedShowPreview
-        interval: 50
-        repeat: false
-
-        onTriggered: {
-            showPreview();
-        }
-    }
-
-    onCurrentItemChanged: {
-        // We need a delay because we want the currentIndex to be 0 when inserting items
-        // and the preview to be shown on index 0, and not on the current index which may
-        // have changed becuase an item was inserted somewhere
-        delayedShowPreview.start()
-    }
-
     // Tooltip
     PlasmaCore.Dialog {
         id: dialog
