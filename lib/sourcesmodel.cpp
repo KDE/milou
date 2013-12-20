@@ -31,8 +31,8 @@
 SourcesModel::SourcesModel(QObject* parent)
 : QAbstractListModel(parent)
 {
-    PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
-    connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+    //PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
+    //connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
 
     ApplicationSource* appSource = new ApplicationSource(this);
     connect(appSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
@@ -45,7 +45,7 @@ SourcesModel::SourcesModel(QObject* parent)
 
     m_sources << appSource;
     m_sources << balooSource;
-    m_sources << plasmaRunnerSource;
+    //m_sources << plasmaRunnerSource;
     m_sources << calculatorsource;
 
     QHash<int, QByteArray> roles = roleNames();
