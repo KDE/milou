@@ -29,7 +29,9 @@
 #include <KMimeType>
 #include <KLocalizedString>
 
-BalooSource::BalooSource(QObject* parent): AbstractSource(parent)
+BalooSource::BalooSource(QObject* parent)
+    : AbstractSource(parent)
+    , m_runnable(0)
 {
     // FIXME: Find better icons!
     m_audioType = new MatchType(i18n("Audio"), "audio");
@@ -63,16 +65,14 @@ BalooSource::~BalooSource()
 
 void BalooSource::stop()
 {
-    QHash<Baloo::QueryRunnable*, MatchType*>::iterator it = m_queries.begin();
-    for (; it != m_queries.end(); it++) {
-        it.key()->stop();
-    }
-    m_queries.clear();
+    if (m_runnable)
+        m_runnable->stop();
 }
 
 void BalooSource::query(const QString& text)
 {
     stop();
+
     if (text.isEmpty())
         return;
 
@@ -82,33 +82,23 @@ void BalooSource::query(const QString& text)
             return;
     }
 
+    QList<MatchType*> matchTypes;
     foreach(MatchType* type, types()) {
         if (!type->shown())
             continue;
 
-        Baloo::QueryRunnable* runnable = fetchQueryForType(text, type);
-        if (!runnable)
-            continue;
-        m_queries.insert(runnable, type);
-
-        // TODO: Take type priority into account?
-        m_threadPool->start(runnable);
+        matchTypes << type;
     }
-}
 
-void BalooSource::slotQueryFinished(Baloo::QueryRunnable* runnable)
-{
-    m_queries.remove(runnable);
+    m_runnable = new Milou::BalooRunnable(text, m_typeHash, matchTypes, queryLimit(), this);
+    connect(m_runnable, SIGNAL(queryResult(MatchType*, Baloo::Result)),
+            this, SLOT(slotQueryResult(MatchType*, Baloo::Result)));
+    m_threadPool->start(m_runnable);
 }
 
 
-void BalooSource::slotQueryResult(Baloo::QueryRunnable* runnable, const Baloo::Result& result)
+void BalooSource::slotQueryResult(MatchType* type, const Baloo::Result& result)
 {
-    if (!m_queries.contains(runnable)) {
-        return;
-    }
-
-    MatchType* type = m_queries.value(runnable);
     KUrl url = result.url();
 
     Match match(this);
@@ -140,21 +130,4 @@ void BalooSource::run(const Match& match)
         QDesktopServices::openUrl(url);
     }
 }
-
-Baloo::QueryRunnable* BalooSource::fetchQueryForType(const QString& text, MatchType* type)
-{
-    Baloo::Query query;
-    query.setSearchString(text);
-    query.setLimit(queryLimit());
-    query.addType(m_typeHash.value(type));
-
-    Baloo::QueryRunnable* queryRunnable = new Baloo::QueryRunnable(query);
-    connect(queryRunnable, SIGNAL(queryResult(Baloo::QueryRunnable*,Baloo::Result)),
-            this, SLOT(slotQueryResult(Baloo::QueryRunnable*,Baloo::Result)));
-    connect(queryRunnable, SIGNAL(finished(Baloo::QueryRunnable*)),
-            this, SLOT(slotQueryFinished(Baloo::QueryRunnable*)));
-
-    return queryRunnable;
-}
-
 

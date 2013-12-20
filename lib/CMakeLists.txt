@@ -3,6 +3,7 @@ set (lib_SRCS
     abstractsource.cpp
     match.cpp
     baloosource.cpp
+    baloorunnable.cpp
     plasmarunnersource.cpp
     applicationsource.cpp
     calculatorsource.cpp

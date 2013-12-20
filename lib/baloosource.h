@@ -24,9 +24,10 @@
 #define BALOOSOURCE_H
 
 #include "abstractsource.h"
-#include <baloo/queryrunnable.h>
+#include "baloorunnable.h"
 
 #include <QThreadPool>
+#include <baloo/query.h>
 
 class BalooSource : public AbstractSource
 {
@@ -40,11 +41,10 @@ public:
     virtual void stop();
 
 public slots:
-    void slotQueryResult(Baloo::QueryRunnable* runnable, const Baloo::Result& result);
-    void slotQueryFinished(Baloo::QueryRunnable* runnable);
+    void slotQueryResult(MatchType* type, const Baloo::Result& result);
 
 private:
-    QHash<Baloo::QueryRunnable*, MatchType*> m_queries;
+    Milou::BalooRunnable* m_runnable;
     QThreadPool* m_threadPool;
 
     MatchType* m_audioType;
@@ -56,7 +56,7 @@ private:
 
     QHash<MatchType*, QString> m_typeHash;
 
-    Baloo::QueryRunnable* fetchQueryForType(const QString& text, MatchType* type);
+    Baloo::Query fetchQueryForType(const QString& text, MatchType* type);
 };
 
 #endif // BALOOSOURCE_H
