@@ -49,7 +49,9 @@ void BalooRunnable::run()
         Baloo::Query query;
         query.addType(m_matchTypeHash.value(type));
         query.setSearchString(m_searchString);
-        query.setLimit(m_limit);
+        // HACK: We never actually show all the search results since there are other competing
+        //       results. This way we avoid the extra sql queries
+        query.setLimit(m_limit/3);
 
         Baloo::ResultIterator it = query.exec();
         while (it.next()) {
