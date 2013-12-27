@@ -85,8 +85,8 @@ void BalooSource::query(const Context& context)
     }
 
     QList<MatchType*> matchTypes;
-    foreach(MatchType* type, types()) {
-        if (!context.types().contains(type))
+    foreach(MatchType* type, context.types()) {
+        if (!types().contains(type))
             continue;
 
         matchTypes << type;
