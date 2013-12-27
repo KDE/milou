@@ -2,6 +2,7 @@
 set (lib_SRCS
     abstractsource.cpp
     match.cpp
+    context.cpp
     baloosource.cpp
     baloorunnable.cpp
     plasmarunnersource.cpp

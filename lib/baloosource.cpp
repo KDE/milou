@@ -69,9 +69,11 @@ void BalooSource::stop()
         m_runnable->stop();
 }
 
-void BalooSource::query(const QString& text)
+void BalooSource::query(const Context& context)
 {
     stop();
+
+    const QString text = context.query();
 
     if (text.isEmpty())
         return;

@@ -27,6 +27,7 @@
 #include <QUrl>
 
 #include "match.h"
+#include "context.h"
 
 class AbstractSource : public QObject
 {
@@ -35,7 +36,7 @@ public:
     explicit AbstractSource(QObject* parent = 0);
     virtual ~AbstractSource();
 
-    virtual void query(const QString& string) = 0;
+    virtual void query(const Context& context) = 0;
     virtual void run(const Match& match);
 
     void setQueryLimit(int limit);

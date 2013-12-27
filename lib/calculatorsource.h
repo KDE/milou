@@ -38,7 +38,7 @@ class CalculatorSource : public AbstractSource
     public:
         explicit CalculatorSource(QObject* parent);
 
-        virtual void query(const QString& string);
+        virtual void query(const Context& context);
 
     private:
         QString calculate(const QString& term);

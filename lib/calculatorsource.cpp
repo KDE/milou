@@ -180,9 +180,9 @@ void CalculatorSource::userFriendlySubstitutions(QString& cmd)
 }
 
 
-void CalculatorSource::query(const QString& string)
+void CalculatorSource::query(const Context& context)
 {
-    QString cmd = string;
+    QString cmd = context.query();
 
     //no meanless space between friendly guys: helps simplify code
     cmd = cmd.trimmed().remove(' ');

@@ -32,7 +32,7 @@ class PlasmaRunnerSource : public AbstractSource
 public:
     explicit PlasmaRunnerSource(QObject* parent = 0);
 
-    virtual void query(const QString& string);
+    virtual void query(const Context& context);
     virtual void run(const Match& match);
 
 private slots:

@@ -36,7 +36,7 @@ public:
     explicit BalooSource(QObject* parent = 0);
     virtual ~BalooSource();
 
-    virtual void query(const QString& string);
+    virtual void query(const Context& context);
     virtual void run(const Match& match);
     virtual void stop();
 

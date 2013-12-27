@@ -194,8 +194,11 @@ void SourcesModel::setQueryString(const QString& str)
     clear();
     m_queryString = str;
 
+    Context context;
+    context.setQuery(str);
+
     foreach (AbstractSource* source, m_sources) {
-        source->query(str);
+        source->query(context);
     }
 }
 

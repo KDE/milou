@@ -41,12 +41,12 @@ PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
     setTypes(types);
 }
 
-void PlasmaRunnerSource::query(const QString& string)
+void PlasmaRunnerSource::query(const Context& context)
 {
     qDeleteAll(m_mapping.values());
     m_mapping.clear();
 
-    m_manager->launchQuery(string);
+    m_manager->launchQuery(context.query());
 }
 
 void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& matches)

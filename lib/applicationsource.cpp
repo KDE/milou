@@ -42,8 +42,9 @@ ApplicationSource::ApplicationSource(QObject* parent): AbstractSource(parent)
     setTypes(types);
 }
 
-void ApplicationSource::query(const QString& term)
+void ApplicationSource::query(const Context& context)
 {
+    const QString term = context.query();
     if (!term.size())
         return;
 
