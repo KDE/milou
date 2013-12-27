@@ -27,6 +27,7 @@
 #include "calculatorsource.h"
 
 #include <KDebug>
+#include <QTimer>
 
 SourcesModel::SourcesModel(QObject* parent)
 : QAbstractListModel(parent)
@@ -192,16 +193,29 @@ void SourcesModel::setQueryString(const QString& str)
         return;
     }
 
-    clear();
+    m_matches.clear();
+    m_size = 0;
+
     m_queryString = str;
 
     Context context;
     context.setQuery(str);
     context.setTypes(m_typesShown);
 
+    m_supressSignals = true;
     foreach (AbstractSource* source, m_sources) {
         source->query(context);
     }
+
+    QTimer::singleShot(250, this, SLOT(stopSuppressingSignals()));
+}
+
+void SourcesModel::stopSuppressingSignals()
+{
+    m_supressSignals = false;
+
+    beginResetModel();
+    endResetModel();
 }
 
 //
@@ -240,17 +254,21 @@ void SourcesModel::slotMatchAdded(const Match& m)
         int removeRowPos = fetchRowCount(maxShownType);
         removeRowPos += m_matches[maxShownType].shown.size() - 1;
 
-        beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
+        if (!m_supressSignals)
+            beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
         Match transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
-        endRemoveRows();
+        if (!m_supressSignals)
+            endRemoveRows();
 
         int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
-        beginInsertRows(QModelIndex(), insertPos, insertPos);
+        if (!m_supressSignals)
+            beginInsertRows(QModelIndex(), insertPos, insertPos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        endInsertRows();
+        if (!m_supressSignals)
+            endInsertRows();
     }
     else {
         int pos = 0;
@@ -261,10 +279,12 @@ void SourcesModel::slotMatchAdded(const Match& m)
             }
         }
 
-        beginInsertRows(QModelIndex(), pos, pos);
+        if (!m_supressSignals)
+            beginInsertRows(QModelIndex(), pos, pos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        endInsertRows();
+        if (!m_supressSignals)
+            endInsertRows();
     }
 }
 

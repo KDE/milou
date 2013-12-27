@@ -61,6 +61,7 @@ public slots:
 
 private slots:
     void slotMatchAdded(const Match& m);
+    void stopSuppressingSignals();
 
 public:
     // The types are ordered based on the preference
@@ -78,6 +79,8 @@ public:
     int m_queryLimit;
 
     QList<AbstractSource*> m_sources;
+
+    bool m_supressSignals;
 
     /// Returns the number of visible rows before \p type
     int fetchRowCount(const QString& type) const;
