@@ -22,6 +22,9 @@
 #define MILOU_CONTEXT_H
 
 #include <QString>
+#include <QList>
+
+#include "match.h"
 
 class Context {
 public:
@@ -30,8 +33,19 @@ public:
     void setQuery(const QString& query);
     QString query() const;
 
+    /**
+     * Gives the list of types that the Source should take into consideration
+     * when returning results.
+     *
+     * Results which are not one of these types will be ignored, so it is
+     * best to not generate them
+     */
+    QList<MatchType*> types() const;
+    void setTypes(const QList<MatchType*>& types);
+
 private:
     QString m_query;
+    QList<MatchType*> m_types;
 };
 
 #endif

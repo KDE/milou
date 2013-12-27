@@ -33,3 +33,13 @@ void Context::setQuery(const QString& query)
 {
     m_query = query;
 }
+
+void Context::setTypes(const QList<MatchType*>& types)
+{
+    m_types = types;
+}
+
+QList<MatchType*> Context::types() const
+{
+    return m_types;
+}

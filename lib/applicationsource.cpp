@@ -48,8 +48,8 @@ void ApplicationSource::query(const Context& context)
     if (!term.size())
         return;
 
-    if (!m_applicationType->isShown() && !m_kcmType->isShown())
-        return;
+    bool showApplications = context.types().contains(m_applicationType);
+    bool showKcms = context.types().contains(m_kcmType);
 
     QSet<QString> seen;
     QString queryStr = QString("exist Exec and ('%1' ~~ Name)").arg(term);
@@ -64,13 +64,13 @@ void ApplicationSource::query(const Context& context)
         Match match(this);
         bool isKcm = service->serviceTypes().contains("KCModule");
         if (isKcm) {
-            if (!m_kcmType->isShown())
+            if (!showKcms)
                 continue;
 
             match.setType(m_kcmType);
         }
         else {
-            if (!m_applicationType->isShown())
+            if (!showApplications)
                 continue;
 
             match.setType(m_applicationType);
@@ -122,13 +122,13 @@ void ApplicationSource::query(const Context& context)
         Match match(this);
         bool isKcm = service->serviceTypes().contains("KCModule");
         if (isKcm) {
-            if (!m_kcmType->isShown())
+            if (!showKcms)
                 continue;
 
             match.setType(m_kcmType);
         }
         else {
-            if (!m_applicationType->isShown())
+            if (!showApplications)
                 continue;
 
             match.setType(m_applicationType);

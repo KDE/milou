@@ -65,6 +65,7 @@ private slots:
 public:
     // The types are ordered based on the preference
     QVector<QString> m_types;
+    QList<MatchType*> m_typesShown;
 
     struct TypeData {
         QList<Match> shown;

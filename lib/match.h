@@ -102,18 +102,8 @@ public:
     QString icon();
     void setIcon(const QString& icon);
 
-    /**
-     * Returns true if these matches are going to be shown to the user
-     * If the matches are not going to be shown there is no point in generating
-     * them
-     */
-    bool isShown() const;
-    bool shown() const;
-    void setShown(bool s);
-
 private:
     QString m_name;
     QString m_icon;
-    bool m_shown;
 };
 #endif // MATCH_H

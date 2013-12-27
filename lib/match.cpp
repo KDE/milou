@@ -130,7 +130,7 @@ MatchType::MatchType()
 }
 
 MatchType::MatchType(const QString& name, const QString& icon)
-    : m_name(name), m_icon(icon), m_shown(true)
+    : m_name(name), m_icon(icon)
 {
 
 }
@@ -154,22 +154,4 @@ void MatchType::setIcon(const QString& icon)
 {
     m_icon = icon;
 }
-
-
-bool MatchType::isShown() const
-{
-    return m_shown;
-}
-
-bool MatchType::shown() const
-{
-    return m_shown;
-}
-
-void MatchType::setShown(bool s)
-{
-    m_shown = s;
-}
-
-
 

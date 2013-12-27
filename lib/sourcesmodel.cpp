@@ -81,7 +81,7 @@ void SourcesModel::loadSettings()
 
             group.writeEntry("Name", type->name());
             group.writeEntry("Icon", type->icon());
-            group.writeEntry("Enabled", type->shown());
+            group.writeEntry("Enabled", true);
 
             m_types << type->name();
         }
@@ -89,6 +89,7 @@ void SourcesModel::loadSettings()
     else {
         kDebug() << "Loading the settings";
         m_types.resize(allTypes.size());
+        m_typesShown.clear();
 
         for(int i=0; i<allTypes.size(); i++) {
             KConfigGroup group = config.group("Type-" + QString::number(i));
@@ -100,7 +101,7 @@ void SourcesModel::loadSettings()
             foreach(MatchType* type, allTypes) {
                 if (type->name() == name) {
                     kDebug() << i << type->name() << shown;
-                    type->setShown(shown);
+                    m_typesShown << type;
                     m_types[i] = name;
                 }
             }
@@ -196,6 +197,7 @@ void SourcesModel::setQueryString(const QString& str)
 
     Context context;
     context.setQuery(str);
+    context.setTypes(m_typesShown);
 
     foreach (AbstractSource* source, m_sources) {
         source->query(context);
@@ -211,7 +213,7 @@ void SourcesModel::slotMatchAdded(const Match& m)
     if (m_queryString.isEmpty())
         return;
 
-    if (!m.type()->isShown())
+    if (!m_typesShown.contains(m.type()))
         return;
 
     const QString matchType = m.type()->name();
