@@ -92,7 +92,7 @@ void BalooSource::query(const Context& context)
         matchTypes << type;
     }
 
-    m_runnable = new Milou::BalooRunnable(text, m_typeHash, matchTypes, queryLimit(), this);
+    m_runnable = new Milou::BalooRunnable(text, m_typeHash, matchTypes, queryLimit());
     connect(m_runnable, SIGNAL(queryResult(MatchType*, Baloo::Result)),
             this, SLOT(slotQueryResult(MatchType*, Baloo::Result)));
     m_threadPool->start(m_runnable);
