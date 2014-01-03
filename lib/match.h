@@ -37,7 +37,7 @@ class MatchType;
 class Match
 {
 public:
-    explicit Match(AbstractSource* source);
+    explicit Match(AbstractSource* source = 0);
     ~Match();
 
     AbstractSource* source() const;

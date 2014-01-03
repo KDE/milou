@@ -113,9 +113,9 @@ void SourcesModel::loadSettings()
 Match SourcesModel::fetchMatch(int row) const
 {
     foreach(const QString& type, m_types) {
-        TypeData data = m_matches.value(type);
+        const TypeData data = m_matches.value(type);
         if (row < data.shown.size())
-            return data.shown[row];
+            return data.shown.value(row);
         else
             row -= data.shown.size();
     }
