@@ -52,7 +52,7 @@ private:
     QList<MatchType*> m_types;
     int m_limit;
 
-    bool m_stop;
+    QAtomicInt m_stop;
 };
 
 }

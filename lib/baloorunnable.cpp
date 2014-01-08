@@ -54,10 +54,7 @@ void BalooRunnable::run()
         query.setLimit(m_limit/3);
 
         Baloo::ResultIterator it = query.exec();
-        while (it.next()) {
-            if (m_stop)
-                return;
-
+        while (!m_stop && it.next()) {
             Q_EMIT queryResult(type, it.result());
         }
     }
