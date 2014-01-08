@@ -78,12 +78,6 @@ void BalooSource::query(const Context& context)
     if (text.isEmpty())
         return;
 
-    // Do not use calculator things
-    if (text.contains(QRegExp("[0-9]"))) {
-        if (text.contains('*') || text.contains('+') || text.contains('-'))
-            return;
-    }
-
     QList<MatchType*> matchTypes;
     foreach(MatchType* type, context.types()) {
         if (!types().contains(type))
