@@ -114,10 +114,15 @@ Match SourcesModel::fetchMatch(int row) const
 {
     foreach(const QString& type, m_types) {
         const TypeData data = m_matches.value(type);
-        if (row < data.shown.size())
+        if (row < data.shown.size()) {
             return data.shown.value(row);
-        else
+        }
+        else {
             row -= data.shown.size();
+            if (row < 0) {
+                break;
+            }
+        }
     }
 
     return Match(0);
