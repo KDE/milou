@@ -30,7 +30,8 @@
 #include <QTimer>
 
 SourcesModel::SourcesModel(QObject* parent)
-: QAbstractListModel(parent)
+    : QAbstractListModel(parent)
+    , m_size(0)
 {
     //PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
     //connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
