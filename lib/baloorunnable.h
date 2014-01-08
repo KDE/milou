@@ -45,6 +45,7 @@ public:
 
 Q_SIGNALS:
     void queryResult(MatchType* type, const Baloo::Result& result);
+    void queryFinished();
 
 private:
     QString m_searchString;

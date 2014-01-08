@@ -42,6 +42,7 @@ public:
 
 public slots:
     void slotQueryResult(MatchType* type, const Baloo::Result& result);
+    void slotQueryFinished();
 
 private:
     Milou::BalooRunnable* m_runnable;

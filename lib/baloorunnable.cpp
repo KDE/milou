@@ -58,4 +58,6 @@ void BalooRunnable::run()
             Q_EMIT queryResult(type, it.result());
         }
     }
+
+    Q_EMIT queryFinished();
 }

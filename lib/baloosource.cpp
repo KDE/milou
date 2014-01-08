@@ -88,10 +88,17 @@ void BalooSource::query(const Context& context)
 
     m_runnable = new Milou::BalooRunnable(text, m_typeHash, matchTypes, queryLimit());
     connect(m_runnable, SIGNAL(queryResult(MatchType*, Baloo::Result)),
-            this, SLOT(slotQueryResult(MatchType*, Baloo::Result)));
+            this, SLOT(slotQueryResult(MatchType*, Baloo::Result)), Qt::QueuedConnection);
+    connect(m_runnable, SIGNAL(queryFinished()),
+            this, SLOT(slotQueryFinished()), Qt::QueuedConnection);
+
     m_threadPool->start(m_runnable);
 }
 
+void BalooSource::slotQueryFinished()
+{
+    m_runnable = 0;
+}
 
 void BalooSource::slotQueryResult(MatchType* type, const Baloo::Result& result)
 {
