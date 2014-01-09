@@ -74,6 +74,9 @@ Item {
         function setTextFieldFocus(shown) {
             searchField.setFocus();
             searchField.selectAll();
+
+            if (!shown)
+                listView.clearPreview();
         }
 
         function loadSettings() {
