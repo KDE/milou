@@ -21,6 +21,9 @@
  */
 
 #include "abstractsource.h"
+#include <KGlobal>
+
+static const KCatalogLoader loader("milou");
 
 AbstractSource::AbstractSource(QObject* parent): QObject(parent)
 {
