@@ -39,6 +39,7 @@ Preview::Preview(QDeclarativeItem* parent)
     : QDeclarativeItem(parent)
     , m_loaded(false)
     , m_declarativeItem(0)
+    , m_filePlugin(0)
 {
     setFlag(QGraphicsItem::ItemHasNoContents, false);
 
@@ -48,6 +49,9 @@ Preview::Preview(QDeclarativeItem* parent)
                 this, SLOT(slotPreviewGenerated(QWidget*)));
         connect(plugin, SIGNAL(previewGenerated(QDeclarativeItem*)),
                 this, SLOT(slotPreviewGenerated(QDeclarativeItem*)));
+
+        if (plugin->mimetypes().contains("file"))
+            m_filePlugin = plugin;
     }
 
     m_proxyWidget = new QGraphicsProxyWidget(this);
@@ -86,6 +90,8 @@ void Preview::refresh()
     }
 
     m_loaded = false;
+
+    bool foundPlugin = false;
     KUrl url(m_url);
     foreach (Milou::PreviewPlugin* plugin, m_plugins) {
         foreach (const QString& mime, plugin->mimetypes()) {
@@ -94,8 +100,18 @@ void Preview::refresh()
                 plugin->setMimetype(m_mimetype);
                 plugin->setHighlight(m_highlight);
                 plugin->generatePreview();
+
+                foundPlugin = true;
+                break;
             }
         }
+    }
+
+    if (!foundPlugin && m_filePlugin) {
+        m_filePlugin->setUrl(url);
+        m_filePlugin->setMimetype(m_mimetype);
+        m_filePlugin->setHighlight(m_highlight);
+        m_filePlugin->generatePreview();
     }
 }
 

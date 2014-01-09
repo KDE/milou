@@ -84,6 +84,7 @@ private:
 
     QList<Milou::PreviewPlugin*> m_plugins;
     QList<Milou::PreviewPlugin*> allPlugins();
+    Milou::PreviewPlugin* m_filePlugin;
 };
 
 #endif // PREVIEW_H

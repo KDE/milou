@@ -103,6 +103,26 @@ TARGETS milouaudioplugin
 DESTINATION ${PLUGIN_INSTALL_DIR})
 
 #
+# General Files
+#
+kde4_add_plugin(miloufileplugin fileplugin.cpp)
+
+target_link_libraries(miloufileplugin
+    milou
+    ${KDE4_KIO_LIBS}
+    ${QT_QTDECLARATIVE_LIBRARY}
+    ${BALOO_LIBRARIES}
+)
+
+install(
+FILES miloufilepreview.desktop
+DESTINATION ${SERVICES_INSTALL_DIR})
+
+install(
+TARGETS miloufileplugin
+DESTINATION ${PLUGIN_INSTALL_DIR})
+
+#
 # Bookmarks
 #
 kde4_add_plugin(miloubookmarkplugin bookmarkplugin.cpp)
