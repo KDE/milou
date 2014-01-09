@@ -85,6 +85,10 @@ ListView {
         preview.highlight = string
     }
 
+    onCurrentItemChanged: {
+        showPreview();
+    }
+
     // Tooltip
     PlasmaCore.Dialog {
         id: dialog
