@@ -23,6 +23,8 @@
 #include "imageplugin.h"
 #include <QPainter>
 
+#include <KDebug>
+
 ImagePlugin::ImagePlugin(QObject* parent, const QVariantList& ): PreviewPlugin(parent)
 {
 
@@ -34,7 +36,8 @@ void ImagePlugin::generatePreview()
     itemList << KFileItem(url(), mimetype(), mode_t());
 
     QStringList enabledPlugins;
-    enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "directorythumbnail";
+    enabledPlugins << "imagethumbnail" << "jpegthumbnail" << "directorythumbnail"
+                   << "videopreview" << "ffmpegthumbs";
 
     QSize size(512, 512);
     if (mimetype() == QLatin1String("inode/directory")) {
@@ -45,6 +48,8 @@ void ImagePlugin::generatePreview()
 
     connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(slotGotPreview(KFileItem,QPixmap)));
+    connect(job, SIGNAL(finished(KJob*)),
+            this, SLOT(slotJobFinished(KJob*)));
     job->start();
 }
 
@@ -71,5 +76,12 @@ void ImagePlugin::slotGotPreview(const KFileItem&, const QPixmap& pixmap)
 
     emit previewGenerated(declarativeItem);
 }
+
+void ImagePlugin::slotJobFinished(KJob* job)
+{
+    if (job->error())
+        kError() << job->errorString();
+}
+
 
 MILOU_EXPORT_PREVIEW(ImagePlugin, "milouimageplugin")

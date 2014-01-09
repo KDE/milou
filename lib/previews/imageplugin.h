@@ -41,6 +41,7 @@ public:
 
 private slots:
     void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
+    void slotJobFinished(KJob* job);
 };
 
 #endif // IMAGEPLUGIN_H
