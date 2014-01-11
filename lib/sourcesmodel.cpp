@@ -103,7 +103,8 @@ void SourcesModel::loadSettings()
             foreach(MatchType* type, allTypes) {
                 if (type->name() == name) {
                     kDebug() << i << type->name() << shown;
-                    m_typesShown << type;
+                    if (shown)
+                        m_typesShown << type;
                     m_types[i] = name;
                 }
             }
