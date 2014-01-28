@@ -138,6 +138,8 @@ void ApplicationSource::query(const Context& context)
         match.setText(service->name());
         match.setIcon(service->icon());
         match.setData(service->storageId());
+        match.setPreviewType("application");
+        match.setPreviewUrl(service->entryPath());
 
         addMatch(match);
         seen.insert(service->storageId());
