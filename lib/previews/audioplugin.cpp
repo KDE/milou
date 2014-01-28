@@ -30,6 +30,8 @@
 #include <QDeclarativeContext>
 #include <QDateTime>
 
+#include <kfilemetadata/properties.h>
+
 AudioPlugin::AudioPlugin(QObject* parent, const QVariantList&): PreviewPlugin(parent)
 {
 }
@@ -59,10 +61,10 @@ void AudioPlugin::slotFileReceived(const Baloo::File& file)
     keys << i18n("Artist: ") << i18n("Album: ") << i18n("Duration: ");
 
     QStringList values;
-    values << file.property("artist").toString();
-    values << file.property("album").toString();
+    values << file.property(KFileMetaData::Property::Artist).toString();
+    values << file.property(KFileMetaData::Property::Album).toString();
 
-    int duration = file.property("duration").toInt();
+    int duration = file.property(KFileMetaData::Property::Duration).toInt();
     QTime time;
     time = time.addSecs(duration);
     if (time.hour())
@@ -70,7 +72,7 @@ void AudioPlugin::slotFileReceived(const Baloo::File& file)
     else
         values << time.toString("m:ss");
 
-    item->setProperty("title", file.property("title").toString());
+    item->setProperty("title", file.property(KFileMetaData::Property::Title).toString());
     item->setProperty("keys", QVariant::fromValue(keys));
     item->setProperty("values", QVariant::fromValue(values));
     item->setProperty("length", keys.length());
