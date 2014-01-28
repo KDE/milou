@@ -17,14 +17,24 @@ ListView {
             id: resultModel
             queryLimit: 20
         }
+        // Is this still required?
         onRowsInserted: {
             if (reversed) {
                 // The extra -1 is because the SourcesModel is slightly strange and cannot
                 // have an overlapping removeRows when insertingRows
                 listView.currentIndex = listView.count - 1 - 1
             }
-            else
+            else {
                 listView.currentIndex = 0
+            }
+        }
+        onModelReset: {
+            if (reversed) {
+                listView.currentIndex = listView.count - 1
+            }
+            else {
+                listView.currentIndex = 0
+            }
         }
 
         reversed: plasmoid.isBottomEdge()
