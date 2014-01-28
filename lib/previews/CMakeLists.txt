@@ -123,6 +123,25 @@ TARGETS miloufileplugin
 DESTINATION ${PLUGIN_INSTALL_DIR})
 
 #
+# Applications
+#
+kde4_add_plugin(milouapplicationplugin applicationplugin.cpp)
+
+target_link_libraries(milouapplicationplugin
+    milou
+    ${KDE4_KIO_LIBS}
+    ${QT_QTDECLARATIVE_LIBRARY}
+)
+
+install(
+FILES milouapplicationpreview.desktop
+DESTINATION ${SERVICES_INSTALL_DIR})
+
+install(
+TARGETS milouapplicationplugin
+DESTINATION ${PLUGIN_INSTALL_DIR})
+
+#
 # Bookmarks
 #
 kde4_add_plugin(miloubookmarkplugin bookmarkplugin.cpp)

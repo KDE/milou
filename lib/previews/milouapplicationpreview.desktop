@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=MilouPreviewPlugin
+X-KDE-Library=milouapplicationplugin
+Name=Milou Application Preview Plugin
