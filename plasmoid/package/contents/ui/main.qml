@@ -13,15 +13,21 @@ Item {
     property int minimumWidth: Globals.PlasmoidWidth
     property int maximumWidth: Globals.PlasmoidWidth
     property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
-    property int maximumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
+    property int maximumHeight: minimumHeight
 
     // The wrapper just exists for giving an appropriate top/bottom margin
     // when it is placed on the top/bottom edge of the screen
     Item {
         id: wrapper
 
-        property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
-        property int maximumHeight: listView.count ? listView.contentHeight + searchField.height + 5: searchField.height + 20
+        //
+        // The +20 is so that the minimumHeight is always atleast 20+. If the height
+        // is too small then Plasma will ignore the fact that it is a PopupApplet
+        // and put the SearchField directly in the panel.
+        //
+        property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5
+                                                   : searchField.height + 20
+        property int maximumHeight: minimumHeight
 
         anchors {
             fill: parent
