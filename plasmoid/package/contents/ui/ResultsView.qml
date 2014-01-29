@@ -65,16 +65,24 @@ ListView {
     Component {
         id: sectionDelegate
         Item {
+            width: Globals.CategoryWidth
+
             Text {
                 id: sectionText
                 text: section
                 color: theme.textColor
                 opacity: 0.5
 
-                // Ideally, one should be using anchors over here, but
-                // that does not provide the desired results
-                x: Globals.CategoryWidth - Globals.CategoryRightMargin - width
-                y: 7
+                horizontalAlignment: Text.AlignRight
+
+                anchors {
+                    fill: parent
+
+                    // FIXME: This should be equal to the topMargin of the
+                    //        PlasmaComponents.ListItem
+                    topMargin: 7
+                    rightMargin: Globals.CategoryRightMargin
+                }
             }
         }
     }
