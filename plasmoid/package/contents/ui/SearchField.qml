@@ -1,30 +1,33 @@
 import QtQuick 1.1
 
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.extras 0.1 as PlasmaExtras
-import org.kde.qtextracomponents 0.1 as QtExtra
-import org.kde.milou 0.1 as Milou
-
 import "../code/globals.js" as Globals
 
+/*
+ * The SearchField is a simple "   Search |___input___|" widget.
+ * The only complex part is aligning the "Search" text on the right
+ * and an internal timer to reduce the number of textChanged signals
+ */
 Item {
     signal textChanged()
     property alias text: textField.text
 
     height: childrenRect.height
+    width: Globals.PlasmoidWidth
 
     PlasmaComponents.Label {
         id: searchText
         anchors {
             left: parent.left
-            right: textField.left
             top: parent.top
-
-            rightMargin: 10
         }
+        // We cannot use anchors.rightMargin as this has an anchor on
+        // left, so the rightMargin has no effect.
+        // Because of this we also need to apply an appropriate leftMargin
+        // on the textField below
+        width: Globals.CategoryWidth - Globals.CategoryRightMargin
+
         horizontalAlignment: Text.AlignRight
-        width: Globals.CategoryComponentWidth
         text: i18n("Search")
     }
 
@@ -32,16 +35,18 @@ Item {
         id: textField
         clearButtonShown: true
         anchors {
+            left: searchText.right
             right: parent.right
             top: parent.top
+
+            leftMargin: Globals.CategoryRightMargin
         }
-        // vHanda: If you know a better way of aligning everything, feel free to change this
-        width: Globals.PlasmoidWidth - Globals.CategoryComponentWidth
 
         focus: true
-
         Keys.forwardTo: listView
 
+        // We do not want to send the text instantly as that would result
+        // in too many queries. Therefore we add a small 200msec delay
         Timer {
             id: timer
             interval: 200

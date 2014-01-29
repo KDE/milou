@@ -56,7 +56,7 @@ QtExtra.MouseEventListener {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
-                leftMargin: Globals.CategoryComponentWidth
+                leftMargin: Globals.CategoryWidth
             }
         }
 
