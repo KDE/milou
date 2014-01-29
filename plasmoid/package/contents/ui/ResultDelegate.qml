@@ -66,7 +66,7 @@ QtExtra.MouseEventListener {
             wrapMode: Text.Wrap
 
             width: parent.width
-            height: 16
+            height: typePixmap.height
 
             elide: Text.ElideRight
             maximumLineCount: 1
