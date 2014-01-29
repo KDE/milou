@@ -72,7 +72,8 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     KMime::Headers::Date* date = msg.date();
     QString dateString = KGlobal::locale()->formatDateTime(date->dateTime(),
                                                            KLocale::FancyShortDate, KLocale::Seconds);
-    KMime::Content *textContent = msg.textContent();
+    KMime::Content* textContent = msg.textContent();
+    KMime::Content* htmlContent = msg.mainBodyPart("text/html");
 
     QTextCharFormat greyCharFormat;
     greyCharFormat.setForeground(QBrush(Qt::gray));
@@ -122,7 +123,10 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     cursor = table->lastCursorPosition();
     cursor.setPosition(cursor.position()+1);
     cursor.insertText("\n\n");
-    insertEmailBody(cursor, textContent->decodedText(true, true));
+    if (!htmlContent)
+        insertEmailBody(cursor, textContent->decodedText(true, true));
+    else
+        cursor.insertHtml(htmlContent->decodedText(true, true));
 
     // Attachments
     KMime::Content::List list = msg.attachments();
