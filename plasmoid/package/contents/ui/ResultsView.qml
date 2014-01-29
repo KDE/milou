@@ -57,16 +57,8 @@ ListView {
         plasmoid.hidePopup()
     }
 
-    Keys.onTabPressed: {
-        currentIndex = (currentIndex + 1) % count
-    }
-
-    Keys.onBacktabPressed: {
-        if (currentIndex > 0)
-            currentIndex = currentIndex - 1
-        else
-            currentIndex = count - 1;
-    }
+    Keys.onTabPressed: incrementCurrentIndex()
+    Keys.onBacktabPressed: decrementCurrentIndex()
 
     boundsBehavior: Flickable.StopAtBounds
 
