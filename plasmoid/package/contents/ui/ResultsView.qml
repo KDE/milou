@@ -6,6 +6,8 @@ import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.qtextracomponents 0.1 as QtExtra
 import org.kde.milou 0.1 as Milou
 
+import "../code/globals.js" as Globals
+
 ListView {
     id: listView
     property alias queryString: resultModel.queryString
@@ -77,7 +79,8 @@ ListView {
                 color: theme.textColor
                 opacity: 0.5
 
-                x: 110 - width
+                // The -10 is for a nice margin
+                x: Globals.CategoryComponentWidth - width - 10
                 y: 7
             }
         }

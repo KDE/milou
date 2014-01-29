@@ -6,9 +6,12 @@ import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.qtextracomponents 0.1 as QtExtra
 import org.kde.milou 0.1 as Milou
 
+import "../code/globals.js" as Globals
+
 Item {
     id: mainWidget
-    property int minimumWidth: 450
+    property int minimumWidth: Globals.PlasmoidWidth
+    property int maximumWidth: Globals.PlasmoidWidth
     property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
     property int maximumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
 

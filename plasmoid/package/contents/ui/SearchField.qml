@@ -6,6 +6,8 @@ import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.qtextracomponents 0.1 as QtExtra
 import org.kde.milou 0.1 as Milou
 
+import "../code/globals.js" as Globals
+
 Item {
     signal textChanged()
     property alias text: textField.text
@@ -22,7 +24,7 @@ Item {
             rightMargin: 10
         }
         horizontalAlignment: Text.AlignRight
-        width: 120
+        width: Globals.CategoryComponentWidth
         text: i18n("Search")
     }
 
@@ -34,7 +36,7 @@ Item {
             top: parent.top
         }
         // vHanda: If you know a better way of aligning everything, feel free to change this
-        width: 450 - 120
+        width: Globals.PlasmoidWidth - Globals.CategoryComponentWidth
 
         focus: true
 

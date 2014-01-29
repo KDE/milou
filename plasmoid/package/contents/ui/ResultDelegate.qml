@@ -4,6 +4,7 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.qtextracomponents 0.1 as QtExtra
 import org.kde.milou 0.1 as Milou
+import "../code/globals.js" as Globals
 
 QtExtra.MouseEventListener {
     id: resultDelegate
@@ -55,7 +56,7 @@ QtExtra.MouseEventListener {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
-                leftMargin: 120
+                leftMargin: Globals.CategoryComponentWidth
             }
         }
 
