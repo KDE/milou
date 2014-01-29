@@ -80,18 +80,20 @@ QDeclarativeContext* PreviewPlugin::context()
 void PreviewPlugin::highlight(const QTextDocument* doc) const
 {
     QTextCursor cursor;
-    while (1) {
-        cursor = doc->find(highlight(), cursor);
-        if (cursor.isNull())
-            break;
+    Q_FOREACH (const QString& text, highlight().split(' ', QString::SkipEmptyParts)) {
+        while (1) {
+            cursor = doc->find(text, cursor);
+            if (cursor.isNull())
+                break;
 
-        QString selection = cursor.selectedText();
+            QString selection = cursor.selectedText();
 
-        QTextCharFormat format = cursor.charFormat();
-        format.setBackground(QBrush(Qt::yellow));
+            QTextCharFormat format = cursor.charFormat();
+            format.setBackground(QBrush(Qt::yellow));
 
-        cursor.removeSelectedText();
-        cursor.insertText(selection, format);
+            cursor.removeSelectedText();
+            cursor.insertText(selection, format);
+        }
     }
 }
 
