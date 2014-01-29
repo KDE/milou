@@ -19,17 +19,9 @@ ListView {
             id: resultModel
             queryLimit: 20
         }
-        // Is this still required?
-        onRowsInserted: {
-            if (reversed) {
-                // The extra -1 is because the SourcesModel is slightly strange and cannot
-                // have an overlapping removeRows when insertingRows
-                listView.currentIndex = listView.count - 1 - 1
-            }
-            else {
-                listView.currentIndex = 0
-            }
-        }
+
+        // Internally when the query string changes, the model is reset
+        // and the results are presented
         onModelReset: {
             if (reversed) {
                 listView.currentIndex = listView.count - 1
