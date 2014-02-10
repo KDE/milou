@@ -36,9 +36,9 @@ CalculatorSource::CalculatorSource(QObject* parent)
     : AbstractSource(parent),
       m_regExp("[a-zA-Z]")
 {
-    m_calculatorType = new MatchType(i18n("Calculator"), QString("accessories-calculator"));
+    m_calculatorType = new Milou::MatchType(i18n("Calculator"), QString("accessories-calculator"));
 
-    QList<MatchType*> types;
+    QList<Milou::MatchType*> types;
     types << m_calculatorType;
 
     setTypes(types);
@@ -180,7 +180,7 @@ void CalculatorSource::userFriendlySubstitutions(QString& cmd)
 }
 
 
-void CalculatorSource::query(const Context& context)
+void CalculatorSource::query(const Milou::Context& context)
 {
     QString cmd = context.query();
 
@@ -192,7 +192,7 @@ void CalculatorSource::query(const Context& context)
     }
 
     if (cmd.toLower() == "universe" || cmd.toLower() == "life") {
-        Match match(this);
+        Milou::Match match(this);
         match.setType(m_calculatorType);
         match.setIcon(QLatin1String("accessories-calculator"));
         match.setText("42");
@@ -230,7 +230,7 @@ void CalculatorSource::query(const Context& context)
             result = "0x" + QString::number(result.toInt(), 16).toUpper();
         }
 
-        Match match(this);
+        Milou::Match match(this);
         match.setType(m_calculatorType);
         match.setIcon(QLatin1String("accessories-calculator"));
         match.setText(result);

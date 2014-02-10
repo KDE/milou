@@ -33,16 +33,16 @@
 ApplicationSource::ApplicationSource(QObject* parent): AbstractSource(parent)
 {
     //TODO: Find an applications icon!
-    m_applicationType = new MatchType(i18n("Applications"), "bah");
-    m_kcmType = new MatchType(i18n("System Settings"), "preferences-desktop");
+    m_applicationType = new Milou::MatchType(i18n("Applications"), "bah");
+    m_kcmType = new Milou::MatchType(i18n("System Settings"), "preferences-desktop");
 
-    QList<MatchType*> types;
+    QList<Milou::MatchType*> types;
     types << m_applicationType << m_kcmType;
 
     setTypes(types);
 }
 
-void ApplicationSource::query(const Context& context)
+void ApplicationSource::query(const Milou::Context& context)
 {
     const QString term = context.query();
     if (!term.size())
@@ -61,7 +61,7 @@ void ApplicationSource::query(const Context& context)
         if (service->noDisplay() || service->property("NotShowIn", QVariant::String) == "KDE")
             continue;
 
-        Match match(this);
+        Milou::Match match(this);
         bool isKcm = service->serviceTypes().contains("KCModule");
         if (isKcm) {
             if (!showKcms)
@@ -121,7 +121,7 @@ void ApplicationSource::query(const Context& context)
             continue;
         }
 
-        Match match(this);
+        Milou::Match match(this);
         bool isKcm = service->serviceTypes().contains("KCModule");
         if (isKcm) {
             if (!showKcms)
@@ -147,7 +147,7 @@ void ApplicationSource::query(const Context& context)
     }
 }
 
-void ApplicationSource::run(const Match& match)
+void ApplicationSource::run(const Milou::Match& match)
 {
     KService::Ptr service = KService::serviceByStorageId(match.data().toString());
     if (service) {

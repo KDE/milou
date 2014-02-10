@@ -26,14 +26,14 @@
 #include "abstractsource.h"
 #include <Plasma/RunnerManager>
 
-class PlasmaRunnerSource : public AbstractSource
+class PlasmaRunnerSource : public Milou::AbstractSource
 {
     Q_OBJECT
 public:
     explicit PlasmaRunnerSource(QObject* parent = 0);
 
-    virtual void query(const Context& context);
-    virtual void run(const Match& match);
+    virtual void query(const Milou::Context& context);
+    virtual void run(const Milou::Match& match);
 
 private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& matches);
@@ -42,7 +42,7 @@ private:
     Plasma::RunnerManager* m_manager;
     QHash<uint, Plasma::QueryMatch*> m_mapping;
 
-    MatchType* m_bookmarkType;
+    Milou::MatchType* m_bookmarkType;
 };
 
 #endif // PLASMARUNNERSOURCE_H

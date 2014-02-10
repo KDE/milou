@@ -29,6 +29,8 @@
 #include "match.h"
 #include "context.h"
 
+namespace Milou {
+
 class AbstractSource : public QObject
 {
     Q_OBJECT
@@ -65,5 +67,7 @@ private:
     int m_queryLimit;
     QList<MatchType*> m_types;
 };
+
+}
 
 #endif // ABSTRACTSOURCE_H

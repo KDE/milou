@@ -29,6 +29,8 @@
 #include "abstractsource.h"
 #include "milou_export.h"
 
+namespace Milou {
+
 class MILOU_EXPORT SourcesModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -86,5 +88,7 @@ public:
     int fetchRowCount(const QString& type) const;
     Match fetchMatch(int row) const;
 };
+
+}
 
 #endif // SOURCESMODEL_H

@@ -26,6 +26,8 @@
 #include "milou_export.h"
 #include <QIdentityProxyModel>
 
+namespace Milou {
+
 class MILOU_EXPORT ReverseModel : public QAbstractProxyModel
 {
     Q_OBJECT
@@ -68,5 +70,7 @@ private:
     int con(int x) const;
     int con(int size, int x) const;
 };
+
+}
 
 #endif // REVERSEMODEL_H

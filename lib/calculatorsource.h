@@ -31,14 +31,14 @@
 /**
  * This class evaluates the basic expressions given in the interface.
  */
-class CalculatorSource : public AbstractSource
+class CalculatorSource : public Milou::AbstractSource
 {
     Q_OBJECT
 
     public:
         explicit CalculatorSource(QObject* parent);
 
-        virtual void query(const Context& context);
+        virtual void query(const Milou::Context& context);
 
     private:
         QString calculate(const QString& term);
@@ -48,7 +48,7 @@ class CalculatorSource : public AbstractSource
 
         QRegExp m_regExp;
 
-        MatchType* m_calculatorType;
+        Milou::MatchType* m_calculatorType;
 };
 
 #endif

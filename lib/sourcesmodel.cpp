@@ -29,6 +29,8 @@
 #include <KDebug>
 #include <QTimer>
 
+using namespace Milou;
+
 SourcesModel::SourcesModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_size(0)

@@ -30,6 +30,8 @@
 #include "modeltest.h"
 #include "../sourcesmodel.h"
 
+using namespace Milou;
+
 class TestObject : public QObject {
     Q_OBJECT
 public slots:
@@ -66,6 +68,7 @@ public:
 
     QTimer timer;
 };
+
 int main(int argc, char** argv)
 {
     KCmdLineArgs::init(argc, argv, "modeltest", "modeltest", ki18n("modeltest"), "0.1");

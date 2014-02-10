@@ -25,6 +25,8 @@
 
 static const KCatalogLoader loader("milou");
 
+using namespace Milou;
+
 AbstractSource::AbstractSource(QObject* parent): QObject(parent)
 {
 

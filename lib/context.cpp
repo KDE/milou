@@ -20,6 +20,8 @@
 
 #include "context.h"
 
+using namespace Milou;
+
 Context::Context()
 {
 }

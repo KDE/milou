@@ -35,6 +35,8 @@
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 
+using namespace Milou;
+
 Preview::Preview(QDeclarativeItem* parent)
     : QDeclarativeItem(parent)
     , m_loaded(false)
@@ -44,7 +46,7 @@ Preview::Preview(QDeclarativeItem* parent)
     setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     m_plugins = allPlugins();
-    foreach(Milou::PreviewPlugin* plugin, m_plugins) {
+    foreach(PreviewPlugin* plugin, m_plugins) {
         connect(plugin, SIGNAL(previewGenerated(QWidget*)),
                 this, SLOT(slotPreviewGenerated(QWidget*)));
         connect(plugin, SIGNAL(previewGenerated(QDeclarativeItem*)),
@@ -63,7 +65,7 @@ Preview::Preview(QDeclarativeItem* parent)
 void Preview::setPluginContexts()
 {
     QDeclarativeContext* context = QDeclarativeEngine::contextForObject(this);
-    foreach(Milou::PreviewPlugin* plugin, m_plugins) {
+    foreach(PreviewPlugin* plugin, m_plugins) {
         plugin->setContext(context);
     }
 }
@@ -93,7 +95,7 @@ void Preview::refresh()
 
     bool foundPlugin = false;
     KUrl url(m_url);
-    foreach (Milou::PreviewPlugin* plugin, m_plugins) {
+    foreach (PreviewPlugin* plugin, m_plugins) {
         foreach (const QString& mime, plugin->mimetypes()) {
             if (m_mimetype.startsWith(mime)) {
                 plugin->setUrl(url);
@@ -190,17 +192,17 @@ QString Preview::highlight() const
     return m_highlight;
 }
 
-QList<Milou::PreviewPlugin*> Preview::allPlugins()
+QList<PreviewPlugin*> Preview::allPlugins()
 {
     KService::List serviceList = KServiceTypeTrader::self()->query("MilouPreviewPlugin");
-    QList<Milou::PreviewPlugin*> plugins;
+    QList<PreviewPlugin*> plugins;
 
     KService::List::const_iterator it;
     for (it = serviceList.constBegin(); it != serviceList.constEnd(); it++) {
         KService::Ptr service = *it;
 
         QString error;
-        Milou::PreviewPlugin* p = service->createInstance<Milou::PreviewPlugin>(this, QVariantList(), &error);
+        PreviewPlugin* p = service->createInstance<PreviewPlugin>(this, QVariantList(), &error);
         if(!p) {
             kError() << "Could not create PreviewPlugin:" << service->library();
             kError() << error;

@@ -33,15 +33,15 @@ PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
     connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
 
-    m_bookmarkType = new MatchType(i18n("Bookmarks"), "bookmarks");
+    m_bookmarkType = new Milou::MatchType(i18n("Bookmarks"), "bookmarks");
 
-    QList<MatchType*> types;
+    QList<Milou::MatchType*> types;
     types << m_bookmarkType;
 
     setTypes(types);
 }
 
-void PlasmaRunnerSource::query(const Context& context)
+void PlasmaRunnerSource::query(const Milou::Context& context)
 {
     qDeleteAll(m_mapping.values());
     m_mapping.clear();
@@ -52,7 +52,7 @@ void PlasmaRunnerSource::query(const Context& context)
 void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& matches)
 {
     foreach(const Plasma::QueryMatch& plasmaMatch, matches) {
-        Match match(this);
+        Milou::Match match(this);
         match.setText(plasmaMatch.text());
         match.setIcon(plasmaMatch.icon().name());
         match.setType(m_bookmarkType);
@@ -68,7 +68,7 @@ void PlasmaRunnerSource::slotMatchesChanged(const QList< Plasma::QueryMatch >& m
     }
 }
 
-void PlasmaRunnerSource::run(const Match& match)
+void PlasmaRunnerSource::run(const Milou::Match& match)
 {
     uint id = match.data().toUInt();
     if (m_mapping.contains(id)) {

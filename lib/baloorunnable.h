@@ -44,7 +44,7 @@ public:
     void stop() { m_stop = true; }
 
 Q_SIGNALS:
-    void queryResult(MatchType* type, const Baloo::Result& result);
+    void queryResult(Milou::MatchType* type, const Baloo::Result& result);
     void queryFinished();
 
 private:

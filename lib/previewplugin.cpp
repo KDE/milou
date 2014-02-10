@@ -97,3 +97,7 @@ void PreviewPlugin::highlight(const QTextDocument* doc) const
     }
 }
 
+bool PreviewPlugin::onHighDPI() const
+{
+    return true;
+}

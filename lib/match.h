@@ -26,6 +26,8 @@
 #include <QString>
 #include <QVariant>
 
+namespace Milou {
+
 class AbstractSource;
 class MatchType;
 
@@ -106,4 +108,7 @@ private:
     QString m_name;
     QString m_icon;
 };
+
+}
+
 #endif // MATCH_H

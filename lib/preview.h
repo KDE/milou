@@ -26,10 +26,9 @@
 #include <QDeclarativeItem>
 #include "milou_export.h"
 
-
 namespace Milou {
-    class PreviewPlugin;
-}
+
+class PreviewPlugin;
 
 class MILOU_EXPORT Preview : public QDeclarativeItem
 {
@@ -84,7 +83,9 @@ private:
 
     QList<Milou::PreviewPlugin*> m_plugins;
     QList<Milou::PreviewPlugin*> allPlugins();
-    Milou::PreviewPlugin* m_filePlugin;
+    PreviewPlugin* m_filePlugin;
 };
+
+}
 
 #endif // PREVIEW_H

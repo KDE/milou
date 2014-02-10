@@ -92,6 +92,7 @@ protected:
      */
     void highlight(const QTextDocument* doc) const;
 
+    bool onHighDPI() const;
 private:
     QDeclarativeContext* m_context;
 

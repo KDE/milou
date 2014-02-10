@@ -25,18 +25,18 @@
 
 #include "abstractsource.h"
 
-class ApplicationSource : public AbstractSource
+class ApplicationSource : public Milou::AbstractSource
 {
     Q_OBJECT
 public:
     explicit ApplicationSource(QObject* parent = 0);
 
-    virtual void query(const Context& context);
-    virtual void run(const Match& match);
+    virtual void query(const Milou::Context& context);
+    virtual void run(const Milou::Match& match);
 
 private:
-    MatchType* m_applicationType;
-    MatchType* m_kcmType;
+    Milou::MatchType* m_applicationType;
+    Milou::MatchType* m_kcmType;
 };
 
 #endif // APPLICATIONSOURCE_H

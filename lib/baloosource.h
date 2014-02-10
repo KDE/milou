@@ -29,35 +29,35 @@
 #include <QThreadPool>
 #include <baloo/query.h>
 
-class BalooSource : public AbstractSource
+class BalooSource : public Milou::AbstractSource
 {
     Q_OBJECT
 public:
     explicit BalooSource(QObject* parent = 0);
     virtual ~BalooSource();
 
-    virtual void query(const Context& context);
-    virtual void run(const Match& match);
+    virtual void query(const Milou::Context& context);
+    virtual void run(const Milou::Match& match);
     virtual void stop();
 
 public slots:
-    void slotQueryResult(MatchType* type, const Baloo::Result& result);
+    void slotQueryResult(Milou::MatchType* type, const Baloo::Result& result);
     void slotQueryFinished();
 
 private:
     Milou::BalooRunnable* m_runnable;
     QThreadPool* m_threadPool;
 
-    MatchType* m_audioType;
-    MatchType* m_videoType;
-    MatchType* m_documentType;
-    MatchType* m_imageType;
-    MatchType* m_folderType;
-    MatchType* m_emailType;
+    Milou::MatchType* m_audioType;
+    Milou::MatchType* m_videoType;
+    Milou::MatchType* m_documentType;
+    Milou::MatchType* m_imageType;
+    Milou::MatchType* m_folderType;
+    Milou::MatchType* m_emailType;
 
-    QHash<MatchType*, QString> m_typeHash;
+    QHash<Milou::MatchType*, QString> m_typeHash;
 
-    Baloo::Query fetchQueryForType(const QString& text, MatchType* type);
+    Baloo::Query fetchQueryForType(const QString& text, Milou::MatchType* type);
 };
 
 #endif // BALOOSOURCE_H

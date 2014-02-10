@@ -33,9 +33,9 @@ void QmlPlugins::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 
 void QmlPlugins::registerTypes(const char *uri)
 {
-    qmlRegisterType<SourcesModel> (uri, 0, 1, "SourcesModel");
-    qmlRegisterType<Preview> (uri, 0, 1, "Preview");
-    qmlRegisterType<ReverseModel> (uri, 0, 1, "ReverseModel");
+    qmlRegisterType<Milou::SourcesModel> (uri, 0, 1, "SourcesModel");
+    qmlRegisterType<Milou::Preview> (uri, 0, 1, "Preview");
+    qmlRegisterType<Milou::ReverseModel> (uri, 0, 1, "ReverseModel");
 }
 
 Q_EXPORT_PLUGIN2(milouqmlplugin, QmlPlugins);

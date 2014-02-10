@@ -24,6 +24,8 @@
 #include <KUrl>
 #include <QDir>
 
+using namespace Milou;
+
 Match::Match(AbstractSource* source)
     : m_source(source)
 {

@@ -26,6 +26,8 @@
 
 #include "match.h"
 
+namespace Milou {
+
 class Context {
 public:
     Context();
@@ -47,5 +49,7 @@ private:
     QString m_query;
     QList<MatchType*> m_types;
 };
+
+}
 
 #endif

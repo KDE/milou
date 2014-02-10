@@ -23,6 +23,8 @@
 #include "reversemodel.h"
 #include "sourcesmodel.h" // For run
 
+using namespace Milou;
+
 ReverseModel::ReverseModel(QObject* parent)
     : QAbstractProxyModel(parent)
     , m_reversed(true)

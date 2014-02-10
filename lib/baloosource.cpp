@@ -34,14 +34,14 @@ BalooSource::BalooSource(QObject* parent)
     , m_runnable(0)
 {
     // FIXME: Find better icons!
-    m_audioType = new MatchType(i18n("Audio"), "audio");
-    m_videoType = new MatchType(i18n("Videos"), "video");
-    m_imageType = new MatchType(i18n("Images"), "image");
-    m_documentType = new MatchType(i18n("Documents"), "application-pdf");
-    m_folderType = new MatchType(i18n("Folders"), "folder");
-    m_emailType = new MatchType(i18n("Emails"), "mail-message");
+    m_audioType = new Milou::MatchType(i18n("Audio"), "audio");
+    m_videoType = new Milou::MatchType(i18n("Videos"), "video");
+    m_imageType = new Milou::MatchType(i18n("Images"), "image");
+    m_documentType = new Milou::MatchType(i18n("Documents"), "application-pdf");
+    m_folderType = new Milou::MatchType(i18n("Folders"), "folder");
+    m_emailType = new Milou::MatchType(i18n("Emails"), "mail-message");
 
-    QList<MatchType*> types;
+    QList<Milou::MatchType*> types;
     types << m_audioType << m_videoType << m_imageType << m_documentType
           << m_folderType << m_emailType;
 
@@ -69,7 +69,7 @@ void BalooSource::stop()
         m_runnable->stop();
 }
 
-void BalooSource::query(const Context& context)
+void BalooSource::query(const Milou::Context& context)
 {
     stop();
 
@@ -78,8 +78,8 @@ void BalooSource::query(const Context& context)
     if (text.isEmpty())
         return;
 
-    QList<MatchType*> matchTypes;
-    foreach(MatchType* type, context.types()) {
+    QList<Milou::MatchType*> matchTypes;
+    foreach (Milou::MatchType* type, context.types()) {
         if (!types().contains(type))
             continue;
 
@@ -87,8 +87,8 @@ void BalooSource::query(const Context& context)
     }
 
     m_runnable = new Milou::BalooRunnable(text, m_typeHash, matchTypes, queryLimit());
-    connect(m_runnable, SIGNAL(queryResult(MatchType*, Baloo::Result)),
-            this, SLOT(slotQueryResult(MatchType*, Baloo::Result)), Qt::QueuedConnection);
+    connect(m_runnable, SIGNAL(queryResult(Milou::MatchType*, Baloo::Result)),
+            this, SLOT(slotQueryResult(Milou::MatchType*, Baloo::Result)), Qt::QueuedConnection);
     connect(m_runnable, SIGNAL(queryFinished()),
             this, SLOT(slotQueryFinished()), Qt::QueuedConnection);
 
@@ -100,11 +100,11 @@ void BalooSource::slotQueryFinished()
     m_runnable = 0;
 }
 
-void BalooSource::slotQueryResult(MatchType* type, const Baloo::Result& result)
+void BalooSource::slotQueryResult(Milou::MatchType* type, const Baloo::Result& result)
 {
     KUrl url = result.url();
 
-    Match match(this);
+    Milou::Match match(this);
     match.setType(type);
     match.setData(QUrl(url));
     match.setPreviewUrl(url.url());
@@ -126,7 +126,7 @@ void BalooSource::slotQueryResult(MatchType* type, const Baloo::Result& result)
     addMatch(match);
 }
 
-void BalooSource::run(const Match& match)
+void BalooSource::run(const Milou::Match& match)
 {
     QUrl url = match.data().toUrl();
     if (!url.isEmpty()) {
