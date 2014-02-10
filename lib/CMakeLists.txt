@@ -3,15 +3,16 @@ set (lib_SRCS
     abstractsource.cpp
     match.cpp
     context.cpp
-    baloosource.cpp
-    baloorunnable.cpp
-    plasmarunnersource.cpp
-    applicationsource.cpp
-    calculatorsource.cpp
-    sourcesmodel.cpp
     preview.cpp
     previewplugin.cpp
+    sourcesmodel.cpp
     reversemodel.cpp
+    baloorunnable.cpp
+
+    sources/baloosource.cpp
+    sources/plasmarunnersource.cpp
+    sources/applicationsource.cpp
+    sources/calculatorsource.cpp
 )
 
 kde4_add_library(milou SHARED ${lib_SRCS})

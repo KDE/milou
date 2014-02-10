@@ -21,10 +21,12 @@
  */
 
 #include "sourcesmodel.h"
-#include "baloosource.h"
-#include "plasmarunnersource.h"
-#include "applicationsource.h"
-#include "calculatorsource.h"
+
+// FIXME: At some point these might need to become plugins
+#include "sources/baloosource.h"
+#include "sources/plasmarunnersource.h"
+#include "sources/applicationsource.h"
+#include "sources/calculatorsource.h"
 
 #include <KDebug>
 #include <QTimer>
