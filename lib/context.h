@@ -28,12 +28,27 @@
 
 namespace Milou {
 
+/**
+ * \class AbstractSource
+ *
+ * \brief Represents some information about the query being passed to
+ * the sources
+ *
+ * The context contains the text query typed by the user along with
+ * a list of types which the user expects to see. Each source should
+ * only return matches with those types.
+ *
+ * \author Vishesh Handa <me@vhanda.in>
+ */
 class Context {
 public:
     Context();
 
-    void setQuery(const QString& query);
+    /**
+     * Returns the text string on which the sources should act on
+     */
     QString query() const;
+    void setQuery(const QString& query);
 
     /**
      * Gives the list of types that the Source should take into consideration

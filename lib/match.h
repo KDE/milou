@@ -34,7 +34,12 @@ class MatchType;
 /**
  * @class Match match.h
  *
- * @short A match returned by an AbstractSource
+ * @short A match returned by an Source
+ *
+ * The Match should always contain the type and the text. It is also useful
+ * to pass the icon name. Additional preview information can also be
+ * set in order to use the correct preview plugin to display a preview
+ * of the match.
  */
 class Match
 {
@@ -73,9 +78,6 @@ public:
      * This different from the normal text. It is shown
      * when a preview is being display, and can therefore
      * be much longer.
-     *
-     * It's by default the folder path if the preview url
-     * is local, otherwise it returns the text
      */
     QString previewLabel();
     void setPreviewLabel(const QString& label);
@@ -93,6 +95,16 @@ private:
 };
 
 
+/**
+ * @class MatchType
+ *
+ * A MatchType is an abstract way of categorizing the Match. It contains
+ * a user visible name and icon.
+ *
+ * Each Source should create their own instances of MatchType, register them
+ * via the AbstractSource::setTypes function and then use instances
+ * fo those types in the matches they provide
+ */
 class MatchType {
 public:
     MatchType();

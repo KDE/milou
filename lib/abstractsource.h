@@ -31,6 +31,20 @@
 
 namespace Milou {
 
+/**
+ * \class AbstractSource
+ *
+ * \brief An AbstractSource is the base class for implementing sources
+ * of data. They are similar to runner.
+ *
+ * A source must implement the query and run functions which are responsible
+ * for returns results for a query and for acting on the results.
+ *
+ * A source should also additionally register the types that it will be
+ * returning matches for via the setTypes function
+ *
+ * \author Vishesh Handa <me@vhanda.in>
+ */
 class AbstractSource : public QObject
 {
     Q_OBJECT
@@ -38,7 +52,23 @@ public:
     explicit AbstractSource(QObject* parent = 0);
     virtual ~AbstractSource();
 
+    /**
+     * All sources must implement this query function where they process
+     * the query and produce the results. The results are returned
+     * by adding each of them via the addMatch function.
+     *
+     * A source may be synchronous or asynchronous. If your source is
+     * non-trivial you may want to spawn a thread and avoid blocking the main
+     * application
+     *
+     * \sa addMatch
+     */
     virtual void query(const Context& context) = 0;
+
+    /**
+     * Perform the default action on a particular match.
+     * By default this function does nothing.
+     */
     virtual void run(const Match& match);
 
     void setQueryLimit(int limit);
@@ -58,6 +88,9 @@ public:
     virtual void stop();
 
 protected:
+    /**
+     * Should be called by the sources when a match has been found.
+     */
     void addMatch(const Match& match);
 
 signals:
