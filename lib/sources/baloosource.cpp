@@ -23,6 +23,7 @@
 #include "baloosource.h"
 
 #include <QDesktopServices>
+#include <QDir>
 
 #include <KIcon>
 #include <KDebug>
@@ -100,6 +101,20 @@ void BalooSource::slotQueryFinished()
     m_runnable = 0;
 }
 
+namespace {
+    QString stripFileName(const QString& u) {
+        KUrl url(u);
+        if (!url.isEmpty() && url.isLocalFile()) {
+            QString path = url.directory(KUrl::AppendTrailingSlash);
+            if (path.startsWith(QDir::homePath()))
+                path.replace(QDir::homePath(), QLatin1String("~"));
+            return path;
+        }
+
+        return u;
+    }
+}
+
 void BalooSource::slotQueryResult(Milou::MatchType* type, const Baloo::Result& result)
 {
     KUrl url = result.url();
@@ -108,6 +123,7 @@ void BalooSource::slotQueryResult(Milou::MatchType* type, const Baloo::Result& r
     match.setType(type);
     match.setData(QUrl(url));
     match.setPreviewUrl(url.url());
+    match.setPreviewLabel(stripFileName(url.url()));
     match.setText(result.text());
 
     if (type == m_emailType) {

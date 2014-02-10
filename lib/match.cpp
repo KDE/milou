@@ -103,17 +103,6 @@ void Match::setPreviewUrl(const QString& url)
 
 QString Match::previewLabel()
 {
-    if (m_previewLabel.isEmpty()) {
-        KUrl url(m_previewUrl);
-        if (!url.isEmpty() && url.isLocalFile()) {
-            QString path = KUrl(m_previewUrl).directory(KUrl::AppendTrailingSlash);
-            if (path.startsWith(QDir::homePath()))
-                path.replace(QDir::homePath(), QLatin1String("~"));
-            return path;
-        }
-        else
-            return m_text;
-    }
     return m_previewLabel;
 }
 
