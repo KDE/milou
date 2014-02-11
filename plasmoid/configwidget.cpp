@@ -60,12 +60,14 @@ ConfigWidget::ConfigWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, 
 
     QLabel* label = new QLabel(i18n("Only the selected components are shown in the search results"));
     label->setAlignment(Qt::AlignHCenter);
+    label->setWordWrap(true);
 
     QLabel* label2 = new QLabel(i18n("Drag categories to change the order in which results appear"));
     QFont fo = label2->font();
     fo.setBold(true);
     label2->setFont(fo);
     label2->setAlignment(Qt::AlignHCenter);
+    label2->setWordWrap(true);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(label);
