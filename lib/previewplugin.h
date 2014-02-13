@@ -111,6 +111,6 @@ private:
  */
 #define MILOU_EXPORT_PREVIEW( classname, libname, catalog )    \
 K_PLUGIN_FACTORY(factory, registerPlugin<classname>();) \
-K_EXPORT_PLUGIN(factory(#libname), #catalog)
+K_EXPORT_PLUGIN(factory(#libname, #catalog))
 
 #endif // MILOU_PREVIEWPLUGIN_H
