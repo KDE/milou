@@ -44,6 +44,8 @@ public slots:
     bool isTopEdge() const;
     bool isBottomEdge() const;
 
+    bool isShown() const;
+
 signals:
     void popupEventSignal(bool shown);
     void settingsChanged();

@@ -64,6 +64,13 @@ Item {
 
         Component.onCompleted: {
             plasmoid.popupEventSignal.connect(setTextFieldFocus)
+            //
+            // The focus is not always set correctly. The hunch is that this
+            // function is called before the popup is actually visible and
+            // therfore the setFocus call does not do anything. So, we are using
+            // a small timer and calling the setTextFieldFocus function again.
+            //
+            plasmoid.popupEventSignal.connect(theFocusDoesNotAlwaysWorkTimer.start)
             plasmoid.settingsChanged.connect(loadSettings)
 
             if (!plasmoid.isBottomEdge()) {
@@ -77,6 +84,16 @@ Item {
                 listView.anchors.top = wrapper.top
                 listView.anchors.bottom = searchField.top
                 searchField.anchors.bottom = wrapper.bottom
+            }
+        }
+
+        Timer {
+            id: theFocusDoesNotAlwaysWorkTimer
+            interval: 100
+            repeat: false
+
+            onTriggered: {
+                wrapper.setTextFieldFocus(plasmoid.isShown())
             }
         }
 
