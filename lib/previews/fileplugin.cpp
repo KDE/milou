@@ -54,7 +54,7 @@ void FilePlugin::generatePreview()
     QDeclarativeItem* item = qobject_cast<QDeclarativeItem*>(component->create());
 
     QStringList keys;
-    keys << i18n("Modified: ") << i18n("Size: ");
+    keys << i18n("Modified:") << i18n("Size:");
 
     QStringList values;
     values << KGlobal::locale()->formatDateTime(fileInfo.lastModified(), KLocale::FancyShortDate);

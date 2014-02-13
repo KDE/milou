@@ -40,7 +40,7 @@ Item {
 
                 Row {
                     PlasmaComponents.Label {
-                        text: keys[index]
+                        text: keys[index] + " "
                         height: 16
                         color: theme.textColor
                         opacity: 0.5

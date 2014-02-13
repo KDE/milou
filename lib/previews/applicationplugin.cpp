@@ -58,15 +58,6 @@ void ApplicationPlugin::generatePreview()
         return;
     }
 
-    /*
-    QStringList keys;
-    keys << i18n("Modified: ") << i18n("Size: ");
-
-    QStringList values;
-    values << KGlobal::locale()->formatDateTime(fileInfo.lastModified(), KLocale::FancyShortDate);
-    values << KGlobal::locale()->formatByteSize(fileInfo.size());
-    */
-
     item->setProperty("title", service->name());
     //item->setProperty("keys", QVariant::fromValue(keys));
     //item->setProperty("values", QVariant::fromValue(values));

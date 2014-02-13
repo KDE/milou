@@ -58,7 +58,7 @@ void AudioPlugin::slotFileReceived(const Baloo::File& file)
     QDeclarativeItem* item = qobject_cast<QDeclarativeItem*>(component->create());
 
     QStringList keys;
-    keys << i18n("Artist: ") << i18n("Album: ") << i18n("Duration: ");
+    keys << i18n("Artist:") << i18n("Album:") << i18n("Duration:");
 
     QStringList values;
     values << file.property(KFileMetaData::Property::Artist).toString();
