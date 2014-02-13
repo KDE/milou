@@ -43,7 +43,7 @@ PlasmaRunnerSource::PlasmaRunnerSource(QObject* parent): AbstractSource(parent)
 
 void PlasmaRunnerSource::query(const Milou::Context& context)
 {
-    qDeleteAll(m_mapping.values());
+    qDeleteAll(m_mapping);
     m_mapping.clear();
 
     m_manager->launchQuery(context.query());
