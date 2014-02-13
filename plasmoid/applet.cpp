@@ -39,7 +39,7 @@
 Applet::Applet(QObject* parent, const QVariantList& args): PopupApplet(parent, args)
 {
     setPopupIcon("nepomuk");
-    KLocale::insertCatalog("milou");
+    KGlobal::locale()->insertCatalog("milou");
 }
 
 Applet::~Applet()
