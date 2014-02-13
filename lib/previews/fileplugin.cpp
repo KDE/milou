@@ -73,4 +73,4 @@ void FilePlugin::generatePreview()
 }
 
 
-MILOU_EXPORT_PREVIEW(FilePlugin, "miloufileplugin")
+MILOU_EXPORT_PREVIEW(FilePlugin, "miloufileplugin", "milou")

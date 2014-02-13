@@ -69,4 +69,4 @@ void ApplicationPlugin::generatePreview()
 }
 
 
-MILOU_EXPORT_PREVIEW(ApplicationPlugin, "milouapplicationplugin")
+MILOU_EXPORT_PREVIEW(ApplicationPlugin, "milouapplicationplugin", "milou")

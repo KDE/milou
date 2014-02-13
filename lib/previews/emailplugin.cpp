@@ -178,4 +178,4 @@ void EmailPlugin::insertEmailBody(QTextCursor& cursor, const QString& body)
     }
 }
 
-MILOU_EXPORT_PREVIEW(EmailPlugin, "milouemailplugin")
+MILOU_EXPORT_PREVIEW(EmailPlugin, "milouemailplugin", "milou")

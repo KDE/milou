@@ -54,4 +54,4 @@ void TextPlugin::generatePreview()
     emit previewGenerated(textEdit);
 }
 
-MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin")
+MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin", "milou")

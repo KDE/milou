@@ -51,4 +51,4 @@ void OkularPlugin::generatePreview()
 }
 
 
-MILOU_EXPORT_PREVIEW(OkularPlugin, "milouokularplugin")
+MILOU_EXPORT_PREVIEW(OkularPlugin, "milouokularplugin", "milou")

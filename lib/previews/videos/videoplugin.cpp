@@ -55,4 +55,4 @@ void VideoPlugin::generatePreview()
     emit previewGenerated(widget);
 }
 
-MILOU_EXPORT_PREVIEW(VideoPlugin, "milouvideoplugin")
+MILOU_EXPORT_PREVIEW(VideoPlugin, "milouvideoplugin", "milou")

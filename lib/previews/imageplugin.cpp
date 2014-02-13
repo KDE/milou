@@ -84,4 +84,4 @@ void ImagePlugin::slotJobFinished(KJob* job)
 }
 
 
-MILOU_EXPORT_PREVIEW(ImagePlugin, "milouimageplugin")
+MILOU_EXPORT_PREVIEW(ImagePlugin, "milouimageplugin", "milou")

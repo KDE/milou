@@ -107,9 +107,10 @@ private:
  *
  * \param classname The name of the subclass to export
  * \param libname The name of the library which should export the extractor
+ * \param catalog The name of the PO file catalog
  */
-#define MILOU_EXPORT_PREVIEW( classname, libname )    \
+#define MILOU_EXPORT_PREVIEW( classname, libname, catalog )    \
 K_PLUGIN_FACTORY(factory, registerPlugin<classname>();) \
-K_EXPORT_PLUGIN(factory(#libname))
+K_EXPORT_PLUGIN(factory(#libname), #catalog)
 
 #endif // MILOU_PREVIEWPLUGIN_H

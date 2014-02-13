@@ -82,4 +82,4 @@ void AudioPlugin::slotFileReceived(const Baloo::File& file)
 }
 
 
-MILOU_EXPORT_PREVIEW(AudioPlugin, "milouaudioplugin")
+MILOU_EXPORT_PREVIEW(AudioPlugin, "milouaudioplugin", "milou")

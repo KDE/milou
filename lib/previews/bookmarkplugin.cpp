@@ -39,4 +39,4 @@ void BookmarkPlugin::generatePreview()
 }
 
 
-MILOU_EXPORT_PREVIEW(BookmarkPlugin, "miloubookmarkplugin")
+MILOU_EXPORT_PREVIEW(BookmarkPlugin, "miloubookmarkplugin", "milou")
