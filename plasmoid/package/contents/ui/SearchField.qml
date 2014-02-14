@@ -85,4 +85,8 @@ Item {
     function setFocus() {
         textField.focus = true
     }
+
+    Keys.onEscapePressed: {
+        textField.text = ""
+    }
 }
