@@ -42,7 +42,7 @@ QtExtra.MouseEventListener {
         onClicked: {
             listView.currentIndex = model.index
             listView.model.run(model.index);
-            plasmoid.hidePopup()
+            view.clearPreview();
         }
 
         QtExtra.QIconItem {

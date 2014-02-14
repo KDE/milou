@@ -46,7 +46,7 @@ ListView {
     // doesn't make any difference!
     Keys.onReturnPressed: {
         listView.model.run(currentIndex);
-        plasmoid.hidePopup()
+        clearPreview();
     }
 
     Keys.onTabPressed: incrementCurrentIndex()
