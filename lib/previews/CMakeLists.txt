@@ -64,23 +64,21 @@ endif(KdepimLibs_FOUND)
 #
 # Okular
 #
-#include_directories(${OKULAR_INCLUDE_DIRS})
-#
-#kde4_add_plugin(milouokularplugin okularplugin.cpp)
-#
-#target_link_libraries(milouokularplugin
-#    milou
-#    ${KDE4_KIO_LIBS}
-#    ${KDE4_KPARTS_LIBS}
-#)
-#
-#install(
-#FILES milouokularpreview.desktop
-#DESTINATION ${SERVICES_INSTALL_DIR})
-#
-#install(
-#TARGETS milouokularplugin
-#DESTINATION ${PLUGIN_INSTALL_DIR})
+kde4_add_plugin(milouokularplugin okularplugin.cpp)
+
+target_link_libraries(milouokularplugin
+    milou
+    ${KDE4_KIO_LIBS}
+    ${QT_QTDECLARATIVE_LIBRARY}
+)
+
+install(
+FILES milouokularpreview.desktop
+DESTINATION ${SERVICES_INSTALL_DIR})
+
+install(
+TARGETS milouokularplugin
+DESTINATION ${PLUGIN_INSTALL_DIR})
 
 #
 # Audio

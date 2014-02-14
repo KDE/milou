@@ -1,6 +1,6 @@
 /*
  * This file is part of the KDE Milou Project
- * Copyright (C) 2013  Vishesh Handa <me@vhanda.in>
+ * Copyright (C) 2013-2014  Vishesh Handa <me@vhanda.in>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,8 +22,12 @@
 
 #include "okularplugin.h"
 
-#include <KParts/ReadOnlyPart>
+#include <KStandardDirs>
 #include <KDebug>
+
+#include <QDeclarativeComponent>
+#include <QDeclarativeContext>
+#include <QDateTime>
 
 OkularPlugin::OkularPlugin(QObject* parent, const QVariantList& ): PreviewPlugin(parent)
 {
@@ -31,23 +35,18 @@ OkularPlugin::OkularPlugin(QObject* parent, const QVariantList& ): PreviewPlugin
 
 void OkularPlugin::generatePreview()
 {
-    // FIXME: You will need to create your own config file, so that the last accessed page
-    //        is not opened
-    KService::Ptr service = KService::serviceByDesktopName("okular_part");
-    if (service) {
-        QVariantList args;
-        args << QLatin1String("ViewerWidget");
+    QString qmlFile = KGlobal::dirs()->findResource("data", "plasma/plasmoids/org.kde.milou/contents/ui/previews/Okular.qml");
 
-        KParts::ReadOnlyPart* part = service->createInstance<KParts::ReadOnlyPart>(this, args);
-        part->openUrl(url());
+    QDeclarativeComponent* component = new QDeclarativeComponent(context()->engine(), qmlFile, this);
+    if (component->status() == QDeclarativeComponent::Error) {
+        kError() << component->errorString();
+        return;
+    }
 
-        QWidget* widget = part->widget();
-        widget->resize(384, 384);
-        emit previewGenerated(widget);
-    }
-    else {
-        kError() << "Could not load okular service!";
-    }
+    QDeclarativeItem* item = qobject_cast<QDeclarativeItem*>(component->create());
+    item->setProperty("fileUrl", url().toLocalFile());
+
+    emit previewGenerated(item);
 }
 
 
