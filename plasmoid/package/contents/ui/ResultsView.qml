@@ -36,6 +36,11 @@ ListView {
 
     clip: true
 
+    // This is used to keep track if the user has pressed enter before
+    // the first result has been shown, in the case the first result should
+    // be run when the model is populated
+    property bool runAutomatically
+
     model: Milou.ReverseModel {
         sourceModel: Milou.SourcesModel {
             id: resultModel
@@ -51,6 +56,11 @@ ListView {
             else {
                 listView.currentIndex = 0
             }
+
+            if (runAutomatically) {
+                runCurrentIndex();
+            }
+            runAutomatically = false
         }
 
         reversed: plasmoid.isBottomEdge()
@@ -67,6 +77,13 @@ ListView {
     // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
     // doesn't make any difference!
     Keys.onReturnPressed: {
+        if (!currentIndex) {
+            runAutomatically = true
+        }
+        runCurrentIndex();
+    }
+
+    function runCurrentIndex() {
         listView.model.run(currentIndex);
         clearPreview();
     }
@@ -111,6 +128,7 @@ ListView {
     function setQueryString(string) {
         resultModel.queryString = string
         preview.highlight = string
+        runAutomatically = false
     }
 
     onCurrentItemChanged: {
