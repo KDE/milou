@@ -209,11 +209,13 @@ ListView {
     }
 
     function showPreview() {
-        preview.mimetype = currentItem.theModel.previewType;
-        preview.url = currentItem.theModel.previewUrl;
-        urlLabel.text = currentItem.theModel.previewLabel
+        if (currentItem) {
+            preview.mimetype = currentItem.theModel.previewType;
+            preview.url = currentItem.theModel.previewUrl;
+            urlLabel.text = currentItem.theModel.previewLabel
 
-        dialog.delegate = null
-        dialog.delegate = currentItem
+            dialog.delegate = null
+            dialog.delegate = currentItem
+        }
     }
 }
