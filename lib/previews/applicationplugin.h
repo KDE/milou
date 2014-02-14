@@ -33,7 +33,7 @@ public:
 
     virtual void generatePreview();
     virtual QStringList mimetypes() {
-        return QStringList() << QLatin1String("application");
+        return QStringList() << QLatin1String("preview.application");
     }
 };
 
