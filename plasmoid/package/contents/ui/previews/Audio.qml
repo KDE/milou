@@ -5,6 +5,8 @@ import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.qtextracomponents 0.1 as QtExtra
 
+import "../../code/globals.js" as Globals
+
 Item {
     property string title
     property variant keys
@@ -30,7 +32,7 @@ Item {
             id: rightSide
             PlasmaComponents.Label {
                 text: title
-                height: 32
+                height: Globals.TitleSize
                 color: theme.textColor
                 font.pointSize: theme.defaultFont.pointSize * 1.5
             }
@@ -41,14 +43,14 @@ Item {
                 Row {
                     PlasmaComponents.Label {
                         text: keys[index] + " "
-                        height: 16
+                        height: Globals.IconSize
                         color: theme.textColor
                         opacity: 0.5
                     }
 
                     PlasmaComponents.Label {
                         text: values[index]
-                        height: 16
+                        height: Globals.IconSize
                         color: theme.textColor
                         elide: Text.ElideRight
                     }

@@ -4,11 +4,13 @@ var isHighDPI = theme.defaultFont.mSize.height >= 20
 var CategoryWidthNormal = 120
 var PlasmoidWidthNormal = 450
 var IconSizeNormal = 16
+var TitleSizeNormal = 32
 
 // High DPI
 var CategoryWidthHighDPI = 220
 var PlasmoidWidthHighDPI = 650
 var IconSizeHighDPI = 32
+var TitleSizeHighDPI = 64
 
 // This is the width of the side component which displays the categories
 // of the results, such as "Applications", "Audio", "Video", etc
@@ -19,3 +21,4 @@ var CategoryRightMargin = 10
 var PlasmoidWidth = isHighDPI ? PlasmoidWidthHighDPI : PlasmoidWidthNormal
 
 var IconSize = isHighDPI ? IconSizeHighDPI : IconSizeNormal
+var TitleSize = isHighDPI ? TitleSizeHighDPI : TitleSizeNormal
