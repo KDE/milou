@@ -4,6 +4,7 @@ X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=miloufileplugin
 Name=Milou File Preview Plugin
 Name[de]=Milou-Vorschaumodul für Dateien
+Name[fi]=Miloun tiedostojen esikatseluliitännäinen
 Name[hu]=Milou fájl előnézet bővítmény
 Name[nl]=Voorbeeld-plug-in van Milou-bestand
 Name[pt]='Plugin' de Antevisão de Ficheiros do Milou
