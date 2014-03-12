@@ -25,7 +25,7 @@ import QtQuick 2.1
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.qtextracomponents 2.0 as QtExtra
+// import org.kde.qtextracomponents 2.0s as QtExtra
 import org.kde.milou 0.1 as Milou
 
 import "../code/globals.js" as Globals
@@ -59,8 +59,8 @@ ListView {
 
             if (runAutomatically) {
                 runCurrentIndex();
+                runAutomatically = false
             }
-            runAutomatically = false
         }
 
         reversed: plasmoid.isBottomEdge()
@@ -127,102 +127,102 @@ ListView {
 
     function setQueryString(string) {
         resultModel.queryString = string
-        preview.highlight = string
+//         preview.highlight = string
         runAutomatically = false
     }
 
     onCurrentItemChanged: {
-        showPreview();
+//         showPreview();
     }
 
     // Tooltip
-    PlasmaCore.Dialog {
-        id: dialog
-        property Item delegate
-        property Item prevDelegate
-
-        mainItem: QtExtra.MouseEventListener {
-            hoverEnabled: true
-
-            width: childrenRect.width
-            height: childrenRect.height
-
-            onContainsMouseChanged: {
-                if (containsMouse) {
-                    if (dialog.visible)
-                        hideTimer.stop()
-                }
-                else {
-                    hideTimer.start()
-                }
-            }
-
-            Milou.Preview {
-                id: preview
-
-                onLoadingFinished: {
-                    if (!dialog.delegate)
-                        return
-
-                    var height = preview.height + urlLabel.height + urlLabel.anchors.topMargin
-                    var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, height)
-                    dialog.x = point.x
-                    dialog.y = point.y
-
-                    // dialog.visible = true
-                    // We cannot do this because PlasmaCore Dialog is strange. If we just set visible
-                    // to true, the width and height are never updated
-                    // Therefore we give it time to update its width and height
-                    plasmaDialogIsSlowTimer.start();
-                }
-
-                Timer {
-                    id: plasmaDialogIsSlowTimer
-                    // Plasma::Dialog has a timer of 150 internally
-                    interval: 155
-                    repeat: false
-
-                    onTriggered: {
-                        dialog.visible = true
-                    }
-                }
-            }
-
-            PlasmaComponents.Label {
-                id: urlLabel
-                anchors {
-                    top: preview.bottom
-                    topMargin: 5
-                }
-                width: preview.width
-                height: 16
-                elide: Text.ElideLeft
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }
-
-        Component.onCompleted: {
-            dialog.setAttribute(Qt.WA_X11NetWmWindowTypeToolTip, true)
-            dialog.windowFlags = Qt.Window|Qt.WindowStaysOnTopHint|Qt.X11BypassWindowManagerHint
-        }
-
-        // The delegate changes when the mouse hover starts on an item
-        onDelegateChanged: {
-            if (delegate) {
-                showTimer.start()
-                hideTimer.stop()
-
-                if (prevDelegate != delegate) {
-                    dialog.visible = false
-                }
-            }
-            else {
-                showTimer.stop()
-                hideTimer.start()
-            }
-        }
-    }
-
+//     PlasmaCore.Dialog {
+//         id: dialog
+//         property Item delegate
+//         property Item prevDelegate
+//
+//         mainItem: QtExtra.MouseEventListener {
+//             hoverEnabled: true
+//
+//             width: childrenRect.width
+//             height: childrenRect.height
+//
+//             onContainsMouseChanged: {
+//                 if (containsMouse) {
+//                     if (dialog.visible)
+//                         hideTimer.stop()
+//                 }
+//                 else {
+//                     hideTimer.start()
+//                 }
+//             }
+//
+//             Milou.Preview {
+//                 id: preview
+//
+//                 onLoadingFinished: {
+//                     if (!dialog.delegate)
+//                         return
+//
+//                     var height = preview.height + urlLabel.height + urlLabel.anchors.topMargin
+//                     var point = plasmoid.tooltipPosition(dialog.delegate, preview.width, height)
+//                     dialog.x = point.x
+//                     dialog.y = point.y
+//
+//                     // dialog.visible = true
+//                     // We cannot do this because PlasmaCore Dialog is strange. If we just set visible
+//                     // to true, the width and height are never updated
+//                     // Therefore we give it time to update its width and height
+//                     plasmaDialogIsSlowTimer.start();
+//                 }
+//
+//                 Timer {
+//                     id: plasmaDialogIsSlowTimer
+//                     // Plasma::Dialog has a timer of 150 internally
+//                     interval: 155
+//                     repeat: false
+//
+//                     onTriggered: {
+//                         dialog.visible = true
+//                     }
+//                 }
+//             }
+//
+//             PlasmaComponents.Label {
+//                 id: urlLabel
+//                 anchors {
+//                     top: preview.bottom
+//                     topMargin: 5
+//                 }
+//                 width: preview.width
+//                 height: 16
+//                 elide: Text.ElideLeft
+//                 horizontalAlignment: Text.AlignHCenter
+//             }
+//         }
+//
+//         Component.onCompleted: {
+//             dialog.setAttribute(Qt.WA_X11NetWmWindowTypeToolTip, true)
+//             dialog.windowFlags = Qt.Window|Qt.WindowStaysOnTopHint|Qt.X11BypassWindowManagerHint
+//         }
+//
+//         // The delegate changes when the mouse hover starts on an item
+//         onDelegateChanged: {
+//             if (delegate) {
+//                 showTimer.start()
+//                 hideTimer.stop()
+//
+//                 if (prevDelegate != delegate) {
+//                     dialog.visible = false
+//                 }
+//             }
+//             else {
+//                 showTimer.stop()
+//                 hideTimer.start()
+//             }
+//         }
+//     }
+/*
     Timer {
         id: showTimer
         interval: 340
@@ -257,5 +257,5 @@ ListView {
             dialog.delegate = null
             dialog.delegate = currentItem
         }
-    }
+    }*/
 }

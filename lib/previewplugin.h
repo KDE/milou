@@ -23,9 +23,6 @@
 #ifndef MILOU_PREVIEWPLUGIN_H
 #define MILOU_PREVIEWPLUGIN_H
 
-#include <QUrl>
-#include <QDeclarativeItem>
-
 #include <KUrl>
 #include <KService>
 #include "milou_export.h"

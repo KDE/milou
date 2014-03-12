@@ -37,18 +37,18 @@ QtExtra.MouseEventListener {
 
     hoverEnabled: true
 
-    onContainsMouseChanged: {
-        if (containsMouse) {
-            preview.mimetype = model.previewType;
-            preview.url = model.previewUrl;
-            urlLabel.text = model.previewLabel
-
-            dialog.delegate = resultDelegate;
-        } else {
-            dialog.prevDelegate = dialog.delegate
-            dialog.delegate = null;
-        }
-    }
+//     onContainsMouseChanged: {
+//         if (containsMouse) {
+//             preview.mimetype = model.previewType;
+//             preview.url = model.previewUrl;
+//             urlLabel.text = model.previewLabel
+//
+//             dialog.delegate = resultDelegate;
+//         } else {
+//             dialog.prevDelegate = dialog.delegate
+//             dialog.delegate = null;
+//         }
+//     }
 
     // FIXME
     // This has been done so that the current item looks selected

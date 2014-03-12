@@ -23,14 +23,14 @@
 #ifndef _MILOU_QML_PLUGINS_H
 #define _MILOU_QML_PLUGINS_H
 
-#include <QtDeclarative/QDeclarativeExtensionPlugin>
+#include <QQmlExtensionPlugin>
 
-class QmlPlugins : public QDeclarativeExtensionPlugin
+class QmlPlugins : public QQmlExtensionPlugin
 {
 Q_OBJECT
 Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 public:
-    virtual void initializeEngine(QDeclarativeEngine *engine, const char *uri);
+    virtual void initializeEngine(QQmlEngine *engine, const char *uri);
     virtual void registerTypes(const char *uri);
 };
 

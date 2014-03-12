@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8.12)
 find_package(ECM 0.0.9 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Declarative Widgets Xml Test Sql WebKitWidgets)
+find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Widgets Xml Test Sql WebKitWidgets)
 find_package(KF5 REQUIRED NO_MODULE COMPONENTS KDE4Support Runner Plasma I18n Declarative)
 find_package(Baloo 4.60 REQUIRED)
 

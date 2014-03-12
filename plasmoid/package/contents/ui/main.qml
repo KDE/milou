@@ -64,7 +64,7 @@ Item {
                 left: parent.left
                 right: parent.right
             }
-            onTextChanged: {
+            onSearchTextChanged: {
                 listView.setQueryString(text)
             }
         }

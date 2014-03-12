@@ -29,9 +29,10 @@ import "../code/globals.js" as Globals
  * The SearchField is a simple "   Search |___input___|" widget.
  * The only complex part is aligning the "Search" text on the right
  * and an internal timer to reduce the number of textChanged signals
+ * using searchTextChanged.
  */
 Item {
-    signal textChanged()
+    signal searchTextChanged()
     property alias text: textField.text
 
     height: childrenRect.height
@@ -72,7 +73,7 @@ Item {
         Timer {
             id: timer
             interval: 200
-            onTriggered: textChanged()
+            onTriggered: searchTextChanged()
         }
 
         onTextChanged: timer.restart()
