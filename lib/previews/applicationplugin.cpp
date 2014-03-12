@@ -54,7 +54,7 @@ void ApplicationPlugin::generatePreview()
 
     const QString entryPath = url().toLocalFile();
     KService::Ptr service = KService::serviceByDesktopPath(entryPath);
-    if (service.isNull()) {
+    if (!service) {
         return;
     }
 

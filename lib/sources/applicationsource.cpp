@@ -28,6 +28,7 @@
 #include <KService>
 #include <KServiceTypeTrader>
 #include <KRun>
+#include <KLocalizedString>
 #include <QSet>
 
 ApplicationSource::ApplicationSource(QObject* parent): AbstractSource(parent)
@@ -151,7 +152,7 @@ void ApplicationSource::run(const Milou::Match& match)
 {
     KService::Ptr service = KService::serviceByStorageId(match.data().toString());
     if (service) {
-        KRun::run(*service, KUrl::List(), 0);
+        KRun::run(*service, QList<QUrl>(), 0);
     }
 }
 

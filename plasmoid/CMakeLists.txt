@@ -3,11 +3,11 @@ set(applet_SRCS
     configwidget.cpp
 )
 
-kde4_add_plugin(milou_applet ${applet_SRCS})
+add_library(milou_applet MODULE ${applet_SRCS})
 target_link_libraries(milou_applet
     ${KDE4_KDEUI_LIBS}
-    ${KDE4_PLASMA_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
+    KF5::Plasma
+    Qt5::Declarative
 )
 
 install(TARGETS milou_applet DESTINATION ${PLUGIN_INSTALL_DIR})

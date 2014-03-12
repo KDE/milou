@@ -1,11 +1,11 @@
 #
 # Plain Text
 #
-kde4_add_plugin(miloutextplugin textplugin.cpp)
+add_library(miloutextplugin MODULE textplugin.cpp)
 
 target_link_libraries(miloutextplugin
     milou
-    ${KDE4_KIO_LIBS}
+    KF5::KIOWidgets
 )
 
 install(
@@ -19,12 +19,12 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 # Images
 #
-kde4_add_plugin(milouimageplugin imageplugin.cpp)
+add_library(milouimageplugin MODULE imageplugin.cpp)
 
 target_link_libraries(milouimageplugin
     milou
-    ${KDE4_KIO_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
+    KF5::KIOWidgets
+    Qt5::Declarative
 )
 
 install(
@@ -38,40 +38,38 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 # Emails
 #
-# FIXME: Why does it not work without this?
-find_package(KdepimLibs)
 if(KdepimLibs_FOUND)
-    include_directories(${KDEPIMLIBS_INCLUDE_DIRS})
-
-    kde4_add_plugin(milouemailplugin emailplugin.cpp)
-
-    target_link_libraries(milouemailplugin
-        milou
-        ${KDE4_KIO_LIBS}
-        ${KDEPIMLIBS_KMIME_LIBS}
-        ${KDEPIMLIBS_AKONADI_LIBS}
-    )
-
-    install(
-    FILES milouemailpreview.desktop
-    DESTINATION ${SERVICES_INSTALL_DIR})
-
-    install(
-    TARGETS milouemailplugin
-    DESTINATION ${PLUGIN_INSTALL_DIR})
-endif(KdepimLibs_FOUND)
+#     include_directories(${KDEPIMLIBS_INCLUDE_DIRS})
+#
+#     add_library(milouemailplugin MODULE emailplugin.cpp)
+#
+#     target_link_libraries(milouemailplugin
+#         milou
+#         KF5::KIOWidgets
+#         ${KDEPIMLIBS_KMIME_LIBS}
+#         ${KDEPIMLIBS_AKONADI_LIBS}
+#     )
+#
+#     install(
+#     FILES milouemailpreview.desktop
+#     DESTINATION ${SERVICES_INSTALL_DIR})
+#
+#     install(
+#     TARGETS milouemailplugin
+#     DESTINATION ${PLUGIN_INSTALL_DIR})
+endif()
 
 #
 # Okular
 #
 #include_directories(${OKULAR_INCLUDE_DIRS})
 #
-#kde4_add_plugin(milouokularplugin okularplugin.cpp)
+#add_library(milouokularplugin MODULE okularplugin.cpp)
 #
 #target_link_libraries(milouokularplugin
 #    milou
-#    ${KDE4_KIO_LIBS}
-#    ${KDE4_KPARTS_LIBS}
+#    KF5::KIOWidgets
+#    KF5::Parts
 #)
 #
 #install(
@@ -85,13 +83,13 @@ endif(KdepimLibs_FOUND)
 #
 # Audio
 #
-kde4_add_plugin(milouaudioplugin audioplugin.cpp)
+add_library(milouaudioplugin MODULE audioplugin.cpp)
 
 target_link_libraries(milouaudioplugin
     milou
-    ${KDE4_KIO_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    ${BALOO_LIBRARIES}
+    KF5::KIOWidgets
+    Qt5::Declarative
+    ${BALOO_CORE_LIBRARY} ${BALOO_FILE_LIBRARY}
 )
 
 install(
@@ -105,13 +103,13 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 # General Files
 #
-kde4_add_plugin(miloufileplugin fileplugin.cpp)
+add_library(miloufileplugin MODULE fileplugin.cpp)
 
 target_link_libraries(miloufileplugin
     milou
-    ${KDE4_KIO_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    ${BALOO_LIBRARIES}
+    KF5::KIOWidgets
+    Qt5::Declarative
+    ${BALOO_CORE_LIBRARY} ${BALOO_FILE_LIBRARY}
 )
 
 install(
@@ -125,12 +123,12 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 # Applications
 #
-kde4_add_plugin(milouapplicationplugin applicationplugin.cpp)
+add_library(milouapplicationplugin MODULE applicationplugin.cpp)
 
 target_link_libraries(milouapplicationplugin
     milou
-    ${KDE4_KIO_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
+    KF5::KIOWidgets
+    Qt5::Declarative
 )
 
 install(
@@ -144,12 +142,12 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 # Bookmarks
 #
-kde4_add_plugin(miloubookmarkplugin bookmarkplugin.cpp)
+add_library(miloubookmarkplugin MODULE bookmarkplugin.cpp)
 
 target_link_libraries(miloubookmarkplugin
     milou
-    ${KDE4_KIO_LIBS}
-    ${QT_QTWEBKIT_LIBRARY}
+    KF5::KIOWidgets
+    Qt5::WebKitWidgets
 )
 
 install(

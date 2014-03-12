@@ -3,12 +3,12 @@ set (plugin_SRCS
     qmlplugins.cpp
 )
 
-kde4_add_library (milouqmlplugin SHARED ${plugin_SRCS})
+add_library (milouqmlplugin SHARED ${plugin_SRCS})
 
 target_link_libraries (milouqmlplugin
     ${QT_QTSCRIPT_LIBRARY}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    ${KDE4_KDECORE_LIBS}
+    Qt5::Declarative
+    
     ${KDE4_KDEUI_LIBS}
     milou
 )

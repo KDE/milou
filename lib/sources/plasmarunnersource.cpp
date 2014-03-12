@@ -22,6 +22,7 @@
 
 #include "plasmarunnersource.h"
 #include <KDebug>
+#include <KLocalizedString>
 #include <QIcon>
 #include <kplugininfo.h>
 

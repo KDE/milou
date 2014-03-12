@@ -24,7 +24,7 @@
 #define PLASMARUNNERSOURCE_H
 
 #include "abstractsource.h"
-#include <Plasma/RunnerManager>
+#include <KRunner/RunnerManager>
 
 class PlasmaRunnerSource : public Milou::AbstractSource
 {

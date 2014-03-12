@@ -2,13 +2,13 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
-kde4_add_executable(modeltest modeltest.cpp test.cpp)
+add_executable(modeltest modeltest.cpp test.cpp)
 
 target_link_libraries(modeltest
-  ${QT_QTCORE_LIBRARY}
-  ${QT_QTTEST_LIBRARY}
-  ${QT_QTGUI_LIBRARY}
-  ${KDE4_KDECORE_LIBS}
-  ${KDE4_KDEUI_LIBS}
+  Qt5::Core
+  Qt5::Test
+  Qt5::Gui
+  
+  KF5::KDE4Support
   milou
 )

@@ -29,6 +29,7 @@
 #include <KDebug>
 #include <KMimeType>
 #include <KLocalizedString>
+#include <KUrl>
 
 BalooSource::BalooSource(QObject* parent)
     : AbstractSource(parent)

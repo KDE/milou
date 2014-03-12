@@ -41,4 +41,3 @@ void QmlPlugins::registerTypes(const char *uri)
     qmlRegisterType<Milou::ReverseModel> (uri, 0, 1, "ReverseModel");
 }
 
-Q_EXPORT_PLUGIN2(milouqmlplugin, QmlPlugins);
