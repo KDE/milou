@@ -63,7 +63,7 @@ ListView {
             }
         }
 
-        reversed: plasmoid.isBottomEdge()
+        reversed: plasmoid.location == PlasmaCore.BottomEdge
     }
 
     delegate: ResultDelegate {

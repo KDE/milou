@@ -37,6 +37,10 @@ Item {
     property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
     property int maximumHeight: minimumHeight
 
+    function isBottomEdge() {
+        return plasmoid.location == PlasmaCore.BottomEdge;
+    }
+
     // The wrapper just exists for giving an appropriate top/bottom margin
     // when it is placed on the top/bottom edge of the screen
     Item {
@@ -53,8 +57,8 @@ Item {
 
         anchors {
             fill: parent
-            topMargin: plasmoid.isTopEdge() ? 7 : 0
-            bottomMargin: plasmoid.isBottomEdge() ? 7 : 0
+            topMargin: isBottomEdge() ? 0 : 7
+            bottomMargin: isBottomEdge() ? 7 : 0
         }
 
         SearchField {
@@ -79,23 +83,24 @@ Item {
                 // vHanda: Random number - Is there some way to use consisten margins?
                 //         PlasmaCore.FrameSvg does have margins, but one needs to construct
                 //          a PlasmaCore.FrameSvg for that
-                topMargin: plasmoid.isBottomEdge() ? 0 : 5
-                bottomMargin: plasmoid.isBottomEdge() ? 5 : 0
+                topMargin: isBottomEdge() ? 0 : 5
+                bottomMargin: isBottomEdge() ? 5 : 0
             }
         }
 
         Component.onCompleted: {
-            plasmoid.popupEventSignal.connect(setTextFieldFocus)
+            // plasmoid.popupEvent.connect(setTextFieldFocus)
             //
             // The focus is not always set correctly. The hunch is that this
             // function is called before the popup is actually visible and
             // therfore the setFocus call does not do anything. So, we are using
             // a small timer and calling the setTextFieldFocus function again.
             //
-            plasmoid.popupEventSignal.connect(theFocusDoesNotAlwaysWorkTimer.start)
-            plasmoid.settingsChanged.connect(loadSettings)
+            // FIXME: Figure out why these fail!!
+            //plasmoid.popupEvent.connect(theFocusDoesNotAlwaysWorkTimer.start)
+            //plasmoid.settingsChanged.connect(loadSettings)
 
-            if (!plasmoid.isBottomEdge()) {
+            if (!isBottomEdge()) {
                 // Normal view
                 searchField.anchors.top = wrapper.top
                 listView.anchors.top = searchField.bottom
