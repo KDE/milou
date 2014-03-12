@@ -13,5 +13,5 @@ target_link_libraries (milouqmlplugin
     milou
 )
 
-install (TARGETS milouqmlplugin DESTINATION ${IMPORTS_INSTALL_DIR}/org/kde/milou)
-install (FILES qmldir DESTINATION ${IMPORTS_INSTALL_DIR}/org/kde/milou)
+install (TARGETS milouqmlplugin DESTINATION ${QML_INSTALL_DIR}/org/kde/milou)
+install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/milou)

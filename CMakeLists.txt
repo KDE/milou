@@ -19,7 +19,6 @@ include(KDECompilerSettings)
 #                        TYPE REQUIRED PURPOSE "Support for Email previews")
 
 add_subdirectory(lib)
-#add_subdirectory(plasmoid)
-#add_subdirectory(app)
+add_subdirectory(plasmoid)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

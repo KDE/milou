@@ -20,11 +20,11 @@
  *
  */
 
-import QtQuick 1.1
+import QtQuick 2.1
 
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.qtextracomponents 0.1 as QtExtra
+import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.qtextracomponents 2.0 as QtExtra
 import org.kde.milou 0.1 as Milou
 import "../code/globals.js" as Globals
 
