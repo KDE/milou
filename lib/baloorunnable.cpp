@@ -43,7 +43,7 @@ BalooRunnable::BalooRunnable(const QString& search,
 void BalooRunnable::run()
 {
     Q_FOREACH (MatchType* type, m_types) {
-        if (m_stop)
+        if (m_stop.load())
             return;
 
         Baloo::Query query;
@@ -54,7 +54,7 @@ void BalooRunnable::run()
         query.setLimit(m_limit/3);
 
         Baloo::ResultIterator it = query.exec();
-        while (!m_stop && it.next()) {
+        while (!m_stop.load() && it.next()) {
             Q_EMIT queryResult(type, it.result());
         }
     }
