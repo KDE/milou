@@ -20,7 +20,7 @@
  *
  */
 
-var isHighDPI = theme.defaultFont.mSize.height >= 20
+var isHighDPI = theme.defaultFont.pixelSize >= 20
 
 // Normal
 var CategoryWidthNormal = 120
