@@ -98,21 +98,37 @@ ListView {
         Item {
             width: Globals.CategoryWidth
 
-            Text {
-                id: sectionText
-                text: section
-                color: theme.textColor
-                opacity: 0.5
+            // The height is 0 cause we do not want the component to consume
+            // any height. We put it on the left
+            height: 0
 
-                horizontalAlignment: Text.AlignRight
+            // We're creating a ListItem so that we can use its height to set
+            // the items height. This is similar to the ResultDelegate code
+            PlasmaComponents.ListItem {
+                opacity: 0
+                id: blah
+                Item {
+                    height: Globals.IconSize
+                }
+            }
 
-                anchors {
-                    fill: parent
+            Item {
+                width: parent.width
+                height: blah.implicitHeight
 
-                    // FIXME: This should be equal to the topMargin of the
-                    //        PlasmaComponents.ListItem
-                    topMargin: 7
-                    rightMargin: Globals.CategoryRightMargin
+                PlasmaComponents.Label {
+                    id: sectionText
+                    text: section
+                    color: theme.textColor
+                    opacity: 0.5
+
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+
+                    anchors {
+                        fill: parent
+                        rightMargin: Globals.CategoryRightMargin
+                    }
                 }
             }
         }
