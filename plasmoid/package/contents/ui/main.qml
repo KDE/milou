@@ -21,6 +21,7 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Layouts 1.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -32,10 +33,10 @@ import "../code/globals.js" as Globals
 
 Item {
     id: mainWidget
-    property int minimumWidth: Globals.PlasmoidWidth
-    property int maximumWidth: Globals.PlasmoidWidth
-    property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
-    property int maximumHeight: minimumHeight
+    Layout.minimumWidth: Globals.PlasmoidWidth
+    Layout.maximumWidth: Globals.PlasmoidWidth
+    Layout.minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
+    Layout.maximumHeight: Layout.minimumHeight
 
     function isBottomEdge() {
         return plasmoid.location == PlasmaCore.BottomEdge;
