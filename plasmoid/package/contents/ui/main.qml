@@ -23,6 +23,8 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 
+import org.kde.plasma.plasmoid 2.0
+
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
@@ -89,16 +91,8 @@ Item {
             }
         }
 
+
         Component.onCompleted: {
-            // plasmoid.popupEvent.connect(setTextFieldFocus)
-            //
-            // The focus is not always set correctly. The hunch is that this
-            // function is called before the popup is actually visible and
-            // therfore the setFocus call does not do anything. So, we are using
-            // a small timer and calling the setTextFieldFocus function again.
-            //
-            // FIXME: Figure out why these fail!!
-            //plasmoid.popupEvent.connect(theFocusDoesNotAlwaysWorkTimer.start)
             //plasmoid.settingsChanged.connect(loadSettings)
 
             if (!isBottomEdge()) {
@@ -114,27 +108,39 @@ Item {
                 searchField.anchors.bottom = wrapper.bottom
             }
         }
+    }
 
-        Timer {
-            id: theFocusDoesNotAlwaysWorkTimer
-            interval: 100
-            repeat: false
+    Timer {
+        id: theFocusDoesNotAlwaysWorkTimer
+        interval: 100
+        repeat: false
 
-            onTriggered: {
-                wrapper.setTextFieldFocus(plasmoid.isShown())
-            }
-        }
-
-        function setTextFieldFocus(shown) {
-            searchField.setFocus();
-            searchField.selectAll();
-
-            if (!shown)
-                listView.clearPreview();
-        }
-
-        function loadSettings() {
-            listView.loadSettings()
+        onTriggered: {
+            wrapper.setTextFieldFocus(plasmoid.isShown())
         }
     }
+
+    function setTextFieldFocus(shown) {
+        searchField.setFocus();
+        searchField.selectAll();
+
+        if (!shown)
+            listView.clearPreview();
+    }
+
+    function loadSettings() {
+        listView.loadSettings()
+    }
+
+    Plasmoid.onExpandedChanged: {
+        setTextFieldFocus(plasmoid.expanded);
+        //
+        // The focus is not always set correctly. The hunch is that this
+        // function is called before the popup is actually visible and
+        // therfore the setFocus call does not do anything. So, we are using
+        // a small timer and calling the setTextFieldFocus function again.
+        //
+        theFocusDoesNotAlwaysWorkTimer.start()
+    }
+
 }
