@@ -54,5 +54,3 @@ X-KDE-PluginInfo-License=LGPL
 
 X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-EnabledByDefault=true
-
-X-Plasma-NotificationArea=true
