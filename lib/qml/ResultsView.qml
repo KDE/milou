@@ -25,10 +25,9 @@ import QtQuick 2.1
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
-// import org.kde.qtextracomponents 2.0s as QtExtra
 import org.kde.milou 0.1 as Milou
 
-import "../code/globals.js" as Globals
+import "globals.js" as Globals
 
 ListView {
     id: listView

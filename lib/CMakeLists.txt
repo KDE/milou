@@ -19,7 +19,7 @@ add_library(milou SHARED ${lib_SRCS})
 
 target_link_libraries (milou
     Qt5::Script #this is used for the calculator
-    
+
     KF5::KIOWidgets
     KF5::Plasma
     KF5::Runner
