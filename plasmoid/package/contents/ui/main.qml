@@ -86,6 +86,8 @@ Item {
                 topMargin: isBottomEdge() ? 0 : 5
                 bottomMargin: isBottomEdge() ? 5 : 0
             }
+
+            reversed: isBottomEdge()
         }
 
 

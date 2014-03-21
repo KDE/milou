@@ -32,6 +32,7 @@ import "globals.js" as Globals
 ListView {
     id: listView
     property alias queryString: resultModel.queryString
+    property alias reversed: reverseModel.reversed
 
     clip: true
 
@@ -41,6 +42,7 @@ ListView {
     property bool runAutomatically
 
     model: Milou.ReverseModel {
+        id: reverseModel
         sourceModel: Milou.SourcesModel {
             id: resultModel
             queryLimit: 20
@@ -61,8 +63,6 @@ ListView {
                 runAutomatically = false
             }
         }
-
-        reversed: plasmoid.location == PlasmaCore.BottomEdge
     }
 
     delegate: ResultDelegate {
