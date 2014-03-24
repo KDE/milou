@@ -26,7 +26,9 @@
 #include <QAbstractItemModel>
 #include <QVector>
 
-#include "abstractsource.h"
+#include <KRunner/RunnerManager>
+#include <KRunner/QueryMatch>
+
 #include "milou_export.h"
 
 namespace Milou {
@@ -62,17 +64,18 @@ public slots:
     void loadSettings();
 
 private slots:
-    void slotMatchAdded(const Match& m);
+    void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
+    void slotMatchAdded(const Plasma::QueryMatch& match);
     void stopSuppressingSignals();
 
 public:
     // The types are ordered based on the preference
     QVector<QString> m_types;
-    QList<MatchType*> m_typesShown;
+    QList<QString> m_typesShown;
 
     struct TypeData {
-        QList<Match> shown;
-        QList<Match> hidden;
+        QList<Plasma::QueryMatch> shown;
+        QList<Plasma::QueryMatch> hidden;
     };
     QHash<QString, TypeData> m_matches;
     int m_size;
@@ -80,13 +83,12 @@ public:
     QString m_queryString;
     int m_queryLimit;
 
-    QList<AbstractSource*> m_sources;
-
     bool m_supressSignals;
+    Plasma::RunnerManager* m_manager;
 
     /// Returns the number of visible rows before \p type
     int fetchRowCount(const QString& type) const;
-    Match fetchMatch(int row) const;
+    Plasma::QueryMatch fetchMatch(int row) const;
 };
 
 }

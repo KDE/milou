@@ -22,11 +22,6 @@
 
 #include "sourcesmodel.h"
 
-// FIXME: At some point these might need to become plugins
-#include "sources/baloosource.h"
-#include "sources/plasmarunnersource.h"
-#include "sources/applicationsource.h"
-#include "sources/calculatorsource.h"
 
 #include <KDebug>
 #include <KConfig>
@@ -39,23 +34,6 @@ SourcesModel::SourcesModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_size(0)
 {
-    //PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
-    //connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
-
-    ApplicationSource* appSource = new ApplicationSource(this);
-    connect(appSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
-
-    AbstractSource* balooSource = new BalooSource(this);
-    connect(balooSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
-
-    AbstractSource* calculatorsource = new CalculatorSource(this);
-    connect(calculatorsource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
-
-    m_sources << appSource;
-    m_sources << balooSource;
-    //m_sources << plasmaRunnerSource;
-    m_sources << calculatorsource;
-
     QHash<int, QByteArray> roles = roleNames();
     roles.insert(TypeRole, "type");
     roles.insert(PreviewTypeRole, "previewType");
@@ -64,6 +42,20 @@ SourcesModel::SourcesModel(QObject* parent)
 
     setRoleNames(roles);
     loadSettings();
+
+    m_manager = new Plasma::RunnerManager(this);
+    connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
+            this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
+
+    m_types << "Application";
+    m_types << "Audio";
+    m_types << "Image";
+    m_types << "Video";
+    m_types << "Document";
+    m_types << "Folder";
+    m_types << "Email";
+
+    m_typesShown = m_types.toList();
 }
 
 SourcesModel::~SourcesModel()
@@ -72,6 +64,7 @@ SourcesModel::~SourcesModel()
 
 void SourcesModel::loadSettings()
 {
+    /*
     QList<MatchType*> allTypes;
     foreach(AbstractSource* source, m_sources)
         allTypes << source->types();
@@ -116,14 +109,15 @@ void SourcesModel::loadSettings()
             }
         }
     }
+    */
 }
 
-Match SourcesModel::fetchMatch(int row) const
+Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
 {
-    foreach(const QString& type, m_types) {
+    foreach (const QString& type, m_types) {
         const TypeData data = m_matches.value(type);
         if (row < data.shown.size()) {
-            return data.shown.value(row);
+            return data.shown[row];
         }
         else {
             row -= data.shown.size();
@@ -133,7 +127,13 @@ Match SourcesModel::fetchMatch(int row) const
         }
     }
 
-    return Match(0);
+    return Plasma::QueryMatch(0);
+}
+
+static QString nameForType(const QString& type)
+{
+    // FIXME: This needs to be translated!
+    return type;
 }
 
 QVariant SourcesModel::data(const QModelIndex& index, int role) const
@@ -144,24 +144,20 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
     if (index.row() >= m_size)
         return QVariant();
 
-    Match m = fetchMatch(index.row());
-    Q_ASSERT(m.source());
+    Plasma::QueryMatch m = fetchMatch(index.row());
+    Q_ASSERT(m.runner());
 
     switch(role) {
         case Qt::DisplayRole:
             return m.text();
 
-        case Qt::DecorationRole: {
-            QString icon = m.icon();
-            if (!icon.isEmpty())
-                return icon;
-            else
-                return m.type()->icon();
-        }
+        case Qt::DecorationRole:
+            return m.icon().name();
 
         case TypeRole:
-            return m.type()->name();
+            return nameForType(m.matchCategory());
 
+            /*
         case PreviewTypeRole:
             return m.previewType();
 
@@ -170,6 +166,7 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
 
         case PreviewLabelRole:
             return m.previewLabel();
+            */
     }
 
     return QVariant();
@@ -196,8 +193,10 @@ int SourcesModel::queryLimit() const
 void SourcesModel::setQueryLimit(int limit)
 {
     m_queryLimit = limit;
+    /*
     foreach (AbstractSource* source, m_sources)
         source->setQueryLimit(limit);
+    */
 }
 
 void SourcesModel::setQueryString(const QString& str)
@@ -211,15 +210,10 @@ void SourcesModel::setQueryString(const QString& str)
 
     m_queryString = str;
 
-    Context context;
-    context.setQuery(str);
-    context.setTypes(m_typesShown);
-
+    m_manager->reset();
     m_supressSignals = true;
-    foreach (AbstractSource* source, m_sources) {
-        source->query(context);
-    }
 
+    m_manager->launchQuery(m_queryString);
     QTimer::singleShot(250, this, SLOT(stopSuppressingSignals()));
 }
 
@@ -235,16 +229,22 @@ void SourcesModel::stopSuppressingSignals()
 // Tries to make sure that all the types have the same number
 // of visible items
 //
-void SourcesModel::slotMatchAdded(const Match& m)
+void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& list)
+{
+    Q_FOREACH (const Plasma::QueryMatch& match, list) {
+        slotMatchAdded(match);
+    }
+}
+
+void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
 {
     if (m_queryString.isEmpty())
         return;
 
-    if (!m_typesShown.contains(m.type()))
+    if (!m_typesShown.contains(m.matchCategory()))
         return;
 
-    const QString matchType = m.type()->name();
-    //Q_ASSERT(m.source()->types().contains(matchType));
+    QString matchType = m.matchCategory();
 
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;
@@ -269,7 +269,7 @@ void SourcesModel::slotMatchAdded(const Match& m)
 
         if (!m_supressSignals)
             beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
-        Match transferMatch = m_matches[maxShownType].shown.takeLast();
+        Plasma::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
         if (!m_supressSignals)
@@ -320,16 +320,12 @@ void SourcesModel::clear()
     m_matches.clear();
     m_size = 0;
     m_queryString.clear();
-    foreach (AbstractSource* source, m_sources)
-        source->stop();
+    m_manager->reset();
     endResetModel();
 }
 
 void SourcesModel::run(int index)
 {
-    Match match = fetchMatch(index);
-    AbstractSource* source = match.source();
-    if (source) {
-        source->run(match);
-    }
+    Plasma::QueryMatch match = fetchMatch(index);
+    m_manager->run(match);
 }

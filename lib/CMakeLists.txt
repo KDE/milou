@@ -1,17 +1,8 @@
 
 set (lib_SRCS
-    abstractsource.cpp
-    match.cpp
-    context.cpp
 #     preview.cpp
 #     previewplugin.cpp
     sourcesmodel.cpp
-    baloorunnable.cpp
-
-    sources/baloosource.cpp
-    sources/plasmarunnersource.cpp
-    sources/applicationsource.cpp
-    sources/calculatorsource.cpp
 )
 
 add_library(milou SHARED ${lib_SRCS})
