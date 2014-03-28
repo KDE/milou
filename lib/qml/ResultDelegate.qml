@@ -23,6 +23,7 @@
 import QtQuick 2.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.kquickcontrolsaddons 2.0 as QtExtra
 import "globals.js" as Globals
 
 QtExtra.MouseEventListener {
