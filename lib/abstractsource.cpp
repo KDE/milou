@@ -23,7 +23,7 @@
 #include "abstractsource.h"
 #include <KGlobal>
 
-static const KCatalogLoader loader("milou");
+static const KCatalogLoader loader("plasma_applet_milou_applet");
 
 using namespace Milou;
 
