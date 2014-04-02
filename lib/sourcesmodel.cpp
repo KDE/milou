@@ -29,6 +29,8 @@
 #include "sources/calculatorsource.h"
 
 #include <KDebug>
+#include <KConfig>
+#include <KConfigGroup>
 #include <QTimer>
 
 using namespace Milou;
