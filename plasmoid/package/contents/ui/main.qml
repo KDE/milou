@@ -38,7 +38,7 @@ Item {
     Layout.maximumHeight: Layout.minimumHeight
 
     function isBottomEdge() {
-        return plasmoid.location == PlasmaCore.BottomEdge;
+        return plasmoid.location == PlasmaCore.Types.BottomEdge;
     }
 
     // The wrapper just exists for giving an appropriate top/bottom margin
