@@ -27,9 +27,8 @@ using namespace Milou;
 
 ReverseModel::ReverseModel(QObject* parent)
     : QAbstractProxyModel(parent)
-    , m_reversed(true)
+    , m_reversed(false)
 {
-
 }
 
 
