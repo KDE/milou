@@ -123,8 +123,8 @@ Item {
         searchField.setFocus();
         searchField.selectAll();
 
-        if (!shown)
-            listView.clearPreview();
+        //if (!shown)
+        //    listView.clearPreview();
     }
 
     function loadSettings() {

@@ -83,7 +83,7 @@ ListView {
 
     function runCurrentIndex() {
         listView.model.run(currentIndex);
-        clearPreview();
+        //clearPreview();
     }
 
     Keys.onTabPressed: incrementCurrentIndex()
