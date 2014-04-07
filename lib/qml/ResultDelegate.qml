@@ -35,8 +35,10 @@ QtExtra.MouseEventListener {
 
     hoverEnabled: true
 
-//     onContainsMouseChanged: {
-//         if (containsMouse) {
+     onContainsMouseChanged: {
+         if (containsMouse) {
+            listView.currentIndex = index
+         }
 //             preview.mimetype = model.previewType;
 //             preview.url = model.previewUrl;
 //             urlLabel.text = model.previewLabel
@@ -46,13 +48,7 @@ QtExtra.MouseEventListener {
 //             dialog.prevDelegate = dialog.delegate
 //             dialog.delegate = null;
 //         }
-//     }
-
-    // FIXME
-    // This has been done so that the current item looks selected
-    // We need a proper fix in PlasmaComponents.ListItem to show the currentItem
-    // as selected
-    opacity: ListView.isCurrentItem ? 0.5 : 1
+     }
 
     PlasmaComponents.ListItem {
         id: listItem
