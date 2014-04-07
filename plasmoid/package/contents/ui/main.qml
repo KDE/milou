@@ -115,7 +115,7 @@ Item {
         repeat: false
 
         onTriggered: {
-            wrapper.setTextFieldFocus(plasmoid.isShown())
+            setTextFieldFocus(plasmoid.expanded)
         }
     }
 
