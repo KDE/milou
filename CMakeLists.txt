@@ -9,6 +9,7 @@ find_package(KF5 REQUIRED NO_MODULE COMPONENTS KDE4Support Runner Plasma I18n De
 find_package(Baloo 4.60 REQUIRED)
 
 include(FeatureSummary)
+include(ECMAddTests)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)

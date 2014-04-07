@@ -36,3 +36,4 @@ install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
 add_subdirectory(qml)
 # add_subdirectory(previews)
 add_subdirectory(test)
+add_subdirectory(autotests)
