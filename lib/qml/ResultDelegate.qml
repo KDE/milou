@@ -71,7 +71,6 @@ QtExtra.MouseEventListener {
 
             anchors {
                 left: parent.left
-                verticalCenter: parent.verticalCenter
                 leftMargin: Globals.CategoryWidth
             }
         }
@@ -90,7 +89,6 @@ QtExtra.MouseEventListener {
             anchors {
                 left: typePixmap.right
                 leftMargin: 5
-                verticalCenter: parent.verticalCenter
                 right: parent.right
             }
         }
