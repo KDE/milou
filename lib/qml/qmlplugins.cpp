@@ -32,6 +32,8 @@
 
 void QmlPlugins::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 {
+    Q_UNUSED(engine);
+    Q_UNUSED(uri);
 }
 
 void QmlPlugins::registerTypes(const char *uri)

@@ -75,8 +75,10 @@ int main(int argc, char** argv)
     KApplication app;
 
     SourcesModel* model = new SourcesModel();
-    ModelTest* mt = new ModelTest(model);
     model->setQueryLimit(20);
+
+    ModelTest* mt = new ModelTest(model);
+    Q_UNUSED(mt);
 
     TestObject obj("Summer");
     obj.model = model;
