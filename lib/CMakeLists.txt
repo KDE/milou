@@ -17,6 +17,8 @@ set (lib_SRCS
 
 kde4_add_library(milou SHARED ${lib_SRCS})
 
+set_target_properties(milou PROPERTIES VERSION 0.1 SOVERSION 0.1)
+
 target_link_libraries (milou
     ${QT_QTSCRIPT_LIBRARY}
     ${QT_QTDECLARATIVE_LIBRARY}
