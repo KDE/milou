@@ -31,7 +31,9 @@ import "globals.js" as Globals
 ListView {
     id: listView
     property alias queryString: resultModel.queryString
-    property alias reversed: reverseModel.reversed
+    property bool reversed
+
+    verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
 
     clip: true
     highlight: PlasmaComponents.Highlight {}
@@ -42,22 +44,14 @@ ListView {
     // be run when the model is populated
     property bool runAutomatically
 
-    model: Milou.ReverseModel {
-        id: reverseModel
-        sourceModel: Milou.SourcesModel {
-            id: resultModel
-            queryLimit: 20
-        }
+    model: Milou.SourcesModel {
+        id: resultModel
+        queryLimit: 20
 
         // Internally when the query string changes, the model is reset
         // and the results are presented
         onModelReset: {
-            if (reversed) {
-                listView.currentIndex = listView.count - 1
-            }
-            else {
-                listView.currentIndex = 0
-            }
+            listView.currentIndex = 0
 
             if (runAutomatically) {
                 runCurrentIndex();

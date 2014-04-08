@@ -28,7 +28,6 @@
 #include <QHBoxLayout>
 
 #include "../sourcesmodel.h"
-#include "../reversemodel.h"
 
 using namespace Milou;
 
@@ -57,9 +56,6 @@ void TestObject::main()
 {
     SourcesModel* smodel = new SourcesModel(this);
     smodel->setQueryLimit(20);
-
-    ReverseModel* rmodel = new ReverseModel(this);
-    rmodel->setSourceModel(smodel);
 
     QListView* view = new QListView(this);
     view->setModel(smodel);
