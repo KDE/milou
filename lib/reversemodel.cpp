@@ -68,7 +68,7 @@ QModelIndex ReverseModel::parent(const QModelIndex& child) const
 
 QModelIndex ReverseModel::index(int row, int column, const QModelIndex& parent) const
 {
-    return sourceModel()->index(row, column, parent);
+    return sourceModel()->index(con(row), column, parent);
 }
 
 QModelIndex ReverseModel::mapFromSource(const QModelIndex& sourceIndex) const
@@ -142,8 +142,3 @@ void ReverseModel::run(int index)
     if (m)
         m->run(con(index));
 }
-
-
-
-
-
