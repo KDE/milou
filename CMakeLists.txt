@@ -2,6 +2,7 @@ project(milou)
 
 find_package(KDE4 REQUIRED)
 find_package(Baloo REQUIRED)
+find_package(KFileMetaData REQUIRED)
 
 find_package(KdepimLibs)
 set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"
@@ -17,6 +18,7 @@ include_directories(
   ${QT_INCLUDES}
   ${KDE4_INCLUDES}
   ${BALOO_INCLUDE_DIR}
+  ${KFILEMETADATA_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}/lib
 )
