@@ -122,6 +122,10 @@ ListView {
                     anchors {
                         fill: parent
                         rightMargin: Globals.CategoryRightMargin
+                        // We need to give it a bottom margin when reversed
+                        // as it otherwise is rendered one below where it is
+                        // actually required
+                        bottomMargin: reversed ? blah.height * 2 : 0
                     }
                 }
             }
