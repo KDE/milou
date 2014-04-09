@@ -32,6 +32,7 @@ ListView {
     id: listView
     property alias queryString: resultModel.queryString
     property bool reversed
+    signal activated
 
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
 
@@ -80,6 +81,7 @@ ListView {
     function runCurrentIndex() {
         listView.model.run(currentIndex);
         //clearPreview();
+        activated()
     }
 
     Keys.onTabPressed: incrementCurrentIndex()

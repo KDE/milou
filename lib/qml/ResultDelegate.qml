@@ -54,11 +54,9 @@ QtExtra.MouseEventListener {
         id: listItem
         enabled: true
 
-        // Try to find some signal called activated? and use that?
         onClicked: {
             listView.currentIndex = model.index
-            listView.model.run(model.index);
-            view.clearPreview();
+            listView.runCurrentIndex()
         }
 
         QtExtra.QIconItem {
