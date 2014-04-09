@@ -69,9 +69,10 @@ private slots:
     void stopSuppressingSignals();
 
 public:
-    // The types are ordered based on the preference
+    // A list of all the types that are being shown
+    // This list is ordered according to preference
     QVector<QString> m_types;
-    QList<QString> m_typesShown;
+    QList<QString> m_typesDisabled;
 
     struct TypeData {
         QList<Plasma::QueryMatch> shown;

@@ -46,16 +46,6 @@ SourcesModel::SourcesModel(QObject* parent)
     m_manager = new Plasma::RunnerManager(this);
     connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
-
-    m_types << "Application";
-    m_types << "Audio";
-    m_types << "Image";
-    m_types << "Video";
-    m_types << "Document";
-    m_types << "Folder";
-    m_types << "Email";
-
-    m_typesShown = m_types.toList();
 }
 
 SourcesModel::~SourcesModel()
@@ -241,10 +231,12 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
     if (m_queryString.isEmpty())
         return;
 
-    if (!m_typesShown.contains(m.matchCategory()))
+    QString matchType = m.matchCategory();
+    if (m_typesDisabled.contains(matchType))
         return;
 
-    QString matchType = m.matchCategory();
+    if (!m_types.contains(matchType))
+        m_types << matchType;
 
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;
