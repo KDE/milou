@@ -88,6 +88,9 @@ Item {
             }
 
             reversed: isBottomEdge()
+            onActivated: {
+                plasmoid.hidePopup()
+            }
         }
 
 
