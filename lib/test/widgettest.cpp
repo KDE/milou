@@ -26,6 +26,7 @@
 #include <QWidget>
 #include <QListView>
 #include <QHBoxLayout>
+#include <qlineedit.h>
 
 #include "../sourcesmodel.h"
 
@@ -61,10 +62,13 @@ void TestObject::main()
     view->setModel(smodel);
     view->setAlternatingRowColors(true);
 
-    QHBoxLayout* l = new QHBoxLayout(this);
-    l->addWidget(view);
+    QLineEdit* edit = new QLineEdit(this);
+    connect(edit, SIGNAL(textChanged(QString)),
+            smodel, SLOT(setQueryString(QString)));
 
-    smodel->setQueryString("fire");
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(edit);
+    l->addWidget(view);
 }
 
 #include "widgettest.moc"
