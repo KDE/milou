@@ -8,8 +8,6 @@ set (lib_SRCS
 add_library(milou SHARED ${lib_SRCS})
 
 target_link_libraries (milou
-    Qt5::Script #this is used for the calculator
-
     KF5::KIOWidgets
     KF5::Plasma
     KF5::Runner
@@ -20,6 +18,8 @@ target_link_libraries (milou
 install(
   FILES miloupreviewplugin.desktop
   DESTINATION ${SERVICETYPES_INSTALL_DIR})
+
+generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)
 
 install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
