@@ -21,7 +21,7 @@
  */
 
 #include "bookmarkplugin.h"
-#include <KDebug>
+#include <QDebug>
 
 #include <QWebView>
 

@@ -23,7 +23,7 @@
 #include "imageplugin.h"
 #include <QPainter>
 
-#include <KDebug>
+#include <QDebug>
 
 ImagePlugin::ImagePlugin(QObject* parent, const QVariantList& ): PreviewPlugin(parent)
 {
@@ -80,7 +80,7 @@ void ImagePlugin::slotGotPreview(const KFileItem&, const QPixmap& pixmap)
 void ImagePlugin::slotJobFinished(KJob* job)
 {
     if (job->error())
-        kError() << job->errorString();
+        qWarning() << job->errorString();
 }
 
 

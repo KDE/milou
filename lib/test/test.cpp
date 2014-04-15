@@ -24,7 +24,7 @@
 #include <KCmdLineArgs>
 
 #include <QTimer>
-#include <KDebug>
+#include <QDebug>
 #include <KTempDir>
 
 #include "modeltest.h"
@@ -44,12 +44,12 @@ public slots:
         }
 
         const QString str = queryString.mid(0, i);
-        kDebug() << "Setting" << str;
-        kDebug() << "Setting" << str;
-        kDebug() << "Setting" << str;
-        kDebug() << "Setting" << str;
-        kDebug() << "Setting" << str;
-        kDebug() << "Setting" << str;
+        qDebug() << "Setting" << str;
+        qDebug() << "Setting" << str;
+        qDebug() << "Setting" << str;
+        qDebug() << "Setting" << str;
+        qDebug() << "Setting" << str;
+        qDebug() << "Setting" << str;
         model->setQueryString(str);
     }
 

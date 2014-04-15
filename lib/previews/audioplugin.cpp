@@ -24,7 +24,7 @@
 
 #include <KGlobal>
 #include <KStandardDirs>
-#include <KDebug>
+#include <QDebug>
 
 #include <QDeclarativeComponent>
 #include <QDeclarativeContext>
@@ -51,7 +51,7 @@ void AudioPlugin::slotFileReceived(const Baloo::File& file)
 
     QDeclarativeComponent* component = new QDeclarativeComponent(context()->engine(), qmlFile, this);
     if (component->status() == QDeclarativeComponent::Error) {
-        kError() << component->errorString();
+        qWarning() << component->errorString();
         return;
     }
 

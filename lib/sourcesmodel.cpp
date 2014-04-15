@@ -23,7 +23,7 @@
 #include "sourcesmodel.h"
 
 
-#include <KDebug>
+#include <QDebug>
 #include <KConfig>
 #include <KConfigGroup>
 #include <QTimer>
@@ -78,7 +78,7 @@ void SourcesModel::loadSettings()
         }
     }
     else {
-        kDebug() << "Loading the settings";
+        qDebug() << "Loading the settings";
         m_types.resize(allTypes.size());
         m_typesShown.clear();
 
@@ -91,7 +91,7 @@ void SourcesModel::loadSettings()
             // Update allTypes
             foreach(MatchType* type, allTypes) {
                 if (type->name() == name) {
-                    kDebug() << i << type->name() << shown;
+                    qDebug() << i << type->name() << shown;
                     if (shown)
                         m_typesShown << type;
                     m_types[i] = name;

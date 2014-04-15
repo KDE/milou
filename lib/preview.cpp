@@ -25,7 +25,7 @@
 
 #include <KService>
 #include <KServiceTypeTrader>
-#include <KDebug>
+#include <QDebug>
 #include <kparts/mainwindow.h>
 
 #include <QPainter>
@@ -204,8 +204,8 @@ QList<PreviewPlugin*> Preview::allPlugins()
         QString error;
         PreviewPlugin* p = service->createInstance<PreviewPlugin>(this, QVariantList(), &error);
         if(!p) {
-            kError() << "Could not create PreviewPlugin:" << service->library();
-            kError() << error;
+            qWarning() << "Could not create PreviewPlugin:" << service->library();
+            qWarning() << error;
             continue;
         }
 

@@ -23,7 +23,7 @@
 #include "okularplugin.h"
 
 #include <KParts/ReadOnlyPart>
-#include <KDebug>
+#include <QDebug>
 
 OkularPlugin::OkularPlugin(QObject* parent, const QVariantList& ): PreviewPlugin(parent)
 {
@@ -46,7 +46,7 @@ void OkularPlugin::generatePreview()
         emit previewGenerated(widget);
     }
     else {
-        kError() << "Could not load okular service!";
+        qWarning() << "Could not load okular service!";
     }
 }
 
