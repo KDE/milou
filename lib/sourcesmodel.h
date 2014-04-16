@@ -63,6 +63,11 @@ public slots:
     void run(int index);
     void loadSettings();
 
+    Q_INVOKABLE QString getType(int index) const {
+        return data(createIndex(index, 0), TypeRole).toString();
+    }
+
+
 private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
     void slotMatchAdded(const Plasma::QueryMatch& match);

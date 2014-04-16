@@ -89,54 +89,6 @@ ListView {
 
     boundsBehavior: Flickable.StopAtBounds
 
-    Component {
-        id: sectionDelegate
-        Item {
-            width: Globals.CategoryWidth
-
-            // The height is 0 cause we do not want the component to consume
-            // any height. We put it on the left
-            height: 0
-
-            // We're creating a ListItem so that we can use its height to set
-            // the items height. This is similar to the ResultDelegate code
-            PlasmaComponents.ListItem {
-                opacity: 0
-                id: blah
-                Item {
-                    height: Globals.IconSize
-                }
-            }
-
-            Item {
-                width: parent.width
-                height: blah.implicitHeight
-
-                PlasmaComponents.Label {
-                    id: sectionText
-                    text: section
-                    color: theme.textColor
-                    opacity: 0.5
-
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-
-                    anchors {
-                        fill: parent
-                        rightMargin: Globals.CategoryRightMargin
-                        // We need to give it a bottom margin when reversed
-                        // as it otherwise is rendered one below where it is
-                        // actually required
-                        bottomMargin: reversed ? blah.height * 2 : 0
-                    }
-                }
-            }
-        }
-    }
-
-    section.property: "type"
-    section.delegate: sectionDelegate
-
     function loadSettings() {
         resultModel.loadSettings()
     }

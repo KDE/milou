@@ -50,6 +50,34 @@ QtExtra.MouseEventListener {
 //         }
      }
 
+     function fetchTypeText() {
+         var currentType = model.type
+         var reversed = resultDelegate.ListView.view.reversed
+         var nextIndex = model.index + (reversed ? 1 : -1)
+         var nextType = resultDelegate.ListView.view.model.getType(nextIndex)
+
+         if (nextType != currentType)
+             return currentType
+         else
+             return ""
+     }
+
+     PlasmaComponents.Label {
+         id: typeText
+         text: fetchTypeText()
+         color: theme.textColor
+         opacity: 0.5
+
+         horizontalAlignment: Text.AlignRight
+         verticalAlignment: Text.AlignVCenter
+
+         width: Globals.CategoryWidth - Globals.CategoryRightMargin
+         anchors {
+             left: parent.left
+             verticalCenter: listItem.verticalCenter
+         }
+     }
+
     PlasmaComponents.ListItem {
         id: listItem
         enabled: true
