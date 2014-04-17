@@ -35,6 +35,8 @@ ListView {
     property alias queryString: resultModel.queryString
 
     clip: true
+    highlight: PlasmaComponents.Highlight {}
+    highlightMoveDuration: 0
 
     // This is used to keep track if the user has pressed enter before
     // the first result has been shown, in the case the first result should
