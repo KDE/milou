@@ -3,3 +3,6 @@ Type=Service
 X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=miloufileplugin
 Name=Milou File Preview Plugin
+Name[fr]=Module externe d'aperçu de fichier pour Milou
+Name[uk]=Додаток попереднього перегляду файлів Milou
+Name[x-test]=xxMilou File Preview Pluginxx

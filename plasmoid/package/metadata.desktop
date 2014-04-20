@@ -1,6 +1,12 @@
 [Desktop Entry]
 Name=Milou
+Name[fr]=Milou
+Name[uk]=Milou
+Name[x-test]=xxMilouxx
 Comment=Applet for finding anything
+Comment[fr]=Applet pour trouver n'importe quoi
+Comment[uk]=Аплет для пошуку будь-чого
+Comment[x-test]=xxApplet for finding anythingxx
 Type=Service
 ServiceTypes=Plasma/Applet
 Icon=nepomuk
