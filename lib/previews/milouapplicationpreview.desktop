@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=MilouPreviewPlugin
 X-KDE-Library=milouapplicationplugin
 Name=Milou Application Preview Plugin
+Name[ca]=Connector de vista prèvia d'aplicacions del Milou
 Name[da]=Forhåndsvisning-plugin til programmet Milou
 Name[de]=Milou-Vorschaumodul für Anwendungen
 Name[el]=Πρόσθετο προεπισκόπησης εφαρμογής Milou
