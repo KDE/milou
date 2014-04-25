@@ -26,7 +26,7 @@
 // #include "preview.h"
 #include <QtQml/qqml.h>
 
-void QmlPlugins::initializeEngine(QQmlEngine *engine, const char *uri)
+void QmlPlugins::initializeEngine(QQmlEngine *, const char *)
 {
 }
 

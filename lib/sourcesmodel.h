@@ -61,7 +61,6 @@ public slots:
     void clear();
 
     void run(int index);
-    void loadSettings();
 
     Q_INVOKABLE QString getType(int index) const {
         return data(createIndex(index, 0), TypeRole).toString();

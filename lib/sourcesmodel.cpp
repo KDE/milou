@@ -41,7 +41,6 @@ SourcesModel::SourcesModel(QObject* parent)
     roles.insert(PreviewLabelRole, "previewLabel");
 
     setRoleNames(roles);
-    loadSettings();
 
     m_manager = new Plasma::RunnerManager(this);
     connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
@@ -50,56 +49,6 @@ SourcesModel::SourcesModel(QObject* parent)
 
 SourcesModel::~SourcesModel()
 {
-}
-
-void SourcesModel::loadSettings()
-{
-    /*
-    QList<MatchType*> allTypes;
-    foreach(AbstractSource* source, m_sources)
-        allTypes << source->types();
-
-    KConfig config("milourc");
-    KConfigGroup generalGroup = config.group("General");
-    int numTypes = generalGroup.readEntry("NumTypes", 0);
-
-    if (numTypes != allTypes.size()) {
-        generalGroup.writeEntry("NumTypes", allTypes.size());
-
-        for(int i=0; i<allTypes.size(); i++) {
-            MatchType* type = allTypes[i];
-            KConfigGroup group = config.group("Type-" + QString::number(i));
-
-            group.writeEntry("Name", type->name());
-            group.writeEntry("Icon", type->icon());
-            group.writeEntry("Enabled", true);
-
-            m_types << type->name();
-        }
-    }
-    else {
-        qDebug() << "Loading the settings";
-        m_types.resize(allTypes.size());
-        m_typesShown.clear();
-
-        for(int i=0; i<allTypes.size(); i++) {
-            KConfigGroup group = config.group("Type-" + QString::number(i));
-
-            QString name = group.readEntry("Name", QString());
-            bool shown = group.readEntry("Enabled", true);
-
-            // Update allTypes
-            foreach(MatchType* type, allTypes) {
-                if (type->name() == name) {
-                    qDebug() << i << type->name() << shown;
-                    if (shown)
-                        m_typesShown << type;
-                    m_types[i] = name;
-                }
-            }
-        }
-    }
-    */
 }
 
 Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
@@ -118,12 +67,6 @@ Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
     }
 
     return Plasma::QueryMatch(0);
-}
-
-static QString nameForType(const QString& type)
-{
-    // FIXME: This needs to be translated!
-    return type;
 }
 
 QVariant SourcesModel::data(const QModelIndex& index, int role) const
@@ -145,7 +88,7 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
             return m.icon().name();
 
         case TypeRole:
-            return nameForType(m.matchCategory());
+            return m.matchCategory();
 
             /*
         case PreviewTypeRole:
