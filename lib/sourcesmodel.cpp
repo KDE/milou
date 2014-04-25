@@ -144,6 +144,7 @@ void SourcesModel::setQueryString(const QString& str)
     m_queryString = str;
 
     m_manager->reset();
+    m_types.clear();
     m_supressSignals = true;
 
     m_manager->launchQuery(m_queryString);
