@@ -176,8 +176,6 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
         return;
 
     QString matchType = m.matchCategory();
-    if (m_typesDisabled.contains(matchType))
-        return;
 
     if (!m_types.contains(matchType))
         m_types << matchType;
