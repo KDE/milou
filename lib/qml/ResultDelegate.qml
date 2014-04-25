@@ -51,6 +51,11 @@ QtExtra.MouseEventListener {
      }
 
      function fetchTypeText() {
+         // Strange offscreen delegates, perhaps
+         if (model.index == -1) {
+             return ""
+         }
+
          var currentType = model.type
          var reversed = resultDelegate.ListView.view.reversed
          var nextIndex = model.index + (reversed ? 1 : -1)
