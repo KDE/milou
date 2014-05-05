@@ -22,7 +22,6 @@
 
 #include "sourcesmodel.h"
 
-
 #include <QDebug>
 #include <KConfig>
 #include <KConfigGroup>
@@ -145,6 +144,7 @@ void SourcesModel::setQueryString(const QString& str)
 
     m_manager->reset();
     m_types.clear();
+    m_typePriority.clear();
     m_supressSignals = true;
 
     m_manager->launchQuery(m_queryString);
@@ -177,8 +177,30 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
 
     QString matchType = m.matchCategory();
 
-    if (!m_types.contains(matchType))
-        m_types << matchType;
+    if (!m_types.contains(matchType)) {
+        int priority = static_cast<int>(m.type());
+        m_typePriority[matchType] = priority;
+
+        QMutableListIterator<QString> it(m_types);
+        while (it.hasNext()) {
+            QString t = it.next();
+            int p = m_typePriority.value(t);
+            if (p < priority) {
+                it.previous();
+                it.insert(matchType);
+                break;
+            }
+        }
+
+        if (m_types.isEmpty() || !m_types.contains(matchType)) {
+            m_types << matchType;
+        }
+
+        if (!m_supressSignals) {
+            beginResetModel();
+            endResetModel();
+        }
+    }
 
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;

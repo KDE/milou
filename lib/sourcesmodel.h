@@ -74,7 +74,11 @@ private slots:
 
 public:
     // A list of all the types that are being shown
-    QVector<QString> m_types;
+    QList<QString> m_types;
+
+    // Each type has a priority based on the results, on how high it should
+    // be on the list
+    QHash<QString, int> m_typePriority;
 
     struct TypeData {
         QList<Plasma::QueryMatch> shown;
