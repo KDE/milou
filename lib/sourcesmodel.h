@@ -55,6 +55,8 @@ public:
     QString queryString() const;
     int queryLimit() const;
 
+    virtual QHash<int, QByteArray> roleNames() const;
+
 public slots:
     void setQueryString(const QString& str);
     void setQueryLimit(int limit);

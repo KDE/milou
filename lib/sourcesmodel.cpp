@@ -33,14 +33,6 @@ SourcesModel::SourcesModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_size(0)
 {
-    QHash<int, QByteArray> roles = roleNames();
-    roles.insert(TypeRole, "type");
-    roles.insert(PreviewTypeRole, "previewType");
-    roles.insert(PreviewUrlRole, "previewUrl");
-    roles.insert(PreviewLabelRole, "previewLabel");
-
-    setRoleNames(roles);
-
     m_manager = new Plasma::RunnerManager(this);
     connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
@@ -48,6 +40,17 @@ SourcesModel::SourcesModel(QObject* parent)
 
 SourcesModel::~SourcesModel()
 {
+}
+
+QHash<int, QByteArray> SourcesModel::roleNames() const
+{
+    QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
+    roles.insert(TypeRole, "type");
+    roles.insert(PreviewTypeRole, "previewType");
+    roles.insert(PreviewUrlRole, "previewUrl");
+    roles.insert(PreviewLabelRole, "previewLabel");
+
+    return roles;
 }
 
 Plasma::QueryMatch SourcesModel::fetchMatch(int row) const

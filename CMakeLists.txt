@@ -5,7 +5,7 @@ find_package(ECM 0.0.9 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Widgets Xml Test Sql WebKitWidgets)
-find_package(KF5 REQUIRED COMPONENTS KDE4Support Runner Plasma I18n Declarative)
+find_package(KF5 REQUIRED COMPONENTS Runner Plasma I18n Declarative)
 find_package(Baloo 4.60 REQUIRED)
 
 include(FeatureSummary)
@@ -13,6 +13,7 @@ include(ECMAddTests)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
+include(GenerateExportHeader)
 
 # find_package(KdepimLibs)
 # set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"

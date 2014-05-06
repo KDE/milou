@@ -38,7 +38,9 @@ public slots:
     void main();
 
 public:
-    explicit TestObject(QWidget* parent = 0, Qt::WindowFlags f = 0) {
+    explicit TestObject(QWidget* parent = 0, Qt::WindowFlags f = 0)
+        : QWidget(parent, f)
+    {
         QTimer::singleShot(0, this, SLOT(main()));
     }
 };

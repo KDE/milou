@@ -11,7 +11,6 @@ target_link_libraries (milou
     KF5::KIOWidgets
     KF5::Plasma
     KF5::Runner
-    KF5::KDE4Support
     ${BALOO_CORE_LIBRARY}
 )
 

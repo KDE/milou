@@ -20,12 +20,9 @@
  *
  */
 
-#include <KApplication>
-#include <KCmdLineArgs>
-
+#include <QCoreApplication>
 #include <QTimer>
 #include <QDebug>
-#include <KTempDir>
 
 #include "modeltest.h"
 #include "../sourcesmodel.h"
@@ -71,11 +68,11 @@ public:
 
 int main(int argc, char** argv)
 {
-    KCmdLineArgs::init(argc, argv, "modeltest", "modeltest", ki18n("modeltest"), "0.1");
-    KApplication app;
+    QCoreApplication app(argc, argv);
 
     SourcesModel* model = new SourcesModel();
     ModelTest* mt = new ModelTest(model);
+    Q_UNUSED(mt);
     model->setQueryLimit(20);
 
     TestObject obj("Summer");
