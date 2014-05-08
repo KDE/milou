@@ -182,6 +182,9 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
 
     if (!m_types.contains(matchType)) {
         int priority = static_cast<int>(m.type());
+        if (m.runner()->name() == QStringLiteral("Applications"))
+            priority = 100000; // Really high number
+
         m_typePriority[matchType] = priority;
 
         QMutableListIterator<QString> it(m_types);
