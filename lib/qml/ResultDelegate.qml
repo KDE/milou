@@ -52,11 +52,6 @@ MouseArea {
      }*/
 
      function fetchTypeText() {
-         // Strange offscreen delegates, perhaps
-         if (model.index == -1) {
-             return ""
-         }
-
          var currentType = model.type
          var reversed = resultDelegate.ListView.view.reversed
          var nextIndex = model.index + (reversed ? 1 : -1)
@@ -70,7 +65,7 @@ MouseArea {
 
      PlasmaComponents.Label {
          id: typeText
-         text: fetchTypeText()
+         text: String(fetchTypeText())
          color: theme.textColor
          opacity: 0.5
 
@@ -109,7 +104,7 @@ MouseArea {
 
         PlasmaComponents.Label {
             id: displayLabel
-            text: model.display
+            text: String(model.display)
             wrapMode: Text.Wrap
 
             width: parent.width
