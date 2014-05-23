@@ -26,7 +26,7 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.kquickcontrolsaddons 2.0 as QtExtra
 import "globals.js" as Globals
 
-QtExtra.MouseEventListener {
+MouseArea {
     id: resultDelegate
     property variant theModel: model
 
@@ -34,11 +34,12 @@ QtExtra.MouseEventListener {
     height: listItem.implicitHeight
 
     hoverEnabled: true
+    onEntered: {
+        listView.currentIndex = index
+    }
 
+    /*
      onContainsMouseChanged: {
-         if (containsMouse) {
-            listView.currentIndex = index
-         }
 //             preview.mimetype = model.previewType;
 //             preview.url = model.previewUrl;
 //             urlLabel.text = model.previewLabel
@@ -48,7 +49,7 @@ QtExtra.MouseEventListener {
 //             dialog.prevDelegate = dialog.delegate
 //             dialog.delegate = null;
 //         }
-     }
+     }*/
 
      function fetchTypeText() {
          // Strange offscreen delegates, perhaps
