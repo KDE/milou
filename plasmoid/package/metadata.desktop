@@ -1,6 +1,18 @@
 [Desktop Entry]
 Name=Milou
+Name[nl]=Milou
+Name[pl]=Milou
+Name[pt_BR]=Milou
+Name[sv]=Milou
+Name[uk]=Milou
+Name[x-test]=xxMilouxx
 Comment=Applet for finding anything
+Comment[nl]=Applet voor zoeken naar van alles
+Comment[pl]=Aplet do znajdowania rzeczy dowolnych
+Comment[pt_BR]=Miniaplicativo para encontrar qualquer coisa
+Comment[sv]=Miniprogram för att hitta vad som helst
+Comment[uk]=Аплет для пошуку будь-чого
+Comment[x-test]=xxApplet for finding anythingxx
 Type=Service
 ServiceTypes=Plasma/Applet
 Icon=nepomuk
