@@ -81,7 +81,6 @@ public slots:
 private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
     void slotMatchAdded(const Plasma::QueryMatch& match);
-    void stopSuppressingSignals();
 
 public:
     // A list of all the types that are being shown
@@ -102,7 +101,6 @@ public:
     int m_queryLimit;
     QString m_runner;
 
-    bool m_supressSignals;
     Plasma::RunnerManager* m_manager;
 
     /// Returns the number of visible rows before \p type

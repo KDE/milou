@@ -157,35 +157,19 @@ void SourcesModel::setQueryString(const QString& str)
         return;
     }
 
+    beginResetModel();
     m_matches.clear();
     m_size = 0;
-
-    m_queryString = str;
-
     m_manager->reset();
     m_types.clear();
     m_typePriority.clear();
-    m_supressSignals = true;
-
-    if (m_queryString.isEmpty()) {
-        beginResetModel();
-        endResetModel();
-    }
-    else {
-        m_manager->setSingleModeRunnerId(m_runner);
-        m_manager->setSingleMode(!m_runner.isEmpty());
-        m_manager->launchQuery(m_queryString, m_runner);
-
-        QTimer::singleShot(250, this, SLOT(stopSuppressingSignals()));
-    }
-}
-
-void SourcesModel::stopSuppressingSignals()
-{
-    m_supressSignals = false;
-
-    beginResetModel();
     endResetModel();
+
+    m_queryString = str;
+
+    m_manager->setSingleModeRunnerId(m_runner);
+    m_manager->setSingleMode(!m_runner.isEmpty());
+    m_manager->launchQuery(m_queryString, m_runner);
 }
 
 //
@@ -234,10 +218,8 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
             m_types << matchType;
         }
 
-        if (!m_supressSignals) {
-            beginResetModel();
-            endResetModel();
-        }
+        beginResetModel();
+        endResetModel();
     }
 
     if (m_size == m_queryLimit) {
@@ -261,21 +243,17 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
         int removeRowPos = fetchRowCount(maxShownType);
         removeRowPos += m_matches[maxShownType].shown.size() - 1;
 
-        if (!m_supressSignals)
-            beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
+        beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
         Plasma::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
-        if (!m_supressSignals)
-            endRemoveRows();
+        endRemoveRows();
 
         int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
-        if (!m_supressSignals)
-            beginInsertRows(QModelIndex(), insertPos, insertPos);
+        beginInsertRows(QModelIndex(), insertPos, insertPos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        if (!m_supressSignals)
-            endInsertRows();
+        endInsertRows();
     }
     else {
         int pos = 0;
@@ -286,12 +264,10 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
             }
         }
 
-        if (!m_supressSignals)
-            beginInsertRows(QModelIndex(), pos, pos);
+        beginInsertRows(QModelIndex(), pos, pos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        if (!m_supressSignals)
-            endInsertRows();
+        endInsertRows();
     }
 }
 
