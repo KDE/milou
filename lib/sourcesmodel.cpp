@@ -150,8 +150,14 @@ void SourcesModel::setQueryString(const QString& str)
     m_typePriority.clear();
     m_supressSignals = true;
 
-    m_manager->launchQuery(m_queryString);
-    QTimer::singleShot(250, this, SLOT(stopSuppressingSignals()));
+    if (m_queryString.isEmpty()) {
+        beginResetModel();
+        endResetModel();
+    }
+    else {
+        m_manager->launchQuery(m_queryString);
+        QTimer::singleShot(250, this, SLOT(stopSuppressingSignals()));
+    }
 }
 
 void SourcesModel::stopSuppressingSignals()
