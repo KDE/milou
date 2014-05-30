@@ -51,6 +51,9 @@ public:
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual bool hasChildren(const QModelIndex&) const {
+        return false;
+    }
 
     QString queryString() const;
     int queryLimit() const;
