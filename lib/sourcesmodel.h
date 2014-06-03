@@ -25,6 +25,7 @@
 
 #include <QAbstractItemModel>
 #include <QVector>
+#include <QTimer>
 
 #include <KRunner/RunnerManager>
 #include <KRunner/QueryMatch>
@@ -81,6 +82,7 @@ public slots:
 private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
     void slotMatchAdded(const Plasma::QueryMatch& match);
+    void slotResetTimeout();
 
 public:
     // A list of all the types that are being shown
@@ -102,6 +104,8 @@ public:
     QString m_runner;
 
     Plasma::RunnerManager* m_manager;
+    bool m_modelPopulated;
+    QTimer m_resetTimer;
 
     /// Returns the number of visible rows before \p type
     int fetchRowCount(const QString& type) const;

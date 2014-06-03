@@ -43,6 +43,10 @@ SourcesModel::SourcesModel(QObject* parent)
     connect(watch, SIGNAL(created(QString)), this, SLOT(reloadConfiguration()));
     connect(watch, SIGNAL(dirty(QString)), this, SLOT(reloadConfiguration()));
     watch->addFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, "krunnerrc"));
+
+    m_resetTimer.setSingleShot(true);
+    m_resetTimer.setInterval(500);
+    connect(&m_resetTimer, SIGNAL(timeout()), this, SLOT(slotResetTimeout()));
 }
 
 SourcesModel::~SourcesModel()
@@ -157,19 +161,29 @@ void SourcesModel::setQueryString(const QString& str)
         return;
     }
 
-    beginResetModel();
-    m_matches.clear();
-    m_size = 0;
-    m_manager->reset();
-    m_types.clear();
-    m_typePriority.clear();
-    endResetModel();
-
     m_queryString = str;
+    if (m_queryString.isEmpty()) {
+        clear();
+        return;
+    }
 
+    m_modelPopulated = false;
     m_manager->setSingleModeRunnerId(m_runner);
     m_manager->setSingleMode(!m_runner.isEmpty());
     m_manager->launchQuery(m_queryString, m_runner);
+
+    // We avoid clearing the model instantly, and instead wait for the results
+    // to show up, and only then do we clear the model. In the event
+    // where there are no results, we wait for a predefined time before
+    // clearing the model
+    m_resetTimer.start();
+}
+
+void SourcesModel::slotResetTimeout()
+{
+    if (!m_modelPopulated) {
+        clear();
+    }
 }
 
 //
@@ -194,6 +208,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
         const Plasma::QueryMatch match = iter.previous();
         slotMatchAdded(match);
     }
+    m_modelPopulated = true;
     endResetModel();
 }
 
