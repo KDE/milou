@@ -184,9 +184,17 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
     QListIterator<Plasma::QueryMatch> iter(list);
     iter.toBack();
 
+    beginResetModel();
+    m_matches.clear();
+    m_size = 0;
+    m_types.clear();
+    m_typePriority.clear();
+
     while (iter.hasPrevious()) {
-        slotMatchAdded(iter.previous());
+        const Plasma::QueryMatch match = iter.previous();
+        slotMatchAdded(match);
     }
+    endResetModel();
 }
 
 void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
@@ -218,8 +226,8 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
             m_types << matchType;
         }
 
-        beginResetModel();
-        endResetModel();
+        //beginResetModel();
+        //endResetModel();
     }
 
     if (m_size == m_queryLimit) {
@@ -243,17 +251,17 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
         int removeRowPos = fetchRowCount(maxShownType);
         removeRowPos += m_matches[maxShownType].shown.size() - 1;
 
-        beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
+        //beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
         Plasma::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
-        endRemoveRows();
+        //endRemoveRows();
 
         int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
-        beginInsertRows(QModelIndex(), insertPos, insertPos);
+        //beginInsertRows(QModelIndex(), insertPos, insertPos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        endInsertRows();
+        //endInsertRows();
     }
     else {
         int pos = 0;
@@ -264,10 +272,10 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
             }
         }
 
-        beginInsertRows(QModelIndex(), pos, pos);
+        //beginInsertRows(QModelIndex(), pos, pos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        endInsertRows();
+        //endInsertRows();
     }
 }
 
