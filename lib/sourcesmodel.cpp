@@ -125,6 +125,16 @@ int SourcesModel::queryLimit() const
     return m_queryLimit;
 }
 
+QString SourcesModel::runner() const
+{
+    return m_runner;
+}
+
+void SourcesModel::setRunner(const QString& runner)
+{
+    m_runner = runner;
+}
+
 void SourcesModel::setQueryLimit(int limit)
 {
     m_queryLimit = limit;
@@ -155,7 +165,10 @@ void SourcesModel::setQueryString(const QString& str)
         endResetModel();
     }
     else {
-        m_manager->launchQuery(m_queryString);
+        m_manager->setSingleModeRunnerId(m_runner);
+        m_manager->setSingleMode(!m_runner.isEmpty());
+        m_manager->launchQuery(m_queryString, m_runner);
+
         QTimer::singleShot(250, this, SLOT(stopSuppressingSignals()));
     }
 }

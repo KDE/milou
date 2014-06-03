@@ -38,6 +38,8 @@ class MILOU_EXPORT SourcesModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
     Q_PROPERTY(int queryLimit READ queryLimit WRITE setQueryLimit)
+    Q_PROPERTY(QString runner READ runner WRITE setRunner)
+
 public:
     explicit SourcesModel(QObject* parent = 0);
     virtual ~SourcesModel();
@@ -54,6 +56,9 @@ public:
     virtual bool hasChildren(const QModelIndex&) const {
         return false;
     }
+
+    QString runner() const;
+    void setRunner(const QString& runner);
 
     QString queryString() const;
     int queryLimit() const;
@@ -94,6 +99,7 @@ public:
 
     QString m_queryString;
     int m_queryLimit;
+    QString m_runner;
 
     bool m_supressSignals;
     Plasma::RunnerManager* m_manager;

@@ -31,6 +31,7 @@ import "globals.js" as Globals
 ListView {
     id: listView
     property alias queryString: resultModel.queryString
+    property alias runner: resultModel.runner
     property bool reversed
     signal activated
 
