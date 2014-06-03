@@ -192,10 +192,16 @@ void SourcesModel::stopSuppressingSignals()
 // Tries to make sure that all the types have the same number
 // of visible items
 //
-void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& list)
+void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
 {
-    Q_FOREACH (const Plasma::QueryMatch& match, list) {
-        slotMatchAdded(match);
+    QList<Plasma::QueryMatch> list(l);
+    qSort(list);
+
+    QListIterator<Plasma::QueryMatch> iter(list);
+    iter.toBack();
+
+    while (iter.hasPrevious()) {
+        slotMatchAdded(iter.previous());
     }
 }
 
