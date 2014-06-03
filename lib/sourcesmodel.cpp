@@ -26,6 +26,8 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <QTimer>
+#include <KDirWatch>
+#include <KSharedConfig>
 
 using namespace Milou;
 
@@ -36,6 +38,11 @@ SourcesModel::SourcesModel(QObject* parent)
     m_manager = new Plasma::RunnerManager(this);
     connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
+
+    KDirWatch* watch = KDirWatch::self();
+    connect(watch, SIGNAL(created(QString)), this, SLOT(reloadConfiguration()));
+    connect(watch, SIGNAL(dirty(QString)), this, SLOT(reloadConfiguration()));
+    watch->addFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, "krunnerrc"));
 }
 
 SourcesModel::~SourcesModel()
@@ -309,4 +316,10 @@ void SourcesModel::run(int index)
 {
     Plasma::QueryMatch match = fetchMatch(index);
     m_manager->run(match);
+}
+
+void SourcesModel::reloadConfiguration()
+{
+    KSharedConfig::openConfig("krunnerrc")->reparseConfiguration();
+    m_manager->reloadConfiguration();
 }

@@ -66,6 +66,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const;
 
 public slots:
+    void reloadConfiguration();
     void setQueryString(const QString& str);
     void setQueryLimit(int limit);
     void clear();
