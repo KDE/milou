@@ -20,6 +20,15 @@ include(GenerateExportHeader)
 #                        URL "http://www.kde.org"
 #                        TYPE REQUIRED PURPOSE "Support for Email previews")
 
+
+set(MILOU_VERSION_MAJOR 4)
+set(MILOU_VERSION_MINOR 97)
+set(MILOU_VERSION_PATCH 0)
+set(MILOU_VERSION ${MILOU_VERSION_MAJOR}.${MILOU_VERSION_MINOR}.${MILOU_VERSION_PATCH} )
+
+set(GENERIC_LIB_SOVERSION 5)
+set(GENERIC_LIB_VERSION "${MILOU_VERSION_MAJOR}.${MILOU_VERSION_MINOR}.${MILOU_VERSION_PATCH}")
+
 add_subdirectory(lib)
 add_subdirectory(plasmoid)
 

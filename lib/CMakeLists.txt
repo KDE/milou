@@ -6,6 +6,7 @@ set (lib_SRCS
 )
 
 add_library(milou SHARED ${lib_SRCS})
+set_target_properties(milou PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 
 target_link_libraries (milou
     KF5::KIOWidgets
@@ -20,7 +21,7 @@ install(
 
 generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)
 
-install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 add_subdirectory(qml)
 # add_subdirectory(previews)
