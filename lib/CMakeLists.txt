@@ -12,7 +12,6 @@ target_link_libraries (milou
     KF5::KIOWidgets
     KF5::Plasma
     KF5::Runner
-    ${BALOO_CORE_LIBRARY}
 )
 
 install(

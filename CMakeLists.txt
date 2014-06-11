@@ -6,7 +6,6 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Widgets Xml Test Sql WebKitWidgets)
 find_package(KF5 REQUIRED COMPONENTS Runner Plasma I18n Declarative)
-find_package(Baloo 4.60 REQUIRED)
 
 include(FeatureSummary)
 include(ECMAddTests)
