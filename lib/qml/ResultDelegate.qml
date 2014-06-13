@@ -21,6 +21,7 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Layouts 1.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.kquickcontrolsaddons 2.0 as QtExtra
@@ -88,35 +89,31 @@ MouseArea {
             listView.runCurrentIndex()
         }
 
-        QtExtra.QIconItem {
-            id: typePixmap
-            width: Globals.IconSize
-            height: Globals.IconSize
-
-            icon: model.decoration
-            smooth: true
-
-            anchors {
-                left: parent.left
-                leftMargin: Globals.CategoryWidth
-            }
-        }
-
-        PlasmaComponents.Label {
-            id: displayLabel
-            text: String(model.display)
-            wrapMode: Text.Wrap
-
-            width: parent.width
+        RowLayout {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: Globals.CategoryWidth
             height: typePixmap.height
 
-            elide: Text.ElideRight
-            maximumLineCount: 1
+            QtExtra.QIconItem {
+                id: typePixmap
+                width: Globals.IconSize
+                height: Globals.IconSize
 
-            anchors {
-                left: typePixmap.right
-                leftMargin: 5
-                right: parent.right
+                icon: model.decoration
+                smooth: true
+            }
+
+            PlasmaComponents.Label {
+                id: displayLabel
+                text: String(model.display)
+
+                height: typePixmap.height
+
+                elide: Text.ElideRight
+                maximumLineCount: 1
+
+                Layout.fillWidth: true
             }
         }
     }
