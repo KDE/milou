@@ -57,6 +57,7 @@ QHash<int, QByteArray> SourcesModel::roleNames() const
 {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
     roles.insert(TypeRole, "type");
+    roles.insert(SubtextRole, "subtext");
     roles.insert(PreviewTypeRole, "previewType");
     roles.insert(PreviewUrlRole, "previewUrl");
     roles.insert(PreviewLabelRole, "previewLabel");
@@ -102,6 +103,14 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
 
         case TypeRole:
             return m.matchCategory();
+
+        case SubtextRole: {
+            if (m_duplicates.value(m.text()) > 1) {
+                return m.subtext();
+            } else {
+                return QString();
+            }
+        }
 
             /*
         case PreviewTypeRole:
@@ -203,6 +212,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
     m_size = 0;
     m_types.clear();
     m_typePriority.clear();
+    m_duplicates.clear();
 
     while (iter.hasPrevious()) {
         const Plasma::QueryMatch match = iter.previous();
@@ -273,12 +283,14 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
         Plasma::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
+        m_duplicates[transferMatch.text()]--;
         //endRemoveRows();
 
         int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
         //beginInsertRows(QModelIndex(), insertPos, insertPos);
         m_matches[matchType].shown.append(m);
         m_size++;
+        m_duplicates[m.text()]++;
         //endInsertRows();
     }
     else {
@@ -293,6 +305,7 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
         //beginInsertRows(QModelIndex(), pos, pos);
         m_matches[matchType].shown.append(m);
         m_size++;
+        m_duplicates[m.text()]++;
         //endInsertRows();
     }
 }
@@ -315,6 +328,7 @@ void SourcesModel::clear()
     beginResetModel();
     m_matches.clear();
     m_size = 0;
+    m_duplicates.clear();
     m_queryString.clear();
     m_manager->reset();
     endResetModel();

@@ -115,6 +115,19 @@ MouseArea {
 
                 Layout.fillWidth: true
             }
+
+            PlasmaComponents.Label {
+                id: subtextLabel
+                text: String(model.subtext)
+
+                color: theme.textColor
+                opacity: 0.3
+
+                height: typePixmap.height
+
+                elide: Text.ElideRight
+                maximumLineCount: 1
+            }
         }
     }
 }

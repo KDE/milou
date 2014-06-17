@@ -47,6 +47,7 @@ public:
 
     enum Roles {
         TypeRole = Qt::UserRole + 1,
+        SubtextRole,
         PreviewTypeRole,
         PreviewUrlRole,
         PreviewLabelRole
@@ -98,6 +99,11 @@ public:
     };
     QHash<QString, TypeData> m_matches;
     int m_size;
+
+    /// Counts the number of results for each visible Plasma::QueryMatch::text
+    /// We use this to show additional info when there are multiple visible
+    /// results with the same text
+    QHash<QString, int> m_duplicates;
 
     QString m_queryString;
     int m_queryLimit;
