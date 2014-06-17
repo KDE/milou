@@ -39,19 +39,6 @@ MouseArea {
         listView.currentIndex = index
     }
 
-    /*
-     onContainsMouseChanged: {
-//             preview.mimetype = model.previewType;
-//             preview.url = model.previewUrl;
-//             urlLabel.text = model.previewLabel
-//
-//             dialog.delegate = resultDelegate;
-//         } else {
-//             dialog.prevDelegate = dialog.delegate
-//             dialog.delegate = null;
-//         }
-     }*/
-
      function fetchTypeText() {
          var currentType = model.type
          var reversed = resultDelegate.ListView.view.reversed
