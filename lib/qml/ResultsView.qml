@@ -37,7 +37,6 @@ ListView {
 
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
 
-    clip: true
     highlight: PlasmaComponents.Highlight {}
     highlightMoveDuration: 0
 
