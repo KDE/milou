@@ -100,7 +100,7 @@ MouseArea {
                 elide: Text.ElideRight
                 maximumLineCount: 1
 
-                Layout.fillWidth: true
+                Layout.maximumWidth: parent.width - displayLabel.x
             }
 
             PlasmaComponents.Label {
@@ -114,6 +114,7 @@ MouseArea {
 
                 elide: Text.ElideRight
                 maximumLineCount: 1
+                Layout.fillWidth: true
             }
         }
     }
