@@ -1,6 +1,24 @@
 [Desktop Entry]
 Name=Search
+Name[ca]=Cerca
+Name[es]=Buscar
+Name[nl]=Zoeken
+Name[pt]=Pesquisa
+Name[pt_BR]=Procurar
+Name[sk]=Hľadať
+Name[sv]=Sök
+Name[uk]=Пошук
+Name[x-test]=xxSearchxx
 Comment=Search and Launch
+Comment[ca]=Cerca i llança
+Comment[es]=Buscar y lanzar
+Comment[nl]=Zoeken en starten
+Comment[pt]=Pesquisar e Lançar
+Comment[pt_BR]=Pesquisa e executa
+Comment[sk]=Hľadať a spustiť
+Comment[sv]=Sök och starta
+Comment[uk]=Пошук і запуск
+Comment[x-test]=xxSearch and Launchxx
 Type=Service
 ServiceTypes=Plasma/Applet
 Icon=nepomuk
