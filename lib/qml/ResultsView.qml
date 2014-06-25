@@ -86,6 +86,8 @@ ListView {
 
     Keys.onTabPressed: incrementCurrentIndex()
     Keys.onBacktabPressed: decrementCurrentIndex()
+    Keys.onUpPressed: decrementCurrentIndex();
+    Keys.onDownPressed: incrementCurrentIndex();
 
     boundsBehavior: Flickable.StopAtBounds
 
