@@ -3,6 +3,7 @@ include_directories(
 )
 
 add_executable(modeltest modeltest.cpp test.cpp)
+ecm_mark_as_test(modeltest)
 
 target_link_libraries(modeltest
   Qt5::Core
@@ -12,6 +13,7 @@ target_link_libraries(modeltest
 )
 
 add_executable(widgettest widgettest.cpp)
+ecm_mark_as_test(widgettest)
 
 target_link_libraries(widgettest
   Qt5::Core
