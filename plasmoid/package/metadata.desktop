@@ -2,6 +2,7 @@
 Name=Search
 Name[ca]=Cerca
 Name[es]=Buscar
+Name[fi]=Haku
 Name[nds]=Söken
 Name[nl]=Zoeken
 Name[pl]=Znajdź
@@ -15,6 +16,7 @@ Name[x-test]=xxSearchxx
 Comment=Search and Launch
 Comment[ca]=Cerca i llança
 Comment[es]=Buscar y lanzar
+Comment[fi]=Haku ja käynnistys
 Comment[nds]=Söken un opropen
 Comment[nl]=Zoeken en starten
 Comment[pl]=Znajdź i uruchom
