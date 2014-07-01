@@ -97,7 +97,7 @@ MouseArea {
 
                 height: typePixmap.height
 
-                elide: Text.ElideRight
+                elide: Text.ElideMiddle
                 maximumLineCount: 1
 
                 Layout.maximumWidth: parent.width - displayLabel.x
