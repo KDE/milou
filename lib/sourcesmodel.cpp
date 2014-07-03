@@ -99,7 +99,7 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
             return m.text();
 
         case Qt::DecorationRole:
-            return m.icon().name();
+            return m.icon();
 
         case TypeRole:
             return m.matchCategory();
