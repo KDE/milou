@@ -32,6 +32,8 @@ import "../code/globals.js" as Globals
 
 Item {
     id: mainWidget
+    Plasmoid.switchWidth: Globals.SwitchWidth
+    Plasmoid.switchHeight: Globals.SwitchWidth
     Layout.minimumWidth: Globals.PlasmoidWidth
     Layout.maximumWidth: Globals.PlasmoidWidth
     Layout.minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
@@ -75,6 +77,8 @@ Item {
 
         Milou.ResultsView {
             id: listView
+            //in case is expanded
+            clip: true
 
             anchors {
                 left: parent.left

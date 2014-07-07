@@ -28,6 +28,9 @@ var CategoryRightMargin = units.largeSpacing;
 // The Maximum and Minimum width of the Plasmoid
 var PlasmoidWidth = units.gridUnit * 35;
 
+// The size in which the Plasmoid switches between compact and full
+var SwitchWidth = units.gridUnit * 20;
+
 var IconSize = units.iconSizes.small
 
 // This title size is only used in the Audio plugin
