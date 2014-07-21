@@ -1,9 +1,9 @@
-kde4_add_plugin(milouvideoplugin videoplugin.cpp)
+add_library(milouvideoplugin MODULE videoplugin.cpp)
 
 target_link_libraries(milouvideoplugin
     milou
-    ${KDE4_KIO_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
+    KF5::KIOWidgets
+    Qt5::Declarative
     ${PHONON_LIBS}
 )
 

@@ -43,7 +43,7 @@ EmailPlugin::EmailPlugin(QObject* parent, const QVariantList& )
 void EmailPlugin::generatePreview()
 {
     if (url().scheme() != QLatin1String("akonadi")) {
-        kError() << "We only support akonadi urls";
+        qWarning() << "We only support akonadi urls";
         return;
     }
 

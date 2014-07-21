@@ -1,27 +1,36 @@
-project(milou)
+project(Milou)
+cmake_minimum_required(VERSION 2.8.12)
 
-find_package(KDE4 REQUIRED)
-find_package(Baloo REQUIRED)
-find_package(KFileMetaData REQUIRED)
+find_package(ECM 0.0.9 REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-find_package(KdepimLibs)
-set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"
-                       URL "http://www.kde.org"
-                       TYPE REQUIRED PURPOSE "Support for Email previews")
+find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Widgets Test)
+find_package(KF5 REQUIRED COMPONENTS Runner Plasma I18n Declarative)
+
+include(FeatureSummary)
+include(ECMAddTests)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings)
+include(GenerateExportHeader)
+
+# find_package(KdepimLibs)
+# set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"
+#                        URL "http://www.kde.org"
+#                        TYPE REQUIRED PURPOSE "Support for Email previews")
 
 
-include(KDE4Defaults)
+set(MILOU_VERSION_MAJOR 5)
+set(MILOU_VERSION_MINOR 0)
+set(MILOU_VERSION_PATCH 0)
+set(MILOU_VERSION ${MILOU_VERSION_MAJOR}.${MILOU_VERSION_MINOR}.${MILOU_VERSION_PATCH} )
 
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+set(GENERIC_LIB_SOVERSION 5)
+set(GENERIC_LIB_VERSION "${MILOU_VERSION_MAJOR}.${MILOU_VERSION_MINOR}.${MILOU_VERSION_PATCH}")
 
-include_directories(
-  ${QT_INCLUDES}
-  ${KDE4_INCLUDES}
-  ${BALOO_INCLUDE_DIR}
-  ${KFILEMETADATA_INCLUDE_DIR}
-  ${CMAKE_SOURCE_DIR}
-  ${CMAKE_SOURCE_DIR}/lib
-)
+add_definitions(-DTRANSLATION_DOMAIN=\"milou\")
 
 add_subdirectory(lib)
 add_subdirectory(plasmoid)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

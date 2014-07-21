@@ -3,15 +3,15 @@ set (plugin_SRCS
     qmlplugins.cpp
 )
 
-kde4_add_library (milouqmlplugin SHARED ${plugin_SRCS})
+add_library (milouqmlplugin SHARED ${plugin_SRCS})
 
 target_link_libraries (milouqmlplugin
-    ${QT_QTSCRIPT_LIBRARY}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    ${KDE4_KDECORE_LIBS}
-    ${KDE4_KDEUI_LIBS}
+    Qt5::Qml
+
     milou
 )
 
-install (TARGETS milouqmlplugin DESTINATION ${IMPORTS_INSTALL_DIR}/org/kde/milou)
-install (FILES qmldir DESTINATION ${IMPORTS_INSTALL_DIR}/org/kde/milou)
+install (TARGETS milouqmlplugin DESTINATION ${QML_INSTALL_DIR}/org/kde/milou)
+install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/milou)
+install (FILES ResultDelegate.qml ResultsView.qml globals.js
+         DESTINATION ${QML_INSTALL_DIR}/org/kde/milou)

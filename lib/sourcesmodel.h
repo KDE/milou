@@ -25,8 +25,11 @@
 
 #include <QAbstractItemModel>
 #include <QVector>
+#include <QTimer>
 
-#include "abstractsource.h"
+#include <KRunner/RunnerManager>
+#include <KRunner/QueryMatch>
+
 #include "milou_export.h"
 
 namespace Milou {
@@ -36,12 +39,15 @@ class MILOU_EXPORT SourcesModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
     Q_PROPERTY(int queryLimit READ queryLimit WRITE setQueryLimit)
+    Q_PROPERTY(QString runner READ runner WRITE setRunner)
+
 public:
     explicit SourcesModel(QObject* parent = 0);
     virtual ~SourcesModel();
 
     enum Roles {
         TypeRole = Qt::UserRole + 1,
+        SubtextRole,
         PreviewTypeRole,
         PreviewUrlRole,
         PreviewLabelRole
@@ -49,44 +55,67 @@ public:
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual bool hasChildren(const QModelIndex&) const {
+        return false;
+    }
+
+    QString runner() const;
+    void setRunner(const QString& runner);
 
     QString queryString() const;
     int queryLimit() const;
 
+    virtual QHash<int, QByteArray> roleNames() const;
+
 public slots:
+    void reloadConfiguration();
     void setQueryString(const QString& str);
     void setQueryLimit(int limit);
     void clear();
 
     void run(int index);
-    void loadSettings();
+
+    Q_INVOKABLE QString getType(int index) const {
+        return data(createIndex(index, 0), TypeRole).toString();
+    }
+
 
 private slots:
-    void slotMatchAdded(const Match& m);
-    void stopSuppressingSignals();
+    void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
+    void slotMatchAdded(const Plasma::QueryMatch& match);
+    void slotResetTimeout();
 
 public:
-    // The types are ordered based on the preference
-    QVector<QString> m_types;
-    QList<MatchType*> m_typesShown;
+    // A list of all the types that are being shown
+    QList<QString> m_types;
+
+    // Each type has a priority based on the results, on how high it should
+    // be on the list
+    QHash<QString, int> m_typePriority;
 
     struct TypeData {
-        QList<Match> shown;
-        QList<Match> hidden;
+        QList<Plasma::QueryMatch> shown;
+        QList<Plasma::QueryMatch> hidden;
     };
     QHash<QString, TypeData> m_matches;
     int m_size;
 
+    /// Counts the number of results for each visible Plasma::QueryMatch::text
+    /// We use this to show additional info when there are multiple visible
+    /// results with the same text
+    QHash<QString, int> m_duplicates;
+
     QString m_queryString;
     int m_queryLimit;
+    QString m_runner;
 
-    QList<AbstractSource*> m_sources;
-
-    bool m_supressSignals;
+    Plasma::RunnerManager* m_manager;
+    bool m_modelPopulated;
+    QTimer m_resetTimer;
 
     /// Returns the number of visible rows before \p type
     int fetchRowCount(const QString& type) const;
-    Match fetchMatch(int row) const;
+    Plasma::QueryMatch fetchMatch(int row) const;
 };
 
 }

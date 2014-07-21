@@ -23,9 +23,6 @@
 #ifndef MILOU_PREVIEWPLUGIN_H
 #define MILOU_PREVIEWPLUGIN_H
 
-#include <QUrl>
-#include <QDeclarativeItem>
-
 #include <KUrl>
 #include <KService>
 #include "milou_export.h"
@@ -109,8 +106,9 @@ private:
  * \param libname The name of the library which should export the extractor
  * \param catalog The name of the PO file catalog
  */
+// TODO figure out for KF5
 #define MILOU_EXPORT_PREVIEW( classname, libname, catalog )    \
-K_PLUGIN_FACTORY(factory, registerPlugin<classname>();) \
-K_EXPORT_PLUGIN(factory(#libname, #catalog))
+//K_PLUGIN_FACTORY(factory, registerPlugin<classname>();) \
+// K_EXPORT_PLUGIN(factory(#libname, #catalog))
 
 #endif // MILOU_PREVIEWPLUGIN_H

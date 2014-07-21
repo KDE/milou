@@ -20,27 +20,18 @@
  *
  */
 
-var isHighDPI = theme.defaultFont.mSize.height >= 20
-
-// Normal
-var CategoryWidthNormal = 120
-var PlasmoidWidthNormal = 450
-var IconSizeNormal = 16
-var TitleSizeNormal = 32
-
-// High DPI
-var CategoryWidthHighDPI = 220
-var PlasmoidWidthHighDPI = 650
-var IconSizeHighDPI = 32
-var TitleSizeHighDPI = 64
-
 // This is the width of the side component which displays the categories
 // of the results, such as "Applications", "Audio", "Video", etc
-var CategoryWidth = isHighDPI ? CategoryWidthHighDPI : CategoryWidthNormal
-var CategoryRightMargin = 10
+var CategoryWidth = units.gridUnit * 10;
+var CategoryRightMargin = units.largeSpacing;
 
 // The Maximum and Minimum width of the Plasmoid
-var PlasmoidWidth = isHighDPI ? PlasmoidWidthHighDPI : PlasmoidWidthNormal
+var PlasmoidWidth = units.gridUnit * 35;
 
-var IconSize = isHighDPI ? IconSizeHighDPI : IconSizeNormal
-var TitleSize = isHighDPI ? TitleSizeHighDPI : TitleSizeNormal
+// The size in which the Plasmoid switches between compact and full
+var SwitchWidth = units.gridUnit * 20;
+
+var IconSize = units.iconSizes.small
+
+// This title size is only used in the Audio plugin
+// var TitleSize = isHighDPI ? TitleSizeHighDPI : TitleSizeNormal

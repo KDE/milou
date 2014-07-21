@@ -20,66 +20,57 @@
  *
  */
 
-#include <QCoreApplication>
 #include <QTimer>
-#include <QDebug>
+#include <QApplication>
 
-#include "modeltest.h"
+#include <QWidget>
+#include <QListView>
+#include <QHBoxLayout>
+#include <qlineedit.h>
+
 #include "../sourcesmodel.h"
 
 using namespace Milou;
 
-class TestObject : public QObject {
+class TestObject : public QWidget {
     Q_OBJECT
 public slots:
-    void fire() {
-        i++;
-        if (i > queryString.size()) {
-            timer.stop();
-            QCoreApplication::instance()->exit();
-            return;
-        }
-
-        const QString str = queryString.mid(0, i);
-        qDebug() << "Setting" << str;
-        qDebug() << "Setting" << str;
-        qDebug() << "Setting" << str;
-        qDebug() << "Setting" << str;
-        qDebug() << "Setting" << str;
-        qDebug() << "Setting" << str;
-        model->setQueryString(str);
-    }
+    void main();
 
 public:
-    TestObject(const QString& str) {
-        queryString = str;
-        i = 0;
-
-        timer.setInterval(3000);
-        connect(&timer, SIGNAL(timeout()), this, SLOT(fire()));
+    explicit TestObject(QWidget* parent = 0, Qt::WindowFlags f = 0)
+        : QWidget(parent, f)
+    {
+        QTimer::singleShot(0, this, SLOT(main()));
     }
-
-    SourcesModel* model;
-    QString queryString;
-    int i;
-
-    QTimer timer;
 };
 
 int main(int argc, char** argv)
 {
-    QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-    SourcesModel* model = new SourcesModel();
-    ModelTest* mt = new ModelTest(model);
-    Q_UNUSED(mt);
-    model->setQueryLimit(20);
-
-    TestObject obj("Summer");
-    obj.model = model;
-    obj.timer.start();
+    TestObject obj;
+    obj.show();
 
     return app.exec();
 }
 
-#include "test.moc"
+void TestObject::main()
+{
+    SourcesModel* smodel = new SourcesModel(this);
+    smodel->setQueryLimit(20);
+
+    QListView* view = new QListView(this);
+    view->setModel(smodel);
+    view->setAlternatingRowColors(true);
+
+    QLineEdit* edit = new QLineEdit(this);
+    connect(edit, SIGNAL(textChanged(QString)),
+            smodel, SLOT(setQueryString(QString)));
+
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(edit);
+    l->addWidget(view);
+}
+
+#include "widgettest.moc"

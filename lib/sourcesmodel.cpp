@@ -22,14 +22,12 @@
 
 #include "sourcesmodel.h"
 
-// FIXME: At some point these might need to become plugins
-#include "sources/baloosource.h"
-#include "sources/plasmarunnersource.h"
-#include "sources/applicationsource.h"
-#include "sources/calculatorsource.h"
-
-#include <KDebug>
+#include <QDebug>
+#include <KConfig>
+#include <KConfigGroup>
 #include <QTimer>
+#include <KDirWatch>
+#include <KSharedConfig>
 
 using namespace Milou;
 
@@ -37,91 +35,42 @@ SourcesModel::SourcesModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_size(0)
 {
-    //PlasmaRunnerSource* plasmaRunnerSource = new PlasmaRunnerSource(this);
-    //connect(plasmaRunnerSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+    m_manager = new Plasma::RunnerManager(this);
+    connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
+            this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
 
-    ApplicationSource* appSource = new ApplicationSource(this);
-    connect(appSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
+    KDirWatch* watch = KDirWatch::self();
+    connect(watch, SIGNAL(created(QString)), this, SLOT(reloadConfiguration()));
+    connect(watch, SIGNAL(dirty(QString)), this, SLOT(reloadConfiguration()));
+    watch->addFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, "krunnerrc"));
 
-    AbstractSource* balooSource = new BalooSource(this);
-    connect(balooSource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
-
-    AbstractSource* calculatorsource = new CalculatorSource(this);
-    connect(calculatorsource, SIGNAL(matchAdded(Match)), this, SLOT(slotMatchAdded(Match)));
-
-    m_sources << appSource;
-    m_sources << balooSource;
-    //m_sources << plasmaRunnerSource;
-    m_sources << calculatorsource;
-
-    QHash<int, QByteArray> roles = roleNames();
-    roles.insert(TypeRole, "type");
-    roles.insert(PreviewTypeRole, "previewType");
-    roles.insert(PreviewUrlRole, "previewUrl");
-    roles.insert(PreviewLabelRole, "previewLabel");
-
-    setRoleNames(roles);
-    loadSettings();
+    m_resetTimer.setSingleShot(true);
+    m_resetTimer.setInterval(500);
+    connect(&m_resetTimer, SIGNAL(timeout()), this, SLOT(slotResetTimeout()));
 }
 
 SourcesModel::~SourcesModel()
 {
 }
 
-void SourcesModel::loadSettings()
+QHash<int, QByteArray> SourcesModel::roleNames() const
 {
-    QList<MatchType*> allTypes;
-    foreach(AbstractSource* source, m_sources)
-        allTypes << source->types();
+    QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
+    roles.insert(TypeRole, "type");
+    roles.insert(SubtextRole, "subtext");
+    roles.insert(PreviewTypeRole, "previewType");
+    roles.insert(PreviewUrlRole, "previewUrl");
+    roles.insert(PreviewLabelRole, "previewLabel");
 
-    KConfig config("milourc");
-    KConfigGroup generalGroup = config.group("General");
-    int numTypes = generalGroup.readEntry("NumTypes", 0);
-
-    if (numTypes != allTypes.size()) {
-        generalGroup.writeEntry("NumTypes", allTypes.size());
-
-        for(int i=0; i<allTypes.size(); i++) {
-            MatchType* type = allTypes[i];
-            KConfigGroup group = config.group("Type-" + QString::number(i));
-
-            group.writeEntry("Name", type->name());
-            group.writeEntry("Icon", type->icon());
-            group.writeEntry("Enabled", true);
-
-            m_types << type->name();
-        }
-    }
-    else {
-        kDebug() << "Loading the settings";
-        m_types.resize(allTypes.size());
-        m_typesShown.clear();
-
-        for(int i=0; i<allTypes.size(); i++) {
-            KConfigGroup group = config.group("Type-" + QString::number(i));
-
-            QString name = group.readEntry("Name", QString());
-            bool shown = group.readEntry("Enabled", true);
-
-            // Update allTypes
-            foreach(MatchType* type, allTypes) {
-                if (type->name() == name) {
-                    kDebug() << i << type->name() << shown;
-                    if (shown)
-                        m_typesShown << type;
-                    m_types[i] = name;
-                }
-            }
-        }
-    }
+    return roles;
 }
 
-Match SourcesModel::fetchMatch(int row) const
+Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
 {
-    foreach(const QString& type, m_types) {
+    foreach (const QString& type, m_types) {
         const TypeData data = m_matches.value(type);
         if (row < data.shown.size()) {
-            return data.shown.value(row);
+            return data.shown[row];
         }
         else {
             row -= data.shown.size();
@@ -131,7 +80,7 @@ Match SourcesModel::fetchMatch(int row) const
         }
     }
 
-    return Match(0);
+    return Plasma::QueryMatch(0);
 }
 
 QVariant SourcesModel::data(const QModelIndex& index, int role) const
@@ -142,24 +91,28 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
     if (index.row() >= m_size)
         return QVariant();
 
-    Match m = fetchMatch(index.row());
-    Q_ASSERT(m.source());
+    Plasma::QueryMatch m = fetchMatch(index.row());
+    Q_ASSERT(m.runner());
 
     switch(role) {
         case Qt::DisplayRole:
             return m.text();
 
-        case Qt::DecorationRole: {
-            QString icon = m.icon();
-            if (!icon.isEmpty())
-                return icon;
-            else
-                return m.type()->icon();
-        }
+        case Qt::DecorationRole:
+            return m.icon();
 
         case TypeRole:
-            return m.type()->name();
+            return m.matchCategory();
 
+        case SubtextRole: {
+            if (m_duplicates.value(m.text()) > 1) {
+                return m.subtext();
+            } else {
+                return QString();
+            }
+        }
+
+            /*
         case PreviewTypeRole:
             return m.previewType();
 
@@ -168,6 +121,7 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
 
         case PreviewLabelRole:
             return m.previewLabel();
+            */
     }
 
     return QVariant();
@@ -191,11 +145,23 @@ int SourcesModel::queryLimit() const
     return m_queryLimit;
 }
 
+QString SourcesModel::runner() const
+{
+    return m_runner;
+}
+
+void SourcesModel::setRunner(const QString& runner)
+{
+    m_runner = runner;
+}
+
 void SourcesModel::setQueryLimit(int limit)
 {
     m_queryLimit = limit;
+    /*
     foreach (AbstractSource* source, m_sources)
         source->setQueryLimit(limit);
+    */
 }
 
 void SourcesModel::setQueryString(const QString& str)
@@ -204,45 +170,93 @@ void SourcesModel::setQueryString(const QString& str)
         return;
     }
 
-    m_matches.clear();
-    m_size = 0;
-
     m_queryString = str;
-
-    Context context;
-    context.setQuery(str);
-    context.setTypes(m_typesShown);
-
-    m_supressSignals = true;
-    foreach (AbstractSource* source, m_sources) {
-        source->query(context);
+    if (m_queryString.isEmpty()) {
+        clear();
+        return;
     }
 
-    QTimer::singleShot(250, this, SLOT(stopSuppressingSignals()));
+    m_modelPopulated = false;
+    m_manager->setSingleModeRunnerId(m_runner);
+    m_manager->setSingleMode(!m_runner.isEmpty());
+    m_manager->launchQuery(m_queryString, m_runner);
+
+    // We avoid clearing the model instantly, and instead wait for the results
+    // to show up, and only then do we clear the model. In the event
+    // where there are no results, we wait for a predefined time before
+    // clearing the model
+    m_resetTimer.start();
 }
 
-void SourcesModel::stopSuppressingSignals()
+void SourcesModel::slotResetTimeout()
 {
-    m_supressSignals = false;
-
-    beginResetModel();
-    endResetModel();
+    if (!m_modelPopulated) {
+        clear();
+    }
 }
 
 //
 // Tries to make sure that all the types have the same number
 // of visible items
 //
-void SourcesModel::slotMatchAdded(const Match& m)
+void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
+{
+    QList<Plasma::QueryMatch> list(l);
+    qSort(list);
+
+    QListIterator<Plasma::QueryMatch> iter(list);
+    iter.toBack();
+
+    beginResetModel();
+    m_matches.clear();
+    m_size = 0;
+    m_types.clear();
+    m_typePriority.clear();
+    m_duplicates.clear();
+
+    while (iter.hasPrevious()) {
+        const Plasma::QueryMatch match = iter.previous();
+        slotMatchAdded(match);
+    }
+    m_modelPopulated = true;
+    endResetModel();
+}
+
+void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
 {
     if (m_queryString.isEmpty())
         return;
 
-    if (!m_typesShown.contains(m.type()))
-        return;
+    QString matchType = m.matchCategory();
 
-    const QString matchType = m.type()->name();
-    //Q_ASSERT(m.source()->types().contains(matchType));
+    if (!m_types.contains(matchType)) {
+        int priority = static_cast<int>(m.type());
+        if (matchType == QStringLiteral("Applications")) {
+            priority = 100000; // Really high number
+        } else if (matchType == QStringLiteral("System Settings")) {
+            priority = 100000 - 1; // Really high number but less than Apps
+        }
+
+        m_typePriority[matchType] = priority;
+
+        QMutableListIterator<QString> it(m_types);
+        while (it.hasNext()) {
+            QString t = it.next();
+            int p = m_typePriority.value(t);
+            if (p < priority) {
+                it.previous();
+                it.insert(matchType);
+                break;
+            }
+        }
+
+        if (m_types.isEmpty() || !m_types.contains(matchType)) {
+            m_types << matchType;
+        }
+
+        //beginResetModel();
+        //endResetModel();
+    }
 
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;
@@ -265,21 +279,19 @@ void SourcesModel::slotMatchAdded(const Match& m)
         int removeRowPos = fetchRowCount(maxShownType);
         removeRowPos += m_matches[maxShownType].shown.size() - 1;
 
-        if (!m_supressSignals)
-            beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
-        Match transferMatch = m_matches[maxShownType].shown.takeLast();
+        //beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
+        Plasma::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
-        if (!m_supressSignals)
-            endRemoveRows();
+        m_duplicates[transferMatch.text()]--;
+        //endRemoveRows();
 
         int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
-        if (!m_supressSignals)
-            beginInsertRows(QModelIndex(), insertPos, insertPos);
+        //beginInsertRows(QModelIndex(), insertPos, insertPos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        if (!m_supressSignals)
-            endInsertRows();
+        m_duplicates[m.text()]++;
+        //endInsertRows();
     }
     else {
         int pos = 0;
@@ -290,12 +302,11 @@ void SourcesModel::slotMatchAdded(const Match& m)
             }
         }
 
-        if (!m_supressSignals)
-            beginInsertRows(QModelIndex(), pos, pos);
+        //beginInsertRows(QModelIndex(), pos, pos);
         m_matches[matchType].shown.append(m);
         m_size++;
-        if (!m_supressSignals)
-            endInsertRows();
+        m_duplicates[m.text()]++;
+        //endInsertRows();
     }
 }
 
@@ -317,17 +328,20 @@ void SourcesModel::clear()
     beginResetModel();
     m_matches.clear();
     m_size = 0;
+    m_duplicates.clear();
     m_queryString.clear();
-    foreach (AbstractSource* source, m_sources)
-        source->stop();
+    m_manager->reset();
     endResetModel();
 }
 
 void SourcesModel::run(int index)
 {
-    Match match = fetchMatch(index);
-    AbstractSource* source = match.source();
-    if (source) {
-        source->run(match);
-    }
+    Plasma::QueryMatch match = fetchMatch(index);
+    m_manager->run(match);
+}
+
+void SourcesModel::reloadConfiguration()
+{
+    KSharedConfig::openConfig("krunnerrc")->reparseConfiguration();
+    m_manager->reloadConfiguration();
 }

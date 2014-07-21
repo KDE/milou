@@ -22,25 +22,17 @@
 
 #include "qmlplugins.h"
 
-#include <QtDeclarative/QDeclarativeItem>
-#include <QtDeclarative/QDeclarativeEngine>
-#include <QtDeclarative/QDeclarativeContext>
-
 #include "sourcesmodel.h"
-#include "preview.h"
-#include "reversemodel.h"
+// #include "preview.h"
+#include <QtQml/qqml.h>
 
-void QmlPlugins::initializeEngine(QDeclarativeEngine *engine, const char *uri)
+void QmlPlugins::initializeEngine(QQmlEngine *, const char *)
 {
-    Q_UNUSED(engine);
-    Q_UNUSED(uri);
 }
 
 void QmlPlugins::registerTypes(const char *uri)
 {
     qmlRegisterType<Milou::SourcesModel> (uri, 0, 1, "SourcesModel");
-    qmlRegisterType<Milou::Preview> (uri, 0, 1, "Preview");
-    qmlRegisterType<Milou::ReverseModel> (uri, 0, 1, "ReverseModel");
+//     qmlRegisterType<Milou::Preview> (uri, 0, 1, "Preview");
 }
 
-Q_EXPORT_PLUGIN2(milouqmlplugin, QmlPlugins);

@@ -20,22 +20,28 @@
  *
  */
 
-import QtQuick 1.1
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
 
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.extras 0.1 as PlasmaExtras
-import org.kde.qtextracomponents 0.1 as QtExtra
+import org.kde.plasma.plasmoid 2.0
+
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.milou 0.1 as Milou
 
 import "../code/globals.js" as Globals
 
 Item {
     id: mainWidget
-    property int minimumWidth: Globals.PlasmoidWidth
-    property int maximumWidth: Globals.PlasmoidWidth
-    property int minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
-    property int maximumHeight: minimumHeight
+    Plasmoid.switchWidth: Globals.SwitchWidth
+    Plasmoid.switchHeight: Globals.SwitchWidth
+    Layout.minimumWidth: Globals.PlasmoidWidth
+    Layout.maximumWidth: Globals.PlasmoidWidth
+    Layout.minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
+    Layout.maximumHeight: Layout.minimumHeight
+
+    function isBottomEdge() {
+        return plasmoid.location == PlasmaCore.Types.BottomEdge;
+    }
 
     // The wrapper just exists for giving an appropriate top/bottom margin
     // when it is placed on the top/bottom edge of the screen
@@ -53,8 +59,8 @@ Item {
 
         anchors {
             fill: parent
-            topMargin: plasmoid.isTopEdge() ? 7 : 0
-            bottomMargin: plasmoid.isBottomEdge() ? 7 : 0
+            topMargin: isBottomEdge() ? 0 : 7
+            bottomMargin: isBottomEdge() ? 7 : 0
         }
 
         SearchField {
@@ -64,13 +70,15 @@ Item {
                 left: parent.left
                 right: parent.right
             }
-            onTextChanged: {
+            onSearchTextChanged: {
                 listView.setQueryString(text)
             }
         }
 
-        ResultsView {
+        Milou.ResultsView {
             id: listView
+            //in case is expanded
+            clip: true
 
             anchors {
                 left: parent.left
@@ -79,23 +87,21 @@ Item {
                 // vHanda: Random number - Is there some way to use consisten margins?
                 //         PlasmaCore.FrameSvg does have margins, but one needs to construct
                 //          a PlasmaCore.FrameSvg for that
-                topMargin: plasmoid.isBottomEdge() ? 0 : 5
-                bottomMargin: plasmoid.isBottomEdge() ? 5 : 0
+                topMargin: isBottomEdge() ? 0 : 5
+                bottomMargin: isBottomEdge() ? 5 : 0
+            }
+
+            reversed: isBottomEdge()
+            onActivated: {
+                plasmoid.hidePopup()
             }
         }
 
-        Component.onCompleted: {
-            plasmoid.popupEventSignal.connect(setTextFieldFocus)
-            //
-            // The focus is not always set correctly. The hunch is that this
-            // function is called before the popup is actually visible and
-            // therfore the setFocus call does not do anything. So, we are using
-            // a small timer and calling the setTextFieldFocus function again.
-            //
-            plasmoid.popupEventSignal.connect(theFocusDoesNotAlwaysWorkTimer.start)
-            plasmoid.settingsChanged.connect(loadSettings)
 
-            if (!plasmoid.isBottomEdge()) {
+        Component.onCompleted: {
+            //plasmoid.settingsChanged.connect(loadSettings)
+
+            if (!isBottomEdge()) {
                 // Normal view
                 searchField.anchors.top = wrapper.top
                 listView.anchors.top = searchField.bottom
@@ -108,27 +114,39 @@ Item {
                 searchField.anchors.bottom = wrapper.bottom
             }
         }
+    }
 
-        Timer {
-            id: theFocusDoesNotAlwaysWorkTimer
-            interval: 100
-            repeat: false
+    Timer {
+        id: theFocusDoesNotAlwaysWorkTimer
+        interval: 100
+        repeat: false
 
-            onTriggered: {
-                wrapper.setTextFieldFocus(plasmoid.isShown())
-            }
-        }
-
-        function setTextFieldFocus(shown) {
-            searchField.setFocus();
-            searchField.selectAll();
-
-            if (!shown)
-                listView.clearPreview();
-        }
-
-        function loadSettings() {
-            listView.loadSettings()
+        onTriggered: {
+            setTextFieldFocus(plasmoid.expanded)
         }
     }
+
+    function setTextFieldFocus(shown) {
+        searchField.setFocus();
+        searchField.selectAll();
+
+        //if (!shown)
+        //    listView.clearPreview();
+    }
+
+    function loadSettings() {
+        listView.loadSettings()
+    }
+
+    Plasmoid.onExpandedChanged: {
+        setTextFieldFocus(plasmoid.expanded);
+        //
+        // The focus is not always set correctly. The hunch is that this
+        // function is called before the popup is actually visible and
+        // therfore the setFocus call does not do anything. So, we are using
+        // a small timer and calling the setTextFieldFocus function again.
+        //
+        theFocusDoesNotAlwaysWorkTimer.start()
+    }
+
 }

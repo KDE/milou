@@ -1,6 +1,6 @@
 /*
  * This file is part of the KDE Milou Project
- * Copyright (C) 2013  Vishesh Handa <me@vhanda.in>
+ * Copyright (C) 2014 Vishesh Handa <me@vhanda.in>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,53 +20,30 @@
  *
  */
 
-#include "abstractsource.h"
-#include <KGlobal>
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
 
-static const KCatalogLoader loader("plasma_applet_milou_applet");
+import org.kde.milou 0.1 as Milou
 
-using namespace Milou;
+Milou.ResultsView {
+    id: listView
 
-AbstractSource::AbstractSource(QObject* parent): QObject(parent)
-{
+    width: 800
+    height: 1100
 
+    Component.onCompleted: {
+        timer.start()
+    }
+
+    Timer {
+        id: timer
+        interval: 500
+        repeat: true
+        onTriggered: {
+            var date = new Date()
+            date.setYear(Math.random())
+            listView.queryString = Qt.formatDateTime(date, "dddd")
+            console.log(listView.queryString)
+        }
+    }
 }
-
-AbstractSource::~AbstractSource()
-{
-    qDeleteAll(m_types);
-}
-
-void AbstractSource::run(const Match&)
-{
-}
-
-void AbstractSource::addMatch(const Match& match)
-{
-    emit matchAdded(match);
-}
-
-int AbstractSource::queryLimit()
-{
-    return m_queryLimit;
-}
-
-void AbstractSource::setQueryLimit(int limit)
-{
-    m_queryLimit = limit;
-}
-
-void AbstractSource::setTypes(const QList< MatchType* > types)
-{
-    m_types = types;
-}
-
-QList< MatchType* > AbstractSource::types()
-{
-    return m_types;
-}
-
-void AbstractSource::stop()
-{
-}
-
