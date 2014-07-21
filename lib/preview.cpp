@@ -51,13 +51,13 @@ Preview::Preview(QQuickItem* parent)
             m_filePlugin = plugin;
     }
 
-    // When the object is created, it doesn't have a QDeclarativeContext
+    // When the object is created, it doesn't have a QQmlContext
     QTimer::singleShot(0, this, SLOT(setPluginContexts()));
 }
 
 void Preview::setPluginContexts()
 {
-    QQmlContext* context = qmlEngine(this)->contextForObject(this);
+    QQmlContext* context = qmlContext(parentItem());
     foreach(PreviewPlugin* plugin, m_plugins) {
         plugin->setContext(context);
     }

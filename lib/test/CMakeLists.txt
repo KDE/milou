@@ -18,5 +18,16 @@ ecm_mark_as_test(widgettest)
 target_link_libraries(widgettest
   Qt5::Core
   Qt5::Gui
+  Qt5::Widgets
+  milou
+)
+
+add_executable(previewtest previewtest.cpp)
+ecm_mark_as_test(previewtest)
+
+target_link_libraries(previewtest
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets
   milou
 )

@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QQmlEngine>
 #include <QQmlComponent>
+#include <QQmlContext>
 
 TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
     : PreviewPlugin(parent)
@@ -38,8 +39,7 @@ void TextPlugin::generatePreview()
         return;
     }
 
-    QQmlEngine engine;
-    QQmlComponent component(&engine);
+    QQmlComponent component(context()->engine());
     component.setData("import QtQuick 2.0\nText { text: \"Hello world!\" }", QUrl());
 
     QQuickItem *item = qobject_cast<QQuickItem *>(component.create());
