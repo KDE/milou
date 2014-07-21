@@ -37,12 +37,12 @@ PreviewPlugin::~PreviewPlugin()
 {
 }
 
-void PreviewPlugin::setUrl(const KUrl& url)
+void PreviewPlugin::setUrl(const QUrl& url)
 {
     m_url = url;
 }
 
-KUrl PreviewPlugin::url() const
+QUrl PreviewPlugin::url() const
 {
     return m_url;
 }
@@ -67,12 +67,12 @@ QString PreviewPlugin::highlight() const
     return m_highlight;
 }
 
-void PreviewPlugin::setContext(QDeclarativeContext* context)
+void PreviewPlugin::setContext(QQmlContext* context)
 {
     m_context = context;
 }
 
-QDeclarativeContext* PreviewPlugin::context()
+QQmlContext* PreviewPlugin::context()
 {
     return m_context;
 }

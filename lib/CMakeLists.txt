@@ -1,7 +1,7 @@
 
 set (lib_SRCS
-#     preview.cpp
-#     previewplugin.cpp
+    preview.cpp
+    previewplugin.cpp
     sourcesmodel.cpp
 )
 
@@ -11,7 +11,9 @@ set_target_properties(milou PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 
 set_target_properties(milou PROPERTIES VERSION 0.1 SOVERSION 0.1)
 
 target_link_libraries (milou
-    KF5::KIOWidgets
+    Qt5::Qml
+    Qt5::Quick
+    KF5::Service
     KF5::Plasma
     KF5::Runner
 )
@@ -25,5 +27,5 @@ generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)
 install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 add_subdirectory(qml)
-# add_subdirectory(previews)
+add_subdirectory(previews)
 add_subdirectory(test)

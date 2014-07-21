@@ -23,9 +23,8 @@
 #include "textplugin.h"
 
 #include <QFile>
-#include <QVBoxLayout>
-#include <QTextEdit>
-#include <QTextStream>
+#include <QQmlEngine>
+#include <QQmlComponent>
 
 TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
     : PreviewPlugin(parent)
@@ -39,6 +38,14 @@ void TextPlugin::generatePreview()
         return;
     }
 
+    QQmlEngine engine;
+    QQmlComponent component(&engine);
+    component.setData("import QtQuick 2.0\nText { text: \"Hello world!\" }", QUrl());
+
+    QQuickItem *item = qobject_cast<QQuickItem *>(component.create());
+    emit previewGenerated(item);
+
+    /*
     QTextStream stream(&file);
     const QString text = stream.readAll();
 
@@ -52,6 +59,10 @@ void TextPlugin::generatePreview()
     // Maybe the height should be reduced based on the contents?
     textEdit->resize(384, 384);
     emit previewGenerated(textEdit);
+    */
 }
 
-MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin", "milou")
+MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin")
+
+#include "textplugin.moc"
+

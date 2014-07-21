@@ -23,7 +23,8 @@
 #include "qmlplugins.h"
 
 #include "sourcesmodel.h"
-// #include "preview.h"
+#include "preview.h"
+
 #include <QtQml/qqml.h>
 
 void QmlPlugins::initializeEngine(QQmlEngine *, const char *)
@@ -33,6 +34,6 @@ void QmlPlugins::initializeEngine(QQmlEngine *, const char *)
 void QmlPlugins::registerTypes(const char *uri)
 {
     qmlRegisterType<Milou::SourcesModel> (uri, 0, 1, "SourcesModel");
-//     qmlRegisterType<Milou::Preview> (uri, 0, 1, "Preview");
+    qmlRegisterType<Milou::Preview> (uri, 0, 1, "Preview");
 }
 

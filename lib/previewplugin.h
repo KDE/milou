@@ -23,9 +23,11 @@
 #ifndef MILOU_PREVIEWPLUGIN_H
 #define MILOU_PREVIEWPLUGIN_H
 
-#include <KUrl>
 #include <KService>
+#include <QQuickItem>
 #include "milou_export.h"
+
+#include <QTextDocument>
 
 namespace Milou {
 
@@ -55,15 +57,15 @@ public:
      * Retrieve the context, this allows you to create
      * your own preview plugins in QML
      */
-    QDeclarativeContext* context();
+    QQmlContext* context();
 
-    void setContext(QDeclarativeContext* context);
+    void setContext(QQmlContext* context);
 
     /**
      * The url of the preview being generated
      */
-    KUrl url() const;
-    void setUrl(const KUrl& url);
+    QUrl url() const;
+    void setUrl(const QUrl& url);
 
     /**
      * The mimetype of the url for whcih the preview
@@ -80,8 +82,7 @@ public:
     void setHighlight(const QString& term);
 
 signals:
-    void previewGenerated(QWidget* widget);
-    void previewGenerated(QDeclarativeItem* graphicsItem);
+    void previewGenerated(QQuickItem* graphicsItem);
 
 protected:
     /**
@@ -91,24 +92,22 @@ protected:
 
     bool onHighDPI() const;
 private:
-    QDeclarativeContext* m_context;
+    QQmlContext* m_context;
 
-    KUrl m_url;
+    QUrl m_url;
     QString m_highlight;
     QString m_mimetype;
 };
 
 }
+
 /**
  * Export a Milou Preview Generator
  *
  * \param classname The name of the subclass to export
  * \param libname The name of the library which should export the extractor
- * \param catalog The name of the PO file catalog
  */
-// TODO figure out for KF5
-#define MILOU_EXPORT_PREVIEW( classname, libname, catalog )    \
-//K_PLUGIN_FACTORY(factory, registerPlugin<classname>();) \
-// K_EXPORT_PLUGIN(factory(#libname, #catalog))
+#define MILOU_EXPORT_PREVIEW( classname, libname )    \
+    K_PLUGIN_FACTORY(factory, registerPlugin<classname>();)
 
 #endif // MILOU_PREVIEWPLUGIN_H

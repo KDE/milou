@@ -5,7 +5,6 @@ add_library(miloutextplugin MODULE textplugin.cpp)
 
 target_link_libraries(miloutextplugin
     milou
-    KF5::KIOWidgets
 )
 
 install(
@@ -19,21 +18,21 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 # Images
 #
-add_library(milouimageplugin MODULE imageplugin.cpp)
-
-target_link_libraries(milouimageplugin
-    milou
-    KF5::KIOWidgets
-    Qt5::Declarative
-)
-
-install(
-FILES milouimagepreview.desktop
-DESTINATION ${SERVICES_INSTALL_DIR})
-
-install(
-TARGETS milouimageplugin
-DESTINATION ${PLUGIN_INSTALL_DIR})
+#add_library(milouimageplugin MODULE imageplugin.cpp)
+#
+#target_link_libraries(milouimageplugin
+#    milou
+#    KF5::KIOWidgets
+#    Qt5::Declarative
+#)
+#
+#install(
+#FILES milouimagepreview.desktop
+#DESTINATION ${SERVICES_INSTALL_DIR})
+#
+#install(
+#TARGETS milouimageplugin
+#DESTINATION ${PLUGIN_INSTALL_DIR})
 
 #
 # Emails
@@ -83,77 +82,77 @@ endif()
 #
 # Audio
 #
-add_library(milouaudioplugin MODULE audioplugin.cpp)
-
-target_link_libraries(milouaudioplugin
-    milou
-    KF5::KIOWidgets
-    Qt5::Declarative
-    ${BALOO_CORE_LIBRARY} ${BALOO_FILE_LIBRARY}
-)
-
-install(
-FILES milouaudiopreview.desktop
-DESTINATION ${SERVICES_INSTALL_DIR})
-
-install(
-TARGETS milouaudioplugin
-DESTINATION ${PLUGIN_INSTALL_DIR})
-
+# add_library(milouaudioplugin MODULE audioplugin.cpp)
 #
-# General Files
+# target_link_libraries(milouaudioplugin
+#     milou
+#     KF5::KIOWidgets
+#     Qt5::Declarative
+#     ${BALOO_CORE_LIBRARY} ${BALOO_FILE_LIBRARY}
+# )
 #
-add_library(miloufileplugin MODULE fileplugin.cpp)
-
-target_link_libraries(miloufileplugin
-    milou
-    KF5::KIOWidgets
-    Qt5::Declarative
-    ${BALOO_CORE_LIBRARY} ${BALOO_FILE_LIBRARY}
-)
-
-install(
-FILES miloufilepreview.desktop
-DESTINATION ${SERVICES_INSTALL_DIR})
-
-install(
-TARGETS miloufileplugin
-DESTINATION ${PLUGIN_INSTALL_DIR})
-
+# install(
+# FILES milouaudiopreview.desktop
+# DESTINATION ${SERVICES_INSTALL_DIR})
 #
-# Applications
+# install(
+# TARGETS milouaudioplugin
+# DESTINATION ${PLUGIN_INSTALL_DIR})
 #
-add_library(milouapplicationplugin MODULE applicationplugin.cpp)
-
-target_link_libraries(milouapplicationplugin
-    milou
-    KF5::KIOWidgets
-    Qt5::Declarative
-)
-
-install(
-FILES milouapplicationpreview.desktop
-DESTINATION ${SERVICES_INSTALL_DIR})
-
-install(
-TARGETS milouapplicationplugin
-DESTINATION ${PLUGIN_INSTALL_DIR})
-
+# #
+# # General Files
+# #
+# add_library(miloufileplugin MODULE fileplugin.cpp)
 #
-# Bookmarks
+# target_link_libraries(miloufileplugin
+#     milou
+#     KF5::KIOWidgets
+#     Qt5::Declarative
+#     ${BALOO_CORE_LIBRARY} ${BALOO_FILE_LIBRARY}
+# )
 #
-add_library(miloubookmarkplugin MODULE bookmarkplugin.cpp)
-
-target_link_libraries(miloubookmarkplugin
-    milou
-    KF5::KIOWidgets
-    Qt5::WebKitWidgets
-)
-
-install(
-FILES miloubookmarkpreview.desktop
-DESTINATION ${SERVICES_INSTALL_DIR})
-
-install(
-TARGETS miloubookmarkplugin
-DESTINATION ${PLUGIN_INSTALL_DIR})
+# install(
+# FILES miloufilepreview.desktop
+# DESTINATION ${SERVICES_INSTALL_DIR})
+#
+# install(
+# TARGETS miloufileplugin
+# DESTINATION ${PLUGIN_INSTALL_DIR})
+#
+# #
+# # Applications
+# #
+# add_library(milouapplicationplugin MODULE applicationplugin.cpp)
+#
+# target_link_libraries(milouapplicationplugin
+#     milou
+#     KF5::KIOWidgets
+#     Qt5::Declarative
+# )
+#
+# install(
+# FILES milouapplicationpreview.desktop
+# DESTINATION ${SERVICES_INSTALL_DIR})
+#
+# install(
+# TARGETS milouapplicationplugin
+# DESTINATION ${PLUGIN_INSTALL_DIR})
+#
+# #
+# # Bookmarks
+# #
+# add_library(miloubookmarkplugin MODULE bookmarkplugin.cpp)
+#
+# target_link_libraries(miloubookmarkplugin
+#     milou
+#     KF5::KIOWidgets
+#     Qt5::WebKitWidgets
+# )
+#
+# install(
+# FILES miloubookmarkpreview.desktop
+# DESTINATION ${SERVICES_INSTALL_DIR})
+#
+# install(
+# TARGETS miloubookmarkplugin
+# DESTINATION ${PLUGIN_INSTALL_DIR})

@@ -23,14 +23,14 @@
 #ifndef PREVIEW_H
 #define PREVIEW_H
 
-#include <QDeclarativeItem>
+#include <QQuickItem>
 #include "milou_export.h"
 
 namespace Milou {
 
 class PreviewPlugin;
 
-class MILOU_EXPORT Preview : public QDeclarativeItem
+class MILOU_EXPORT Preview : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(QString mimetype READ mimetype WRITE setMimetype)
@@ -39,10 +39,8 @@ class MILOU_EXPORT Preview : public QDeclarativeItem
     Q_PROPERTY(bool loaded READ loaded)
 
 public:
-    Preview(QDeclarativeItem* parent = 0);
+    Preview(QQuickItem* parent = 0);
     virtual ~Preview();
-
-    virtual void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* );
 
     QString mimetype() const;
     void setMimetype(const QString& mime);
@@ -63,8 +61,7 @@ public slots:
     void clear();
 
 private slots:
-    void slotPreviewGenerated(QWidget* widget);
-    void slotPreviewGenerated(QDeclarativeItem* item);
+    void slotPreviewGenerated(QQuickItem* item);
 
     void setPluginContexts();
 
@@ -77,9 +74,7 @@ private:
     QString m_oldMimetype;
     QString m_oldUrl;
 
-    QPixmap m_pixmap;
-    QGraphicsProxyWidget* m_proxyWidget;
-    QDeclarativeItem* m_declarativeItem;
+    QQuickItem* m_declarativeItem;
 
     QList<Milou::PreviewPlugin*> m_plugins;
     QList<Milou::PreviewPlugin*> allPlugins();

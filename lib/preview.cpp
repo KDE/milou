@@ -26,37 +26,30 @@
 #include <KService>
 #include <KServiceTypeTrader>
 #include <QDebug>
-#include <kparts/mainwindow.h>
 
-#include <QPainter>
-#include <QGraphicsProxyWidget>
-#include <QTextEdit>
 #include <QTimer>
-#include <QDeclarativeContext>
-#include <QDeclarativeEngine>
+
+#include <QQmlEngine>
+#include <QQmlContext>
 
 using namespace Milou;
 
-Preview::Preview(QDeclarativeItem* parent)
-    : QDeclarativeItem(parent)
+Preview::Preview(QQuickItem* parent)
+    : QQuickItem(parent)
     , m_loaded(false)
     , m_declarativeItem(0)
     , m_filePlugin(0)
 {
-    setFlag(QGraphicsItem::ItemHasNoContents, false);
+    //setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     m_plugins = allPlugins();
     foreach(PreviewPlugin* plugin, m_plugins) {
-        connect(plugin, SIGNAL(previewGenerated(QWidget*)),
-                this, SLOT(slotPreviewGenerated(QWidget*)));
-        connect(plugin, SIGNAL(previewGenerated(QDeclarativeItem*)),
-                this, SLOT(slotPreviewGenerated(QDeclarativeItem*)));
+        connect(plugin, SIGNAL(previewGenerated(QQuickItem*)),
+                this, SLOT(slotPreviewGenerated(QQuickItem*)));
 
         if (plugin->mimetypes().contains("file"))
             m_filePlugin = plugin;
     }
-
-    m_proxyWidget = new QGraphicsProxyWidget(this);
 
     // When the object is created, it doesn't have a QDeclarativeContext
     QTimer::singleShot(0, this, SLOT(setPluginContexts()));
@@ -64,7 +57,7 @@ Preview::Preview(QDeclarativeItem* parent)
 
 void Preview::setPluginContexts()
 {
-    QDeclarativeContext* context = QDeclarativeEngine::contextForObject(this);
+    QQmlContext* context = qmlEngine(this)->contextForObject(this);
     foreach(PreviewPlugin* plugin, m_plugins) {
         plugin->setContext(context);
     }
@@ -74,19 +67,10 @@ Preview::~Preview()
 {
 }
 
-void Preview::paint(QPainter* painter, const QStyleOptionGraphicsItem* item, QWidget* widget)
-{
-    Q_UNUSED(item);
-    Q_UNUSED(widget);
-
-    if (!m_pixmap.isNull())
-        painter->drawPixmap(x(), y(), width(), height(), m_pixmap);
-}
-
 void Preview::refresh()
 {
     if (m_oldUrl == m_url && m_oldMimetype == m_mimetype) {
-        if (m_declarativeItem || m_proxyWidget->widget())
+        if (m_declarativeItem)
             emit loadingFinished();
         return;
     }
@@ -94,7 +78,7 @@ void Preview::refresh()
     m_loaded = false;
 
     bool foundPlugin = false;
-    KUrl url(m_url);
+    QUrl url = QUrl::fromLocalFile(m_url);
     foreach (PreviewPlugin* plugin, m_plugins) {
         foreach (const QString& mime, plugin->mimetypes()) {
             if (m_mimetype.startsWith(mime)) {
@@ -117,20 +101,7 @@ void Preview::refresh()
     }
 }
 
-void Preview::slotPreviewGenerated(QWidget* widget)
-{
-    clear();
-
-    m_proxyWidget->setWidget(widget);
-
-    setWidth(widget->width());
-    setHeight(widget->height());
-
-    m_loaded = true;
-    emit loadingFinished();
-}
-
-void Preview::slotPreviewGenerated(QDeclarativeItem* item)
+void Preview::slotPreviewGenerated(QQuickItem* item)
 {
     clear();
 
@@ -146,10 +117,6 @@ void Preview::slotPreviewGenerated(QDeclarativeItem* item)
 
 void Preview::clear()
 {
-    if (m_proxyWidget->widget()) {
-        m_proxyWidget->widget()->deleteLater();
-        m_proxyWidget->setWidget(0);
-    }
     if (m_declarativeItem) {
         m_declarativeItem->deleteLater();
         m_declarativeItem = 0;
