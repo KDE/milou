@@ -74,6 +74,7 @@ void PreviewPlugin::setContext(QQmlContext* context)
 
 QQmlContext* PreviewPlugin::context()
 {
+    Q_ASSERT(m_context);
     return m_context;
 }
 
