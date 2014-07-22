@@ -27,6 +27,8 @@
 #include <QQmlComponent>
 #include <QQmlContext>
 
+#include <QStandardPaths>
+
 TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
     : PreviewPlugin(parent)
 {
@@ -39,27 +41,19 @@ void TextPlugin::generatePreview()
         return;
     }
 
-    QQmlComponent component(context()->engine());
-    component.setData("import QtQuick 2.0\nText { text: \"Hello world!\" }", QUrl());
+    QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "plasma/plasmoids/org.kde.milou/contents/ui/previews/TextPreview.qml");
+    QQmlComponent component(context()->engine(), path);
 
     QQuickItem *item = qobject_cast<QQuickItem *>(component.create());
-    emit previewGenerated(item);
 
-    /*
     QTextStream stream(&file);
     const QString text = stream.readAll();
 
-    QTextEdit* textEdit = new QTextEdit(0);
-    textEdit->setText(text);
-    textEdit->setReadOnly(true);
-    textEdit->setWordWrapMode(QTextOption::WordWrap);
+    item->setProperty("text", text);
+    item->setWidth(700);
+    item->setHeight(1000);
 
-    highlight(textEdit->document());
-
-    // Maybe the height should be reduced based on the contents?
-    textEdit->resize(384, 384);
-    emit previewGenerated(textEdit);
-    */
+    emit previewGenerated(item);
 }
 
 MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin")
