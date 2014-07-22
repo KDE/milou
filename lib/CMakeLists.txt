@@ -1,3 +1,4 @@
+add_definitions(-DTRANSLATION_DOMAIN=\"milou\")
 
 set (lib_SRCS
     preview.cpp
