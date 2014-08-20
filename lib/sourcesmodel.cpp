@@ -195,33 +195,61 @@ void SourcesModel::slotResetTimeout()
     }
 }
 
-//
-// Tries to make sure that all the types have the same number
-// of visible items
-//
 void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
 {
+    beginResetModel();
+    m_matches.clear();
+    m_size = 0;
+    m_types.clear();
+    m_duplicates.clear();
+
     QList<Plasma::QueryMatch> list(l);
     qSort(list);
 
     QListIterator<Plasma::QueryMatch> iter(list);
     iter.toBack();
 
-    beginResetModel();
-    m_matches.clear();
-    m_size = 0;
-    m_types.clear();
-    m_typePriority.clear();
-    m_duplicates.clear();
-
     while (iter.hasPrevious()) {
         const Plasma::QueryMatch match = iter.previous();
         slotMatchAdded(match);
     }
+
+    // Sort the result types. We give the results which contain the query
+    // text in the user visible string a higher preference than the ones
+    // that do not
+    // The rest are given the same preference as given by the runners.
+    QSet<QString> higherTypes;
+    for (QString type: m_types) {
+        const TypeData td = m_matches.value(type);
+        for (const Plasma::QueryMatch& match : td.shown) {
+            if (match.text().contains(m_queryString, Qt::CaseInsensitive)) {
+                QString matchType = match.matchCategory();
+                higherTypes << matchType;
+            }
+        }
+    }
+
+    auto sortFunc = [&](const QString& l, const QString& r) {
+        bool lHigher = higherTypes.contains(l);
+        bool rHigher = higherTypes.contains(r);
+
+        if (lHigher == rHigher) {
+            return false;
+        }
+        else {
+            return lHigher;
+        }
+    };
+    qStableSort(m_types.begin(), m_types.end(), sortFunc);
+
     m_modelPopulated = true;
     endResetModel();
 }
 
+//
+// Tries to make sure that all the types have the same number
+// of visible items
+//
 void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
 {
     if (m_queryString.isEmpty())
@@ -230,32 +258,7 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
     QString matchType = m.matchCategory();
 
     if (!m_types.contains(matchType)) {
-        int priority = static_cast<int>(m.type());
-        if (matchType == QStringLiteral("Applications")) {
-            priority = 100000; // Really high number
-        } else if (matchType == QStringLiteral("System Settings")) {
-            priority = 100000 - 1; // Really high number but less than Apps
-        }
-
-        m_typePriority[matchType] = priority;
-
-        QMutableListIterator<QString> it(m_types);
-        while (it.hasNext()) {
-            QString t = it.next();
-            int p = m_typePriority.value(t);
-            if (p < priority) {
-                it.previous();
-                it.insert(matchType);
-                break;
-            }
-        }
-
-        if (m_types.isEmpty() || !m_types.contains(matchType)) {
-            m_types << matchType;
-        }
-
-        //beginResetModel();
-        //endResetModel();
+        m_types << matchType;
     }
 
     if (m_size == m_queryLimit) {
