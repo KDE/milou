@@ -7,9 +7,7 @@ set (lib_SRCS
 )
 
 add_library(milou SHARED ${lib_SRCS})
-set_target_properties(milou PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
-
-set_target_properties(milou PROPERTIES VERSION 0.1 SOVERSION 0.1)
+set_target_properties(milou PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR} )
 
 target_link_libraries (milou
     Qt5::Qml

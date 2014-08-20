@@ -1,4 +1,6 @@
 project(Milou)
+set(PROJECT_VERSION "5.0.95")
+set(PROJECT_VERSION_MAJOR 5)
 cmake_minimum_required(VERSION 2.8.12)
 
 find_package(ECM 0.0.9 REQUIRED NO_MODULE)
@@ -18,15 +20,6 @@ include(GenerateExportHeader)
 # set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"
 #                        URL "http://www.kde.org"
 #                        TYPE REQUIRED PURPOSE "Support for Email previews")
-
-
-set(MILOU_VERSION_MAJOR 5)
-set(MILOU_VERSION_MINOR 0)
-set(MILOU_VERSION_PATCH 0)
-set(MILOU_VERSION ${MILOU_VERSION_MAJOR}.${MILOU_VERSION_MINOR}.${MILOU_VERSION_PATCH} )
-
-set(GENERIC_LIB_SOVERSION 5)
-set(GENERIC_LIB_VERSION "${MILOU_VERSION_MAJOR}.${MILOU_VERSION_MINOR}.${MILOU_VERSION_PATCH}")
 
 add_subdirectory(lib)
 add_subdirectory(plasmoid)
