@@ -221,7 +221,8 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
     QSet<QString> higherTypes;
     for (QString type: m_types) {
         const TypeData td = m_matches.value(type);
-        for (const Plasma::QueryMatch& match : td.shown) {
+        if (!td.shown.isEmpty()) {
+            const auto& match = td.shown.first();
             if (match.text().contains(m_queryString, Qt::CaseInsensitive)) {
                 QString matchType = match.matchCategory();
                 higherTypes << matchType;
