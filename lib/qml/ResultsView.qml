@@ -77,6 +77,12 @@ ListView {
         }
         runCurrentIndex();
     }
+    Keys.onEnterPressed: {
+        if (!currentIndex) {
+            runAutomatically = true
+        }
+        runCurrentIndex();
+    }
 
     function runCurrentIndex() {
         listView.model.run(currentIndex);
