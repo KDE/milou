@@ -23,7 +23,6 @@
 #include <QGuiApplication>
 
 #include <QQmlEngine>
-#include <QQmlContext>
 #include <QCommandLineParser>
 #include <QMimeDatabase>
 #include <QTimer>

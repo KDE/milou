@@ -22,10 +22,10 @@
 
 #include <QTimer>
 #include <QApplication>
+#include <QVBoxLayout>
 
 #include <QWidget>
 #include <QListView>
-#include <QHBoxLayout>
 #include <qlineedit.h>
 
 #include "../sourcesmodel.h"

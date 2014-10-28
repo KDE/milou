@@ -29,7 +29,6 @@
 #include <KLocale>
 
 #include <QDeclarativeContext>
-#include <QDeclarativeEngine>
 
 #include <QGraphicsScene>
 #include <QGraphicsView>

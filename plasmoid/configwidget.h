@@ -24,7 +24,6 @@
 #define CONFIGWIDGET_H
 
 #include <QListWidget>
-#include <KConfigDialog>
 
 class ConfigWidget : public QWidget
 {

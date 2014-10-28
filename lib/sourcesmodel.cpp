@@ -22,12 +22,12 @@
 
 #include "sourcesmodel.h"
 
-#include <QDebug>
 #include <KConfig>
-#include <KConfigGroup>
-#include <QTimer>
 #include <KDirWatch>
 #include <KSharedConfig>
+
+#include <QModelIndex>
+#include <QSet>
 
 using namespace Milou;
 

@@ -29,7 +29,6 @@
 
 #include <QTimer>
 
-#include <QQmlEngine>
 #include <QQmlContext>
 
 using namespace Milou;

@@ -27,8 +27,6 @@
 #include <QDebug>
 
 #include <QDeclarativeComponent>
-#include <QDeclarativeContext>
-#include <QDateTime>
 
 #include <kfilemetadata/properties.h>
 

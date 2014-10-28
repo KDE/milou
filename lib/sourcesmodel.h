@@ -23,12 +23,11 @@
 #ifndef SOURCESMODEL_H
 #define SOURCESMODEL_H
 
-#include <QAbstractItemModel>
-#include <QVector>
 #include <QTimer>
+#include <QAbstractListModel>
 
-#include <KRunner/RunnerManager>
 #include <KRunner/QueryMatch>
+#include <KRunner/RunnerManager>
 
 #include "milou_export.h"
 

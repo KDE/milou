@@ -27,14 +27,9 @@
 #include <QDebug>
 
 #include <QDeclarativeComponent>
-#include <QDeclarativeContext>
-#include <QDateTime>
-#include <QFileInfo>
 
-#include <KLocale>
 #include <KService>
 #include <KGlobal>
-#include <KMimeType>
 
 ApplicationPlugin::ApplicationPlugin(QObject* parent, const QVariantList&): PreviewPlugin(parent)
 {

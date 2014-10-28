@@ -22,10 +22,9 @@
 
 #include "emailplugin.h"
 
-#include <KUrl>
 #include <KMime/Message>
 #include <KMimeType>
-#include <KIcon>
+#include <QIcon>
 
 #include <Akonadi/ItemFetchScope>
 
@@ -140,7 +139,7 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
             continue;
 
         QString iconName = mimetype->iconName();
-        QImage icon = KIcon(iconName).pixmap(32, 32).toImage();
+        QImage icon = QIcon::fromTheme(iconName).pixmap(32, 32).toImage();
 
         cursor.insertImage(icon);
         cursor.insertText(contentType->name() + "\n");
