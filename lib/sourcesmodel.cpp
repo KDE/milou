@@ -335,6 +335,7 @@ void SourcesModel::clear()
     m_duplicates.clear();
     m_queryString.clear();
     m_manager->reset();
+    m_manager->matchSessionComplete();
     endResetModel();
 }
 
