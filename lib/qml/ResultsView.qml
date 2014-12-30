@@ -34,6 +34,7 @@ ListView {
     property alias runner: resultModel.runner
     property bool reversed
     signal activated
+    signal updateQueryString(string text, int cursorPosition)
 
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
 
@@ -56,9 +57,10 @@ ListView {
 
             if (runAutomatically) {
                 runCurrentIndex();
-                runAutomatically = false
             }
         }
+
+        onUpdateSearchTerm: listView.updateQueryString(text, pos)
     }
 
     delegate: ResultDelegate {
@@ -71,23 +73,20 @@ ListView {
     // code, but the ListView doesn't seem forward keyboard events to the delgate when
     // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
     // doesn't make any difference!
-    Keys.onReturnPressed: {
-        if (!currentIndex) {
-            runAutomatically = true
-        }
-        runCurrentIndex();
-    }
-    Keys.onEnterPressed: {
-        if (!currentIndex) {
-            runAutomatically = true
-        }
-        runCurrentIndex();
-    }
+    Keys.onReturnPressed: runCurrentIndex();
+    Keys.onEnterPressed: runCurrentIndex();
 
     function runCurrentIndex() {
-        listView.model.run(currentIndex);
-        //clearPreview();
-        activated()
+        if (!currentItem) {
+            runAutomatically = true
+            return;
+        }
+        else {
+            if (resultModel.run(currentIndex)) {
+                activated()
+            }
+            runAutomatically = false
+        }
     }
 
     Keys.onTabPressed: incrementCurrentIndex()

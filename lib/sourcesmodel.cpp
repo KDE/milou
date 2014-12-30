@@ -338,10 +338,35 @@ void SourcesModel::clear()
     endResetModel();
 }
 
-void SourcesModel::run(int index)
+bool SourcesModel::run(int index)
 {
     Plasma::QueryMatch match = fetchMatch(index);
+    Q_ASSERT(match.runner());
+
+    if (match.type() == Plasma::QueryMatch::InformationalMatch) {
+        QString info = match.data().toString();
+        int editPos = info.length();
+
+        if (!info.isEmpty()) {
+            // FIXME: pretty lame way to decide if this is a query prototype
+            // Copied from kde4 krunner interface.cpp
+            if (match.runner() == 0) {
+                // lame way of checking to see if this is a Help Button generated match!
+                int index = info.indexOf(QStringLiteral(":q:"));
+
+                if (index != -1) {
+                    editPos = index;
+                    info.replace(QStringLiteral(":q:"), QString());
+                }
+            }
+
+            emit updateSearchTerm(info, editPos);
+            return false;
+        }
+    }
+
     m_manager->run(match);
+    return true;
 }
 
 void SourcesModel::reloadConfiguration()

@@ -66,13 +66,21 @@ public:
 
     virtual QHash<int, QByteArray> roleNames() const;
 
+signals:
+    /**
+     * This signal is emitted when a an InformationalMatch is run, and it is advised
+     * to update the search term.
+     * Eg - Calculator runner
+     */
+    void updateSearchTerm(const QString& text, int pos);
+
 public slots:
     void reloadConfiguration();
     void setQueryString(const QString& str);
     void setQueryLimit(int limit);
     void clear();
 
-    void run(int index);
+    bool run(int index);
 
     Q_INVOKABLE QString getType(int index) const {
         return data(createIndex(index, 0), TypeRole).toString();
