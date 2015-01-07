@@ -222,9 +222,21 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
     for (QString type: m_types) {
         const TypeData td = m_matches.value(type);
         for (const Plasma::QueryMatch& match : td.shown) {
-            if (match.text().contains(m_queryString, Qt::CaseInsensitive)) {
-                QString matchType = match.matchCategory();
-                higherTypes << matchType;
+            const QString text = match.text().simplified();
+            const QStringList words = m_queryString.split(' ', QString::SkipEmptyParts);
+            bool containsAll = true;
+
+            for (const QString& word : words) {
+                if (!text.contains(word.simplified(), Qt::CaseInsensitive)) {
+                    containsAll = false;
+                    break;
+                }
+            }
+
+            // Maybe we should be giving it a higher type based on the number of matched
+            // words in the text?
+            if (containsAll) {
+                higherTypes << match.matchCategory();
             }
         }
     }
