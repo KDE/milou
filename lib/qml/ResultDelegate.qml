@@ -59,6 +59,7 @@ MouseArea {
 
          horizontalAlignment: Text.AlignRight
          verticalAlignment: Text.AlignVCenter
+         elide: Text.ElideRight
 
          width: Globals.CategoryWidth - Globals.CategoryRightMargin
          anchors {
