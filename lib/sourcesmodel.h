@@ -47,6 +47,7 @@ public:
     enum Roles {
         TypeRole = Qt::UserRole + 1,
         SubtextRole,
+        DuplicateRole,
         PreviewTypeRole,
         PreviewUrlRole,
         PreviewLabelRole

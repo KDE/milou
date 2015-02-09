@@ -106,7 +106,7 @@ MouseArea {
 
             PlasmaComponents.Label {
                 id: subtextLabel
-                text: String(model.subtext)
+                text: model.isDuplicate > 1 ? String(model.subtext) : ""
 
                 color: theme.textColor
                 opacity: 0.3

@@ -58,6 +58,7 @@ QHash<int, QByteArray> SourcesModel::roleNames() const
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
     roles.insert(TypeRole, "type");
     roles.insert(SubtextRole, "subtext");
+    roles.insert(DuplicateRole, "isDuplicate");
     roles.insert(PreviewTypeRole, "previewType");
     roles.insert(PreviewUrlRole, "previewUrl");
     roles.insert(PreviewLabelRole, "previewLabel");
@@ -104,13 +105,11 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
         case TypeRole:
             return m.matchCategory();
 
-        case SubtextRole: {
-            if (m_duplicates.value(m.text()) > 1) {
-                return m.subtext();
-            } else {
-                return QString();
-            }
-        }
+        case SubtextRole:
+            return m.subtext();
+
+        case DuplicateRole:
+            return m_duplicates.value(m.text());
 
             /*
         case PreviewTypeRole:
