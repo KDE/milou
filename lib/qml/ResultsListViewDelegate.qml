@@ -31,7 +31,8 @@ MouseArea {
     id: resultDelegate
     property variant theModel: model
 
-    height: typePixmap.height + 50
+    width: listItem.implicitWidth
+    height: listItem.implicitHeight
 
     hoverEnabled: true
     onEntered: {
@@ -42,15 +43,13 @@ MouseArea {
         id: listItem
         enabled: true
 
-        anchors.fill: parent
-
         onClicked: {
             listView.currentIndex = model.index
             listView.runCurrentIndex()
         }
 
         RowLayout {
-            anchors.fill: parent
+            spacing: 7
 
             QtExtra.QIconItem {
                 id: typePixmap
@@ -61,30 +60,34 @@ MouseArea {
                 smooth: true
             }
 
-            PlasmaComponents.Label {
-                id: displayLabel
-                text: String(model.display)
-
-                height: typePixmap.height
-
-                elide: Text.ElideMiddle
-                maximumLineCount: 1
-
-                Layout.maximumWidth: parent.width - displayLabel.x
-            }
-
-            PlasmaComponents.Label {
-                id: subtextLabel
-                text: String(model.subtext)
-
-                color: theme.textColor
-                opacity: 0.3
-
-                height: typePixmap.height
-
-                elide: Text.ElideRight
-                maximumLineCount: 1
+            ColumnLayout {
                 Layout.fillWidth: true
+
+                PlasmaComponents.Label {
+                    id: displayLabel
+                    text: String(model.display)
+
+                    height: typePixmap.height
+
+                    elide: Text.ElideMiddle
+                    maximumLineCount: 1
+
+                    Layout.maximumWidth: parent.width - displayLabel.x
+                }
+
+                PlasmaComponents.Label {
+                    id: subtextLabel
+                    text: String(model.subtext)
+
+                    color: theme.textColor
+                    opacity: 0.3
+
+                    height: typePixmap.height
+
+                    elide: Text.ElideRight
+                    maximumLineCount: 1
+                    Layout.fillWidth: true
+                }
             }
         }
     }
