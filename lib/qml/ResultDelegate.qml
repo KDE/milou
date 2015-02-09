@@ -39,34 +39,34 @@ MouseArea {
         listView.currentIndex = index
     }
 
-     function fetchTypeText() {
-         var currentType = model.type
-         var reversed = resultDelegate.ListView.view.reversed
-         var nextIndex = model.index + (reversed ? 1 : -1)
-         var nextType = resultDelegate.ListView.view.model.getType(nextIndex)
+    function fetchTypeText() {
+        var currentType = model.type
+        var reversed = resultDelegate.ListView.view.reversed
+        var nextIndex = model.index + (reversed ? 1 : -1)
+        var nextType = resultDelegate.ListView.view.model.getType(nextIndex)
 
-         if (nextType != currentType)
-             return currentType
-         else
-             return ""
-     }
+        if (nextType != currentType)
+            return currentType
+        else
+            return ""
+    }
 
-     PlasmaComponents.Label {
-         id: typeText
-         text: String(fetchTypeText())
-         color: theme.textColor
-         opacity: 0.5
+    PlasmaComponents.Label {
+        id: typeText
+        text: String(fetchTypeText())
+        color: theme.textColor
+        opacity: 0.5
 
-         horizontalAlignment: Text.AlignRight
-         verticalAlignment: Text.AlignVCenter
-         elide: Text.ElideRight
+        horizontalAlignment: Text.AlignRight
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
 
-         width: Globals.CategoryWidth - Globals.CategoryRightMargin
-         anchors {
-             left: parent.left
-             verticalCenter: listItem.verticalCenter
-         }
-     }
+        width: Globals.CategoryWidth - Globals.CategoryRightMargin
+        anchors {
+            left: parent.left
+            verticalCenter: listItem.verticalCenter
+        }
+    }
 
     PlasmaComponents.ListItem {
         id: listItem
