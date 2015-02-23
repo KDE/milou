@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Milou
+Name[bs]=Milou
 Name[ca]=Milou
 Name[cs]=Milou
 Name[da]=Milou
@@ -34,6 +35,7 @@ Name[x-test]=xxMilouxx
 Name[zh_CN]=Milou
 Name[zh_TW]=Milou
 Comment=Applet for finding anything
+Comment[bs]=Aplet za traženje nečega
 Comment[ca]=Miniaplicació per cercar qualsevol cosa
 Comment[cs]=Applet pro hledání čehokoliv
 Comment[da]=Applet til at finde alt
