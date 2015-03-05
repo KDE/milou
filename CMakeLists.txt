@@ -7,7 +7,7 @@ find_package(ECM 1.2.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Quick Widgets Test)
-find_package(KF5 REQUIRED COMPONENTS Runner Plasma I18n Service Declarative)
+find_package(KF5 REQUIRED COMPONENTS CoreAddons I18n Declarative Service Plasma Runner)
 
 include(FeatureSummary)
 include(ECMAddTests)
