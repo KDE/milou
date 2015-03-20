@@ -37,7 +37,7 @@ ListView {
     signal updateQueryString(string text, int cursorPosition)
 
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
-
+    keyNavigationWraps: true
     highlight: PlasmaComponents.Highlight {}
     highlightMoveDuration: 0
 
