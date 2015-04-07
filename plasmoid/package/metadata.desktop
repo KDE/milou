@@ -1,6 +1,5 @@
 [Desktop Entry]
 Name=Search
-Name[ast]=Guetar
 Name[bs]=Pretrazivanje
 Name[ca]=Cerca
 Name[cs]=Hledat
@@ -38,7 +37,6 @@ Name[x-test]=xxSearchxx
 Name[zh_CN]=搜索
 Name[zh_TW]=搜尋
 Comment=Search and Launch
-Comment[ast]=Gueta y llanza
 Comment[bs]=Traženje i pokretanje
 Comment[ca]=Cerca i llança
 Comment[cs]=Hledat a spustit
