@@ -38,7 +38,6 @@ MouseArea {
         var nextType = resultDelegate.ListView.view.model.getType(nextIndex)
 
         if (nextType != currentType) {
-            console.log(currentType)
             return String(currentType)
         } else {
             return ""
