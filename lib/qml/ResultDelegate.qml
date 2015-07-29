@@ -31,6 +31,20 @@ MouseArea {
     id: resultDelegate
     property variant theModel: model
 
+    property string typeText: {
+        var currentType = model.type
+        var reversed = resultDelegate.ListView.view.reversed
+        var nextIndex = model.index + (reversed ? 1 : -1)
+        var nextType = resultDelegate.ListView.view.model.getType(nextIndex)
+
+        if (nextType != currentType) {
+            console.log(currentType)
+            return String(currentType)
+        } else {
+            return ""
+        }
+    }
+
     width: listItem.implicitWidth
     height: listItem.implicitHeight
 
@@ -39,21 +53,9 @@ MouseArea {
         listView.currentIndex = index
     }
 
-    function fetchTypeText() {
-        var currentType = model.type
-        var reversed = resultDelegate.ListView.view.reversed
-        var nextIndex = model.index + (reversed ? 1 : -1)
-        var nextType = resultDelegate.ListView.view.model.getType(nextIndex)
-
-        if (nextType != currentType)
-            return currentType
-        else
-            return ""
-    }
-
     PlasmaComponents.Label {
         id: typeText
-        text: String(fetchTypeText())
+        text: resultDelegate.typeText
         color: theme.textColor
         opacity: 0.5
 
@@ -94,7 +96,7 @@ MouseArea {
 
             PlasmaComponents.Label {
                 id: displayLabel
-                text: String(model.display)
+                text: String(typeof modelData !== "undefined" ? modelData : model.display)
 
                 height: typePixmap.height
 
