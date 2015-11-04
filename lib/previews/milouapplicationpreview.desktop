@@ -5,6 +5,7 @@ X-KDE-Library=milouapplicationplugin
 Name=Milou Application Preview Plugin
 Name[bs]=Milou dodatak z apregled
 Name[ca]=Connector de vista prèvia d'aplicacions del Milou
+Name[ca@valencia]=Connector de vista prèvia d'aplicacions del Milou
 Name[cs]=Modul náhledů aplikace Milou
 Name[da]=Forhåndsvisning-plugin til programmet Milou
 Name[de]=Milou-Vorschaumodul für Anwendungen
