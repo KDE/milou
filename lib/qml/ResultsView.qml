@@ -80,8 +80,12 @@ ListView {
         if (!currentItem) {
             runAutomatically = true
             return;
-        }
-        else {
+        } else {
+            if (currentItem.activeAction > -1) {
+                runAction(currentItem.activeAction)
+                return
+            }
+
             if (resultModel.run(currentIndex)) {
                 activated()
             }
@@ -89,8 +93,28 @@ ListView {
         }
     }
 
-    Keys.onTabPressed: incrementCurrentIndex()
-    Keys.onBacktabPressed: decrementCurrentIndex()
+    function runAction(index) {
+        if (resultModel.runAction(currentIndex, index)) {
+            activated()
+        }
+    }
+
+    Keys.onTabPressed: {
+        if (!currentItem || !currentItem.activateNextAction()) {
+            incrementCurrentIndex()
+        }
+    }
+    Keys.onBacktabPressed: {
+        if (!currentItem || !currentItem.activatePreviousAction()) {
+            decrementCurrentIndex()
+            // activate previous action cannot know whether we want to back tab from an action
+            // to the main result or back tab from another search result, so we explicitly highlight
+            // the last action here to provide a consistent navigation experience
+            if (currentItem) {
+                currentItem.activateLastAction()
+            }
+        }
+    }
     Keys.onUpPressed: decrementCurrentIndex();
     Keys.onDownPressed: incrementCurrentIndex();
 

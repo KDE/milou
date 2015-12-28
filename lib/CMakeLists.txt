@@ -12,6 +12,7 @@ set_target_properties(milou PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PR
 target_link_libraries (milou
     Qt5::Qml
     Qt5::Quick
+    Qt5::Widgets # for QAction...
     KF5::Service
     KF5::Plasma
     KF5::Runner

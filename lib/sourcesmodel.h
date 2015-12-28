@@ -47,6 +47,7 @@ public:
     enum Roles {
         TypeRole = Qt::UserRole + 1,
         SubtextRole,
+        ActionsRole,
         DuplicateRole,
         PreviewTypeRole,
         PreviewUrlRole,
@@ -82,6 +83,7 @@ public slots:
     void clear();
 
     bool run(int index);
+    bool runAction(int index, int actionIndex);
 
     Q_INVOKABLE QString getType(int index) const {
         return data(createIndex(index, 0), TypeRole).toString();

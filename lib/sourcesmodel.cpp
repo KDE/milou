@@ -26,6 +26,7 @@
 #include <KDirWatch>
 #include <KSharedConfig>
 
+#include <QAction>
 #include <QModelIndex>
 #include <QSet>
 
@@ -58,6 +59,7 @@ QHash<int, QByteArray> SourcesModel::roleNames() const
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
     roles.insert(TypeRole, "type");
     roles.insert(SubtextRole, "subtext");
+    roles.insert(ActionsRole, "actions");
     roles.insert(DuplicateRole, "isDuplicate");
     roles.insert(PreviewTypeRole, "previewType");
     roles.insert(PreviewUrlRole, "previewUrl");
@@ -108,6 +110,21 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
         case SubtextRole:
             return m.subtext();
 
+        case ActionsRole: {
+            const auto &actions = m_manager->actionsForMatch(m);
+            if (actions.isEmpty()) {
+                return QVariantList();
+            }
+
+            QVariantList actionsList;
+            actionsList.reserve(actions.size());
+
+            for (QAction *action : actions) {
+                actionsList.append(QVariant::fromValue(action));
+            }
+
+            return actionsList;
+        }
         case DuplicateRole:
             return m_duplicates.value(m.text());
 
@@ -376,6 +393,22 @@ bool SourcesModel::run(int index)
         }
     }
 
+    m_manager->run(match);
+    return true;
+}
+
+bool SourcesModel::runAction(int index, int actionIndex)
+{
+    Plasma::QueryMatch match = fetchMatch(index);
+    Q_ASSERT(match.runner());
+
+    const auto &actions = m_manager->actionsForMatch(match);
+    if (actionIndex < 0 || actionIndex >= actions.count()) {
+        return false;
+    }
+
+    QAction *action = actions.at(actionIndex);
+    match.setSelectedAction(action);
     m_manager->run(match);
     return true;
 }
