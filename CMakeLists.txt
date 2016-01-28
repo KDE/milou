@@ -13,7 +13,7 @@ include(FeatureSummary)
 include(ECMAddTests)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDECompilerSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 include(GenerateExportHeader)
 
 # find_package(KdepimLibs)
