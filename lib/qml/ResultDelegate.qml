@@ -166,6 +166,7 @@ MouseArea {
                 id: actionsRow
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
+                visible: resultDelegate.isCurrent
 
                 Repeater {
                     id: actionsRepeater
