@@ -32,6 +32,8 @@ ListView {
     id: listView
     property alias queryString: resultModel.queryString
     property alias runner: resultModel.runner
+    property alias runnerName: resultModel.runnerName
+    property alias runnerIcon: resultModel.runnerIcon
     property bool reversed
     signal activated
     signal updateQueryString(string text, int cursorPosition)

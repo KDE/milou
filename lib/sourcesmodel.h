@@ -38,7 +38,10 @@ class MILOU_EXPORT SourcesModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
     Q_PROPERTY(int queryLimit READ queryLimit WRITE setQueryLimit)
-    Q_PROPERTY(QString runner READ runner WRITE setRunner)
+    Q_PROPERTY(QString runner READ runner WRITE setRunner NOTIFY runnerChanged)
+
+    Q_PROPERTY(QString runnerName READ runnerName NOTIFY runnerChanged)
+    Q_PROPERTY(QIcon runnerIcon READ runnerIcon NOTIFY runnerChanged)
 
 public:
     explicit SourcesModel(QObject* parent = 0);
@@ -63,6 +66,9 @@ public:
     QString runner() const;
     void setRunner(const QString& runner);
 
+    QString runnerName() const;
+    QIcon runnerIcon() const;
+
     QString queryString() const;
     int queryLimit() const;
 
@@ -75,6 +81,8 @@ signals:
      * Eg - Calculator runner
      */
     void updateSearchTerm(const QString& text, int pos);
+
+    void runnerChanged();
 
 public slots:
     void reloadConfiguration();

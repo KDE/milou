@@ -168,7 +168,34 @@ QString SourcesModel::runner() const
 
 void SourcesModel::setRunner(const QString& runner)
 {
-    m_runner = runner;
+    if (m_runner != runner) {
+        m_runner = runner;
+
+        m_manager->setSingleModeRunnerId(m_runner);
+        m_manager->setSingleMode(!m_runner.isEmpty());
+
+        emit runnerChanged();
+    }
+}
+
+QString SourcesModel::runnerName() const
+{
+    auto *singleRunner = m_manager->singleModeRunner();
+    if (!singleRunner) {
+        return QString();
+    }
+
+    return singleRunner->name();
+}
+
+QIcon SourcesModel::runnerIcon() const
+{
+    auto *singleRunner = m_manager->singleModeRunner();
+    if (!singleRunner) {
+        return QIcon();
+    }
+
+    return singleRunner->icon();
 }
 
 void SourcesModel::setQueryLimit(int limit)
@@ -193,8 +220,6 @@ void SourcesModel::setQueryString(const QString& str)
     }
 
     m_modelPopulated = false;
-    m_manager->setSingleModeRunnerId(m_runner);
-    m_manager->setSingleMode(!m_runner.isEmpty());
     m_manager->launchQuery(m_queryString, m_runner);
 
     // We avoid clearing the model instantly, and instead wait for the results
