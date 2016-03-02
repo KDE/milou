@@ -174,7 +174,7 @@ MouseArea {
                     height: typePixmap.height
 
                     elide: Text.ElideMiddle
-                    maximumLineCount: 1
+                    wrapMode: Text.NoWrap
 
                     Layout.maximumWidth: parent.width - displayLabel.x
                 }
@@ -188,8 +188,8 @@ MouseArea {
 
                     height: typePixmap.height
 
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
+                    elide: Text.ElideMiddle
+                    wrapMode: Text.NoWrap
                     Layout.fillWidth: true
                 }
             }
