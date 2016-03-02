@@ -24,7 +24,7 @@ import QtQuick 2.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.milou 0.1 as Milou
+import org.kde.milou 0.2 as Milou
 
 import "globals.js" as Globals
 
@@ -43,10 +43,20 @@ ListView {
     highlight: PlasmaComponents.Highlight {}
     highlightMoveDuration: 0
 
+    section {
+        criteria: ViewSection.FullString
+        property: "type"
+    }
+
     // This is used to keep track if the user has pressed enter before
     // the first result has been shown, in the case the first result should
     // be run when the model is populated
     property bool runAutomatically
+
+    Milou.DragHelper {
+        id: dragHelper
+        dragIconSize: units.iconSizes.medium
+    }
 
     model: Milou.SourcesModel {
         id: resultModel

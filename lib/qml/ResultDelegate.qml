@@ -1,7 +1,7 @@
 /*
  * This file is part of the KDE Milou Project
  * Copyright (C) 2013-2014 Vishesh Handa <me@vhanda.in>
- * Copyright (C) 2015 Kai Uwe Broulik <kde@privat.broulik.de>
+ * Copyright (C) 2015-2016 Kai Uwe Broulik <kde@privat.broulik.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,6 +27,7 @@ import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.kquickcontrolsaddons 2.0 as QtExtra
+
 import "globals.js" as Globals
 
 MouseArea {
@@ -35,21 +36,16 @@ MouseArea {
     property variant theModel: model
 
     readonly property bool isCurrent: ListView.isCurrentItem // cannot properly Connect {} to this
+    readonly property bool sectionHasChanged: (reversed && ListView.section != ListView.nextSection)
+                                              || (!reversed && ListView.section != ListView.previousSection)
 
     property int activeAction: -1
 
-    property string typeText: {
-        var currentType = model.type
-        var reversed = resultDelegate.ListView.view.reversed
-        var nextIndex = model.index + (reversed ? 1 : -1)
-        var nextType = resultDelegate.ListView.view.model.getType(nextIndex)
+    property string typeText: sectionHasChanged ? ListView.section : ""
 
-        if (nextType != currentType) {
-            return String(currentType)
-        } else {
-            return ""
-        }
-    }
+    property bool __pressed: false
+    property int __pressX: -1
+    property int __pressY: -1
 
     onIsCurrentChanged: {
         if (!isCurrent) {
@@ -80,9 +76,47 @@ MouseArea {
     width: listItem.implicitWidth
     height: listItem.implicitHeight
 
+    acceptedButtons: Qt.LeftButton
     hoverEnabled: true
     onEntered: {
         listView.currentIndex = index
+    }
+
+    onPressed: {
+        __pressed = true;
+        __pressX = mouse.x;
+        __pressY = mouse.y;
+    }
+
+    onReleased: {
+        if (__pressed) {
+            listView.currentIndex = model.index
+            listView.runCurrentIndex()
+        }
+
+        __pressed = false;
+        __pressX = -1;
+        __pressY = -1;
+    }
+
+    onPositionChanged: {
+        if (__pressX != -1 && typeof dragHelper !== "undefined" && dragHelper.isDrag(__pressX, __pressY, mouse.x, mouse.y)) {
+            var mimeData = ListView.view.model.getMimeData(index);
+            if (mimeData) {
+                dragHelper.startDrag(root, mimeData, model.decoration);
+                __pressed = false;
+                __pressX = -1;
+                __pressY = -1;
+            }
+        }
+    }
+
+    onContainsMouseChanged: {
+        if (!containsMouse) {
+            __pressed = false;
+            __pressX = -1;
+            __pressY = -1;
+        }
     }
 
     PlasmaComponents.Label {
@@ -104,12 +138,10 @@ MouseArea {
 
     PlasmaComponents.ListItem {
         id: listItem
-        enabled: true
 
-        onClicked: {
-            listView.currentIndex = model.index
-            listView.runCurrentIndex()
-        }
+        // fake pressed look
+        checked: resultDelegate.pressed
+        separatorVisible: resultDelegate.sectionHasChanged
 
         Item {
             anchors {

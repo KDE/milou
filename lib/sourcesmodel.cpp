@@ -28,6 +28,7 @@
 
 #include <QAction>
 #include <QModelIndex>
+#include <QMimeData>
 #include <QSet>
 
 using namespace Milou;
@@ -442,4 +443,16 @@ void SourcesModel::reloadConfiguration()
 {
     KSharedConfig::openConfig("krunnerrc")->reparseConfiguration();
     m_manager->reloadConfiguration();
+}
+
+QMimeData *SourcesModel::getMimeData(int index) const
+{
+    Plasma::QueryMatch match = fetchMatch(index);
+    Q_ASSERT(match.runner());
+
+    // we're returning a parent-less QObject from a Q_INVOKABLE
+    // which means the QML engine will take care of deleting it eventually
+    QMimeData *mimeData = m_manager->mimeDataForMatch(match);
+
+    return mimeData;
 }

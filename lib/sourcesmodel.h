@@ -97,6 +97,7 @@ public slots:
         return data(createIndex(index, 0), TypeRole).toString();
     }
 
+    Q_INVOKABLE QMimeData *getMimeData(int index) const;
 
 private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);

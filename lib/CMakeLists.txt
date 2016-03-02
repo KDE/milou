@@ -4,6 +4,7 @@ set (lib_SRCS
     preview.cpp
     previewplugin.cpp
     sourcesmodel.cpp
+    draghelper.cpp
 )
 
 add_library(milou SHARED ${lib_SRCS})
