@@ -141,7 +141,7 @@ MouseArea {
 
         // fake pressed look
         checked: resultDelegate.pressed
-        separatorVisible: resultDelegate.sectionHasChanged
+        separatorVisible: resultDelegate.sectionHasChanged && resultDelegate.ListView.view.currentIndex !== (index - 1)
 
         Item {
             anchors {
