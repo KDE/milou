@@ -36,12 +36,15 @@ MouseArea {
     property variant theModel: model
 
     readonly property bool isCurrent: ListView.isCurrentItem // cannot properly Connect {} to this
-    readonly property bool sectionHasChanged: (reversed && ListView.section != ListView.nextSection)
-                                              || (!reversed && ListView.section != ListView.previousSection)
+    readonly property bool sectionHasChanged: typeof reversed !== "undefined" && (
+                                                  (reversed && ListView.section != ListView.nextSection)
+                                                    || (!reversed && ListView.section != ListView.previousSection)
+                                                  )
 
     property int activeAction: -1
 
     property string typeText: sectionHasChanged ? ListView.section : ""
+    property var additionalActions: typeof actions !== "undefined" ? actions : []
 
     property bool __pressed: false
     property int __pressX: -1
@@ -204,14 +207,14 @@ MouseArea {
 
                 Repeater {
                     id: actionsRepeater
-                    model: typeof actions !== "undefined" ? actions : 0
+                    model: resultDelegate.additionalActions
 
                     PlasmaComponents.ToolButton {
                         width: height
                         height: listItem.height
-                        visible: modelData.visible
-                        enabled: modelData.enabled
-                        tooltip: modelData.text
+                        visible: modelData.visible || true
+                        enabled: modelData.enabled || true
+                        tooltip: modelData.text || ""
                         checkable: checked
                         checked: resultDelegate.activeAction === index
 
@@ -220,11 +223,11 @@ MouseArea {
                             width: Globals.IconSize
                             height: Globals.IconSize
                             // ToolButton cannot cope with QIcon
-                            source: modelData.icon
+                            source: modelData.icon || ""
                             active: parent.hovered || parent.checked
                         }
 
-                        onClicked: listView.runAction(index)
+                        onClicked: resultDelegate.ListView.view.runAction(index)
                     }
                 }
             }
