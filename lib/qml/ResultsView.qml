@@ -38,6 +38,7 @@ ListView {
     signal activated
     signal updateQueryString(string text, int cursorPosition)
 
+    // NOTE this also flips increment/decrementCurrentIndex (Bug 360789)
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
     keyNavigationWraps: true
     highlight: PlasmaComponents.Highlight {}
@@ -113,12 +114,21 @@ ListView {
 
     Keys.onTabPressed: {
         if (!currentItem || !currentItem.activateNextAction()) {
-            incrementCurrentIndex()
+            if (reversed) {
+                decrementCurrentIndex()
+            } else {
+                incrementCurrentIndex()
+            }
         }
     }
     Keys.onBacktabPressed: {
         if (!currentItem || !currentItem.activatePreviousAction()) {
-            decrementCurrentIndex()
+            if (reversed) {
+                incrementCurrentIndex()
+            } else {
+                decrementCurrentIndex()
+            }
+
             // activate previous action cannot know whether we want to back tab from an action
             // to the main result or back tab from another search result, so we explicitly highlight
             // the last action here to provide a consistent navigation experience
@@ -127,8 +137,8 @@ ListView {
             }
         }
     }
-    Keys.onUpPressed: decrementCurrentIndex();
-    Keys.onDownPressed: incrementCurrentIndex();
+    Keys.onUpPressed: reversed ? incrementCurrentIndex() : decrementCurrentIndex();
+    Keys.onDownPressed: reversed ? decrementCurrentIndex() : incrementCurrentIndex();
 
     boundsBehavior: Flickable.StopAtBounds
 
