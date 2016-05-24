@@ -154,7 +154,7 @@ MouseArea {
                 right: parent.right
                 leftMargin: Globals.CategoryWidth
             }
-            height: typePixmap.height
+            height: Math.max(typePixmap.height, displayLabel.height, subtextLabel.height)
 
             RowLayout {
                 anchors {
@@ -176,10 +176,11 @@ MouseArea {
                     id: displayLabel
                     text: String(typeof modelData !== "undefined" ? modelData : model.display)
 
-                    height: typePixmap.height
+                    height: undefined
 
                     elide: Text.ElideMiddle
                     wrapMode: Text.NoWrap
+                    verticalAlignment: Text.AlignVCenter
 
                     Layout.maximumWidth: parent.width - displayLabel.x
                 }
@@ -191,10 +192,11 @@ MouseArea {
                     color: theme.textColor
                     opacity: 0.3
 
-                    height: typePixmap.height
+                    height: undefined
 
                     elide: Text.ElideMiddle
                     wrapMode: Text.NoWrap
+                    verticalAlignment: Text.AlignVCenter
                     Layout.fillWidth: true
                 }
             }
