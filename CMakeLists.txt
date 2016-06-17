@@ -3,11 +3,14 @@ set(PROJECT_VERSION "5.7.90")
 set(PROJECT_VERSION_MAJOR 5)
 cmake_minimum_required(VERSION 2.8.12)
 
+set(QT_MIN_VERSION "5.6.0")
+set(KF5_MIN_VERSION "5.24.0")
+
 find_package(ECM 1.2.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Quick Widgets Test)
-find_package(KF5 REQUIRED COMPONENTS CoreAddons I18n Declarative Service Plasma Runner)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Script Qml Quick Widgets Test)
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n Declarative Service Plasma Runner)
 
 include(FeatureSummary)
 include(ECMAddTests)
