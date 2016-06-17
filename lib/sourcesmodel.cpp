@@ -103,6 +103,10 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
             return m.text();
 
         case Qt::DecorationRole:
+            if (!m.iconName().isEmpty()) {
+                return m.iconName();
+            }
+
             return m.icon();
 
         case TypeRole:

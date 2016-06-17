@@ -163,13 +163,13 @@ MouseArea {
                     rightMargin: units.smallSpacing
                 }
 
-                QtExtra.QIconItem {
+                PlasmaCore.IconItem {
                     id: typePixmap
-                    width: Globals.IconSize
-                    height: Globals.IconSize
-
-                    icon: model.decoration
-                    smooth: true
+                    Layout.preferredWidth: Globals.IconSize
+                    Layout.fillHeight: true
+                    source: model.decoration
+                    usesPlasmaTheme: false
+                    animated: false
                 }
 
                 PlasmaComponents.Label {
