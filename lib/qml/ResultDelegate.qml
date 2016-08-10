@@ -166,6 +166,7 @@ MouseArea {
                 PlasmaCore.IconItem {
                     id: typePixmap
                     Layout.preferredWidth: Globals.IconSize
+                    Layout.preferredHeight: Globals.IconSize
                     Layout.fillHeight: true
                     source: model.decoration
                     usesPlasmaTheme: false
