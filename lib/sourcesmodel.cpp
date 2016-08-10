@@ -252,28 +252,27 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
     QList<Plasma::QueryMatch> list(l);
     qSort(list);
 
-    QListIterator<Plasma::QueryMatch> iter(list);
-    iter.toBack();
-
-    while (iter.hasPrevious()) {
-        const Plasma::QueryMatch match = iter.previous();
-        slotMatchAdded(match);
+    for (auto it = list.crbegin(), end = list.crend(); it != end; ++it) {
+        slotMatchAdded(*it);
     }
 
     // Sort the result types. We give the results which contain the query
     // text in the user visible string a higher preference than the ones
     // that do not
     // The rest are given the same preference as given by the runners.
+    const QString simplifiedQuery = m_queryString.simplified();
+    const auto words = simplifiedQuery.splitRef(QLatin1Char(' '), QString::SkipEmptyParts);
+
     QSet<QString> higherTypes;
-    for (QString type: m_types) {
+    foreach (const QString &type, m_types) {
         const TypeData td = m_matches.value(type);
-        for (const Plasma::QueryMatch& match : td.shown) {
+
+        for (const Plasma::QueryMatch &match : td.shown) {
             const QString text = match.text().simplified();
-            const QStringList words = m_queryString.split(' ', QString::SkipEmptyParts);
             bool containsAll = true;
 
-            for (const QString& word : words) {
-                if (!text.contains(word.simplified(), Qt::CaseInsensitive)) {
+            for (const auto &word : words) {
+                if (!text.contains(word, Qt::CaseInsensitive)) {
                     containsAll = false;
                     break;
                 }
@@ -337,51 +336,15 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
 
         // Remove the last shown row from maxShownType
         // and add it to matchType
-        int removeRowPos = fetchRowCount(maxShownType);
-        removeRowPos += m_matches[maxShownType].shown.size() - 1;
-
-        //beginRemoveRows(QModelIndex(), removeRowPos, removeRowPos);
         Plasma::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
         m_duplicates[transferMatch.text()]--;
-        //endRemoveRows();
-
-        int insertPos = fetchRowCount(matchType) + m_matches[matchType].shown.size();
-        //beginInsertRows(QModelIndex(), insertPos, insertPos);
-        m_matches[matchType].shown.append(m);
-        m_size++;
-        m_duplicates[m.text()]++;
-        //endInsertRows();
-    }
-    else {
-        int pos = 0;
-        foreach (const QString& type, m_types) {
-            pos += m_matches.value(type).shown.size();
-            if (type == matchType) {
-                break;
-            }
-        }
-
-        //beginInsertRows(QModelIndex(), pos, pos);
-        m_matches[matchType].shown.append(m);
-        m_size++;
-        m_duplicates[m.text()]++;
-        //endInsertRows();
-    }
-}
-
-int SourcesModel::fetchRowCount(const QString& type) const
-{
-    int c = 0;
-    foreach (const QString& t, m_types) {
-        if (t == type)
-            break;
-
-        c += m_matches.value(t).shown.size();
     }
 
-    return c;
+    m_matches[matchType].shown.append(m);
+    m_size++;
+    m_duplicates[m.text()]++;
 }
 
 void SourcesModel::clear()

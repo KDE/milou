@@ -128,8 +128,6 @@ public:
     bool m_modelPopulated;
     QTimer m_resetTimer;
 
-    /// Returns the number of visible rows before \p type
-    int fetchRowCount(const QString& type) const;
     Plasma::QueryMatch fetchMatch(int row) const;
 };
 
