@@ -149,6 +149,7 @@ MouseArea {
                        && (index === 0 || resultDelegate.ListView.view.currentIndex !== (index - 1))
 
         Item {
+            id: labelWrapper
             anchors {
                 left: parent.left
                 right: parent.right
@@ -183,7 +184,7 @@ MouseArea {
                     wrapMode: Text.NoWrap
                     verticalAlignment: Text.AlignVCenter
 
-                    Layout.maximumWidth: parent.width - displayLabel.x
+                    Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width
                 }
 
                 PlasmaComponents.Label {
