@@ -90,7 +90,7 @@ X-Plasma-API=declarativeappletscript
 
 X-Plasma-MainScript=ui/main.qml
 X-Plasma-DropUrlPatterns=run:/
-X-KDE-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
+X-KDE-ServiceTypes=Plasma/Applet
 
 X-KDE-PluginInfo-Name=org.kde.milou
 X-KDE-PluginInfo-Category=Utilities
