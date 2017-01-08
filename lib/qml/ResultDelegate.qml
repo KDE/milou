@@ -182,6 +182,7 @@ MouseArea {
 
                     elide: Text.ElideMiddle
                     wrapMode: Text.NoWrap
+                    maximumLineCount: 1
                     verticalAlignment: Text.AlignVCenter
 
                     Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width
@@ -198,6 +199,7 @@ MouseArea {
 
                     elide: Text.ElideMiddle
                     wrapMode: Text.NoWrap
+                    maximumLineCount: 1
                     verticalAlignment: Text.AlignVCenter
                     Layout.fillWidth: true
                 }
