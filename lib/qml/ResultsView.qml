@@ -86,14 +86,21 @@ ListView {
     // code, but the ListView doesn't seem forward keyboard events to the delgate when
     // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
     // doesn't make any difference!
-    Keys.onReturnPressed: runCurrentIndex();
-    Keys.onEnterPressed: runCurrentIndex();
+    Keys.onReturnPressed: runCurrentIndex(event);
+    Keys.onEnterPressed: runCurrentIndex(event);
 
-    function runCurrentIndex() {
+    function runCurrentIndex(event) {
         if (!currentItem) {
             runAutomatically = true
             return;
         } else {
+            // If user presses Shift+Return to invoke an action, invoke the first runner action
+            if (event && event.modifiers === Qt.ShiftModifier
+                    && currentItem.additionalActions && currentItem.additionalActions.length > 0) {
+                runAction(0)
+                return
+            }
+
             if (currentItem.activeAction > -1) {
                 runAction(currentItem.activeAction)
                 return

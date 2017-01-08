@@ -218,7 +218,13 @@ MouseArea {
                         height: listItem.height
                         visible: modelData.visible || true
                         enabled: modelData.enabled || true
-                        tooltip: modelData.text || ""
+                        tooltip: {
+                            var text = modelData.text || ""
+                            if (index === 0) { // Shift+Return will invoke first action
+                                text = i18nc("placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
+                            }
+                            return text
+                        }
                         checkable: checked
                         checked: resultDelegate.activeAction === index
 
