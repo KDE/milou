@@ -54,6 +54,13 @@ ListView {
     // be run when the model is populated
     property bool runAutomatically
 
+    // This is used to disable mouse selection if the user interacts only with keyboard
+    property bool moved: false
+    property point savedMousePosition: Milou.MouseHelper.globalMousePosition()
+    function mouseMovedGlobally() {
+        return savedMousePosition != Milou.MouseHelper.globalMousePosition();
+    }
+
     Milou.DragHelper {
         id: dragHelper
         dragIconSize: units.iconSizes.medium
@@ -67,6 +74,8 @@ ListView {
         // and the results are presented
         onModelReset: {
             listView.currentIndex = 0
+            listView.moved = false
+            listView.savedMousePosition = Milou.MouseHelper.globalMousePosition()
 
             if (runAutomatically) {
                 runCurrentIndex();

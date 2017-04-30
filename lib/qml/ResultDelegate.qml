@@ -81,10 +81,6 @@ MouseArea {
 
     acceptedButtons: Qt.LeftButton
     hoverEnabled: true
-    onEntered: {
-        listView.currentIndex = index
-    }
-
     onPressed: {
         __pressed = true;
         __pressX = mouse.x;
@@ -112,6 +108,11 @@ MouseArea {
                 __pressY = -1;
             }
         }
+
+        if (!listView.moved && listView.mouseMovedGlobally()) {
+            listView.moved = true
+            listView.currentIndex = index
+        }
     }
 
     onContainsMouseChanged: {
@@ -119,6 +120,13 @@ MouseArea {
             __pressed = false;
             __pressX = -1;
             __pressY = -1;
+        } else {
+            if (listView.moved) {
+                listView.currentIndex = index
+            } else if (listView.mouseMovedGlobally()) {
+                listView.moved = true
+                listView.currentIndex = index
+            }
         }
     }
 
