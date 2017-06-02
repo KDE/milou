@@ -57,9 +57,9 @@ public:
         PreviewLabelRole
     };
 
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual bool hasChildren(const QModelIndex&) const {
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    bool hasChildren(const QModelIndex&) const Q_DECL_OVERRIDE {
         return false;
     }
 
@@ -72,7 +72,7 @@ public:
     QString queryString() const;
     int queryLimit() const;
 
-    virtual QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
 signals:
     /**

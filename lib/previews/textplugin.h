@@ -31,10 +31,10 @@ class TextPlugin : public Milou::PreviewPlugin
 public:
     explicit TextPlugin(QObject* parent, const QVariantList&);
 
-    virtual QStringList mimetypes() {
+    QStringList mimetypes() Q_DECL_OVERRIDE {
         return QStringList() << QLatin1String("text/");
     }
-    virtual void generatePreview();
+    void generatePreview() Q_DECL_OVERRIDE;
 };
 
 #endif // TEXTVIEW_H
