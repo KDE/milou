@@ -139,6 +139,7 @@ MouseArea {
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
+        textFormat: Text.PlainText
 
         width: Globals.CategoryWidth - Globals.CategoryRightMargin
         anchors {
@@ -192,6 +193,7 @@ MouseArea {
                     wrapMode: Text.NoWrap
                     maximumLineCount: 1
                     verticalAlignment: Text.AlignVCenter
+                    textFormat: Text.PlainText
 
                     Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width
                 }
@@ -209,6 +211,8 @@ MouseArea {
                     wrapMode: Text.NoWrap
                     maximumLineCount: 1
                     verticalAlignment: Text.AlignVCenter
+                    textFormat: Text.PlainText
+
                     Layout.fillWidth: true
                 }
             }
