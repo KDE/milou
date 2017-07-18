@@ -26,8 +26,6 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.milou 0.2 as Milou
 
-import "globals.js" as Globals
-
 ListView {
     id: listView
     property alias queryString: resultModel.queryString
