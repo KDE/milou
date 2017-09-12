@@ -41,6 +41,8 @@ ListView {
     keyNavigationWraps: true
     highlight: PlasmaComponents.Highlight {}
     highlightMoveDuration: 0
+    activeFocusOnTab: true
+    Accessible.role: Accessible.List
 
     section {
         criteria: ViewSection.FullString
@@ -126,11 +128,25 @@ ListView {
         }
     }
 
+    onActiveFocusChanged: {
+        if (!activeFocus && currentIndex == listView.count-1) {
+            currentIndex = 0;
+        }
+    }
+
     Keys.onTabPressed: {
         if (!currentItem || !currentItem.activateNextAction()) {
             if (reversed) {
+                if (currentIndex == 0) {
+                    listView.nextItemInFocusChain(false).forceActiveFocus();
+                    return;
+                }
                 decrementCurrentIndex()
             } else {
+                if (currentIndex == listView.count-1) {
+                    listView.nextItemInFocusChain(true).forceActiveFocus();
+                    return;
+                }
                 incrementCurrentIndex()
             }
         }
@@ -138,8 +154,16 @@ ListView {
     Keys.onBacktabPressed: {
         if (!currentItem || !currentItem.activatePreviousAction()) {
             if (reversed) {
+                if (currentIndex == listView.count-1) {
+                    listView.nextItemInFocusChain(true).forceActiveFocus();
+                    return;
+                }
                 incrementCurrentIndex()
             } else {
+                if (currentIndex == 0) {
+                    listView.nextItemInFocusChain(false).forceActiveFocus();
+                    return;
+                }
                 decrementCurrentIndex()
             }
 

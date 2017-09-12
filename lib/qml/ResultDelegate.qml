@@ -45,6 +45,9 @@ MouseArea {
     property string typeText: sectionHasChanged ? ListView.section : ""
     property var additionalActions: typeof actions !== "undefined" ? actions : []
 
+    Accessible.role: Accessible.ListItem
+    Accessible.name: displayLabel.text
+    Accessible.description: subtextLabel.text.length > 0 ? i18nd("milou", "%1, in category %2", subtextLabel.text, ListView.section) : i18nd("milou", "in category %1", ListView.section)
     property bool __pressed: false
     property int __pressX: -1
     property int __pressY: -1
@@ -234,12 +237,15 @@ MouseArea {
                         tooltip: {
                             var text = modelData.text || ""
                             if (index === 0) { // Shift+Return will invoke first action
-                                text = i18nc("placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
+                                text = i18ncd("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
                             }
                             return text
                         }
+                        Accessible.role: Accessible.Button
+                        Accessible.name: modelData.text
                         checkable: checked
                         checked: resultDelegate.activeAction === index
+                        focus: resultDelegate.activeAction === index
 
                         PlasmaCore.IconItem {
                             anchors.centerIn: parent
