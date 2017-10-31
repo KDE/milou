@@ -237,7 +237,7 @@ MouseArea {
                         tooltip: {
                             var text = modelData.text || ""
                             if (index === 0) { // Shift+Return will invoke first action
-                                text = i18ncd("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
+                                text = i18ndc("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
                             }
                             return text
                         }
