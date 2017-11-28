@@ -27,8 +27,6 @@ import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-import "globals.js" as Globals
-
 MouseArea {
     id: resultDelegate
 
@@ -44,10 +42,12 @@ MouseArea {
 
     property string typeText: sectionHasChanged ? ListView.section : ""
     property var additionalActions: typeof actions !== "undefined" ? actions : []
+    property int categoryWidth: units.gridUnit * 10
 
     Accessible.role: Accessible.ListItem
     Accessible.name: displayLabel.text
     Accessible.description: subtextLabel.text.length > 0 ? i18nd("milou", "%1, in category %2", subtextLabel.text, ListView.section) : i18nd("milou", "in category %1", ListView.section)
+
     property bool __pressed: false
     property int __pressX: -1
     property int __pressY: -1
@@ -143,7 +143,7 @@ MouseArea {
         elide: Text.ElideRight
         textFormat: Text.PlainText
 
-        width: Globals.CategoryWidth - Globals.CategoryRightMargin
+        width: resultDelegate.categoryWidth - units.largeSpacing
         anchors {
             left: parent.left
             verticalCenter: listItem.verticalCenter
@@ -164,7 +164,7 @@ MouseArea {
             anchors {
                 left: parent.left
                 right: parent.right
-                leftMargin: Globals.CategoryWidth
+                leftMargin: resultDelegate.categoryWidth
             }
             height: Math.max(typePixmap.height, displayLabel.height, subtextLabel.height)
 
@@ -177,8 +177,8 @@ MouseArea {
 
                 PlasmaCore.IconItem {
                     id: typePixmap
-                    Layout.preferredWidth: Globals.IconSize
-                    Layout.preferredHeight: Globals.IconSize
+                    Layout.preferredWidth: units.iconSizes.small
+                    Layout.preferredHeight: units.iconSizes.small
                     Layout.fillHeight: true
                     source: model.decoration
                     usesPlasmaTheme: false
@@ -249,8 +249,8 @@ MouseArea {
 
                         PlasmaCore.IconItem {
                             anchors.centerIn: parent
-                            width: Globals.IconSize
-                            height: Globals.IconSize
+                            width: units.iconSizes.small
+                            height: units.iconSizes.small
                             // ToolButton cannot cope with QIcon
                             source: modelData.icon || ""
                             active: parent.hovered || parent.checked
