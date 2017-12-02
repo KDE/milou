@@ -205,7 +205,9 @@ MouseArea {
                     text: model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
 
                     color: theme.textColor
-                    opacity: 0.3
+                    // HACK If displayLabel is too long it will shift this label outside boundaries
+                    // but still render the text leading to it overlapping the action buttons looking horrible
+                    opacity: width > 0 ? 0.3 : 0
 
                     height: undefined
 
