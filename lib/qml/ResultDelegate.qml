@@ -46,7 +46,18 @@ MouseArea {
 
     Accessible.role: Accessible.ListItem
     Accessible.name: displayLabel.text
-    Accessible.description: subtextLabel.text.length > 0 ? i18nd("milou", "%1, in category %2", subtextLabel.text, ListView.section) : i18nd("milou", "in category %1", ListView.section)
+    Accessible.description: {
+        var section = ListView.section;
+        if (!section) {
+            return "";
+        }
+        var subtext = subtextLabel.text;
+        if (subtext.length > 0) {
+            return i18nd("milou", "%1, in category %2", subtext, section);
+        } else {
+            return i18nd("milou", "in category %1", section);
+        }
+    }
 
     property bool __pressed: false
     property int __pressX: -1
