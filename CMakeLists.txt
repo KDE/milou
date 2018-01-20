@@ -9,7 +9,7 @@ set(KF5_MIN_VERSION "5.24.0")
 find_package(ECM 1.2.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Script Qml Quick Widgets Test)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Qml Quick Widgets Test)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n Declarative Service Plasma Runner)
 
 include(FeatureSummary)
