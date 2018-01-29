@@ -14,10 +14,10 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Script Qml Quic
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n Declarative Service Plasma Runner)
 
 include(FeatureSummary)
-include(ECMAddTests)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
+include(ECMAddTests)
 include(GenerateExportHeader)
 
 # find_package(KdepimLibs)
