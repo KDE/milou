@@ -29,7 +29,7 @@ using namespace Milou;
 
 PreviewPlugin::PreviewPlugin(QObject* parent)
     : QObject(parent)
-    , m_context(0)
+    , m_context(nullptr)
 {
 }
 

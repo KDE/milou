@@ -36,8 +36,8 @@ using namespace Milou;
 Preview::Preview(QQuickItem* parent)
     : QQuickItem(parent)
     , m_loaded(false)
-    , m_declarativeItem(0)
-    , m_filePlugin(0)
+    , m_declarativeItem(nullptr)
+    , m_filePlugin(nullptr)
 {
     //setFlag(QGraphicsItem::ItemHasNoContents, false);
 
@@ -118,7 +118,7 @@ void Preview::clear()
 {
     if (m_declarativeItem) {
         m_declarativeItem->deleteLater();
-        m_declarativeItem = 0;
+        m_declarativeItem = nullptr;
     }
 }
 

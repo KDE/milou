@@ -84,7 +84,7 @@ Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
         }
     }
 
-    return Plasma::QueryMatch(0);
+    return Plasma::QueryMatch(nullptr);
 }
 
 QVariant SourcesModel::data(const QModelIndex& index, int role) const
@@ -371,7 +371,7 @@ bool SourcesModel::run(int index)
         if (!info.isEmpty()) {
             // FIXME: pretty lame way to decide if this is a query prototype
             // Copied from kde4 krunner interface.cpp
-            if (match.runner() == 0) {
+            if (match.runner() == nullptr) {
                 // lame way of checking to see if this is a Help Button generated match!
                 int index = info.indexOf(QStringLiteral(":q:"));
 

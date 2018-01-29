@@ -44,7 +44,7 @@ class MILOU_EXPORT SourcesModel : public QAbstractListModel
     Q_PROPERTY(QIcon runnerIcon READ runnerIcon NOTIFY runnerChanged)
 
 public:
-    explicit SourcesModel(QObject* parent = 0);
+    explicit SourcesModel(QObject* parent = nullptr);
     ~SourcesModel() override;
 
     enum Roles {
