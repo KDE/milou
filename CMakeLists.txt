@@ -1,7 +1,8 @@
+cmake_minimum_required(VERSION 2.8.12)
+
 project(Milou)
 set(PROJECT_VERSION "5.11.95")
 set(PROJECT_VERSION_MAJOR 5)
-cmake_minimum_required(VERSION 2.8.12)
 
 set(QT_MIN_VERSION "5.6.0")
 set(KF5_MIN_VERSION "5.24.0")
