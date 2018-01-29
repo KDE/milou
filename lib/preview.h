@@ -39,7 +39,7 @@ class MILOU_EXPORT Preview : public QQuickItem
     Q_PROPERTY(bool loaded READ loaded)
 
 public:
-    Preview(QQuickItem* parent = nullptr);
+    explicit Preview(QQuickItem* parent = nullptr);
     ~Preview() override;
 
     QString mimetype() const;
