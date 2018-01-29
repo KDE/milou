@@ -28,11 +28,11 @@ target_link_libraries (milou
 
 install(
   FILES miloupreviewplugin.desktop
-  DESTINATION ${SERVICETYPES_INSTALL_DIR})
+  DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
 
 generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)
 
-install(TARGETS milou EXPORT MilouLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+install(TARGETS milou EXPORT MilouLibraryTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 add_subdirectory(qml)
 add_subdirectory(previews)

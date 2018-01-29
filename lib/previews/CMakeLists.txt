@@ -9,11 +9,11 @@ target_link_libraries(miloutextplugin
 
 install(
 FILES miloutextpreview.desktop
-DESTINATION ${SERVICES_INSTALL_DIR})
+DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 
 install(
 TARGETS miloutextplugin
-DESTINATION ${PLUGIN_INSTALL_DIR})
+DESTINATION ${KDE_INSTALL_PLUGINDIR})
 
 #
 # Images
@@ -28,11 +28,11 @@ DESTINATION ${PLUGIN_INSTALL_DIR})
 #
 #install(
 #FILES milouimagepreview.desktop
-#DESTINATION ${SERVICES_INSTALL_DIR})
+#DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 #
 #install(
 #TARGETS milouimageplugin
-#DESTINATION ${PLUGIN_INSTALL_DIR})
+#DESTINATION ${KDE_INSTALL_PLUGINDIR})
 
 #
 # Emails
@@ -51,11 +51,11 @@ if(KdepimLibs_FOUND)
 #
 #     install(
 #     FILES milouemailpreview.desktop
-#     DESTINATION ${SERVICES_INSTALL_DIR})
+#     DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 #
 #     install(
 #     TARGETS milouemailplugin
-#     DESTINATION ${PLUGIN_INSTALL_DIR})
+#     DESTINATION ${KDE_INSTALL_PLUGINDIR})
 endif()
 
 #
@@ -73,11 +73,11 @@ endif()
 #
 #install(
 #FILES milouokularpreview.desktop
-#DESTINATION ${SERVICES_INSTALL_DIR})
+#DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 #
 #install(
 #TARGETS milouokularplugin
-#DESTINATION ${PLUGIN_INSTALL_DIR})
+#DESTINATION ${KDE_INSTALL_PLUGINDIR})
 
 #
 # Audio
@@ -93,11 +93,11 @@ endif()
 #
 # install(
 # FILES milouaudiopreview.desktop
-# DESTINATION ${SERVICES_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 #
 # install(
 # TARGETS milouaudioplugin
-# DESTINATION ${PLUGIN_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_PLUGINDIR})
 #
 # #
 # # General Files
@@ -113,11 +113,11 @@ endif()
 #
 # install(
 # FILES miloufilepreview.desktop
-# DESTINATION ${SERVICES_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 #
 # install(
 # TARGETS miloufileplugin
-# DESTINATION ${PLUGIN_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_PLUGINDIR})
 #
 # #
 # # Applications
@@ -132,11 +132,11 @@ endif()
 #
 # install(
 # FILES milouapplicationpreview.desktop
-# DESTINATION ${SERVICES_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 #
 # install(
 # TARGETS milouapplicationplugin
-# DESTINATION ${PLUGIN_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_PLUGINDIR})
 #
 # #
 # # Bookmarks
@@ -151,8 +151,8 @@ endif()
 #
 # install(
 # FILES miloubookmarkpreview.desktop
-# DESTINATION ${SERVICES_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 #
 # install(
 # TARGETS miloubookmarkplugin
-# DESTINATION ${PLUGIN_INSTALL_DIR})
+# DESTINATION ${KDE_INSTALL_PLUGINDIR})
