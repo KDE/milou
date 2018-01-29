@@ -46,12 +46,12 @@ class MILOU_EXPORT DragHelper : public QObject
         Q_INVOKABLE void startDrag(QQuickItem* item, QMimeData *mimeData, const QIcon &icon = QIcon());
 
     Q_SIGNALS:
-        void dragIconSizeChanged() const;
-        void dropped() const;
+        void dragIconSizeChanged();
+        void dropped();
 
     private:
         int m_dragIconSize;
-        Q_INVOKABLE void doDrag(QQuickItem* item, QMimeData *mimeData, const QIcon &icon = QIcon()) const;
+        Q_INVOKABLE void doDrag(QQuickItem* item, QMimeData *mimeData, const QIcon &icon = QIcon());
 };
 
 }
