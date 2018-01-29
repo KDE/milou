@@ -37,7 +37,7 @@ class MILOU_EXPORT DragHelper : public QObject
 
     public:
         DragHelper(QObject *parent = 0);
-        ~DragHelper();
+        ~DragHelper() override;
 
         int dragIconSize() const;
         void setDragIconSize(int size);

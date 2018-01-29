@@ -36,7 +36,7 @@ class MILOU_EXPORT PreviewPlugin : public QObject
     Q_OBJECT
 public:
     explicit PreviewPlugin(QObject* parent);
-    virtual ~PreviewPlugin();
+    ~PreviewPlugin() override;
 
     /**
      * Return a list of mimetype which this plugin supports. These mimetypes

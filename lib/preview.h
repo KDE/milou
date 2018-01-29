@@ -40,7 +40,7 @@ class MILOU_EXPORT Preview : public QQuickItem
 
 public:
     Preview(QQuickItem* parent = 0);
-    virtual ~Preview();
+    ~Preview() override;
 
     QString mimetype() const;
     void setMimetype(const QString& mime);

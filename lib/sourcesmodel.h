@@ -45,7 +45,7 @@ class MILOU_EXPORT SourcesModel : public QAbstractListModel
 
 public:
     explicit SourcesModel(QObject* parent = 0);
-    virtual ~SourcesModel();
+    ~SourcesModel() override;
 
     enum Roles {
         TypeRole = Qt::UserRole + 1,
@@ -57,9 +57,9 @@ public:
         PreviewLabelRole
     };
 
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    int rowCount(const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    bool hasChildren(const QModelIndex&) const Q_DECL_OVERRIDE {
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    bool hasChildren(const QModelIndex&) const override {
         return false;
     }
 
@@ -72,7 +72,7 @@ public:
     QString queryString() const;
     int queryLimit() const;
 
-    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+    QHash<int, QByteArray> roleNames() const override;
 
 signals:
     /**

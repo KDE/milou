@@ -35,7 +35,7 @@ class MILOU_EXPORT MouseHelper : public QObject
 
 public:
     explicit MouseHelper(QObject* parent = nullptr);
-    ~MouseHelper();
+    ~MouseHelper() override;
 
     Q_INVOKABLE QPointF globalMousePosition() const;
 };
