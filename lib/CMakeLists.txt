@@ -1,5 +1,11 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"milou\")
 
+if(NOT CMAKE_VERSION VERSION_LESS "3.10.0")
+    # CMake 3.9+ warns about automoc on files without Q_OBJECT, and doesn't know about other macros.
+    # 3.10+ lets us provide more macro names that require automoc.
+    list(APPEND CMAKE_AUTOMOC_MACRO_NAMES "MILOU_EXPORT_PREVIEW")
+endif()
+
 set (lib_SRCS
     preview.cpp
     previewplugin.cpp
