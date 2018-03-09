@@ -49,7 +49,7 @@ Item {
         id: wrapper
 
         //
-        // The +20 is so that the minimumHeight is always atleast 20+. If the height
+        // The +20 is so that the minimumHeight is always at least 20+. If the height
         // is too small then Plasma will ignore the fact that it is a PopupApplet
         // and put the SearchField directly in the panel.
         //

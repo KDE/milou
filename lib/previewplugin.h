@@ -86,7 +86,7 @@ signals:
 
 protected:
     /**
-     * Highlights all the occurance of highlight in the document
+     * Highlights all the occurrences of highlight in the document
      */
     void highlight(const QTextDocument* doc) const;
 
