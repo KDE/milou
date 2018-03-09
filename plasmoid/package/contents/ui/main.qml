@@ -28,7 +28,7 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.milou 0.1 as Milou
 
-import "../code/globals.js" as Globals
+import "globals.js" as Globals
 
 Item {
     id: mainWidget

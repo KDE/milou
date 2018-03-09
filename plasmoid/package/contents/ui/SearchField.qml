@@ -23,7 +23,7 @@
 import QtQuick 2.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
-import "../code/globals.js" as Globals
+import "globals.js" as Globals
 
 /*
  * The SearchField is a simple "   Search |___input___|" widget.

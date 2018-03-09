@@ -26,7 +26,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.qtextracomponents 2.0 as QtExtra
 
-import "../../code/globals.js" as Globals
+import "../globals.js" as Globals
 
 Item {
     property string title
