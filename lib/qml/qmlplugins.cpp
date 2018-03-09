@@ -27,7 +27,7 @@
 #include "draghelper.h"
 #include "mousehelper.h"
 
-#include <QtQml/qqml.h>
+#include <QQmlEngine>
 
 void QmlPlugins::initializeEngine(QQmlEngine *, const char *)
 {
