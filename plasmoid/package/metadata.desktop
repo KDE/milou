@@ -2,7 +2,7 @@
 Name=Search
 Name[bs]=Pretrazivanje
 Name[ca]=Cerca
-Name[ca@valencia]=Busca
+Name[ca@valencia]=Cerca
 Name[cs]=Hledat
 Name[da]=Søg
 Name[de]=Suche
@@ -44,7 +44,7 @@ Name[zh_TW]=搜尋
 Comment=Search and Launch
 Comment[bs]=Traženje i pokretanje
 Comment[ca]=Cerca i llança
-Comment[ca@valencia]=Busca i llança
+Comment[ca@valencia]=Cerca i llança
 Comment[cs]=Hledat a spustit
 Comment[da]=Søg og start
 Comment[de]=Suchen und ausführen
