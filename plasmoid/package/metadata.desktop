@@ -84,15 +84,15 @@ Comment[uk]=Пошук і запуск
 Comment[x-test]=xxSearch and Launchxx
 Comment[zh_CN]=搜索和启动
 Comment[zh_TW]=搜尋並啟動
-Type=Service
-ServiceTypes=Plasma/Applet
 Icon=nepomuk
+
+Type=Service
+X-KDE-ServiceTypes=Plasma/Applet
 
 X-Plasma-API=declarativeappletscript
 
 X-Plasma-MainScript=ui/main.qml
 X-Plasma-DropUrlPatterns=run:/
-X-KDE-ServiceTypes=Plasma/Applet
 
 X-KDE-PluginInfo-Name=org.kde.milou
 X-KDE-PluginInfo-Category=Utilities
