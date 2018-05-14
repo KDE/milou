@@ -103,6 +103,7 @@ private slots:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
     void slotMatchAdded(const Plasma::QueryMatch& match);
     void slotResetTimeout();
+    void slotSettingsFileChanged(const QString &path);
 
 public:
     // A list of all the types that are being shown
