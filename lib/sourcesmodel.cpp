@@ -42,8 +42,8 @@ SourcesModel::SourcesModel(QObject* parent)
             this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
 
     KDirWatch* watch = KDirWatch::self();
-    connect(watch, SIGNAL(created(QString)), this, SLOT(reloadConfiguration()));
-    connect(watch, SIGNAL(dirty(QString)), this, SLOT(reloadConfiguration()));
+    connect(watch, &KDirWatch::created, this, &SourcesModel::slotSettingsFileChanged);
+    connect(watch, &KDirWatch::dirty, this, &SourcesModel::slotSettingsFileChanged);
     watch->addFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, "krunnerrc"));
 
     m_resetTimer.setSingleShot(true);
@@ -345,6 +345,15 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
     m_matches[matchType].shown.append(m);
     m_size++;
     m_duplicates[m.text()]++;
+}
+
+void SourcesModel::slotSettingsFileChanged(const QString &path)
+{
+    if (!path.endsWith(QLatin1String("krunnerrc"))) {
+        return;
+    }
+
+    reloadConfiguration();
 }
 
 void SourcesModel::clear()
