@@ -26,7 +26,7 @@
 #include <QQmlEngine>
 #include <QQmlComponent>
 #include <QQmlContext>
-
+#include <QTextStream>
 #include <QStandardPaths>
 
 TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
