@@ -64,6 +64,11 @@ void DragHelper::startDrag(QQuickItem *item, QMimeData *mimeData, const QIcon &i
         Q_ARG(QQuickItem*, item), Q_ARG(QMimeData*, mimeData), Q_ARG(QIcon, icon));
 }
 
+void DragHelper::startDrag(QQuickItem *item, QMimeData *mimeData, const QString &iconName)
+{
+    startDrag(item, mimeData, QIcon::fromTheme(iconName));
+}
+
 void DragHelper::doDrag(QQuickItem *item, QMimeData *mimeData, const QIcon &icon) const
 {
     QDrag *drag = new QDrag(item);
