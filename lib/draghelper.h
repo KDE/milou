@@ -43,7 +43,9 @@ class MILOU_EXPORT DragHelper : public QObject
         void setDragIconSize(int size);
 
         Q_INVOKABLE bool isDrag(int oldX, int oldY, int newX, int newY) const;
+        // TODO KF6 merge the two
         Q_INVOKABLE void startDrag(QQuickItem* item, QMimeData *mimeData, const QIcon &icon = QIcon());
+        Q_INVOKABLE void startDrag(QQuickItem* item, QMimeData *mimeData, const QString &iconName);
 
     Q_SIGNALS:
         void dragIconSizeChanged();
