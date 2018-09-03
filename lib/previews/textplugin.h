@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef TEXTVIEW_H
-#define TEXTVIEW_H
+#ifndef TEXTPLUGIN_H
+#define TEXTPLUGIN_H
 
 #include "previewplugin.h"
 
@@ -37,4 +37,4 @@ public:
     void generatePreview() override;
 };
 
-#endif // TEXTVIEW_H
+#endif // TEXTPLUGIN_H

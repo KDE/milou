@@ -29,7 +29,6 @@
 #include <QDeclarativeComponent>
 
 #include <KService>
-#include <KGlobal>
 
 ApplicationPlugin::ApplicationPlugin(QObject* parent, const QVariantList&): PreviewPlugin(parent)
 {

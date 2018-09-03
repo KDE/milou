@@ -30,7 +30,6 @@
 #include <QFileInfo>
 
 #include <KLocale>
-#include <KGlobal>
 #include <KMimeType>
 
 FilePlugin::FilePlugin(QObject* parent, const QVariantList&): PreviewPlugin(parent)
