@@ -37,7 +37,7 @@ public:
         return QStringList() << QString("message/rfc822");
     }
 
-private slots:
+private Q_SLOTS:
     void slotItemsReceived(const Akonadi::Item::List& itemList);
 private:
     void insertEmailBody(QTextCursor& cursor, const QString& body);

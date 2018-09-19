@@ -46,7 +46,7 @@ Preview::Preview(QQuickItem* parent)
         connect(plugin, SIGNAL(previewGenerated(QQuickItem*)),
                 this, SLOT(slotPreviewGenerated(QQuickItem*)));
 
-        if (plugin->mimetypes().contains("file"))
+        if (plugin->mimetypes().contains(QStringLiteral("file")))
             m_filePlugin = plugin;
     }
 
@@ -160,7 +160,7 @@ QString Preview::highlight() const
 
 QList<PreviewPlugin*> Preview::allPlugins()
 {
-    KService::List serviceList = KServiceTypeTrader::self()->query("MilouPreviewPlugin");
+    KService::List serviceList = KServiceTypeTrader::self()->query(QStringLiteral("MilouPreviewPlugin"));
     QList<PreviewPlugin*> plugins;
 
     KService::List::const_iterator it;

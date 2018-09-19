@@ -34,7 +34,7 @@ using namespace Milou;
 
 class TestObject : public QWidget {
     Q_OBJECT
-public slots:
+public Q_SLOTS:
     void main();
 
 public:

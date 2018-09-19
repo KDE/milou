@@ -44,7 +44,7 @@ SourcesModel::SourcesModel(QObject* parent)
     KDirWatch* watch = KDirWatch::self();
     connect(watch, &KDirWatch::created, this, &SourcesModel::slotSettingsFileChanged);
     connect(watch, &KDirWatch::dirty, this, &SourcesModel::slotSettingsFileChanged);
-    watch->addFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, "krunnerrc"));
+    watch->addFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("krunnerrc")));
 
     m_resetTimer.setSingleShot(true);
     m_resetTimer.setInterval(500);
@@ -417,7 +417,7 @@ bool SourcesModel::runAction(int index, int actionIndex)
 
 void SourcesModel::reloadConfiguration()
 {
-    KSharedConfig::openConfig("krunnerrc")->reparseConfiguration();
+    KSharedConfig::openConfig(QStringLiteral("krunnerrc"))->reparseConfiguration();
     m_manager->reloadConfiguration();
 }
 

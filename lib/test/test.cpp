@@ -31,7 +31,7 @@ using namespace Milou;
 
 class TestObject : public QObject {
     Q_OBJECT
-public slots:
+public Q_SLOTS:
     void fire() {
         i++;
         if (i > queryString.size()) {
@@ -75,7 +75,7 @@ int main(int argc, char** argv)
     Q_UNUSED(mt);
     model->setQueryLimit(20);
 
-    TestObject obj("Summer");
+    TestObject obj(QStringLiteral("Summer"));
     obj.model = model;
     obj.timer.start();
 

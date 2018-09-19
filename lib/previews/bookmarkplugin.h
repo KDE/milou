@@ -36,7 +36,7 @@ public:
         return QStringList() << QLatin1String("html");
     }
 
-private slots:
+private Q_SLOTS:
 };
 
 #endif // BOOKMARKPLUGIN_H

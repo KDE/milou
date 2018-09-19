@@ -81,7 +81,7 @@ QQmlContext* PreviewPlugin::context()
 void PreviewPlugin::highlight(const QTextDocument* doc) const
 {
     QTextCursor cursor;
-    Q_FOREACH (const QString& text, highlight().split(' ', QString::SkipEmptyParts)) {
+    Q_FOREACH (const QString& text, highlight().split(QLatin1Char(' '), QString::SkipEmptyParts)) {
         while (1) {
             cursor = doc->find(text, cursor);
             if (cursor.isNull())

@@ -40,13 +40,13 @@ public:
 
     Q_INVOKABLE QPoint tooltipPosition(QGraphicsObject* item, int tipWidth, int tipHeight);
 
-public slots:
+public Q_SLOTS:
     bool isTopEdge() const;
     bool isBottomEdge() const;
 
     bool isShown() const;
 
-signals:
+Q_SIGNALS:
     void popupEventSignal(bool shown);
     void settingsChanged();
 

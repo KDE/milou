@@ -74,7 +74,7 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
-signals:
+Q_SIGNALS:
     /**
      * This signal is emitted when a an InformationalMatch is run, and it is advised
      * to update the search term.
@@ -84,7 +84,7 @@ signals:
 
     void runnerChanged();
 
-public slots:
+public Q_SLOTS:
     void reloadConfiguration();
     void setQueryString(const QString& str);
     void setQueryLimit(int limit);
@@ -99,7 +99,7 @@ public slots:
 
     Q_INVOKABLE QMimeData *getMimeData(int index) const;
 
-private slots:
+private Q_SLOTS:
     void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
     void slotMatchAdded(const Plasma::QueryMatch& match);
     void slotResetTimeout();

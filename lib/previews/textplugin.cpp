@@ -41,7 +41,7 @@ void TextPlugin::generatePreview()
         return;
     }
 
-    QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "plasma/plasmoids/org.kde.milou/contents/ui/previews/TextPreview.qml");
+    QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("plasma/plasmoids/org.kde.milou/contents/ui/previews/TextPreview.qml"));
     QQmlComponent component(context()->engine(), path);
 
     QQuickItem *item = qobject_cast<QQuickItem *>(component.create());

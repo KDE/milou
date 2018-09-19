@@ -39,7 +39,7 @@ public:
                              << QLatin1String("inode/directory");
     }
 
-private slots:
+private Q_SLOTS:
     void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
     void slotJobFinished(KJob* job);
 };

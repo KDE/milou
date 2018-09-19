@@ -32,10 +32,10 @@ public:
     explicit ConfigWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
     virtual ~ConfigWidget();
 
-public slots:
+public Q_SLOTS:
     void saveSettings();
 
-signals:
+Q_SIGNALS:
     void changed();
 
 private:

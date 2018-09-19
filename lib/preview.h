@@ -53,14 +53,14 @@ public:
 
     bool loaded() const { return m_loaded; }
 
-signals:
+Q_SIGNALS:
     void loadingFinished();
 
-public slots:
+public Q_SLOTS:
     void refresh();
     void clear();
 
-private slots:
+private Q_SLOTS:
     void slotPreviewGenerated(QQuickItem* item);
 
     void setPluginContexts();

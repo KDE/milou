@@ -37,7 +37,7 @@ public:
         return QStringList() << QLatin1String("audio/");
     }
 
-private slots:
+private Q_SLOTS:
     void slotFileReceived(const Baloo::File& file);
 };
 

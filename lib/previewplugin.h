@@ -81,7 +81,7 @@ public:
     QString highlight() const;
     void setHighlight(const QString& term);
 
-signals:
+Q_SIGNALS:
     void previewGenerated(QQuickItem* graphicsItem);
 
 protected:
