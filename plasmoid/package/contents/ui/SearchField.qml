@@ -26,9 +26,8 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import "globals.js" as Globals
 
 /*
- * The SearchField is a simple "   Search |___input___|" widget.
- * The only complex part is aligning the "Search" text on the right
- * and an internal timer to reduce the number of textChanged signals
+ * The SearchField is a simple text field widget. The only complex part
+ * is the internal timer to reduce the number of textChanged signals
  * using searchTextChanged.
  */
 Item {
@@ -38,31 +37,14 @@ Item {
     height: childrenRect.height
     width: Globals.PlasmoidWidth
 
-    PlasmaComponents.Label {
-        id: searchText
-        anchors {
-            left: parent.left
-            top: parent.top
-        }
-        // We cannot use anchors.rightMargin as this has an anchor on
-        // left, so the rightMargin has no effect.
-        // Because of this we also need to apply an appropriate leftMargin
-        // on the textField below
-        width: Globals.CategoryWidth - Globals.CategoryRightMargin
-
-        horizontalAlignment: Text.AlignRight
-        text: i18n("Search")
-    }
-
     PlasmaComponents.TextField {
         id: textField
         clearButtonShown: true
+        placeholderText: i18n("Search...")
         anchors {
-            left: searchText.right
+            left: parent.left
             right: parent.right
             top: parent.top
-
-            leftMargin: Globals.CategoryRightMargin
         }
 
         focus: true

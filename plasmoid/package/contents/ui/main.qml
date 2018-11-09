@@ -43,25 +43,14 @@ Item {
         return plasmoid.location == PlasmaCore.Types.BottomEdge;
     }
 
-    // The wrapper just exists for giving an appropriate top/bottom margin
-    // when it is placed on the top/bottom edge of the screen
     Item {
         id: wrapper
 
-        //
-        // The +20 is so that the minimumHeight is always at least 20+. If the height
-        // is too small then Plasma will ignore the fact that it is a PopupApplet
-        // and put the SearchField directly in the panel.
-        //
         property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5
-                                                   : searchField.height + 20
+                                                   : searchField.height
         property int maximumHeight: minimumHeight
+        anchors.fill: parent
 
-        anchors {
-            fill: parent
-            topMargin: isBottomEdge() ? 0 : 7
-            bottomMargin: isBottomEdge() ? 7 : 0
-        }
 
         SearchField {
             id: searchField
@@ -69,6 +58,7 @@ Item {
             anchors {
                 left: parent.left
                 right: parent.right
+                verticalCenter: parent.height / 2
             }
             onSearchTextChanged: {
                 listView.setQueryString(text)
@@ -83,12 +73,6 @@ Item {
             anchors {
                 left: parent.left
                 right: parent.right
-
-                // vHanda: Random number - Is there some way to use consisten margins?
-                //         PlasmaCore.FrameSvg does have margins, but one needs to construct
-                //          a PlasmaCore.FrameSvg for that
-                topMargin: isBottomEdge() ? 0 : 5
-                bottomMargin: isBottomEdge() ? 5 : 0
             }
 
             reversed: isBottomEdge()
@@ -129,9 +113,6 @@ Item {
     function setTextFieldFocus(shown) {
         searchField.setFocus();
         searchField.selectAll();
-
-        //if (!shown)
-        //    listView.clearPreview();
     }
 
     function loadSettings() {
