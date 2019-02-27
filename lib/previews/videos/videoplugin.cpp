@@ -36,7 +36,7 @@ void VideoPlugin::generatePreview()
 {
     QWidget* widget = new QWidget();
     QVBoxLayout* layout = new QVBoxLayout(widget);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
     Phonon::VideoPlayer* player = new Phonon::VideoPlayer(widget);
