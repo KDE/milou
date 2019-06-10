@@ -224,14 +224,14 @@ void SourcesModel::setQueryString(const QString& str)
         return;
     }
 
-    m_modelPopulated = false;
-    m_manager->launchQuery(m_queryString, m_runner);
-
     // We avoid clearing the model instantly, and instead wait for the results
     // to show up, and only then do we clear the model. In the event
     // where there are no results, we wait for a predefined time before
     // clearing the model
     m_resetTimer.start();
+
+    m_modelPopulated = false;
+    m_manager->launchQuery(m_queryString, m_runner);
 }
 
 void SourcesModel::slotResetTimeout()
@@ -243,6 +243,12 @@ void SourcesModel::slotResetTimeout()
 
 void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
 {
+    // We do reset handling ourselves, so ignore clears if the reset timer
+    // is supposed to handle them (see setQueryString)
+    if(l.length() == 0 && m_resetTimer.isActive() && !m_modelPopulated) {
+        return;
+    }
+
     beginResetModel();
     m_matches.clear();
     m_size = 0;
