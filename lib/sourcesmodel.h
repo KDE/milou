@@ -88,6 +88,9 @@ public Q_SLOTS:
     void reloadConfiguration();
     void setQueryString(const QString& str);
     void setQueryLimit(int limit);
+    /**
+     * Clears the model content and resets the runner context, i.e. no new items will appear.
+     */
     void clear();
 
     bool run(int index);

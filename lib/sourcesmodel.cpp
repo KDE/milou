@@ -237,7 +237,12 @@ void SourcesModel::setQueryString(const QString& str)
 void SourcesModel::slotResetTimeout()
 {
     if (!m_modelPopulated) {
-        clear();
+        // The old items are still shown, get rid of them
+        beginResetModel();
+        m_matches.clear();
+        m_size = 0;
+        m_duplicates.clear();
+        endResetModel();
     }
 }
 
