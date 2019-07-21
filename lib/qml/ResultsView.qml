@@ -70,19 +70,20 @@ ListView {
         id: resultModel
         queryLimit: 20
 
-        // Internally when the query string changes, the model is reset
-        // and the results are presented
-        onModelReset: {
-            listView.currentIndex = 0
-            listView.moved = false
-            listView.savedMousePosition = Milou.MouseHelper.globalMousePosition()
-
-            if (runAutomatically) {
-                runCurrentIndex();
-            }
-        }
 
         onUpdateSearchTerm: listView.updateQueryString(text, pos)
+    }
+
+    // Internally when the query string changes, the model is reset
+    // and the results are presented
+    onCountChanged: {
+        listView.currentIndex = 0
+        listView.moved = false
+        listView.savedMousePosition = Milou.MouseHelper.globalMousePosition()
+
+        if (runAutomatically) {
+            runCurrentIndex();
+        }
     }
 
     delegate: ResultDelegate {
