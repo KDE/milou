@@ -248,6 +248,8 @@ void RunnerResultsModel::clear()
     m_hasMatches = false;
     m_categories.clear();
     m_matches.clear();
+    m_manager->reset();
+    m_manager->matchSessionComplete();
     endResetModel();
 }
 
