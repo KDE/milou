@@ -72,7 +72,7 @@ ListView {
         id: resultModel
         limit: 20
         onQueryStringChangeRequested:{
-            listView.updateQueryString(query, pos)
+            listView.updateQueryString(queryString, pos)
         }
     }
 
