@@ -24,14 +24,16 @@ import QtQuick 2.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.milou 0.2 as Milou
+import org.kde.milou 0.3 as Milou
 
 ListView {
     id: listView
     property alias queryString: resultModel.queryString
     property alias runner: resultModel.runner
+
     property alias runnerName: resultModel.runnerName
     property alias runnerIcon: resultModel.runnerIcon
+    property alias querying: resultModel.querying
     property bool reversed
     signal activated
     signal updateQueryString(string text, int cursorPosition)
@@ -46,7 +48,7 @@ ListView {
 
     section {
         criteria: ViewSection.FullString
-        property: "type"
+        property: "category"
     }
 
     // This is used to keep track if the user has pressed enter before
@@ -66,12 +68,12 @@ ListView {
         dragIconSize: units.iconSizes.medium
     }
 
-    model: Milou.SourcesModel {
+    model: Milou.ResultsModel {
         id: resultModel
-        queryLimit: 20
-
-
-        onUpdateSearchTerm: listView.updateQueryString(text, pos)
+        limit: 20
+        onQueryStringChangeRequested:{
+            listView.updateQueryString(query, pos)
+        }
     }
 
     // Internally when the query string changes, the model is reset
@@ -116,7 +118,7 @@ ListView {
                 return
             }
 
-            if (resultModel.run(currentIndex)) {
+            if (resultModel.run(resultModel.index(currentIndex, 0))) {
                 activated()
             }
             runAutomatically = false
@@ -124,7 +126,7 @@ ListView {
     }
 
     function runAction(index) {
-        if (resultModel.runAction(currentIndex, index)) {
+        if (resultModel.runAction(resultModel.index(currentIndex, 0), index)) {
             activated()
         }
     }
@@ -185,8 +187,8 @@ ListView {
         resultModel.loadSettings()
     }
 
-    function setQueryString(string) {
-        resultModel.queryString = string
+    function setQueryString(queryString) {
+        resultModel.queryString = queryString
         runAutomatically = false
     }
 }

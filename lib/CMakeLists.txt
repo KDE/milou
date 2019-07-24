@@ -9,6 +9,8 @@ endif()
 set (lib_SRCS
     preview.cpp
     previewplugin.cpp
+    resultsmodel.cpp
+    runnerresultsmodel.cpp
     sourcesmodel.cpp
     draghelper.cpp
     mousehelper.cpp
@@ -21,6 +23,7 @@ target_link_libraries (milou
     Qt5::Qml
     Qt5::Quick
     Qt5::Widgets # for QAction...
+    KF5::ItemModels
     KF5::Service
     KF5::Plasma
     KF5::Runner

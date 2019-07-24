@@ -113,9 +113,10 @@ MouseArea {
 
     onPositionChanged: {
         if (__pressX != -1 && typeof dragHelper !== "undefined" && dragHelper.isDrag(__pressX, __pressY, mouse.x, mouse.y)) {
-            var mimeData = ListView.view.model.getMimeData(index);
+            var resultsModel = ListView.view.model;
+            var mimeData = resultsModel.getMimeData(resultsModel.index(index, 0));
             if (mimeData) {
-                dragHelper.startDrag(root, mimeData, model.decoration);
+                dragHelper.startDrag(resultDelegate, mimeData, model.decoration);
                 __pressed = false;
                 __pressX = -1;
                 __pressY = -1;
