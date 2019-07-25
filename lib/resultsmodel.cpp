@@ -181,14 +181,11 @@ public:
             return QIdentityProxyModel::data(index, role);
         }
 
-        // Count number of duplicate match display texts in this category
         int duplicatesCount = 0;
         const QString display = index.data(Qt::DisplayRole).toString();
 
-        const QModelIndex categoryIndex = sourceModel()->index(index.parent().row(), 0);
-
-        for (int i = 0; i < sourceModel()->rowCount(categoryIndex); ++i) {
-            if (sourceModel()->index(i, 0, categoryIndex).data(Qt::DisplayRole) == display) {
+        for (int i = 0; i < sourceModel()->rowCount(); ++i) {
+            if (sourceModel()->index(i, 0).data(Qt::DisplayRole) == display) {
                 ++duplicatesCount;
             }
         }
@@ -212,9 +209,9 @@ public:
     RunnerResultsModel *resultsModel;
     SortProxyModel *sortModel;
     CategoryDistributionProxyModel *distributionModel;
-    DuplicateDetectorProxyModel *duplicateDetectorModel;
     KDescendantsProxyModel *flattenModel;
     HideRootLevelProxyModel *hideRootModel;
+    DuplicateDetectorProxyModel *duplicateDetectorModel;
 
 };
 
@@ -223,9 +220,9 @@ ResultsModel::Private::Private(ResultsModel *q)
     , resultsModel(new RunnerResultsModel(q))
     , sortModel(new SortProxyModel(q))
     , distributionModel(new CategoryDistributionProxyModel(q))
-    , duplicateDetectorModel(new DuplicateDetectorProxyModel(q))
     , flattenModel(new KDescendantsProxyModel(q))
     , hideRootModel(new HideRootLevelProxyModel(q))
+    , duplicateDetectorModel(new DuplicateDetectorProxyModel(q))
 {
 
 }
@@ -243,14 +240,14 @@ ResultsModel::ResultsModel(QObject *parent)
 
     d->distributionModel->setSourceModel(d->sortModel);
 
-    d->duplicateDetectorModel->setSourceModel(d->distributionModel);
-
-    d->flattenModel->setSourceModel(d->duplicateDetectorModel);
+    d->flattenModel->setSourceModel(d->distributionModel);
 
     d->hideRootModel->setSourceModel(d->flattenModel);
     d->hideRootModel->setTreeModel(d->resultsModel);
 
-    setSourceModel(d->hideRootModel);
+    d->duplicateDetectorModel->setSourceModel(d->hideRootModel);
+
+    setSourceModel(d->duplicateDetectorModel);
 }
 
 ResultsModel::~ResultsModel() = default;
