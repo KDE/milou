@@ -42,7 +42,7 @@ public:
     {
         setDynamicSortFilter(true);
         sort(0, Qt::DescendingOrder);
-    };
+    }
     ~SortProxyModel() override = default;
 
 protected:
@@ -58,7 +58,7 @@ protected:
         const qreal relevanceA = sourceA.data(ResultsModel::RelevanceRole).toReal();
         const qreal relevanceB = sourceB.data(ResultsModel::RelevanceRole).toReal();
 
-        if (relevanceA != relevanceB) {
+        if (!qFuzzyCompare(relevanceA, relevanceB)) {
             return relevanceA < relevanceB;
         }
 
