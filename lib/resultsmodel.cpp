@@ -94,9 +94,16 @@ public:
 
     int limit() const { return m_limit; }
     void setLimit(int limit) {
+        if (m_limit == limit) {
+            return;
+        }
         m_limit = limit;
         invalidateFilter();
+        emit limitChanged();
     }
+
+Q_SIGNALS:
+    void limitChanged();
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
@@ -130,6 +137,7 @@ protected:
     }
 
 private:
+    // if you change this, update the default in resetLimit()
     int m_limit = 0;
 };
 
@@ -206,8 +214,6 @@ public:
 
     ResultsModel *q;
 
-    int limit = 0; // if you change this, update the default in resetLimit()
-
     QString runner;
 
     RunnerResultsModel *resultsModel;
@@ -240,6 +246,8 @@ ResultsModel::ResultsModel(QObject *parent)
     connect(d->resultsModel, &RunnerResultsModel::runnerChanged, this, &ResultsModel::runnerChanged);
     connect(d->resultsModel, &RunnerResultsModel::queryStringChangeRequested, this, &ResultsModel::queryStringChangeRequested);
 
+    connect(d->distributionModel, &CategoryDistributionProxyModel::limitChanged, this, &ResultsModel::limitChanged);
+
     d->sortModel->setSourceModel(d->resultsModel);
 
     d->distributionModel->setSourceModel(d->sortModel);
@@ -268,18 +276,12 @@ void ResultsModel::setQueryString(const QString &queryString)
 
 int ResultsModel::limit() const
 {
-    return d->limit;
+    return d->distributionModel->limit();
 }
 
 void ResultsModel::setLimit(int limit)
 {
-    if (d->limit == limit) {
-        return;
-    }
-
-    d->limit = limit;
     d->distributionModel->setLimit(limit);
-    emit limitChanged();
 }
 
 void ResultsModel::resetLimit()
