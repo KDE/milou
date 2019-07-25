@@ -71,20 +71,30 @@ ListView {
     model: Milou.ResultsModel {
         id: resultModel
         limit: 20
-        onQueryStringChangeRequested:{
+        onQueryStringChangeRequested: {
             listView.updateQueryString(queryString, pos)
         }
-    }
+        onQueryStringChanged: reset()
+        onModelReset: reset()
 
-    // Internally when the query string changes, the model is reset
-    // and the results are presented
-    onCountChanged: {
-        listView.currentIndex = 0
-        listView.moved = false
-        listView.savedMousePosition = Milou.MouseHelper.globalMousePosition()
+        onRowsInserted: {
+            // Keep the selection at the top as items inserted to the beginning will shift it downwards
+            // ListView will update its view after this signal is processed and then our callLater will set it back
+            if (listView.currentIndex === 0) {
+                Qt.callLater(function() {
+                    listView.currentIndex = 0;
+                });
+            }
 
-        if (runAutomatically) {
-            runCurrentIndex();
+            if (runAutomatically) {
+                runCurrentIndex();
+            }
+        }
+
+        function reset() {
+            listView.currentIndex = 0;
+            listView.moved = false;
+            listView.savedMousePosition = Milou.MouseHelper.globalMousePosition();
         }
     }
 
