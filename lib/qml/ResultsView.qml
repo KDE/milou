@@ -74,8 +74,8 @@ ListView {
         onQueryStringChangeRequested: {
             listView.updateQueryString(queryString, pos)
         }
-        onQueryStringChanged: reset()
-        onModelReset: reset()
+        onQueryStringChanged: resetView()
+        onModelReset: resetView()
 
         onRowsInserted: {
             // Keep the selection at the top as items inserted to the beginning will shift it downwards
@@ -91,7 +91,7 @@ ListView {
             }
         }
 
-        function reset() {
+        function resetView() {
             listView.currentIndex = 0;
             listView.moved = false;
             listView.savedMousePosition = Milou.MouseHelper.globalMousePosition();
