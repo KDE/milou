@@ -216,7 +216,10 @@ MouseArea {
 
                 PlasmaComponents.Label {
                     id: subtextLabel
-                    text: model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
+
+                    // SourcesModel returns number of duplicates in this property
+                    // ResultsModel just has it as a boolean as you would expect from the name of the property
+                    text: model.isDuplicate === true || model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
 
                     color: theme.textColor
                     // HACK If displayLabel is too long it will shift this label outside boundaries

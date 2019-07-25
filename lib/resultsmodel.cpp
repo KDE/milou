@@ -187,10 +187,14 @@ public:
         for (int i = 0; i < sourceModel()->rowCount(); ++i) {
             if (sourceModel()->index(i, 0).data(Qt::DisplayRole) == display) {
                 ++duplicatesCount;
+
+                if (duplicatesCount == 2) {
+                    return true;
+                }
             }
         }
 
-        return duplicatesCount;
+        return false;
     }
 
 };
@@ -317,7 +321,6 @@ QHash<int, QByteArray> ResultsModel::roleNames() const
     names[RelevanceRole] = QByteArrayLiteral("relevance");
     names[CategoryRole] = QByteArrayLiteral("category");
     names[SubtextRole] = QByteArrayLiteral("subtext");
-    // TODO this returns the number of duplicates. Either rename it or turn it into a bool
     names[DuplicateRole] = QByteArrayLiteral("isDuplicate");
     names[ActionsRole] = QByteArrayLiteral("actions");
     return names;
