@@ -33,6 +33,12 @@
 
 using namespace Milou;
 
+/**
+ * Sorts the matches and categories by their type and relevance
+ *
+ * A category gets type and relevance of the highest
+ * scoring match within.
+ */
 class SortProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
@@ -66,6 +72,16 @@ protected:
     }
 };
 
+/**
+ * Distributes the number of matches shown per category
+ *
+ * Each category may occupy a maximum of 1/(n+1) of the given @c limit,
+ * this means the further down you get, the less matches there are.
+ * There is at least one match shown per category.
+ *
+ * This model assumes the results to already be sorted
+ * descending by their relevance/score.
+ */
 class CategoryDistributionProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
@@ -151,6 +167,15 @@ private:
     int m_limit = 0;
 };
 
+/**
+ * This model hides the root items of data originally in a tree structure
+ *
+ * KDescendantsProxyModel collapses the items but keeps all items in tact.
+ * The root items of the RunnerMatchesModel represent the individual cateories
+ * which we don't want in the resulting flat list.
+ * This model maps the items back to the given @c treeModel and filters
+ * out any item with an invalid parent, i.e. "on the root level"
+ */
 class HideRootLevelProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
@@ -182,6 +207,12 @@ private:
     QAbstractItemModel *m_treeModel = nullptr;
 };
 
+/**
+ * Populates the IsDuplicateRole of an item
+ *
+ * The IsDuplicateRole returns true for each item if there is two or more
+ * elements in the model with the same DisplayRole as the item.
+ */
 class DuplicateDetectorProxyModel : public QIdentityProxyModel
 {
     Q_OBJECT
@@ -257,6 +288,14 @@ ResultsModel::ResultsModel(QObject *parent)
     connect(d->resultsModel, &RunnerResultsModel::queryStringChangeRequested, this, &ResultsModel::queryStringChangeRequested);
 
     connect(d->distributionModel, &CategoryDistributionProxyModel::limitChanged, this, &ResultsModel::limitChanged);
+
+    // The data flows as follows:
+    // - RunnerResultsModel
+    //   - SortProxyModel
+    //     - CategoryDistributionProxyModel
+    //       - KDescendantsProxyModel
+    //         - HideRootLevelProxyModel
+    //           - DuplicateDetectorProxyModel
 
     d->sortModel->setSourceModel(d->resultsModel);
 
