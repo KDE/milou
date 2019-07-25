@@ -34,10 +34,31 @@ class MILOU_EXPORT ResultsModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
+    /**
+     * The query string to run
+     */
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString NOTIFY queryStringChanged)
+    /**
+     * The preferred maximum number of matches in the model
+     *
+     * If there are lots of results from different catergories,
+     * the limit can be slightly exceeded.
+     *
+     * Default is 0, which means no limit.
+     */
     Q_PROPERTY(int limit READ limit WRITE setLimit RESET resetLimit NOTIFY limitChanged)
+    /**
+     * Whether the query is currently being run
+     *
+     * This can be used to show a busy indicator
+     */
     Q_PROPERTY(bool querying READ querying NOTIFY queryingChanged)
 
+    /**
+     * The single runner to use for querying in single runner mode
+     *
+     * Defaults to empty string which means all runners
+     */
     Q_PROPERTY(QString runner READ runner WRITE setRunner NOTIFY runnerChanged)
     // FIXME rename to singleModeRunnerName or something
     Q_PROPERTY(QString runnerName READ runnerName NOTIFY runnerChanged)
@@ -85,16 +106,24 @@ public:
      */
     Q_INVOKABLE void clear();
 
+    /**
+     * Run the result at the given model index @p idx
+     */
     Q_INVOKABLE bool run(const QModelIndex &idx);
+    /**
+     * Run the action @p actionNumber at given model index @p idx
+     */
     Q_INVOKABLE bool runAction(const QModelIndex &idx, int actionNumber);
 
+    /**
+     * Get mime data for the result at given model index @p idx
+     */
     Q_INVOKABLE QMimeData *getMimeData(const QModelIndex &idx) const;
 
 Q_SIGNALS:
     /**
      * This signal is emitted when a an InformationalMatch is run, and it is advised
-     * to update the search term.
-     * Eg - Calculator runner
+     * to update the search term, e.g. used for calculator runner results
      */
     void queryStringChangeRequested(const QString &queryString, int pos);
 
