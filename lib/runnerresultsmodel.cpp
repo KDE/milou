@@ -115,18 +115,24 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
 
         // Emit a change for all existing matches if any of them changed
         // TODO only emit a change for the ones that changed
-        bool signalDataChanged = false;
+        bool emitDataChanged = false;
 
         const int oldCount = oldMatchesInCategory.count();
         const int newCount = newMatchesInCategory.count();
 
-        const int endOfUpdateableRange = qMin(oldCount, newCount) - 1;
+        const int countCeiling = qMin(oldCount, newCount);
 
-        for (int i = 0; i <= endOfUpdateableRange; ++i) {
-            if (oldMatchesInCategory.at(i) != newMatchesInCategory.at(i)) {
-                signalDataChanged = true;
-                break;
+        for (int i = 0; i < countCeiling; ++i) {
+            auto &oldMatch = oldMatchesInCategory[i];
+            if (oldMatch != newMatchesInCategory.at(i)) {
+                oldMatch = newMatchesInCategory.at(i);
+                emitDataChanged = true;
             }
+        }
+
+        // Now that the source data has been updated, emit the data changes we noted down earlier
+        if (emitDataChanged) {
+            emit dataChanged(index(0, 0, categoryIdx), index(countCeiling - 1, 0, categoryIdx));
         }
 
         // Signal insertions for any new items
@@ -138,14 +144,6 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
             beginRemoveRows(categoryIdx, newCount, oldCount - 1);
             oldMatchesInCategory = newMatchesInCategory;
             endRemoveRows();
-        } else {
-            // Important to still update the matches, even if the count hasn't changed :)
-            oldMatchesInCategory = newMatchesInCategory;
-        }
-
-        // Now that the source data has been updated, emit the data changes we noted down earlier
-        if (signalDataChanged) {
-            emit dataChanged(index(0, 0, categoryIdx), index(endOfUpdateableRange, 0, categoryIdx));
         }
 
         // Remove it from the "new" categories so in the next step we can add all genuinely new categories in one go
