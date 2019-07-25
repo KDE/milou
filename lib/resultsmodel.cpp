@@ -116,17 +116,27 @@ protected:
             return true;
         }
 
-        // One category may take up to half the available space
-        // Each category at least gets 1 result in any case
-        // TODO don't limit if there is just one category?
-        int maxItemsInCategory = 1;
-        int itemsBefore = 0;
-        for (int i = 0; i <= sourceParent.row(); ++i) {
-            const int itemsInCategory = sourceModel()->rowCount(sourceModel()->index(i, 0));
+        const int categoryCount = sourceModel()->rowCount();
 
-            maxItemsInCategory = std::max(1.0, std::ceil((m_limit - itemsBefore) / 2.0));
+        int maxItemsInCategory = m_limit;
 
-            itemsBefore += std::min(itemsInCategory, maxItemsInCategory);
+        if (categoryCount > 1) {
+            int itemsBefore = 0;
+            for (int i = 0; i <= sourceParent.row(); ++i) {
+                const int itemsInCategory = sourceModel()->rowCount(sourceModel()->index(i, 0));
+
+                // Take into account that every category gets at least one item shown
+                const int availableSpace = m_limit - itemsBefore - std::ceil(m_limit / qreal(categoryCount));
+
+                // The further down the category is the less relevant it is and the less space it my occupy
+                // First category gets max half the total limit, second category a third, etc
+                maxItemsInCategory = std::min(availableSpace, int(std::ceil(m_limit / qreal(i + 2))));
+
+                // At least show one item per category
+                maxItemsInCategory = std::max(1, maxItemsInCategory);
+
+                itemsBefore += std::min(itemsInCategory, maxItemsInCategory);
+            }
         }
 
         if (sourceRow >= maxItemsInCategory) {
