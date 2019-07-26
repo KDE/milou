@@ -55,7 +55,7 @@ RunnerResultsModel::~RunnerResultsModel() = default;
 
 Plasma::QueryMatch RunnerResultsModel::fetchMatch(const QModelIndex &idx) const
 {
-    const QString category = m_categories.value(idx.internalId() - 1);
+    const QString category = m_categories.value(int(idx.internalId() - 1));
     return m_matches.value(category).value(idx.row());
 }
 
@@ -82,7 +82,7 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
     // Get rid of all categories that are no longer present
     auto it = m_categories.begin();
     while (it != m_categories.end()) {
-        const int categoryNumber = std::distance(m_categories.begin(), it);
+        const int categoryNumber = int(std::distance(m_categories.begin(), it));
 
         if (!newCategories.contains(*it)) {
             beginRemoveRows(QModelIndex(), categoryNumber, categoryNumber);
@@ -99,7 +99,7 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
     for (auto it = m_categories.constBegin(), end = m_categories.constEnd(); it != end; ++it) {
         Q_ASSERT(newCategories.contains(*it));
 
-        const int categoryNumber = std::distance(m_categories.constBegin(), it);
+        const int categoryNumber = int(std::distance(m_categories.constBegin(), it));
         const QModelIndex categoryIdx = index(categoryNumber, 0);
 
         // don't use operator[] as to not insert an empty list
@@ -430,7 +430,7 @@ QModelIndex RunnerResultsModel::index(int row, int column, const QModelIndex &pa
         const QString category = m_categories.value(parent.row());
         const auto matches = m_matches.value(category);
         if (row < matches.count()) {
-            return createIndex(row, column, parent.row() + 1);
+            return createIndex(row, column, int(parent.row() + 1));
         }
 
         return QModelIndex();
@@ -446,7 +446,7 @@ QModelIndex RunnerResultsModel::index(int row, int column, const QModelIndex &pa
 QModelIndex RunnerResultsModel::parent(const QModelIndex &child) const
 {
     if (child.internalId()) {
-        return createIndex(child.internalId() - 1, 0, nullptr);
+        return createIndex(int(child.internalId() - 1), 0, nullptr);
     }
 
     return QModelIndex();
@@ -464,5 +464,4 @@ QMimeData *RunnerResultsModel::mimeData(const QModelIndexList &indexes) const
     }
 
     return m_manager->mimeDataForMatch(match);
-    return nullptr;
 }
