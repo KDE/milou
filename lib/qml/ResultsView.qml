@@ -87,9 +87,14 @@ ListView {
             }
 
             if (runAutomatically) {
-                if (resultModel.run(resultModel.index(0, 0))) {
+                // This needs to be delayed as running a result may close the window and clear the query
+                // having us reset the model whilst in the middle of processing the insertion.
+                // The proxy model chain that comes after us really doesn't like this.
+                Qt.callLater(function() {
+                    resultModel.run(resultModel.index(0, 0));
                     listView.activated();
-                }
+                });
+
                 runAutomatically = false;
             }
         }

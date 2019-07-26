@@ -96,7 +96,7 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
 
     // Update the existing categories by adding/removing new/removed rows and
     // updating changed ones
-    for (auto it = m_categories.constBegin(), end = m_categories.constEnd(); it != end; ++it) {
+    for (auto it = m_categories.constBegin(); it != m_categories.constEnd(); ++it) {
         Q_ASSERT(newCategories.contains(*it));
 
         const int categoryNumber = int(std::distance(m_categories.constBegin(), it));
@@ -246,10 +246,11 @@ void RunnerResultsModel::clear()
     setQuerying(false);
 
     beginResetModel();
-    m_hasMatches = false;
     m_categories.clear();
     m_matches.clear();
     endResetModel();
+
+    m_hasMatches = false;
 }
 
 bool RunnerResultsModel::run(const QModelIndex &idx)
