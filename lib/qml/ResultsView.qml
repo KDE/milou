@@ -87,7 +87,10 @@ ListView {
             }
 
             if (runAutomatically) {
-                runCurrentIndex();
+                if (resultModel.run(resultModel.index(0, 0))) {
+                    listView.activated();
+                }
+                runAutomatically = false;
             }
         }
 

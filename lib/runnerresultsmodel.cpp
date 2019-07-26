@@ -240,14 +240,15 @@ QIcon RunnerResultsModel::runnerIcon() const
 
 void RunnerResultsModel::clear()
 {
+    m_manager->reset();
+    m_manager->matchSessionComplete();
+
     setQuerying(false);
 
     beginResetModel();
     m_hasMatches = false;
     m_categories.clear();
     m_matches.clear();
-    m_manager->reset();
-    m_manager->matchSessionComplete();
     endResetModel();
 }
 
