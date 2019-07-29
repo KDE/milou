@@ -45,8 +45,13 @@ RunnerResultsModel::RunnerResultsModel(QObject *parent)
     m_resetTimer.setInterval(500);
     connect(&m_resetTimer, &QTimer::timeout, this, [this] {
         // Clear the old matches if any
+        // don't call clear() here as we don' want to interrupt the match session
+        // in case no quick results show up initially (e.g. if only dictionary runner is a viable source)
         if (!m_hasMatches) {
-            clear();
+            beginResetModel();
+            m_categories.clear();
+            m_matches.clear();
+            endResetModel();
         }
     });
 }
