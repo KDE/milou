@@ -51,9 +51,47 @@ public:
     }
     ~SortProxyModel() override = default;
 
+    void setQueryString(const QString &queryString) {
+        const QStringList words = queryString.split(QLatin1Char(' '), QString::SkipEmptyParts);
+        if (m_words != words) {
+            m_words = words;
+            invalidate();
+        }
+    }
+
+    bool categoryHasMatchWithAllWords(const QModelIndex &categoryIdx) const {
+        for (int i = 0; i < sourceModel()->rowCount(categoryIdx); ++i) {
+            const QModelIndex idx = sourceModel()->index(i, 0, categoryIdx);
+            const QString display = idx.data(Qt::DisplayRole).toString();
+
+            bool containsAllWords = true;
+            for (const QString &word : m_words) {
+                if (!display.contains(word, Qt::CaseInsensitive)) {
+                    containsAllWords = false;
+                }
+            }
+
+            if (containsAllWords) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 protected:
     bool lessThan(const QModelIndex &sourceA, const QModelIndex &sourceB) const override
     {
+        // prefer categories that have a match containing the query string in the display role
+        if (!sourceA.parent().isValid() && !sourceB.parent().isValid()) {
+            const bool hasMatchWithAllWordsA = categoryHasMatchWithAllWords(sourceA);
+            const bool hasMatchWithAllWordsB = categoryHasMatchWithAllWords(sourceB);
+
+            if (hasMatchWithAllWordsA != hasMatchWithAllWordsB) {
+                return !hasMatchWithAllWordsA && hasMatchWithAllWordsB;
+            }
+        }
+
         const int typeA = sourceA.data(ResultsModel::TypeRole).toInt();
         const int typeB = sourceB.data(ResultsModel::TypeRole).toInt();
 
@@ -70,6 +108,9 @@ protected:
 
         return QSortFilterProxyModel::lessThan(sourceA, sourceB);
     }
+
+private:
+    QStringList m_words;
 };
 
 /**
@@ -286,6 +327,8 @@ ResultsModel::ResultsModel(QObject *parent)
     connect(d->resultsModel, &RunnerResultsModel::queryingChanged, this, &ResultsModel::queryingChanged);
     connect(d->resultsModel, &RunnerResultsModel::runnerChanged, this, &ResultsModel::runnerChanged);
     connect(d->resultsModel, &RunnerResultsModel::queryStringChangeRequested, this, &ResultsModel::queryStringChangeRequested);
+
+    connect(d->resultsModel, &RunnerResultsModel::queryStringChanged, d->sortModel, &SortProxyModel::setQueryString);
 
     connect(d->distributionModel, &CategoryDistributionProxyModel::limitChanged, this, &ResultsModel::limitChanged);
 

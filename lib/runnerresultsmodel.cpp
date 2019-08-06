@@ -194,7 +194,7 @@ void RunnerResultsModel::setQueryString(const QString &queryString)
         m_manager->launchQuery(queryString);
         setQuerying(true);
     }
-    emit queryStringChanged();
+    emit queryStringChanged(queryString);
 }
 
 bool RunnerResultsModel::querying() const

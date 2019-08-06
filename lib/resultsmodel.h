@@ -82,7 +82,7 @@ public:
 
     QString queryString() const;
     void setQueryString(const QString &queryString);
-    Q_SIGNAL void queryStringChanged();
+    Q_SIGNAL void queryStringChanged(const QString &queryString);
 
     int limit() const;
     void setLimit(int limit);

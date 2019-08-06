@@ -45,7 +45,7 @@ public:
 
     QString queryString() const;
     void setQueryString(const QString &queryString);
-    Q_SIGNAL void queryStringChanged();
+    Q_SIGNAL void queryStringChanged(const QString &queryString);
 
     bool querying() const;
     Q_SIGNAL void queryingChanged();
