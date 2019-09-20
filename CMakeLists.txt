@@ -19,7 +19,9 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMAddTests)
 include(GenerateExportHeader)
-
+if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
+   add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
+endif()
 # find_package(KdepimLibs)
 # set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"
 #                        URL "http://www.kde.org"

@@ -261,7 +261,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
     m_duplicates.clear();
 
     QList<Plasma::QueryMatch> list(l);
-    qSort(list);
+    std::sort(list.begin(), list.end());
 
     for (auto it = list.crbegin(), end = list.crend(); it != end; ++it) {
         slotMatchAdded(*it);
@@ -308,7 +308,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
             return lHigher;
         }
     };
-    qStableSort(m_types.begin(), m_types.end(), sortFunc);
+    std::stable_sort(m_types.begin(), m_types.end(), sortFunc);
 
     m_modelPopulated = true;
     endResetModel();
