@@ -79,7 +79,6 @@ MouseArea {
                     id: subtextLabel
                     text: String(model.subtext)
 
-                    color: theme.textColor
                     opacity: 0.3
 
                     height: typePixmap.height
