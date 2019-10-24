@@ -34,6 +34,7 @@ ListView {
     property alias runnerName: resultModel.runnerName
     property alias runnerIcon: resultModel.runnerIcon
     property alias querying: resultModel.querying
+    property alias limit: resultModel.limit
     property bool reversed
     signal activated
     signal updateQueryString(string text, int cursorPosition)
