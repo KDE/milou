@@ -147,7 +147,7 @@ MouseArea {
     PlasmaComponents.Label {
         id: typeText
         text: resultDelegate.typeText
-        opacity: 0.5
+        color: theme.disabledTextColor
 
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
@@ -222,7 +222,9 @@ MouseArea {
 
                     // HACK If displayLabel is too long it will shift this label outside boundaries
                     // but still render the text leading to it overlapping the action buttons looking horrible
-                    opacity: width > 0 ? 0.3 : 0
+                    opacity: width > 0 ? 1 : 0
+
+                    color: theme.disabledTextColor
 
                     height: undefined
 
