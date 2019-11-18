@@ -147,7 +147,7 @@ MouseArea {
     PlasmaComponents.Label {
         id: typeText
         text: resultDelegate.typeText
-        color: theme.disabledTextColor
+        color: isCurrent ? Qt.tint(theme.disabledTextColor, Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.4)) : theme.disabledTextColor
 
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
@@ -224,7 +224,7 @@ MouseArea {
                     // but still render the text leading to it overlapping the action buttons looking horrible
                     opacity: width > 0 ? 1 : 0
 
-                    color: theme.disabledTextColor
+                    color: isCurrent ? Qt.tint(theme.disabledTextColor, Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.4)) : theme.disabledTextColor
 
                     height: undefined
 
