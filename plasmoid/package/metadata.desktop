@@ -85,7 +85,7 @@ Comment[uk]=Пошук і запуск
 Comment[x-test]=xxSearch and Launchxx
 Comment[zh_CN]=搜索和启动
 Comment[zh_TW]=搜尋並啟動
-Icon=nepomuk
+Icon=search
 
 Type=Service
 X-KDE-ServiceTypes=Plasma/Applet
