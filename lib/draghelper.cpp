@@ -29,7 +29,7 @@ using namespace Milou;
 DragHelper::DragHelper(QObject* parent) : QObject(parent)
 , m_dragIconSize(32)
 {
-    qmlRegisterType<QMimeData>();
+    qmlRegisterType<QMimeData>("org.kde.milou", 1, 0, "MimeData");
 }
 
 DragHelper::~DragHelper()
