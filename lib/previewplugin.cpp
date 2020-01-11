@@ -24,6 +24,7 @@
 
 #include <QTextDocument>
 #include <QTextCursor>
+#include <QMimeData>
 
 using namespace Milou;
 
@@ -31,6 +32,11 @@ PreviewPlugin::PreviewPlugin(QObject* parent)
     : QObject(parent)
     , m_context(nullptr)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+    qmlRegisterAnonymousType<QMimeData>("org.kde.milou", 1);
+#else
+    qmlRegisterType<QMimeData>();
+#endif
 }
 
 PreviewPlugin::~PreviewPlugin()
