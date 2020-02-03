@@ -25,7 +25,7 @@ if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
 endif()
 # find_package(KdepimLibs)
 # set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"
-#                        URL "http://www.kde.org"
+#                        URL "https://www.kde.org"
 #                        TYPE REQUIRED PURPOSE "Support for Email previews")
 
 add_subdirectory(lib)
