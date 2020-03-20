@@ -52,7 +52,11 @@ public:
     ~SortProxyModel() override = default;
 
     void setQueryString(const QString &queryString) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         const QStringList words = queryString.split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+        const QStringList words = queryString.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
         if (m_words != words) {
             m_words = words;
             invalidate();
