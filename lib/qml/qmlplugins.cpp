@@ -29,6 +29,7 @@
 #include "mousehelper.h"
 
 #include <QQmlEngine>
+#include <QMimeData>
 
 void QmlPlugins::initializeEngine(QQmlEngine *, const char *)
 {
@@ -44,5 +45,10 @@ void QmlPlugins::registerTypes(const char *uri)
                                                   [](QQmlEngine*, QJSEngine*) -> QObject* {
         return new Milou::MouseHelper();
     });
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+    qmlRegisterAnonymousType<QMimeData>(uri, 0);
+#else
+    qmlRegisterType<QMimeData>();
+#endif
 }
 
