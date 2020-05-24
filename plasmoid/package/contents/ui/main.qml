@@ -63,6 +63,7 @@ Item {
             onSearchTextChanged: {
                 listView.setQueryString(text)
             }
+            onClose: plasmoid.expanded = false
         }
 
         Milou.ResultsView {

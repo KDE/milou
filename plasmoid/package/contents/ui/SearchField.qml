@@ -32,6 +32,7 @@ import "globals.js" as Globals
  */
 Item {
     signal searchTextChanged()
+    signal close()
     property alias text: textField.text
 
     height: childrenRect.height
@@ -70,6 +71,10 @@ Item {
     }
 
     Keys.onEscapePressed: {
-        textField.text = ""
+        if (textField.text) {
+            textField.text = ""
+        } else {
+            close()
+        }
     }
 }
