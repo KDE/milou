@@ -78,7 +78,7 @@ Item {
 
             reversed: isBottomEdge()
             onActivated: {
-                plasmoid.hidePopup()
+                plasmoid.expanded = false;
             }
         }
 
