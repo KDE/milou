@@ -78,6 +78,7 @@ Item {
 
             reversed: isBottomEdge()
             onActivated: {
+                searchField.text = "";
                 plasmoid.expanded = false;
             }
         }
