@@ -81,7 +81,7 @@ Item {
                 searchField.text = "";
                 plasmoid.expanded = false;
             }
-            onUpdateQueryString: (text, cursorPosition) {
+            onUpdateQueryString: function (text, cursorPosition) {
                 searchField.text = text
                 searchField.cursorPosition = cursorPosition
             }
