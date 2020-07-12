@@ -191,7 +191,7 @@ void RunnerResultsModel::setQueryString(const QString &queryString)
         clear();
     } else {
         m_resetTimer.start();
-        m_manager->launchQuery(queryString);
+        m_manager->launchQuery(queryString, m_runner);
         setQuerying(true);
     }
     emit queryStringChanged(queryString);
