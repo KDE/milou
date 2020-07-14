@@ -39,4 +39,7 @@ install(TARGETS milou EXPORT MilouLibraryTargets ${KDE_INSTALL_TARGETS_DEFAULT_A
 
 add_subdirectory(qml)
 add_subdirectory(previews)
-add_subdirectory(test)
+
+if(BUILD_TESTING AND TARGET Qt5::Test)
+  add_subdirectory(test)
+endif()
