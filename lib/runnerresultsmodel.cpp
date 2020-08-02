@@ -34,7 +34,7 @@ using namespace Plasma;
 
 RunnerResultsModel::RunnerResultsModel(QObject *parent)
     : QAbstractItemModel(parent)
-    , m_manager(new RunnerManager(this))
+    , m_manager(new RunnerManager(QStringLiteral("krunnerrc"), this))
 {
     connect(m_manager, &RunnerManager::matchesChanged, this, &RunnerResultsModel::onMatchesChanged);
     connect(m_manager, &RunnerManager::queryFinished, this, [this] {
