@@ -235,6 +235,12 @@ MouseArea {
                     textFormat: Text.PlainText
 
                     Layout.fillWidth: true
+                    PlasmaCore.ToolTipArea {
+                        anchors.fill: parent
+                        subText: subtextLabel.text
+                        active: containsMouse && subtextLabel.truncated
+                        timeout: -1
+                    }
                 }
             }
 
