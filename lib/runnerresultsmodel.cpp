@@ -36,6 +36,7 @@ RunnerResultsModel::RunnerResultsModel(QObject *parent)
     : QAbstractItemModel(parent)
     , m_manager(new RunnerManager(QStringLiteral("krunnerrc"), this))
 {
+    m_manager->enableKNotifyPluginWatcher();
     connect(m_manager, &RunnerManager::matchesChanged, this, &RunnerResultsModel::onMatchesChanged);
     connect(m_manager, &RunnerManager::queryFinished, this, [this] {
         setQuerying(false);
