@@ -2,7 +2,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
-add_executable(modeltest modeltest.cpp test.cpp)
+add_executable(modeltest test.cpp)
 ecm_mark_as_test(modeltest)
 
 target_link_libraries(modeltest

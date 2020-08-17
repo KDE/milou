@@ -20,11 +20,11 @@
  *
  */
 
+#include <QAbstractItemModelTester>
 #include <QCoreApplication>
 #include <QTimer>
 #include <QDebug>
 
-#include "modeltest.h"
 #include "../sourcesmodel.h"
 
 using namespace Milou;
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
     QCoreApplication app(argc, argv);
 
     SourcesModel* model = new SourcesModel();
-    ModelTest* mt = new ModelTest(model);
+    auto mt = new QAbstractItemModelTester(model);
     Q_UNUSED(mt);
     model->setQueryLimit(20);
 
