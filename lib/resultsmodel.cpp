@@ -426,7 +426,7 @@ QHash<int, QByteArray> ResultsModel::roleNames() const
 
 void ResultsModel::clear()
 {
-
+    d->resultsModel->clear();
 }
 
 bool ResultsModel::run(const QModelIndex &idx)
