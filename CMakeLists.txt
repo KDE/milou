@@ -23,10 +23,6 @@ include(KDEClangFormat)
 if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
    add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
 endif()
-# find_package(KdepimLibs)
-# set_package_properties(KdepimLibs PROPERTIES DESCRIPTION "KDE PIM Libraries"
-#                        URL "https://www.kde.org"
-#                        TYPE REQUIRED PURPOSE "Support for Email previews")
 
 add_definitions(-DQT_NO_FOREACH -DQT_NO_KEYWORDS)
 
