@@ -43,15 +43,15 @@ Preview::Preview(QQuickItem* parent)
 
     m_plugins = allPlugins();
     foreach(PreviewPlugin* plugin, m_plugins) {
-        connect(plugin, SIGNAL(previewGenerated(QQuickItem*)),
-                this, SLOT(slotPreviewGenerated(QQuickItem*)));
+        connect(plugin, &PreviewPlugin::previewGenerated,
+                this, &Preview::slotPreviewGenerated);
 
         if (plugin->mimetypes().contains(QStringLiteral("file")))
             m_filePlugin = plugin;
     }
 
     // When the object is created, it doesn't have a QQmlContext
-    QTimer::singleShot(0, this, SLOT(setPluginContexts()));
+    QTimer::singleShot(0, this, &Preview::setPluginContexts);
 }
 
 void Preview::setPluginContexts()

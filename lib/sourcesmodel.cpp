@@ -38,8 +38,8 @@ SourcesModel::SourcesModel(QObject* parent)
     , m_size(0)
 {
     m_manager = new Plasma::RunnerManager(this);
-    connect(m_manager, SIGNAL(matchesChanged(QList<Plasma::QueryMatch>)),
-            this, SLOT(slotMatchesChanged(QList<Plasma::QueryMatch>)));
+    connect(m_manager, &Plasma::RunnerManager::matchesChanged,
+            this, &SourcesModel::slotMatchesChanged);
 
     KDirWatch* watch = KDirWatch::self();
     connect(watch, &KDirWatch::created, this, &SourcesModel::slotSettingsFileChanged);
@@ -48,7 +48,7 @@ SourcesModel::SourcesModel(QObject* parent)
 
     m_resetTimer.setSingleShot(true);
     m_resetTimer.setInterval(500);
-    connect(&m_resetTimer, SIGNAL(timeout()), this, SLOT(slotResetTimeout()));
+    connect(&m_resetTimer, &QTimer::timeout, this, &SourcesModel::slotResetTimeout);
 }
 
 SourcesModel::~SourcesModel()
