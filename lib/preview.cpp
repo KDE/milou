@@ -42,7 +42,7 @@ Preview::Preview(QQuickItem* parent)
     //setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     m_plugins = allPlugins();
-    foreach(PreviewPlugin* plugin, m_plugins) {
+    for (PreviewPlugin* plugin : qAsConst(m_plugins)) {
         connect(plugin, &PreviewPlugin::previewGenerated,
                 this, &Preview::slotPreviewGenerated);
 
@@ -57,7 +57,7 @@ Preview::Preview(QQuickItem* parent)
 void Preview::setPluginContexts()
 {
     QQmlContext* context = qmlContext(parentItem());
-    foreach(PreviewPlugin* plugin, m_plugins) {
+    for (PreviewPlugin* plugin : qAsConst(m_plugins)) {
         plugin->setContext(context);
     }
 }
@@ -70,7 +70,7 @@ void Preview::refresh()
 {
     if (m_oldUrl == m_url && m_oldMimetype == m_mimetype) {
         if (m_declarativeItem)
-            emit loadingFinished();
+            Q_EMIT loadingFinished();
         return;
     }
 
@@ -78,8 +78,9 @@ void Preview::refresh()
 
     bool foundPlugin = false;
     QUrl url = QUrl::fromLocalFile(m_url);
-    foreach (PreviewPlugin* plugin, m_plugins) {
-        foreach (const QString& mime, plugin->mimetypes()) {
+    for (PreviewPlugin* plugin : qAsConst(m_plugins)) {
+        const QStringList mimeTypes = plugin->mimetypes();
+        for (const QString &mime : mimeTypes) {
             if (m_mimetype.startsWith(mime)) {
                 plugin->setUrl(url);
                 plugin->setMimetype(m_mimetype);
@@ -111,7 +112,7 @@ void Preview::slotPreviewGenerated(QQuickItem* item)
     setHeight(item->height());
 
     m_loaded = true;
-    emit loadingFinished();
+    Q_EMIT loadingFinished();
 }
 
 void Preview::clear()

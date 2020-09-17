@@ -160,7 +160,7 @@ public:
         }
         m_limit = limit;
         invalidateFilter();
-        emit limitChanged();
+        Q_EMIT limitChanged();
     }
 
 Q_SIGNALS:

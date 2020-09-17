@@ -59,7 +59,7 @@ void ApplicationPlugin::generatePreview()
     item->setProperty("length", 0);
     item->setProperty("iconName", service->icon());
 
-    emit previewGenerated(item);
+    Q_EMIT previewGenerated(item);
 }
 
 

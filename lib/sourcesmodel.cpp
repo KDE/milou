@@ -71,7 +71,7 @@ QHash<int, QByteArray> SourcesModel::roleNames() const
 
 Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
 {
-    foreach (const QString& type, m_types) {
+    for (const QString &type : qAsConst(m_types)) {
         const TypeData data = m_matches.value(type);
         if (row < data.shown.size()) {
             return data.shown[row];
@@ -179,7 +179,7 @@ void SourcesModel::setRunner(const QString& runner)
         m_manager->setSingleModeRunnerId(m_runner);
         m_manager->setSingleMode(!m_runner.isEmpty());
 
-        emit runnerChanged();
+        Q_EMIT runnerChanged();
     }
 }
 
@@ -279,7 +279,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
 #endif
 
     QSet<QString> higherTypes;
-    foreach (const QString &type, m_types) {
+    for (const QString &type : qAsConst(m_types)) {
         const TypeData td = m_matches.value(type);
 
         for (const Plasma::QueryMatch &match : td.shown) {
@@ -336,7 +336,7 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
     if (m_size == m_queryLimit) {
         int maxShownItems = 0;
         QString maxShownType;
-        foreach (const QString& type, m_types) {
+        for (const QString &type : qAsConst(m_types)) {
             TypeData data = m_matches.value(type);
             if (data.shown.size() >= maxShownItems) {
                 maxShownItems = data.shown.size();
@@ -405,7 +405,7 @@ bool SourcesModel::run(int index)
                 }
             }
 
-            emit updateSearchTerm(info, editPos);
+            Q_EMIT updateSearchTerm(info, editPos);
             return false;
         }
     }

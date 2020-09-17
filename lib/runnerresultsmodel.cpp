@@ -138,7 +138,7 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
 
         // Now that the source data has been updated, emit the data changes we noted down earlier
         if (emitDataChanged) {
-            emit dataChanged(index(0, 0, categoryIdx), index(countCeiling - 1, 0, categoryIdx));
+            Q_EMIT dataChanged(index(0, 0, categoryIdx), index(countCeiling - 1, 0, categoryIdx));
         }
 
         // Signal insertions for any new items
@@ -195,7 +195,7 @@ void RunnerResultsModel::setQueryString(const QString &queryString)
         m_manager->launchQuery(queryString, m_runner);
         setQuerying(true);
     }
-    emit queryStringChanged(queryString);
+    Q_EMIT queryStringChanged(queryString);
 }
 
 bool RunnerResultsModel::querying() const
@@ -207,7 +207,7 @@ void RunnerResultsModel::setQuerying(bool querying)
 {
     if (m_querying != querying) {
         m_querying = querying;
-        emit queryingChanged();
+        Q_EMIT queryingChanged();
     }
 }
 
@@ -225,7 +225,7 @@ void RunnerResultsModel::setRunner(const QString &runner)
     m_runner = runner;
     m_manager->setSingleModeRunnerId(runner);
     m_manager->setSingleMode(!runner.isEmpty());
-    emit runnerChanged();
+    Q_EMIT runnerChanged();
 }
 
 QString RunnerResultsModel::runnerName() const
@@ -283,7 +283,7 @@ bool RunnerResultsModel::run(const QModelIndex &idx)
                 }
             }
 
-            emit queryStringChangeRequested(info, editPos);
+            Q_EMIT queryStringChangeRequested(info, editPos);
             return false;
         }
     }

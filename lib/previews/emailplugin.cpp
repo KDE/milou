@@ -128,10 +128,10 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
         cursor.insertHtml(htmlContent->decodedText(true, true));
 
     // Attachments
-    KMime::Content::List list = msg.attachments();
+    const KMime::Content::List list = msg.attachments();
     if (list.count())
         cursor.insertText(i18n("\nAttachments:\n\n"), greyCharFormat);
-    foreach (KMime::Content* c, list) {
+    for (KMime::Content *c : list) {
         KMime::Headers::ContentType* contentType = c->contentType(false);
 
         KMimeType::Ptr mimetype = KMimeType::mimeType(contentType->mimeType());
@@ -153,7 +153,7 @@ void EmailPlugin::slotItemsReceived(const Akonadi::Item::List& itemList)
     edit->resize(384, 384);
 
     highlight(doc);
-    emit previewGenerated(edit);
+    Q_EMIT previewGenerated(edit);
 }
 
 // Inserts quoted text in green

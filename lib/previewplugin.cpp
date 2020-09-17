@@ -83,10 +83,11 @@ void PreviewPlugin::highlight(const QTextDocument* doc) const
 {
     QTextCursor cursor;
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    Q_FOREACH (const QString& text, highlight().split(QLatin1Char(' '), QString::SkipEmptyParts)) {
+    const QStringList highlights = highlight().split(QLatin1Char(' '), QString::SkipEmptyParts);
 #else
-    Q_FOREACH (const QString& text, highlight().split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
+    const QStringList highlights = highlight().split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #endif
+    for (const QString &text : highlights) {
         while (1) {
             cursor = doc->find(text, cursor);
             if (cursor.isNull())

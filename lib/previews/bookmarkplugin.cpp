@@ -34,7 +34,7 @@ void BookmarkPlugin::generatePreview()
     webView->load(url());
     webView->resize(512, 512);
 
-    emit previewGenerated(webView);
+    Q_EMIT previewGenerated(webView);
 }
 
 

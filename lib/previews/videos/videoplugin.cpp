@@ -52,7 +52,7 @@ void VideoPlugin::generatePreview()
     player->play();
     player->resize(300, 300);
 
-    emit previewGenerated(widget);
+    Q_EMIT previewGenerated(widget);
 }
 
 MILOU_EXPORT_PREVIEW(VideoPlugin, "milouvideoplugin", "milou")

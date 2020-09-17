@@ -74,7 +74,7 @@ void ImagePlugin::slotGotPreview(const KFileItem&, const QPixmap& pixmap)
     declarativeItem->setWidth(pixmap.width());
     declarativeItem->setHeight(pixmap.height());
 
-    emit previewGenerated(declarativeItem);
+    Q_EMIT previewGenerated(declarativeItem);
 }
 
 void ImagePlugin::slotJobFinished(KJob* job)

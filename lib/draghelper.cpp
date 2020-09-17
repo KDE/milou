@@ -45,7 +45,7 @@ void DragHelper::setDragIconSize(int size)
     if (m_dragIconSize != size) {
         m_dragIconSize = size;
 
-        emit dragIconSizeChanged();
+        Q_EMIT dragIconSizeChanged();
     }
 }
 
@@ -79,6 +79,6 @@ void DragHelper::doDrag(QQuickItem *item, QMimeData *mimeData, const QIcon &icon
 
     drag->exec();
 
-    emit dropped();
+    Q_EMIT dropped();
 }
 

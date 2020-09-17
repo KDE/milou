@@ -28,6 +28,8 @@ endif()
 #                        URL "https://www.kde.org"
 #                        TYPE REQUIRED PURPOSE "Support for Email previews")
 
+add_definitions(-DQT_NO_FOREACH -DQT_NO_KEYWORDS)
+
 add_subdirectory(lib)
 add_subdirectory(plasmoid)
 

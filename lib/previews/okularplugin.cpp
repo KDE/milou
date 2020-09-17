@@ -43,7 +43,7 @@ void OkularPlugin::generatePreview()
 
         QWidget* widget = part->widget();
         widget->resize(384, 384);
-        emit previewGenerated(widget);
+        Q_EMIT previewGenerated(widget);
     }
     else {
         qWarning() << "Could not load okular service!";

@@ -66,7 +66,7 @@ void FilePlugin::generatePreview()
     if (!mime.isNull())
         item->setProperty("iconName", mime->iconName());
 
-    emit previewGenerated(item);
+    Q_EMIT previewGenerated(item);
 }
 
 

@@ -76,7 +76,7 @@ void AudioPlugin::slotFileReceived(const Baloo::File& file)
     item->setProperty("length", keys.length());
     item->setProperty("iconName", QLatin1String("audio-x-flac"));
 
-    emit previewGenerated(item);
+    Q_EMIT previewGenerated(item);
 }
 
 

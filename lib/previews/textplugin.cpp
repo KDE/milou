@@ -53,7 +53,7 @@ void TextPlugin::generatePreview()
     item->setWidth(700);
     item->setHeight(1000);
 
-    emit previewGenerated(item);
+    Q_EMIT previewGenerated(item);
 }
 
 MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin")
