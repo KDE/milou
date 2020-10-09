@@ -272,11 +272,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
     // that do not
     // The rest are given the same preference as given by the runners.
     const QString simplifiedQuery = m_queryString.simplified();
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const auto words = simplifiedQuery.splitRef(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
     const auto words = simplifiedQuery.splitRef(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
 
     QSet<QString> higherTypes;
     for (const QString &type : qAsConst(m_types)) {
