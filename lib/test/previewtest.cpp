@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     QObject* obj = component.create();
     QQuickItem* parentItem = obj->property("contentItem").value<QQuickItem*>();
 
-    QString url = parser.positionalArguments().first();
+    const QString url = parser.positionalArguments().constFirst();
     QMimeDatabase db;
     QString mimetype = db.mimeTypeForFile(url).name();
 
