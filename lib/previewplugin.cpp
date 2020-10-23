@@ -22,7 +22,6 @@
 
 #include "previewplugin.h"
 
-#include <QTextDocument>
 #include <QTextCursor>
 
 using namespace Milou;
