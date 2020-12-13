@@ -52,9 +52,7 @@ ListView {
         property: "category"
     }
 
-    // This is used to keep track if the user has pressed enter before
-    // the first result has been shown, in the case the first result should
-    // be run when the model is populated
+    // TODO KF6 Remove
     property bool runAutomatically
 
     // This is used to disable mouse selection if the user interacts only with keyboard
@@ -122,7 +120,6 @@ ListView {
 
     function runCurrentIndex(event) {
         if (!currentItem) {
-            runAutomatically = true
             return;
         } else {
             // If user presses Shift+Return to invoke an action, invoke the first runner action
@@ -140,7 +137,6 @@ ListView {
             if (resultModel.run(resultModel.index(currentIndex, 0))) {
                 activated()
             }
-            runAutomatically = false
         }
     }
 
@@ -208,6 +204,5 @@ ListView {
 
     function setQueryString(queryString) {
         resultModel.queryString = queryString
-        runAutomatically = false
     }
 }
