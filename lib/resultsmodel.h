@@ -25,6 +25,7 @@
 #include <QIcon>
 #include <QSortFilterProxyModel>
 #include <QScopedPointer>
+#include <KRunner/RunnerManager>
 
 #include "milou_export.h"
 
@@ -63,6 +64,7 @@ class MILOU_EXPORT ResultsModel : public QSortFilterProxyModel
     // FIXME rename to singleModeRunnerName or something
     Q_PROPERTY(QString runnerName READ runnerName NOTIFY runnerChanged)
     Q_PROPERTY(QIcon runnerIcon READ runnerIcon NOTIFY runnerChanged)
+    Q_PROPERTY(Plasma::RunnerManager* runnerManager READ runnerManager CONSTANT)
 
 public:
     explicit ResultsModel(QObject *parent = nullptr);
@@ -119,6 +121,8 @@ public:
      * Get mime data for the result at given model index @p idx
      */
     Q_INVOKABLE QMimeData *getMimeData(const QModelIndex &idx) const;
+
+    Plasma::RunnerManager* runnerManager() const;
 
 Q_SIGNALS:
     /**

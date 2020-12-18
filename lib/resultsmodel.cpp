@@ -25,6 +25,7 @@
 #include "runnerresultsmodel.h"
 
 #include <QIdentityProxyModel>
+#include <KRunner/RunnerManager>
 
 #include <KDescendantsProxyModel>
 #include <KModelIndexProxyMapper>
@@ -453,6 +454,11 @@ QMimeData *ResultsModel::getMimeData(const QModelIndex &idx) const
         return nullptr;
     }
     return d->resultsModel->mimeData({resultsIdx});
+}
+
+Plasma::RunnerManager* Milou::ResultsModel::runnerManager() const
+{
+    return d->resultsModel->runnerManager();
 }
 
 #include "resultsmodel.moc"

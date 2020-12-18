@@ -41,6 +41,7 @@ RunnerResultsModel::RunnerResultsModel(QObject *parent)
     connect(m_manager, &RunnerManager::queryFinished, this, [this] {
         setQuerying(false);
     });
+    connect(m_manager, &RunnerManager::setSearchTerm, this, &RunnerResultsModel::queryStringChangeRequested);
 
     m_resetTimer.setSingleShot(true);
     m_resetTimer.setInterval(500);
@@ -262,40 +263,16 @@ void RunnerResultsModel::clear()
 bool RunnerResultsModel::run(const QModelIndex &idx)
 {
     Plasma::QueryMatch match = fetchMatch(idx);
-    if (!match.isValid()) {
-        return false;
+    if (match.isValid() && match.isEnabled()) {
+        return m_manager->runMatch(match);
     }
-
-    if (match.type() == Plasma::QueryMatch::InformationalMatch) {
-        QString info = match.data().toString();
-        int editPos = info.length();
-
-        if (!info.isEmpty()) {
-            // FIXME: pretty lame way to decide if this is a query prototype
-            // Copied from kde4 krunner interface.cpp
-            if (!match.runner()) {
-                // lame way of checking to see if this is a Help Button generated match!
-                int index = info.indexOf(QStringLiteral(":q:"));
-
-                if (index != -1) {
-                    editPos = index;
-                    info.replace(QStringLiteral(":q:"), QString());
-                }
-            }
-
-            Q_EMIT queryStringChangeRequested(info, editPos);
-            return false;
-        }
-    }
-
-    m_manager->run(match);
-    return true;
+    return false;
 }
 
 bool RunnerResultsModel::runAction(const QModelIndex &idx, int actionNumber)
 {
     Plasma::QueryMatch match = fetchMatch(idx);
-    if (!match.isValid()) {
+    if (!match.isValid() || !match.isEnabled()) {
         return false;
     }
 
@@ -304,10 +281,8 @@ bool RunnerResultsModel::runAction(const QModelIndex &idx, int actionNumber)
         return false;
     }
 
-    QAction *action = actions.at(actionNumber);
-    match.setSelectedAction(action);
-    m_manager->run(match);
-    return true;
+    match.setSelectedAction(actions.at(actionNumber));
+    return m_manager->runMatch(match);
 }
 
 int RunnerResultsModel::columnCount(const QModelIndex &parent) const
@@ -471,4 +446,9 @@ QMimeData *RunnerResultsModel::mimeData(const QModelIndexList &indexes) const
     }
 
     return m_manager->mimeDataForMatch(match);
+}
+
+Plasma::RunnerManager *RunnerResultsModel::runnerManager() const
+{
+    return m_manager;
 }

@@ -75,6 +75,8 @@ public:
 
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
+    Plasma::RunnerManager* runnerManager() const;
+
 Q_SIGNALS:
     void queryStringChangeRequested(const QString &queryString, int pos);
 

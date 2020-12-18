@@ -30,6 +30,7 @@ ListView {
     id: listView
     property alias queryString: resultModel.queryString
     property alias runner: resultModel.runner
+    property alias runnerManager: resultModel.runnerManager
 
     property alias runnerName: resultModel.runnerName
     property alias runnerIcon: resultModel.runnerIcon
