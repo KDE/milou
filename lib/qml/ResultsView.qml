@@ -65,6 +65,8 @@ ListView {
         return savedMousePosition != Milou.MouseHelper.globalMousePosition();
     }
 
+    property int __widestCategoryWidth: 0
+
     Milou.DragHelper {
         id: dragHelper
         dragIconSize: units.iconSizes.medium
@@ -77,7 +79,10 @@ ListView {
             listView.updateQueryString(queryString, pos)
         }
         onQueryStringChanged: resetView()
-        onModelReset: resetView()
+        onModelReset: {
+            resetView()
+            listView.__widestCategoryWidth = 0;
+        }
 
         onRowsInserted: {
             // Keep the selection at the top as items inserted to the beginning will shift it downwards
@@ -111,6 +116,15 @@ ListView {
     delegate: ResultDelegate {
         id: resultDelegate
         width: listView.width
+        categoryWidth: Math.min(units.gridUnit * 10, listView.__widestCategoryWidth) + units.smallSpacing
+
+        function updateTotalCategoryWidth() {
+            if (implicitCategoryWidth > listView.__widestCategoryWidth) {
+                listView.__widestCategoryWidth = implicitCategoryWidth;
+            }
+        }
+        onImplicitCategoryWidthChanged: updateTotalCategoryWidth()
+        Component.onCompleted: updateTotalCategoryWidth()
     }
 
     //

@@ -43,6 +43,7 @@ MouseArea {
     property string typeText: sectionHasChanged ? ListView.section : ""
     property var additionalActions: typeof actions !== "undefined" ? actions : []
     property int categoryWidth: units.gridUnit * 10
+    readonly property int implicitCategoryWidth: typeText.implicitWidth
 
     Accessible.role: Accessible.ListItem
     Accessible.name: displayLabel.text
@@ -154,7 +155,7 @@ MouseArea {
         elide: Text.ElideRight
         textFormat: Text.PlainText
 
-        width: resultDelegate.categoryWidth - units.largeSpacing
+        width: resultDelegate.categoryWidth
         anchors {
             left: parent.left
             verticalCenter: listItem.verticalCenter
@@ -177,7 +178,7 @@ MouseArea {
             anchors {
                 left: parent.left
                 right: parent.right
-                leftMargin: resultDelegate.categoryWidth
+                leftMargin: resultDelegate.categoryWidth + units.largeSpacing
             }
             height: Math.max(typePixmap.height, displayLabel.height, subtextLabel.height)
 
