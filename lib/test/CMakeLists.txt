@@ -1,3 +1,4 @@
+find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test)
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
