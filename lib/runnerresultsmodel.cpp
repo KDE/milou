@@ -114,7 +114,7 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
         auto oldCategoryIt = m_matches.find(*it);
         Q_ASSERT(oldCategoryIt != m_matches.end());
 
-        auto &oldMatchesInCategory =  *oldCategoryIt;
+        auto &oldMatchesInCategory = *oldCategoryIt;
         const auto newMatchesInCategory = newMatches.value(*it);
 
         Q_ASSERT(!oldMatchesInCategory.isEmpty());
@@ -360,7 +360,6 @@ QVariant RunnerResultsModel::data(const QModelIndex &index, int role) const
 
             return actionsList;
         }
-
         }
 
         return QVariant();
@@ -396,7 +395,6 @@ QVariant RunnerResultsModel::data(const QModelIndex &index, int role) const
         }
         return highestRelevance;
     }
-
     }
 
     return QVariant();

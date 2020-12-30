@@ -26,8 +26,9 @@
 
 using namespace Milou;
 
-DragHelper::DragHelper(QObject* parent) : QObject(parent)
-, m_dragIconSize(32)
+DragHelper::DragHelper(QObject *parent)
+    : QObject(parent)
+    , m_dragIconSize(32)
 {
 }
 
@@ -58,9 +59,10 @@ void DragHelper::startDrag(QQuickItem *item, QMimeData *mimeData, const QIcon &i
 {
     // This allows the caller to return, making sure we don't crash if
     // the caller is destroyed mid-drag
-
+    // clang-format off
     QMetaObject::invokeMethod(this, "doDrag", Qt::QueuedConnection,
         Q_ARG(QQuickItem*, item), Q_ARG(QMimeData*, mimeData), Q_ARG(QIcon, icon));
+    // clang-format on
 }
 
 void DragHelper::startDrag(QQuickItem *item, QMimeData *mimeData, const QString &iconName)
@@ -81,4 +83,3 @@ void DragHelper::doDrag(QQuickItem *item, QMimeData *mimeData, const QIcon &icon
 
     Q_EMIT dropped();
 }
-

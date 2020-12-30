@@ -33,21 +33,21 @@
 
 using namespace Milou;
 
-Preview::Preview(QQuickItem* parent)
+Preview::Preview(QQuickItem *parent)
     : QQuickItem(parent)
     , m_loaded(false)
     , m_declarativeItem(nullptr)
     , m_filePlugin(nullptr)
 {
-    //setFlag(QGraphicsItem::ItemHasNoContents, false);
+    // setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     m_plugins = allPlugins();
-    for (PreviewPlugin* plugin : qAsConst(m_plugins)) {
-        connect(plugin, &PreviewPlugin::previewGenerated,
-                this, &Preview::slotPreviewGenerated);
+    for (PreviewPlugin *plugin : qAsConst(m_plugins)) {
+        connect(plugin, &PreviewPlugin::previewGenerated, this, &Preview::slotPreviewGenerated);
 
-        if (plugin->mimetypes().contains(QStringLiteral("file")))
+        if (plugin->mimetypes().contains(QStringLiteral("file"))) {
             m_filePlugin = plugin;
+        }
     }
 
     // When the object is created, it doesn't have a QQmlContext
@@ -56,8 +56,8 @@ Preview::Preview(QQuickItem* parent)
 
 void Preview::setPluginContexts()
 {
-    QQmlContext* context = qmlContext(parentItem());
-    for (PreviewPlugin* plugin : qAsConst(m_plugins)) {
+    QQmlContext *context = qmlContext(parentItem());
+    for (PreviewPlugin *plugin : qAsConst(m_plugins)) {
         plugin->setContext(context);
     }
 }
@@ -69,8 +69,9 @@ Preview::~Preview()
 void Preview::refresh()
 {
     if (m_oldUrl == m_url && m_oldMimetype == m_mimetype) {
-        if (m_declarativeItem)
+        if (m_declarativeItem) {
             Q_EMIT loadingFinished();
+        }
         return;
     }
 
@@ -78,7 +79,7 @@ void Preview::refresh()
 
     bool foundPlugin = false;
     QUrl url = QUrl::fromLocalFile(m_url);
-    for (PreviewPlugin* plugin : qAsConst(m_plugins)) {
+    for (PreviewPlugin *plugin : qAsConst(m_plugins)) {
         const QStringList mimeTypes = plugin->mimetypes();
         for (const QString &mime : mimeTypes) {
             if (m_mimetype.startsWith(mime)) {
@@ -101,7 +102,7 @@ void Preview::refresh()
     }
 }
 
-void Preview::slotPreviewGenerated(QQuickItem* item)
+void Preview::slotPreviewGenerated(QQuickItem *item)
 {
     clear();
 
@@ -128,7 +129,7 @@ QString Preview::mimetype() const
     return m_mimetype;
 }
 
-void Preview::setMimetype(const QString& mime)
+void Preview::setMimetype(const QString &mime)
 {
     if (m_mimetype != mime) {
         m_oldMimetype = m_mimetype;
@@ -136,7 +137,7 @@ void Preview::setMimetype(const QString& mime)
     }
 }
 
-void Preview::setUrl(const QString& url)
+void Preview::setUrl(const QString &url)
 {
     if (m_url != url) {
         m_oldUrl = m_url;
@@ -149,7 +150,7 @@ QString Preview::url() const
     return m_url;
 }
 
-void Preview::setHighlight(const QString& highlight)
+void Preview::setHighlight(const QString &highlight)
 {
     m_highlight = highlight;
 }
@@ -159,18 +160,18 @@ QString Preview::highlight() const
     return m_highlight;
 }
 
-QList<PreviewPlugin*> Preview::allPlugins()
+QList<PreviewPlugin *> Preview::allPlugins()
 {
     KService::List serviceList = KServiceTypeTrader::self()->query(QStringLiteral("MilouPreviewPlugin"));
-    QList<PreviewPlugin*> plugins;
+    QList<PreviewPlugin *> plugins;
 
     KService::List::const_iterator it;
     for (it = serviceList.constBegin(); it != serviceList.constEnd(); it++) {
         KService::Ptr service = *it;
 
         QString error;
-        PreviewPlugin* p = service->createInstance<PreviewPlugin>(this, QVariantList(), &error);
-        if(!p) {
+        PreviewPlugin *p = service->createInstance<PreviewPlugin>(this, QVariantList(), &error);
+        if (!p) {
             qWarning() << "Could not create PreviewPlugin:" << service->library();
             qWarning() << error;
             continue;

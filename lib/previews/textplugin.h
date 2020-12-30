@@ -29,9 +29,10 @@ class TextPlugin : public Milou::PreviewPlugin
 {
     Q_OBJECT
 public:
-    explicit TextPlugin(QObject* parent, const QVariantList&);
+    explicit TextPlugin(QObject *parent, const QVariantList &);
 
-    QStringList mimetypes() override {
+    QStringList mimetypes() override
+    {
         return QStringList() << QLatin1String("text/");
     }
     void generatePreview() override;

@@ -22,17 +22,19 @@
 
 #include <QAbstractItemModelTester>
 #include <QCoreApplication>
-#include <QTimer>
 #include <QDebug>
+#include <QTimer>
 
 #include "../sourcesmodel.h"
 
 using namespace Milou;
 
-class TestObject : public QObject {
+class TestObject : public QObject
+{
     Q_OBJECT
 public Q_SLOTS:
-    void fire() {
+    void fire()
+    {
         i++;
         if (i > queryString.size()) {
             timer.stop();
@@ -51,7 +53,8 @@ public Q_SLOTS:
     }
 
 public:
-    TestObject(const QString& str) {
+    TestObject(const QString &str)
+    {
         queryString = str;
         i = 0;
 
@@ -59,18 +62,18 @@ public:
         connect(&timer, SIGNAL(timeout()), this, SLOT(fire()));
     }
 
-    SourcesModel* model;
+    SourcesModel *model;
     QString queryString;
     int i;
 
     QTimer timer;
 };
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
 
-    SourcesModel* model = new SourcesModel();
+    SourcesModel *model = new SourcesModel();
     auto mt = new QAbstractItemModelTester(model);
     Q_UNUSED(mt);
     model->setQueryLimit(20);

@@ -23,13 +23,13 @@
 #include "textplugin.h"
 
 #include <QFile>
-#include <QQmlEngine>
 #include <QQmlComponent>
 #include <QQmlContext>
-#include <QTextStream>
+#include <QQmlEngine>
 #include <QStandardPaths>
+#include <QTextStream>
 
-TextPlugin::TextPlugin(QObject* parent, const QVariantList&)
+TextPlugin::TextPlugin(QObject *parent, const QVariantList &)
     : PreviewPlugin(parent)
 {
 }
@@ -41,7 +41,8 @@ void TextPlugin::generatePreview()
         return;
     }
 
-    QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("plasma/plasmoids/org.kde.milou/contents/ui/previews/TextPreview.qml"));
+    QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, //
+                                          QStringLiteral("plasma/plasmoids/org.kde.milou/contents/ui/previews/TextPreview.qml"));
     QQmlComponent component(context()->engine(), path);
 
     QQuickItem *item = qobject_cast<QQuickItem *>(component.create());
@@ -59,4 +60,3 @@ void TextPlugin::generatePreview()
 MILOU_EXPORT_PREVIEW(TextPlugin, "miloutextplugin")
 
 #include "textplugin.moc"
-

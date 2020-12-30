@@ -27,21 +27,20 @@
 #include <KSharedConfig>
 
 #include <QAction>
-#include <QModelIndex>
 #include <QMimeData>
+#include <QModelIndex>
 #include <QSet>
 
 using namespace Milou;
 
-SourcesModel::SourcesModel(QObject* parent)
+SourcesModel::SourcesModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_size(0)
 {
     m_manager = new Plasma::RunnerManager(this);
-    connect(m_manager, &Plasma::RunnerManager::matchesChanged,
-            this, &SourcesModel::slotMatchesChanged);
+    connect(m_manager, &Plasma::RunnerManager::matchesChanged, this, &SourcesModel::slotMatchesChanged);
 
-    KDirWatch* watch = KDirWatch::self();
+    KDirWatch *watch = KDirWatch::self();
     connect(watch, &KDirWatch::created, this, &SourcesModel::slotSettingsFileChanged);
     connect(watch, &KDirWatch::dirty, this, &SourcesModel::slotSettingsFileChanged);
     watch->addFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("krunnerrc")));
@@ -75,8 +74,7 @@ Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
         const TypeData data = m_matches.value(type);
         if (row < data.shown.size()) {
             return data.shown[row];
-        }
-        else {
+        } else {
             row -= data.shown.size();
             if (row < 0) {
                 break;
@@ -87,71 +85,74 @@ Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
     return Plasma::QueryMatch(nullptr);
 }
 
-QVariant SourcesModel::data(const QModelIndex& index, int role) const
+QVariant SourcesModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return QVariant();
+    }
 
-    if (index.row() >= m_size)
+    if (index.row() >= m_size) {
         return QVariant();
+    }
 
     Plasma::QueryMatch m = fetchMatch(index.row());
     Q_ASSERT(m.runner());
 
-    switch(role) {
-        case Qt::DisplayRole:
-            return m.text();
+    switch (role) {
+    case Qt::DisplayRole:
+        return m.text();
 
-        case Qt::DecorationRole:
-            if (!m.iconName().isEmpty()) {
-                return m.iconName();
-            }
-
-            return m.icon();
-
-        case TypeRole:
-            return m.matchCategory();
-
-        case SubtextRole:
-            return m.subtext();
-
-        case ActionsRole: {
-            const auto &actions = m_manager->actionsForMatch(m);
-            if (actions.isEmpty()) {
-                return QVariantList();
-            }
-
-            QVariantList actionsList;
-            actionsList.reserve(actions.size());
-
-            for (QAction *action : actions) {
-                actionsList.append(QVariant::fromValue(action));
-            }
-
-            return actionsList;
+    case Qt::DecorationRole:
+        if (!m.iconName().isEmpty()) {
+            return m.iconName();
         }
-        case DuplicateRole:
-            return m_duplicates.value(m.text());
 
-            /*
-        case PreviewTypeRole:
-            return m.previewType();
+        return m.icon();
 
-        case PreviewUrlRole:
-            return m.previewUrl();
+    case TypeRole:
+        return m.matchCategory();
 
-        case PreviewLabelRole:
-            return m.previewLabel();
-            */
+    case SubtextRole:
+        return m.subtext();
+
+    case ActionsRole: {
+        const auto &actions = m_manager->actionsForMatch(m);
+        if (actions.isEmpty()) {
+            return QVariantList();
+        }
+
+        QVariantList actionsList;
+        actionsList.reserve(actions.size());
+
+        for (QAction *action : actions) {
+            actionsList.append(QVariant::fromValue(action));
+        }
+
+        return actionsList;
+    }
+    case DuplicateRole:
+        return m_duplicates.value(m.text());
+
+        /*
+    case PreviewTypeRole:
+        return m.previewType();
+
+    case PreviewUrlRole:
+        return m.previewUrl();
+
+    case PreviewLabelRole:
+        return m.previewLabel();
+        */
     }
 
     return QVariant();
 }
 
-int SourcesModel::rowCount(const QModelIndex& parent) const
+int SourcesModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
+    if (parent.isValid()) {
         return 0;
+    }
 
     return m_size;
 }
@@ -171,7 +172,7 @@ QString SourcesModel::runner() const
     return m_runner;
 }
 
-void SourcesModel::setRunner(const QString& runner)
+void SourcesModel::setRunner(const QString &runner)
 {
     if (m_runner != runner) {
         m_runner = runner;
@@ -212,7 +213,7 @@ void SourcesModel::setQueryLimit(int limit)
     */
 }
 
-void SourcesModel::setQueryString(const QString& str)
+void SourcesModel::setQueryString(const QString &str)
 {
     if (str.trimmed() == m_queryString.trimmed()) {
         return;
@@ -246,11 +247,11 @@ void SourcesModel::slotResetTimeout()
     }
 }
 
-void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
+void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch> &l)
 {
     // We do reset handling ourselves, so ignore clears if the reset timer
     // is supposed to handle them (see setQueryString)
-    if(l.length() == 0 && m_resetTimer.isActive() && !m_modelPopulated) {
+    if (l.length() == 0 && m_resetTimer.isActive() && !m_modelPopulated) {
         return;
     }
 
@@ -297,14 +298,13 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
         }
     }
 
-    auto sortFunc = [&](const QString& l, const QString& r) {
+    auto sortFunc = [&](const QString &l, const QString &r) {
         bool lHigher = higherTypes.contains(l);
         bool rHigher = higherTypes.contains(r);
 
         if (lHigher == rHigher) {
             return false;
-        }
-        else {
+        } else {
             return lHigher;
         }
     };
@@ -318,10 +318,11 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
 // Tries to make sure that all the types have the same number
 // of visible items
 //
-void SourcesModel::slotMatchAdded(const Plasma::QueryMatch& m)
+void SourcesModel::slotMatchAdded(const Plasma::QueryMatch &m)
 {
-    if (m_queryString.isEmpty())
+    if (m_queryString.isEmpty()) {
         return;
+    }
 
     QString matchType = m.matchCategory();
 

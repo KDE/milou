@@ -24,8 +24,8 @@
 
 #include "runnerresultsmodel.h"
 
-#include <QIdentityProxyModel>
 #include <KRunner/RunnerManager>
+#include <QIdentityProxyModel>
 
 #include <KDescendantsProxyModel>
 #include <KModelIndexProxyMapper>
@@ -45,14 +45,16 @@ class SortProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
-    SortProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
+    SortProxyModel(QObject *parent)
+        : QSortFilterProxyModel(parent)
     {
         setDynamicSortFilter(true);
         sort(0, Qt::DescendingOrder);
     }
     ~SortProxyModel() override = default;
 
-    void setQueryString(const QString &queryString) {
+    void setQueryString(const QString &queryString)
+    {
         const QStringList words = queryString.split(QLatin1Char(' '), Qt::SkipEmptyParts);
         if (m_words != words) {
             m_words = words;
@@ -60,7 +62,8 @@ public:
         }
     }
 
-    bool categoryHasMatchWithAllWords(const QModelIndex &categoryIdx) const {
+    bool categoryHasMatchWithAllWords(const QModelIndex &categoryIdx) const
+    {
         for (int i = 0; i < sourceModel()->rowCount(categoryIdx); ++i) {
             const QModelIndex idx = sourceModel()->index(i, 0, categoryIdx);
             const QString display = idx.data(Qt::DisplayRole).toString();
@@ -129,9 +132,9 @@ class CategoryDistributionProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
-    CategoryDistributionProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
+    CategoryDistributionProxyModel(QObject *parent)
+        : QSortFilterProxyModel(parent)
     {
-
     }
     ~CategoryDistributionProxyModel() override = default;
 
@@ -150,8 +153,13 @@ public:
         }
     }
 
-    int limit() const { return m_limit; }
-    void setLimit(int limit) {
+    int limit() const
+    {
+        return m_limit;
+    }
+
+    void setLimit(int limit)
+    {
         if (m_limit == limit) {
             return;
         }
@@ -223,16 +231,18 @@ class HideRootLevelProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
-    HideRootLevelProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
+    HideRootLevelProxyModel(QObject *parent)
+        : QSortFilterProxyModel(parent)
     {
-
     }
     ~HideRootLevelProxyModel() override = default;
 
-    QAbstractItemModel *treeModel() const {
+    QAbstractItemModel *treeModel() const
+    {
         return m_treeModel;
     }
-    void setTreeModel(QAbstractItemModel *treeModel) {
+    void setTreeModel(QAbstractItemModel *treeModel)
+    {
         m_treeModel = treeModel;
         invalidateFilter();
     }
@@ -260,9 +270,9 @@ class DuplicateDetectorProxyModel : public QIdentityProxyModel
     Q_OBJECT
 
 public:
-    DuplicateDetectorProxyModel(QObject *parent) : QIdentityProxyModel(parent)
+    DuplicateDetectorProxyModel(QObject *parent)
+        : QIdentityProxyModel(parent)
     {
-
     }
     ~DuplicateDetectorProxyModel() override = default;
 
@@ -287,7 +297,6 @@ public:
 
         return false;
     }
-
 };
 
 class Q_DECL_HIDDEN ResultsModel::Private
@@ -305,7 +314,6 @@ public:
     KDescendantsProxyModel *flattenModel;
     HideRootLevelProxyModel *hideRootModel;
     DuplicateDetectorProxyModel *duplicateDetectorModel;
-
 };
 
 ResultsModel::Private::Private(ResultsModel *q)
@@ -317,7 +325,6 @@ ResultsModel::Private::Private(ResultsModel *q)
     , hideRootModel(new HideRootLevelProxyModel(q))
     , duplicateDetectorModel(new DuplicateDetectorProxyModel(q))
 {
-
 }
 
 ResultsModel::ResultsModel(QObject *parent)
@@ -456,7 +463,7 @@ QMimeData *ResultsModel::getMimeData(const QModelIndex &idx) const
     return d->resultsModel->mimeData({resultsIdx});
 }
 
-Plasma::RunnerManager* Milou::ResultsModel::runnerManager() const
+Plasma::RunnerManager *Milou::ResultsModel::runnerManager() const
 {
     return d->resultsModel->runnerManager();
 }

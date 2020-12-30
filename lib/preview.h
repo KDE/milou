@@ -23,11 +23,11 @@
 #ifndef PREVIEW_H
 #define PREVIEW_H
 
-#include <QQuickItem>
 #include "milou_export.h"
+#include <QQuickItem>
 
-namespace Milou {
-
+namespace Milou
+{
 class PreviewPlugin;
 
 class MILOU_EXPORT Preview : public QQuickItem
@@ -39,19 +39,22 @@ class MILOU_EXPORT Preview : public QQuickItem
     Q_PROPERTY(bool loaded READ loaded)
 
 public:
-    explicit Preview(QQuickItem* parent = nullptr);
+    explicit Preview(QQuickItem *parent = nullptr);
     ~Preview() override;
 
     QString mimetype() const;
-    void setMimetype(const QString& mime);
+    void setMimetype(const QString &mime);
 
     QString url() const;
-    void setUrl(const QString& url);
+    void setUrl(const QString &url);
 
     QString highlight() const;
-    void setHighlight(const QString& highlight);
+    void setHighlight(const QString &highlight);
 
-    bool loaded() const { return m_loaded; }
+    bool loaded() const
+    {
+        return m_loaded;
+    }
 
 Q_SIGNALS:
     void loadingFinished();
@@ -61,7 +64,7 @@ public Q_SLOTS:
     void clear();
 
 private Q_SLOTS:
-    void slotPreviewGenerated(QQuickItem* item);
+    void slotPreviewGenerated(QQuickItem *item);
 
     void setPluginContexts();
 
@@ -74,11 +77,11 @@ private:
     QString m_oldMimetype;
     QString m_oldUrl;
 
-    QQuickItem* m_declarativeItem;
+    QQuickItem *m_declarativeItem;
 
-    QList<Milou::PreviewPlugin*> m_plugins;
-    QList<Milou::PreviewPlugin*> allPlugins();
-    PreviewPlugin* m_filePlugin;
+    QList<Milou::PreviewPlugin *> m_plugins;
+    QList<Milou::PreviewPlugin *> allPlugins();
+    PreviewPlugin *m_filePlugin;
 };
 
 }

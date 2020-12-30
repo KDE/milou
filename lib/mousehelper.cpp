@@ -25,7 +25,7 @@
 
 using namespace Milou;
 
-MouseHelper::MouseHelper(QObject* parent)
+MouseHelper::MouseHelper(QObject *parent)
     : QObject(parent)
 {
 }

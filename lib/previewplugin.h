@@ -23,19 +23,19 @@
 #ifndef MILOU_PREVIEWPLUGIN_H
 #define MILOU_PREVIEWPLUGIN_H
 
+#include "milou_export.h"
 #include <KService>
 #include <QQuickItem>
-#include "milou_export.h"
 
 #include <QTextDocument>
 
-namespace Milou {
-
+namespace Milou
+{
 class MILOU_EXPORT PreviewPlugin : public QObject
 {
     Q_OBJECT
 public:
-    explicit PreviewPlugin(QObject* parent);
+    explicit PreviewPlugin(QObject *parent);
     ~PreviewPlugin() override;
 
     /**
@@ -57,42 +57,43 @@ public:
      * Retrieve the context, this allows you to create
      * your own preview plugins in QML
      */
-    QQmlContext* context();
+    QQmlContext *context();
 
-    void setContext(QQmlContext* context);
+    void setContext(QQmlContext *context);
 
     /**
      * The url of the preview being generated
      */
     QUrl url() const;
-    void setUrl(const QUrl& url);
+    void setUrl(const QUrl &url);
 
     /**
      * The mimetype of the url for whcih the preview
      * should be generated
      */
     QString mimetype() const;
-    void setMimetype(const QString& mimetype);
+    void setMimetype(const QString &mimetype);
 
     /**
      * A term that should be highlighted in the preview
      * that is generated
      */
     QString highlight() const;
-    void setHighlight(const QString& term);
+    void setHighlight(const QString &term);
 
 Q_SIGNALS:
-    void previewGenerated(QQuickItem* graphicsItem);
+    void previewGenerated(QQuickItem *graphicsItem);
 
 protected:
     /**
      * Highlights all the occurrences of highlight in the document
      */
-    void highlight(const QTextDocument* doc) const;
+    void highlight(const QTextDocument *doc) const;
 
     bool onHighDPI() const;
+
 private:
-    QQmlContext* m_context;
+    QQmlContext *m_context;
 
     QUrl m_url;
     QString m_highlight;
@@ -107,7 +108,6 @@ private:
  * \param classname The name of the subclass to export
  * \param libname The name of the library which should export the extractor
  */
-#define MILOU_EXPORT_PREVIEW( classname, libname )    \
-    K_PLUGIN_FACTORY(factory, registerPlugin<classname>();)
+#define MILOU_EXPORT_PREVIEW(classname, libname) K_PLUGIN_FACTORY(factory, registerPlugin<classname>();)
 
 #endif // MILOU_PREVIEWPLUGIN_H

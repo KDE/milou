@@ -22,11 +22,11 @@
 
 #include <QGuiApplication>
 
-#include <QQmlEngine>
 #include <QCommandLineParser>
-#include <QMimeDatabase>
-#include <QTimer>
 #include <QDebug>
+#include <QMimeDatabase>
+#include <QQmlEngine>
+#include <QTimer>
 
 #include "preview.h"
 
@@ -46,8 +46,8 @@ int main(int argc, char **argv)
     QQmlComponent component(&engine);
     component.setData("import QtQuick.Controls 1.2\nApplicationWindow { visible: true \n}", QUrl());
 
-    QObject* obj = component.create();
-    QQuickItem* parentItem = obj->property("contentItem").value<QQuickItem*>();
+    QObject *obj = component.create();
+    QQuickItem *parentItem = obj->property("contentItem").value<QQuickItem *>();
 
     const QString url = parser.positionalArguments().constFirst();
     QMimeDatabase db;

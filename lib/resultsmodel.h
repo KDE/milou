@@ -22,15 +22,15 @@
 
 #pragma once
 
-#include <QIcon>
-#include <QSortFilterProxyModel>
-#include <QScopedPointer>
 #include <KRunner/RunnerManager>
+#include <QIcon>
+#include <QScopedPointer>
+#include <QSortFilterProxyModel>
 
 #include "milou_export.h"
 
-namespace Milou {
-
+namespace Milou
+{
 class MILOU_EXPORT ResultsModel : public QSortFilterProxyModel
 {
     Q_OBJECT
@@ -64,7 +64,7 @@ class MILOU_EXPORT ResultsModel : public QSortFilterProxyModel
     // FIXME rename to singleModeRunnerName or something
     Q_PROPERTY(QString runnerName READ runnerName NOTIFY runnerChanged)
     Q_PROPERTY(QIcon runnerIcon READ runnerIcon NOTIFY runnerChanged)
-    Q_PROPERTY(Plasma::RunnerManager* runnerManager READ runnerManager CONSTANT)
+    Q_PROPERTY(Plasma::RunnerManager *runnerManager READ runnerManager CONSTANT)
 
 public:
     explicit ResultsModel(QObject *parent = nullptr);
@@ -78,7 +78,7 @@ public:
         CategoryRole,
         SubtextRole,
         DuplicateRole,
-        ActionsRole
+        ActionsRole,
     };
     Q_ENUM(Roles)
 
@@ -122,7 +122,7 @@ public:
      */
     Q_INVOKABLE QMimeData *getMimeData(const QModelIndex &idx) const;
 
-    Plasma::RunnerManager* runnerManager() const;
+    Plasma::RunnerManager *runnerManager() const;
 
 Q_SIGNALS:
     /**
@@ -134,7 +134,6 @@ Q_SIGNALS:
 private:
     class Private;
     QScopedPointer<Private> d;
-
 };
 
 } // namespace Milou

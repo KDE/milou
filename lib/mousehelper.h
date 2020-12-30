@@ -27,14 +27,14 @@
 
 #include "milou_export.h"
 
-namespace Milou {
-
+namespace Milou
+{
 class MILOU_EXPORT MouseHelper : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit MouseHelper(QObject* parent = nullptr);
+    explicit MouseHelper(QObject *parent = nullptr);
     ~MouseHelper() override;
 
     Q_INVOKABLE QPointF globalMousePosition() const;

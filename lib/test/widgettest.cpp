@@ -20,32 +20,33 @@
  *
  */
 
-#include <QTimer>
 #include <QApplication>
+#include <QTimer>
 #include <QVBoxLayout>
 
-#include <QWidget>
 #include <QListView>
+#include <QWidget>
 #include <qlineedit.h>
 
 #include "../sourcesmodel.h"
 
 using namespace Milou;
 
-class TestObject : public QWidget {
+class TestObject : public QWidget
+{
     Q_OBJECT
 public Q_SLOTS:
     void main();
 
 public:
-    explicit TestObject(QWidget* parent = nullptr, Qt::WindowFlags f = {})
+    explicit TestObject(QWidget *parent = nullptr, Qt::WindowFlags f = {})
         : QWidget(parent, f)
     {
         QTimer::singleShot(0, this, SLOT(main()));
     }
 };
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
@@ -57,18 +58,17 @@ int main(int argc, char** argv)
 
 void TestObject::main()
 {
-    SourcesModel* smodel = new SourcesModel(this);
+    SourcesModel *smodel = new SourcesModel(this);
     smodel->setQueryLimit(20);
 
-    QListView* view = new QListView(this);
+    QListView *view = new QListView(this);
     view->setModel(smodel);
     view->setAlternatingRowColors(true);
 
-    QLineEdit* edit = new QLineEdit(this);
-    connect(edit, SIGNAL(textChanged(QString)),
-            smodel, SLOT(setQueryString(QString)));
+    QLineEdit *edit = new QLineEdit(this);
+    connect(edit, SIGNAL(textChanged(QString)), smodel, SLOT(setQueryString(QString)));
 
-    QVBoxLayout* l = new QVBoxLayout(this);
+    QVBoxLayout *l = new QVBoxLayout(this);
     l->addWidget(edit);
     l->addWidget(view);
 }

@@ -23,16 +23,16 @@
 #ifndef SOURCESMODEL_H
 #define SOURCESMODEL_H
 
-#include <QTimer>
 #include <QAbstractListModel>
+#include <QTimer>
 
 #include <KRunner/QueryMatch>
 #include <KRunner/RunnerManager>
 
 #include "milou_export.h"
 
-namespace Milou {
-
+namespace Milou
+{
 class MILOU_EXPORT SourcesModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -44,7 +44,7 @@ class MILOU_EXPORT SourcesModel : public QAbstractListModel
     Q_PROPERTY(QIcon runnerIcon READ runnerIcon NOTIFY runnerChanged)
 
 public:
-    explicit SourcesModel(QObject* parent = nullptr);
+    explicit SourcesModel(QObject *parent = nullptr);
     ~SourcesModel() override;
 
     enum Roles {
@@ -54,17 +54,18 @@ public:
         DuplicateRole,
         PreviewTypeRole,
         PreviewUrlRole,
-        PreviewLabelRole
+        PreviewLabelRole,
     };
 
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    bool hasChildren(const QModelIndex&) const override {
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    bool hasChildren(const QModelIndex &) const override
+    {
         return false;
     }
 
     QString runner() const;
-    void setRunner(const QString& runner);
+    void setRunner(const QString &runner);
 
     QString runnerName() const;
     QIcon runnerIcon() const;
@@ -80,13 +81,13 @@ Q_SIGNALS:
      * to update the search term.
      * Eg - Calculator runner
      */
-    void updateSearchTerm(const QString& text, int pos);
+    void updateSearchTerm(const QString &text, int pos);
 
     void runnerChanged();
 
 public Q_SLOTS:
     void reloadConfiguration();
-    void setQueryString(const QString& str);
+    void setQueryString(const QString &str);
     void setQueryLimit(int limit);
     /**
      * Clears the model content and resets the runner context, i.e. no new items will appear.
@@ -96,15 +97,16 @@ public Q_SLOTS:
     bool run(int index);
     bool runAction(int index, int actionIndex);
 
-    Q_INVOKABLE QString getType(int index) const {
+    Q_INVOKABLE QString getType(int index) const
+    {
         return data(createIndex(index, 0), TypeRole).toString();
     }
 
     Q_INVOKABLE QMimeData *getMimeData(int index) const;
 
 private Q_SLOTS:
-    void slotMatchesChanged(const QList<Plasma::QueryMatch>& list);
-    void slotMatchAdded(const Plasma::QueryMatch& match);
+    void slotMatchesChanged(const QList<Plasma::QueryMatch> &list);
+    void slotMatchAdded(const Plasma::QueryMatch &match);
     void slotResetTimeout();
     void slotSettingsFileChanged(const QString &path);
 
@@ -128,7 +130,7 @@ public:
     int m_queryLimit;
     QString m_runner;
 
-    Plasma::RunnerManager* m_manager;
+    Plasma::RunnerManager *m_manager;
     bool m_modelPopulated;
     QTimer m_resetTimer;
 

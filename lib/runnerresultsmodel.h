@@ -24,17 +24,18 @@
 
 #include <QAbstractItemModel>
 #include <QHash>
-#include <QTimer>
 #include <QString>
+#include <QTimer>
 
 #include <KRunner/QueryMatch>
 
-namespace Plasma {
+namespace Plasma
+{
 class RunnerManager;
 }
 
-namespace Milou {
-
+namespace Milou
+{
 class RunnerResultsModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -75,7 +76,7 @@ public:
 
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
-    Plasma::RunnerManager* runnerManager() const;
+    Plasma::RunnerManager *runnerManager() const;
 
 Q_SIGNALS:
     void queryStringChangeRequested(const QString &queryString, int pos);
@@ -99,7 +100,6 @@ private:
 
     QStringList m_categories;
     QHash<QString /*category*/, QVector<Plasma::QueryMatch>> m_matches;
-
 };
 
 } // namespace Milou
