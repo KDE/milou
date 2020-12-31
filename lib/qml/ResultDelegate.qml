@@ -135,7 +135,8 @@ MouseArea {
             __pressX = -1;
             __pressY = -1;
         } else {
-            if (listView.moved) {
+            // In case we display the history we have a QML ListView which does not have the moved property
+            if (!listView.hasOwnProperty("moved") || listView.moved) {
                 listView.currentIndex = index
             } else if (listView.mouseMovedGlobally()) {
                 listView.moved = true
