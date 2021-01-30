@@ -20,9 +20,9 @@ add_library(milou SHARED ${lib_SRCS})
 set_target_properties(milou PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR} )
 
 target_link_libraries (milou
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::Widgets # for QAction...
+    Qt::Qml
+    Qt::Quick
+    Qt::Widgets # for QAction...
     KF5::ItemModels
     KF5::Service
     KF5::Plasma

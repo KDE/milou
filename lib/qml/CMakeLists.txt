@@ -6,7 +6,7 @@ set (plugin_SRCS
 add_library (milouqmlplugin SHARED ${plugin_SRCS})
 
 target_link_libraries (milouqmlplugin
-    Qt5::Qml
+    Qt::Qml
 
     milou
 )

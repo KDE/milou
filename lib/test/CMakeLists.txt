@@ -7,9 +7,9 @@ add_executable(modeltest test.cpp)
 ecm_mark_as_test(modeltest)
 
 target_link_libraries(modeltest
-  Qt5::Core
-  Qt5::Test
-  Qt5::Gui
+  Qt::Core
+  Qt::Test
+  Qt::Gui
   milou
 )
 
@@ -17,9 +17,9 @@ add_executable(widgettest widgettest.cpp)
 ecm_mark_as_test(widgettest)
 
 target_link_libraries(widgettest
-  Qt5::Core
-  Qt5::Gui
-  Qt5::Widgets
+  Qt::Core
+  Qt::Gui
+  Qt::Widgets
   milou
 )
 
@@ -27,8 +27,8 @@ add_executable(previewtest previewtest.cpp)
 ecm_mark_as_test(previewtest)
 
 target_link_libraries(previewtest
-  Qt5::Core
-  Qt5::Gui
-  Qt5::Widgets
+  Qt::Core
+  Qt::Gui
+  Qt::Widgets
   milou
 )
