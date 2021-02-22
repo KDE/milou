@@ -191,7 +191,7 @@ void RunnerResultsModel::setQueryString(const QString &queryString)
     m_hasMatches = false;
     if (queryString.isEmpty()) {
         clear();
-    } else {
+    } else if (!queryString.trimmed().isEmpty()) {
         m_resetTimer.start();
         m_manager->launchQuery(queryString, m_runner);
         setQuerying(true);
