@@ -76,6 +76,11 @@ ListView {
         onQueryStringChangeRequested: {
             listView.updateQueryString(queryString, pos)
         }
+        Component.onCompleted: {
+            if (typeof runnerWindow !== "undefined") {
+                runnerWindow.runnerManager = runnerManager
+            }
+        }
         onQueryStringChanged: resetView()
         onModelReset: resetView()
 
