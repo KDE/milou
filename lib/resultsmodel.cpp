@@ -16,6 +16,7 @@
 #include <KDescendantsProxyModel>
 #include <KModelIndexProxyMapper>
 
+#include <KRunner/AbstractRunner>
 #include <cmath>
 
 using namespace Milou;
@@ -292,7 +293,7 @@ public:
 
     ResultsModel *q;
 
-    QString runner;
+    QPointer<Plasma::AbstractRunner> runner = nullptr;
 
     RunnerResultsModel *resultsModel;
     SortProxyModel *sortModel;
@@ -319,7 +320,6 @@ ResultsModel::ResultsModel(QObject *parent)
 {
     connect(d->resultsModel, &RunnerResultsModel::queryStringChanged, this, &ResultsModel::queryStringChanged);
     connect(d->resultsModel, &RunnerResultsModel::queryingChanged, this, &ResultsModel::queryingChanged);
-    connect(d->resultsModel, &RunnerResultsModel::runnerChanged, this, &ResultsModel::runnerChanged);
     connect(d->resultsModel, &RunnerResultsModel::queryStringChangeRequested, this, &ResultsModel::queryStringChangeRequested);
 
     connect(d->resultsModel, &RunnerResultsModel::queryStringChanged, d->sortModel, &SortProxyModel::setQueryString);
@@ -357,7 +357,7 @@ QString ResultsModel::queryString() const
 
 void ResultsModel::setQueryString(const QString &queryString)
 {
-    d->resultsModel->setQueryString(queryString);
+    d->resultsModel->setQueryString(queryString, runner());
 }
 
 int ResultsModel::limit() const
@@ -382,22 +382,30 @@ bool ResultsModel::querying() const
 
 QString ResultsModel::runner() const
 {
-    return d->resultsModel->runner();
+    return d->runner ? d->runner->id() : QString();
 }
 
-void ResultsModel::setRunner(const QString &runner)
+void ResultsModel::setRunner(const QString &runnerId)
 {
-    d->resultsModel->setRunner(runner);
+    if (runnerId == runner()) {
+        return;
+    }
+    if (runnerId.isEmpty()) {
+        d->runner = nullptr;
+    } else {
+        d->runner = runnerManager()->runner(runnerId);
+    }
+    Q_EMIT runnerChanged();
 }
 
 QString ResultsModel::runnerName() const
 {
-    return d->resultsModel->runnerName();
+    return d->runner ? d->runner->name() : QString();
 }
 
 QIcon ResultsModel::runnerIcon() const
 {
-    return d->resultsModel->runnerIcon();
+    return d->runner ? d->runner->icon() : QIcon();
 }
 
 QHash<int, QByteArray> ResultsModel::roleNames() const

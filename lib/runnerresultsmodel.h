@@ -31,18 +31,11 @@ public:
     ~RunnerResultsModel() override;
 
     QString queryString() const;
-    void setQueryString(const QString &queryString);
+    void setQueryString(const QString &queryString, const QString &runner);
     Q_SIGNAL void queryStringChanged(const QString &queryString);
 
     bool querying() const;
     Q_SIGNAL void queryingChanged();
-
-    QString runner() const;
-    void setRunner(const QString &runner);
-    Q_SIGNAL void runnerChanged();
-
-    QString runnerName() const;
-    QIcon runnerIcon() const;
 
     /**
      * Clears the model content and resets the runner context, i.e. no new items will appear.
@@ -79,7 +72,7 @@ private:
     QString m_queryString;
     bool m_querying = false;
 
-    QString m_runner;
+    QString m_prevRunner;
 
     QTimer m_resetTimer;
     bool m_hasMatches = false;

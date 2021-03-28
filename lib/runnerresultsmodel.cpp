@@ -167,19 +167,21 @@ QString RunnerResultsModel::queryString() const
     return m_queryString;
 }
 
-void RunnerResultsModel::setQueryString(const QString &queryString)
+void RunnerResultsModel::setQueryString(const QString &queryString, const QString &runner)
 {
-    if (m_queryString.trimmed() == queryString.trimmed()) {
+    // If our query and runner are the same we don't need to query again
+    if (m_queryString.trimmed() == queryString.trimmed() && m_prevRunner == runner) {
         return;
     }
 
+    m_prevRunner = runner;
     m_queryString = queryString;
     m_hasMatches = false;
     if (queryString.isEmpty()) {
         clear();
     } else if (!queryString.trimmed().isEmpty()) {
         m_resetTimer.start();
-        m_manager->launchQuery(queryString, m_runner);
+        m_manager->launchQuery(queryString, runner);
         setQuerying(true);
     }
     Q_EMIT queryStringChanged(queryString);
@@ -196,39 +198,6 @@ void RunnerResultsModel::setQuerying(bool querying)
         m_querying = querying;
         Q_EMIT queryingChanged();
     }
-}
-
-QString RunnerResultsModel::runner() const
-{
-    return m_runner;
-}
-
-void RunnerResultsModel::setRunner(const QString &runner)
-{
-    if (m_runner == runner) {
-        return;
-    }
-
-    m_runner = runner;
-    m_manager->setSingleModeRunnerId(runner);
-    m_manager->setSingleMode(!runner.isEmpty());
-    Q_EMIT runnerChanged();
-}
-
-QString RunnerResultsModel::runnerName() const
-{
-    if (auto *singleRunner = m_manager->singleModeRunner()) {
-        return singleRunner->name();
-    }
-    return QString();
-}
-
-QIcon RunnerResultsModel::runnerIcon() const
-{
-    if (auto *singleRunner = m_manager->singleModeRunner()) {
-        return singleRunner->icon();
-    }
-    return QIcon();
 }
 
 void RunnerResultsModel::clear()

@@ -24,10 +24,11 @@ class MILOU_EXPORT SourcesModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(QString queryString READ queryString WRITE setQueryString)
     Q_PROPERTY(int queryLimit READ queryLimit WRITE setQueryLimit)
+#if KRUNNER_ENABLE_DEPRECATED_SINCE(5, 81)
     Q_PROPERTY(QString runner READ runner WRITE setRunner NOTIFY runnerChanged)
-
     Q_PROPERTY(QString runnerName READ runnerName NOTIFY runnerChanged)
     Q_PROPERTY(QIcon runnerIcon READ runnerIcon NOTIFY runnerChanged)
+#endif
 
 public:
     explicit SourcesModel(QObject *parent = nullptr);
@@ -50,11 +51,13 @@ public:
         return false;
     }
 
+#if KRUNNER_ENABLE_DEPRECATED_SINCE(5, 81)
     QString runner() const;
     void setRunner(const QString &runner);
 
     QString runnerName() const;
     QIcon runnerIcon() const;
+#endif
 
     QString queryString() const;
     int queryLimit() const;

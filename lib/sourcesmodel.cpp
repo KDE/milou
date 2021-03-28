@@ -153,6 +153,7 @@ int SourcesModel::queryLimit() const
     return m_queryLimit;
 }
 
+#if KRUNNER_BUILD_DEPRECATED_SINCE(5, 81)
 QString SourcesModel::runner() const
 {
     return m_runner;
@@ -189,6 +190,7 @@ QIcon SourcesModel::runnerIcon() const
 
     return singleRunner->icon();
 }
+#endif
 
 void SourcesModel::setQueryLimit(int limit)
 {
