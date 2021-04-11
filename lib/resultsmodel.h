@@ -65,6 +65,7 @@ public:
         SubtextRole,
         DuplicateRole,
         ActionsRole,
+        MultiLineRole,
     };
     Q_ENUM(Roles)
 

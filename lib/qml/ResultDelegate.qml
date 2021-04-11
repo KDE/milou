@@ -192,8 +192,8 @@ MouseArea {
                     height: undefined
 
                     elide: Text.ElideMiddle
-                    wrapMode: Text.NoWrap
-                    maximumLineCount: 1
+                    wrapMode: model.multiLine ? Text.WordWrap : Text.NoWrap
+                    maximumLineCount: model.multiLine ? Infinity : 1
                     verticalAlignment: Text.AlignVCenter
                     textFormat: Text.PlainText
 
