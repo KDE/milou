@@ -14,6 +14,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents // for ListItem
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 
+
 MouseArea {
     id: resultDelegate
 
@@ -89,7 +90,7 @@ MouseArea {
     onReleased: {
         if (__pressed) {
             listView.currentIndex = model.index
-            listView.runCurrentIndex()
+            listView.runCurrentIndex(this)
         }
 
         __pressed = false;
@@ -273,7 +274,7 @@ MouseArea {
                             }
                         }
 
-                        onClicked: resultDelegate.ListView.view.runAction(index)
+                        onClicked: resultDelegate.ListView.view.runAction(index, actionsRepeater)
                     }
                 }
             }

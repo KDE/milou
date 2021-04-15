@@ -137,8 +137,8 @@ ListView {
         }
     }
 
-    function runAction(index) {
-        if (resultModel.runAction(resultModel.index(currentIndex, 0), index)) {
+    function runAction(index, visualParent) {
+        if (resultModel.runAction(resultModel.index(currentIndex, 0), index, visualParent)) {
             activated()
         }
     }

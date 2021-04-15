@@ -18,7 +18,9 @@ target_link_libraries (milou
     KF5::ItemModels
     KF5::Service
     KF5::Plasma
+    KF5::KIOWidgets # for KFileItemActions
     KF5::Runner
+    KF5::I18n
 )
 
 generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)

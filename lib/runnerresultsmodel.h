@@ -1,6 +1,7 @@
 /*
  * This file is part of the KDE Milou Project
  * SPDX-FileCopyrightText: 2019 Kai Uwe Broulik <kde@broulik.de>
+ * SPDX-FileCopyrightText: 2020 Alexander Lohnau <alexander.lohnau@gmx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  *
@@ -10,6 +11,7 @@
 
 #include <QAbstractItemModel>
 #include <QHash>
+#include <QQuickItem>
 #include <QString>
 #include <QTimer>
 
@@ -43,7 +45,7 @@ public:
     void clear();
 
     bool run(const QModelIndex &idx);
-    bool runAction(const QModelIndex &idx, int actionNumber);
+    bool runAction(const QModelIndex &idx, int actionNumber, QQuickItem *visualParent);
 
     int columnCount(const QModelIndex &parent) const override;
     int rowCount(const QModelIndex &parent) const override;

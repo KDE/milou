@@ -438,14 +438,15 @@ bool ResultsModel::run(const QModelIndex &idx)
     return d->resultsModel->run(resultsIdx);
 }
 
-bool ResultsModel::runAction(const QModelIndex &idx, int actionNumber)
+bool ResultsModel::runAction(const QModelIndex &idx, int actionNumber, QQuickItem *visualParent)
 {
     KModelIndexProxyMapper mapper(this, d->resultsModel);
     const QModelIndex resultsIdx = mapper.mapLeftToRight(idx);
+
     if (!resultsIdx.isValid()) {
         return false;
     }
-    return d->resultsModel->runAction(resultsIdx, actionNumber);
+    return d->resultsModel->runAction(resultsIdx, actionNumber, visualParent);
 }
 
 QMimeData *ResultsModel::getMimeData(const QModelIndex &idx) const

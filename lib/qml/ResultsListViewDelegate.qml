@@ -32,7 +32,7 @@ MouseArea {
 
         onClicked: {
             listView.currentIndex = model.index
-            listView.runCurrentIndex()
+            listView.runCurrentIndex(this)
         }
 
         RowLayout {

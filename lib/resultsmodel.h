@@ -11,6 +11,7 @@
 #include <KRunner/RunnerManager>
 #include <QIcon>
 #include <QScopedPointer>
+#include <QQuickItem>
 #include <QSortFilterProxyModel>
 
 #include "milou_export.h"
@@ -102,7 +103,7 @@ public:
     /**
      * Run the action @p actionNumber at given model index @p idx
      */
-    Q_INVOKABLE bool runAction(const QModelIndex &idx, int actionNumber);
+    Q_INVOKABLE bool runAction(const QModelIndex &idx, int actionNumber, QQuickItem *visualParent = nullptr);
 
     /**
      * Get mime data for the result at given model index @p idx

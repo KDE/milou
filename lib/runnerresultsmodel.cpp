@@ -1,6 +1,7 @@
 /*
  * This file is part of the KDE Milou Project
  * SPDX-FileCopyrightText: 2019 Kai Uwe Broulik <kde@broulik.de>
+ * SPDX-FileCopyrightText: 2020 Alexander Lohnau <alexander.lohnau@gmx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  *
@@ -11,7 +12,18 @@
 #include <QAction>
 #include <QSet>
 
+#include <KFileItem>
+#include <KFileItemActions>
+#include <KFileItemListProperties>
+#include <KIO/OpenFileManagerWindowJob>
+#include <KLocalizedString>
+#include <KPropertiesDialog>
+#include <KProtocolManager>
 #include <KRunner/RunnerManager>
+#include <QGuiApplication>
+#include <QMenu>
+#include <QQuickWindow>
+#include <QWindow>
 
 #include "resultsmodel.h"
 
@@ -224,7 +236,7 @@ bool RunnerResultsModel::run(const QModelIndex &idx)
     return false;
 }
 
-bool RunnerResultsModel::runAction(const QModelIndex &idx, int actionNumber)
+bool RunnerResultsModel::runAction(const QModelIndex &idx, int actionNumber, QQuickItem *visualParent)
 {
     Plasma::QueryMatch match = fetchMatch(idx);
     if (!match.isValid() || !match.isEnabled()) {
@@ -232,6 +244,45 @@ bool RunnerResultsModel::runAction(const QModelIndex &idx, int actionNumber)
     }
 
     const auto actions = m_manager->actionsForMatch(match);
+    // In this case the action does not come from the runner, but was added in the model
+    if (actionNumber == actions.count() && visualParent) {
+        const QUrl url = match.urls().constFirst();
+        QMenu *menu = new QMenu();
+        KFileItem fileItem(match.urls().constFirst());
+        menu->setAttribute(Qt::WA_DeleteOnClose, true);
+
+        if (KProtocolManager::supportsListing(url)) {
+            QAction *openContainingFolderAction = menu->addAction(QIcon::fromTheme(QStringLiteral("folder-open")), i18n("Open Containing Folder"));
+            connect(openContainingFolderAction, &QAction::triggered, [url] {
+                KIO::highlightInFileManager({url});
+            });
+        }
+
+        KFileItemActions *fileItemActions = new KFileItemActions(menu);
+        KFileItemListProperties itemProperties(KFileItemList({fileItem}));
+        fileItemActions->setItemListProperties(itemProperties);
+        fileItemActions->insertOpenWithActionsTo(nullptr, menu, QStringList());
+
+        fileItemActions->addActionsTo(menu);
+
+        QAction *propertiesAction = menu->addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18n("Properties"));
+        connect(propertiesAction, &QAction::triggered, [fileItem] {
+            KPropertiesDialog *dialog = new KPropertiesDialog(fileItem.url());
+            dialog->setAttribute(Qt::WA_DeleteOnClose);
+            dialog->show();
+        });
+
+        QPoint pos;
+        menu->adjustSize();
+        pos = visualParent->mapToGlobal(QPointF(0, visualParent->height())).toPoint();
+        if (!qApp->isRightToLeft()) {
+            pos.rx() += visualParent->width();
+            pos.rx() -= menu->width();
+        }
+        menu->winId();
+        menu->windowHandle()->setTransientParent(visualParent->window());
+        menu->popup(pos);
+    }
     if (actionNumber < 0 || actionNumber >= actions.count()) {
         return false;
     }
@@ -303,16 +354,21 @@ QVariant RunnerResultsModel::data(const QModelIndex &index, int role) const
         case ResultsModel::MultiLineRole:
             return match.isMultiLine();
         case ResultsModel::ActionsRole: {
+            static QAction *menu = new QAction(QIcon::fromTheme(QStringLiteral("application-menu")), QStringLiteral("Open file menu"));
             const auto actions = m_manager->actionsForMatch(match);
-            if (actions.isEmpty()) {
+            const auto urls = match.urls();
+            if (actions.isEmpty() && urls.isEmpty()) {
                 return QVariantList();
             }
 
             QVariantList actionsList;
-            actionsList.reserve(actions.size());
+            actionsList.reserve(actions.size() + 1);
 
             for (QAction *action : actions) {
                 actionsList.append(QVariant::fromValue(action));
+            }
+            if (!urls.isEmpty() && urls.first().isLocalFile()) {
+                actionsList.append(QVariant::fromValue(menu));
             }
 
             return actionsList;
