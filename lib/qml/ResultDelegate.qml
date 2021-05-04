@@ -166,19 +166,20 @@ MouseArea {
                 right: parent.right
                 leftMargin: resultDelegate.categoryWidth
             }
-            height: Math.max(typePixmap.height, displayLabel.height, subtextLabel.height)
+            height: Math.max(typePixmap.height, displayLabel.height, subtextLabel.height) + PlasmaCore.Units.smallSpacing
 
             RowLayout {
                 anchors {
                     left: parent.left
                     right: actionsRow.left
                     rightMargin: units.smallSpacing
+                    verticalCenter: parent.verticalCenter
                 }
 
                 PlasmaCore.IconItem {
                     id: typePixmap
-                    Layout.preferredWidth: units.iconSizes.small
-                    Layout.preferredHeight: units.iconSizes.small
+                    Layout.preferredWidth: units.iconSizes.smallMedium
+                    Layout.preferredHeight: units.iconSizes.smallMedium
                     Layout.fillHeight: true
                     source: model.decoration
                     usesPlasmaTheme: false
@@ -261,8 +262,8 @@ MouseArea {
 
                         PlasmaCore.IconItem {
                             anchors.centerIn: parent
-                            width: units.iconSizes.small
-                            height: units.iconSizes.small
+                            width: units.iconSizes.smallMedium
+                            height: units.iconSizes.smallMedium
                             // ToolButton cannot cope with QIcon
                             source: modelData.icon || ""
                             active: parent.hovered || parent.checked

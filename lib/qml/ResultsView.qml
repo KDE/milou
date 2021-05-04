@@ -58,7 +58,7 @@ ListView {
 
     model: Milou.ResultsModel {
         id: resultModel
-        limit: 20
+        limit: 15
         onQueryStringChangeRequested: {
             listView.updateQueryString(queryString, pos)
         }
