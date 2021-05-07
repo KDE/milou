@@ -23,9 +23,8 @@ include(KDEClangFormat)
 if(ECM_VERSION VERSION_GREATER_EQUAL 5.79)
     include(KDEGitCommitHooks)
 endif()
-if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
-   add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
-endif()
+
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050c00)
 
 add_definitions(-DQT_NO_FOREACH -DQT_NO_KEYWORDS)
 
