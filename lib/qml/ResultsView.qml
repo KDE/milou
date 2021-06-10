@@ -102,6 +102,7 @@ ListView {
     delegate: ResultDelegate {
         id: resultDelegate
         width: listView.width
+        reversed: listView.reversed
     }
 
     //

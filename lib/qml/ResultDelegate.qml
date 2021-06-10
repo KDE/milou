@@ -17,12 +17,11 @@ MouseArea {
     id: resultDelegate
 
     property variant theModel: model
+    property bool reversed: false
 
     readonly property bool isCurrent: ListView.isCurrentItem // cannot properly Connect {} to this
-    readonly property bool sectionHasChanged: typeof reversed !== "undefined" && (
-                                                  (reversed && ListView.section != ListView.nextSection)
-                                                    || (!reversed && ListView.section != ListView.previousSection)
-                                                  )
+    readonly property bool sectionHasChanged: (reversed && ListView.section != ListView.nextSection)
+                                           || (!reversed && ListView.section != ListView.previousSection)
 
     property int activeAction: -1
 
