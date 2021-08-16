@@ -7,8 +7,6 @@ if(NOT CMAKE_VERSION VERSION_LESS "3.10.0")
 endif()
 
 set (lib_SRCS
-    preview.cpp
-    previewplugin.cpp
     resultsmodel.cpp
     runnerresultsmodel.cpp
     sourcesmodel.cpp
@@ -29,16 +27,11 @@ target_link_libraries (milou
     KF5::Runner
 )
 
-install(
-  FILES miloupreviewplugin.desktop
-  DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
-
 generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)
 
 install(TARGETS milou EXPORT MilouLibraryTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 add_subdirectory(qml)
-add_subdirectory(previews)
 if (BUILD_TESTING)
     add_subdirectory(test)
 endif()

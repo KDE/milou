@@ -22,13 +22,3 @@ target_link_libraries(widgettest
   Qt::Widgets
   milou
 )
-
-add_executable(previewtest previewtest.cpp)
-ecm_mark_as_test(previewtest)
-
-target_link_libraries(previewtest
-  Qt::Core
-  Qt::Gui
-  Qt::Widgets
-  milou
-)
