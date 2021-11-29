@@ -11,7 +11,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.1
 
 import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.components 2.0 as PlasmaComponents // for ListItem
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 
 MouseArea {
@@ -131,7 +131,7 @@ MouseArea {
         }
     }
 
-    PlasmaComponents.Label {
+    PlasmaComponents3.Label {
         id: typeText
         text: resultDelegate.typeText
         color: isCurrent ? Qt.tint(theme.disabledTextColor, Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.4)) : theme.disabledTextColor
@@ -186,11 +186,9 @@ MouseArea {
                     animated: false
                 }
 
-                PlasmaComponents.Label {
+                PlasmaComponents3.Label {
                     id: displayLabel
                     text: String(typeof modelData !== "undefined" ? modelData : model.display)
-
-                    height: undefined
 
                     elide: Text.ElideMiddle
                     wrapMode: model.multiLine ? Text.WordWrap : Text.NoWrap
@@ -201,7 +199,7 @@ MouseArea {
                     Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width
                 }
 
-                PlasmaComponents.Label {
+                PlasmaComponents3.Label {
                     id: subtextLabel
 
                     // SourcesModel returns number of duplicates in this property
@@ -213,8 +211,6 @@ MouseArea {
                     opacity: width > 0 ? 1 : 0
 
                     color: isCurrent ? Qt.tint(theme.disabledTextColor, Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.4)) : theme.disabledTextColor
-
-                    height: undefined
 
                     elide: Text.ElideMiddle
                     wrapMode: Text.NoWrap
@@ -245,18 +241,12 @@ MouseArea {
                     id: actionsRepeater
                     model: resultDelegate.additionalActions
 
-                    PlasmaComponents.ToolButton {
+                    PlasmaComponents3.ToolButton {
                         width: height
                         height: listItem.height
                         visible: modelData.visible || true
                         enabled: modelData.enabled || true
-                        tooltip: {
-                            var text = modelData.text || ""
-                            if (index === 0) { // Shift+Return will invoke first action
-                                text = i18ndc("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
-                            }
-                            return text
-                        }
+
                         Accessible.role: Accessible.Button
                         Accessible.name: modelData.text
                         checkable: checked
@@ -270,6 +260,16 @@ MouseArea {
                             // ToolButton cannot cope with QIcon
                             source: modelData.icon || ""
                             active: parent.hovered || parent.checked
+                        }
+
+                        PlasmaComponents3.ToolTip {
+                            text: {
+                                var text = modelData.text || ""
+                                if (index === 0) { // Shift+Return will invoke first action
+                                    text = i18ndc("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
+                                }
+                                return text
+                            }
                         }
 
                         onClicked: resultDelegate.ListView.view.runAction(index)

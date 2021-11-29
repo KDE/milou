@@ -8,7 +8,7 @@
 
 import QtQuick 2.1
 
-import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.components 3.0 as PlasmaComponents3
 import "globals.js" as Globals
 
 /*
@@ -24,7 +24,7 @@ Item {
     height: childrenRect.height
     width: Globals.PlasmoidWidth
 
-    PlasmaComponents.TextField {
+    PlasmaComponents3.TextField {
         id: textField
         clearButtonShown: true
         placeholderText: i18n("Search...")

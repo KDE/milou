@@ -9,7 +9,8 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 
-import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.components 2.0 as PlasmaComponents // for ListItem
+import org.kde.plasma.components 3.0 as PlasmaComponents3
 import org.kde.kquickcontrolsaddons 2.0 as QtExtra
 import "globals.js" as Globals
 
@@ -49,11 +50,9 @@ MouseArea {
             ColumnLayout {
                 Layout.fillWidth: true
 
-                PlasmaComponents.Label {
+                PlasmaComponents3.Label {
                     id: displayLabel
                     text: String(model.display)
-
-                    height: typePixmap.height
 
                     elide: Text.ElideMiddle
                     maximumLineCount: 1
@@ -61,13 +60,11 @@ MouseArea {
                     Layout.maximumWidth: parent.width - displayLabel.x
                 }
 
-                PlasmaComponents.Label {
+                PlasmaComponents3.Label {
                     id: subtextLabel
                     text: String(model.subtext)
 
                     opacity: 0.3
-
-                    height: typePixmap.height
 
                     elide: Text.ElideRight
                     maximumLineCount: 1

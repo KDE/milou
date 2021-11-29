@@ -8,7 +8,7 @@
 
 import QtQuick 2.1
 
-import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.components 2.0 as PlasmaComponents // for Highlight
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.milou 0.3 as Milou
 
