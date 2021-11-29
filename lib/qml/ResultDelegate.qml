@@ -7,11 +7,12 @@
  *
  */
 
-import QtQuick 2.1
+import QtQuick 2.15
 import QtQuick.Layouts 1.1
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.components 3.0 as PlasmaComponents3
 
 MouseArea {
     id: resultDelegate
@@ -222,11 +223,14 @@ MouseArea {
                     textFormat: Text.PlainText
 
                     Layout.fillWidth: true
-                    PlasmaCore.ToolTipArea {
-                        anchors.fill: parent
-                        subText: subtextLabel.text
-                        active: containsMouse && subtextLabel.truncated
+                    PlasmaComponents3.ToolTip {
+                        text: subtextLabel.text
+                        visible: hoverHandler.hovered && subtextLabel.truncated
                         timeout: -1
+                    }
+
+                    HoverHandler {
+                        id: hoverHandler
                     }
                 }
             }
