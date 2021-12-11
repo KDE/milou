@@ -194,7 +194,8 @@ MouseArea {
                     wrapMode: model.multiLine ? Text.WordWrap : Text.NoWrap
                     maximumLineCount: model.multiLine ? Infinity : 1
                     verticalAlignment: Text.AlignVCenter
-                    textFormat: Text.PlainText
+                    // For multiLine we offer styled text, otherwise we default to plain text
+                    textFormat: model.multiLine ? Text.StyledText : Text.PlainText
 
                     Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width
                 }
