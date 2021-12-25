@@ -28,20 +28,6 @@ RunnerResultsModel::RunnerResultsModel(QObject *parent)
         setQuerying(false);
     });
     connect(m_manager, &RunnerManager::setSearchTerm, this, &RunnerResultsModel::queryStringChangeRequested);
-
-    m_resetTimer.setSingleShot(true);
-    m_resetTimer.setInterval(500);
-    connect(&m_resetTimer, &QTimer::timeout, this, [this] {
-        // Clear the old matches if any
-        // don't call clear() here as we don' want to interrupt the match session
-        // in case no quick results show up initially (e.g. if only dictionary runner is a viable source)
-        if (!m_hasMatches) {
-            beginResetModel();
-            m_categories.clear();
-            m_matches.clear();
-            endResetModel();
-        }
-    });
 }
 
 RunnerResultsModel::~RunnerResultsModel() = default;
@@ -54,11 +40,6 @@ Plasma::QueryMatch RunnerResultsModel::fetchMatch(const QModelIndex &idx) const
 
 void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &matches)
 {
-    // We clear the model ourselves in the reset timer, ignore any empty matchset
-    if (matches.isEmpty() && m_resetTimer.isActive() && !m_hasMatches) {
-        return;
-    }
-
     // Build the list of new categories and matches
     QSet<QString> newCategories;
     // here we use QString as key since at this point we don't care about the order
@@ -182,7 +163,6 @@ void RunnerResultsModel::setQueryString(const QString &queryString, const QStrin
     if (queryString.isEmpty()) {
         clear();
     } else if (!queryString.trimmed().isEmpty()) {
-        m_resetTimer.start();
         m_manager->launchQuery(queryString, runner);
         setQuerying(true);
     }

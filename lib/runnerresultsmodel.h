@@ -11,7 +11,6 @@
 #include <QAbstractItemModel>
 #include <QHash>
 #include <QString>
-#include <QTimer>
 
 #include <KRunner/QueryMatch>
 
@@ -76,7 +75,6 @@ private:
 
     QString m_prevRunner;
 
-    QTimer m_resetTimer;
     bool m_hasMatches = false;
 
     QStringList m_categories;
