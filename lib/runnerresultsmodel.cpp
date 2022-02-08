@@ -160,6 +160,8 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
     Q_ASSERT(m_categories.count() == m_matches.count());
 
     m_hasMatches = !m_matches.isEmpty();
+
+    Q_EMIT matchesChanged();
 }
 
 QString RunnerResultsModel::queryString() const

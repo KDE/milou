@@ -60,6 +60,8 @@ public:
 Q_SIGNALS:
     void queryStringChangeRequested(const QString &queryString, int pos);
 
+    void matchesChanged();
+
 private:
     void setQuerying(bool querying);
 

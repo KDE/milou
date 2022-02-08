@@ -322,7 +322,13 @@ ResultsModel::ResultsModel(QObject *parent)
     connect(d->resultsModel, &RunnerResultsModel::queryingChanged, this, &ResultsModel::queryingChanged);
     connect(d->resultsModel, &RunnerResultsModel::queryStringChangeRequested, this, &ResultsModel::queryStringChangeRequested);
 
-    connect(d->resultsModel, &RunnerResultsModel::queryStringChanged, d->sortModel, &SortProxyModel::setQueryString);
+    // The matches for the old query string remain on display until the first set of matches arrive for the new query string.
+    // Therefore we must not update the query string inside RunnerResultsModel exactly when the query string changes, otherwise it would
+    // re-sort the old query string matches based on the new query string.
+    // So we only make it aware of the query string change at the time when we receive the first set of matches for the new query string.
+    connect(d->resultsModel, &RunnerResultsModel::matchesChanged, this, [this]() {
+        d->sortModel->setQueryString(queryString());
+    });
 
     connect(d->distributionModel, &CategoryDistributionProxyModel::limitChanged, this, &ResultsModel::limitChanged);
 
