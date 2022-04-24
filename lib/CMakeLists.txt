@@ -6,6 +6,11 @@ set (lib_SRCS
     sourcesmodel.cpp
     draghelper.cpp
     mousehelper.cpp
+    resultsmodel.h
+    runnerresultsmodel.h
+    sourcesmodel.h
+    draghelper.h
+    mousehelper.h
 )
 
 add_library(milou SHARED ${lib_SRCS})

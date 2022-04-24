@@ -1,6 +1,7 @@
 
 set (plugin_SRCS
     qmlplugins.cpp
+    qmlplugins.h
 )
 
 add_library (milouqmlplugin SHARED ${plugin_SRCS})
