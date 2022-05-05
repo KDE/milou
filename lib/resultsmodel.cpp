@@ -10,7 +10,6 @@
 
 #include "runnerresultsmodel.h"
 
-#include <KRunner/RunnerManager>
 #include <QIdentityProxyModel>
 
 #include <KDescendantsProxyModel>
