@@ -48,40 +48,9 @@ public:
         }
     }
 
-    bool categoryHasMatchWithAllWords(const QModelIndex &categoryIdx) const
-    {
-        for (int i = 0; i < sourceModel()->rowCount(categoryIdx); ++i) {
-            const QModelIndex idx = sourceModel()->index(i, 0, categoryIdx);
-            const QString display = idx.data(Qt::DisplayRole).toString();
-
-            bool containsAllWords = true;
-            for (const QString &word : m_words) {
-                if (!display.contains(word, Qt::CaseInsensitive)) {
-                    containsAllWords = false;
-                }
-            }
-
-            if (containsAllWords) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 protected:
     bool lessThan(const QModelIndex &sourceA, const QModelIndex &sourceB) const override
     {
-        // prefer categories that have a match containing the query string in the display role
-        if (!sourceA.parent().isValid() && !sourceB.parent().isValid()) {
-            const bool hasMatchWithAllWordsA = categoryHasMatchWithAllWords(sourceA);
-            const bool hasMatchWithAllWordsB = categoryHasMatchWithAllWords(sourceB);
-
-            if (hasMatchWithAllWordsA != hasMatchWithAllWordsB) {
-                return !hasMatchWithAllWordsA && hasMatchWithAllWordsB;
-            }
-        }
-
         const int typeA = sourceA.data(ResultsModel::TypeRole).toInt();
         const int typeB = sourceB.data(ResultsModel::TypeRole).toInt();
 
