@@ -198,8 +198,8 @@ MouseArea {
                     verticalAlignment: Text.AlignVCenter
                     // For multiLine we offer styled text, otherwise we default to plain text
                     textFormat: model.multiLine ? Text.StyledText : Text.PlainText
-
-                    Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width
+                    // The extra spacing accounts for the right margin so the text doesn't overlap the actions
+                    Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width - 2 * PlasmaCore.Units.smallSpacing
                 }
 
                 PlasmaComponents3.Label {
@@ -246,7 +246,7 @@ MouseArea {
 
                     PlasmaComponents3.ToolButton {
                         width: height
-                        height: listItem.height
+                        height: PlasmaCore.Units.iconSizes.medium
                         visible: modelData.visible || true
                         enabled: modelData.enabled || true
 
@@ -258,8 +258,8 @@ MouseArea {
 
                         PlasmaCore.IconItem {
                             anchors.centerIn: parent
-                            width: units.iconSizes.smallMedium
-                            height: units.iconSizes.smallMedium
+                            implicitWidth: units.iconSizes.smallMedium
+                            implicitHeight: units.iconSizes.smallMedium
                             // ToolButton cannot cope with QIcon
                             source: modelData.icon || ""
                             active: parent.hovered || parent.checked
