@@ -166,9 +166,11 @@ MouseArea {
                 right: parent.right
                 leftMargin: resultDelegate.categoryWidth
             }
-            height: Math.max(typePixmap.height, displayLabel.height, subtextLabel.height) + PlasmaCore.Units.smallSpacing
+            implicitHeight: labelLayout.implicitHeight
 
             RowLayout {
+                id: labelLayout
+
                 anchors {
                     left: parent.left
                     right: actionsRow.left
