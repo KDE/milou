@@ -102,9 +102,22 @@ public:
         QSortFilterProxyModel::setSourceModel(sourceModel);
 
         if (sourceModel) {
-            connect(sourceModel, &QAbstractItemModel::rowsInserted, this, &CategoryDistributionProxyModel::invalidateFilter);
-            connect(sourceModel, &QAbstractItemModel::rowsMoved, this, &CategoryDistributionProxyModel::invalidateFilter);
-            connect(sourceModel, &QAbstractItemModel::rowsRemoved, this, &CategoryDistributionProxyModel::invalidateFilter);
+            const auto invalidate = [this, sourceModel]() {
+                invalidateFilter();
+                // Aggregate all the matches that migh be displayed so that we can given each category
+                // a reasonable amount while most effectively filling out the limit
+                m_matchesCount = 0;
+                m_balancedMatchesCount = 0;
+                for (int i = 0; i <= sourceModel->rowCount(); ++i) {
+                    // If a category contains more entries than the total amount, we ignore the ones that exeed the limit
+                    const int categoryMatchCount = sourceModel->rowCount(sourceModel->index(i, 0));
+                    m_matchesCount += categoryMatchCount;
+                    m_balancedMatchesCount += qMin(categoryMatchCount, m_limit);
+                };
+            };
+            connect(sourceModel, &QAbstractItemModel::rowsInserted, this, invalidate);
+            connect(sourceModel, &QAbstractItemModel::rowsMoved, this, invalidate);
+            connect(sourceModel, &QAbstractItemModel::rowsRemoved, this, invalidate);
         }
     }
 
@@ -139,37 +152,35 @@ protected:
 
         const int categoryCount = sourceModel()->rowCount();
 
-        int maxItemsInCategory = m_limit;
-
-        if (categoryCount > 1) {
-            int itemsBefore = 0;
-            for (int i = 0; i <= sourceParent.row(); ++i) {
-                const int itemsInCategory = sourceModel()->rowCount(sourceModel()->index(i, 0));
-
-                // Take into account that every category gets at least one item shown
-                const int availableSpace = m_limit - itemsBefore - std::ceil(m_limit / qreal(categoryCount));
-
-                // The further down the category is the less relevant it is and the less space it my occupy
-                // First category gets max half the total limit, second category a third, etc
-                maxItemsInCategory = std::min(availableSpace, int(std::ceil(m_limit / qreal(i + 2))));
-
-                // At least show one item per category
-                maxItemsInCategory = std::max(1, maxItemsInCategory);
-
-                itemsBefore += std::min(itemsInCategory, maxItemsInCategory);
-            }
+        // If we only have one category, we can check the limit directly
+        if (categoryCount == 1) {
+            return sourceRow < m_limit;
         }
 
-        if (sourceRow >= maxItemsInCategory) {
-            return false;
+        // If all the matches are less than the limit, we do not need any balancing between the categories
+        if (m_matchesCount <= m_limit) {
+            return true;
         }
 
-        return true;
+        /*
+         * If we have multiple categories and the amount of matches exceeds the limit, we need to balance it.
+         * For this we use the aggregated match counts and calculate the factors in which the categories need to shrink down to fit the limit.
+         * To avoid a category getting too many results matches, the maximum number of matches we consider in a
+         * category is limited to the total limit.
+         * For example if runner 1 has 200 matches and runner 2 has 10 matches, we only consider a total of 25 matches for calculating the factor.
+         */
+        const int matchesInCurrentCategory = sourceModel()->rowCount(sourceParent);
+        const int balancedCategoryMatchCount = qMin(matchesInCurrentCategory, m_limit);
+        const float weighingFactor = (float)m_balancedMatchesCount / m_limit;
+        const int weighedMaxResultsForCategory = ceil(balancedCategoryMatchCount / weighingFactor);
+        return sourceRow < weighedMaxResultsForCategory;
     }
 
 private:
     // if you change this, update the default in resetLimit()
     int m_limit = 0;
+    int m_matchesCount = 0;
+    int m_balancedMatchesCount = 0;
 };
 
 /**
