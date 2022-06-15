@@ -12,3 +12,5 @@ Dependencies:
     'frameworks/krunner': '@latest'
     'frameworks/kservice': '@latest'
     'frameworks/plasma-framework': '@latest'
+Options:
+  require-passing-tests-on: [ 'Linux', 'FreeBSD']
