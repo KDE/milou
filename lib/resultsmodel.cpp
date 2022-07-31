@@ -109,11 +109,49 @@ public:
                 m_matchesCount = 0;
                 m_balancedMatchesCount = 0;
                 for (int i = 0; i <= sourceModel->rowCount(); ++i) {
+                    const QModelIndex idx = sourceModel->index(i, 0);
+                    if (idx.internalId() == 0) { // Ignore values that do not represent a category
+                        continue;
+                    }
                     // If a category contains more entries than the total amount, we ignore the ones that exeed the limit
-                    const int categoryMatchCount = sourceModel->rowCount(sourceModel->index(i, 0));
+                    const int categoryMatchCount = sourceModel->rowCount(idx);
                     m_matchesCount += categoryMatchCount;
                     m_balancedMatchesCount += qMin(categoryMatchCount, m_limit);
                 };
+
+                // Check how many matches we are getting when we take the weighing into account
+                int totalMatchesWithWeighing = 0;
+                for (int i = 0; i <= sourceModel->rowCount(); ++i) {
+                    const QModelIndex idx = sourceModel->index(i, 0);
+                    if (idx.internalId() == 0) { // Ignore values that do not represent a category
+                        continue;
+                    }
+                    const int matchesInCurrentCategory = sourceModel->rowCount(idx);
+                    const int balancedCategoryMatchCount = qMin(matchesInCurrentCategory, m_limit);
+                    const float weighingFactor = (float)m_balancedMatchesCount / m_limit;
+                    totalMatchesWithWeighing += ceil(balancedCategoryMatchCount / weighingFactor);
+                };
+                // When we know how many matches we exceed the limit, the categories with the most matches should display one match less
+                if (totalMatchesWithWeighing > (m_limit + 1)) {
+                    QVector<int> categoryCounts;
+                    for (int i = 0; i <= sourceModel->rowCount(); ++i) {
+                        const QModelIndex idx = sourceModel->index(i, 0);
+                        if (idx.internalId() == 0) { // Ignore values that do not represent a category
+                            continue;
+                        }
+                        const int matchesInCurrentCategory = sourceModel->rowCount(idx);
+                        if (matchesInCurrentCategory > 3) {
+                            categoryCounts.append(matchesInCurrentCategory);
+                        }
+                    };
+                    std::sort(categoryCounts.begin(), categoryCounts.end(), std::greater<int>{});
+                    const int maxListSize = totalMatchesWithWeighing - m_limit;
+                    if (categoryCounts.size() > maxListSize) {
+                        categoryCounts.resize(maxListSize);
+                    }
+                    const auto maxIt = std::min_element(categoryCounts.cbegin(), categoryCounts.cend());
+                    m_maxMatchesBeforeShrinking = maxIt != categoryCounts.cend() ? *maxIt : m_limit;
+                }
             };
             connect(sourceModel, &QAbstractItemModel::rowsInserted, this, invalidate);
             connect(sourceModel, &QAbstractItemModel::rowsMoved, this, invalidate);
@@ -170,10 +208,22 @@ protected:
          * For example if runner 1 has 200 matches and runner 2 has 10 matches, we only consider a total of 25 matches for calculating the factor.
          */
         const int matchesInCurrentCategory = sourceModel()->rowCount(sourceParent);
-        const int balancedCategoryMatchCount = qMin(matchesInCurrentCategory, m_limit);
+        const int limitedCategoryMatchCount = qMin(matchesInCurrentCategory, m_limit);
         const float weighingFactor = (float)m_balancedMatchesCount / m_limit;
-        const int weighedMaxResultsForCategory = ceil(balancedCategoryMatchCount / weighingFactor);
-        return sourceRow < weighedMaxResultsForCategory;
+        int weighedMaxResultsForCategory = ceil(limitedCategoryMatchCount / weighingFactor);
+
+        if (sourceRow < weighedMaxResultsForCategory) {
+            // If we know this category to exceed the limit, we skip the last item
+            if (m_maxMatchesBeforeShrinking <= matchesInCurrentCategory
+                // And we have the last item of it, we want to skip it
+                && (sourceRow + 1) == weighedMaxResultsForCategory) {
+                // With out this: 18 matches
+                return false;
+            }
+            return true;
+        }
+        // The item is not in the limit of the current category
+        return false;
     }
 
 private:
@@ -181,6 +231,7 @@ private:
     int m_limit = 0;
     int m_matchesCount = 0;
     int m_balancedMatchesCount = 0;
+    int m_maxMatchesBeforeShrinking = 0;
 };
 
 /**
