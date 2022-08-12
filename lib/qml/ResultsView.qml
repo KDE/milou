@@ -187,8 +187,15 @@ ListView {
             }
         }
     }
-    Keys.onUpPressed: reversed ? incrementCurrentIndex() : decrementCurrentIndex();
-    Keys.onDownPressed: reversed ? decrementCurrentIndex() : incrementCurrentIndex();
+    Keys.onPressed: function(e) {
+        if (e.key == Qt.Key_Up) {
+            reversed ? incrementCurrentIndex() : decrementCurrentIndex();
+            e.accepted = true;
+        } else if (e.key == Qt.Key_Down) {
+            reversed ? decrementCurrentIndex() : incrementCurrentIndex();
+            e.accepted = true;
+        }
+    }
 
     boundsBehavior: Flickable.StopAtBounds
 
