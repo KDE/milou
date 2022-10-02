@@ -1,0 +1,84 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Andrej Mernik <andrejm@ubuntu.si>, 2014, 2017, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-05-30 00:46+0000\n"
+"PO-Revision-Date: 2018-01-11 21:09+0100\n"
+"Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
+"Language-Team: Slovenian <lugos-slo@lugos.si>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: qml/ResultDelegate.qml:42
+#, kde-format
+msgid "%1, in category %2"
+msgstr "%1, v kategoriji %2"
+
+#: qml/ResultDelegate.qml:44
+#, kde-format
+msgid "in category %1"
+msgstr "v kategoriji %1"
+
+#: qml/ResultDelegate.qml:272
+#, kde-format
+msgctxt ""
+"placeholder is action e.g. run in terminal, in parenthesis is shortcut"
+msgid "%1 (Shift+Return)"
+msgstr "%1 (Shift+Vnašalka)"
+
+#~ msgid "Artist:"
+#~ msgstr "Izvajalec:"
+
+#~ msgid "Album:"
+#~ msgstr "Album:"
+
+#~ msgid "Duration:"
+#~ msgstr "Trajanje:"
+
+#~ msgid "From:"
+#~ msgstr "Od:"
+
+#~ msgid "To:"
+#~ msgstr "Za:"
+
+#~ msgid "Date:"
+#~ msgstr "Datum:"
+
+#~ msgid "Subject:"
+#~ msgstr "Zadeva:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Priloge:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "Spremenjena:"
+
+#~ msgid "Size:"
+#~ msgstr "Velikost:"
+
+#~ msgid "Search Results"
+#~ msgstr "Rezultati iskanja"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr "V rezultatih iskanja so prikazani samo izbrani deli"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr "Povlecite kategorije, da spremenite vrstni red prikaza rezultatov"
+
+#~ msgid "Search"
+#~ msgstr "Poišči"

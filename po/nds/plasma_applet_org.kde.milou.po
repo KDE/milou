@@ -1,0 +1,102 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Manfred Wiese <m.j.wiese@web.de>, 2014.
+# Sönke Dibbern <s_dibbern@web.de>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-03-09 03:16+0100\n"
+"PO-Revision-Date: 2014-04-15 00:27+0200\n"
+"Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
+"Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
+"Language: nds\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: package/contents/ui/SearchField.qml:30
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search..."
+msgstr "Söken"
+
+#~ msgid "Search Results"
+#~ msgstr "Söökresultaten"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr "Bloots de utsöchten Komponenten warrt bi de Söökresultaten wiest"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr ""
+#~ "Treck de Kategorien na en anner Steed, wenn Du de Reeg vun de Resultaten "
+#~ "ännern wullt"
+
+#~ msgid "Artist:"
+#~ msgstr "Künstler:"
+
+#~ msgid "Album:"
+#~ msgstr "Album:"
+
+#~ msgid "Duration:"
+#~ msgstr "Duer:"
+
+#~ msgid "From:"
+#~ msgstr "Vun:"
+
+#~ msgid "To:"
+#~ msgstr "Na:"
+
+#~ msgid "Date:"
+#~ msgstr "Datum:"
+
+#~ msgid "Subject:"
+#~ msgstr "Bedröppt:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Bilagen:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "Ännert:"
+
+#~ msgid "Size:"
+#~ msgstr "Grött:"
+
+#~ msgid "Applications"
+#~ msgstr "Programmen"
+
+#~ msgid "System Settings"
+#~ msgstr "Systeeminstellen"
+
+#~ msgid "Audio"
+#~ msgstr "Klang"
+
+#~ msgid "Videos"
+#~ msgstr "Videos"
+
+#~ msgid "Images"
+#~ msgstr "Biller"
+
+#~ msgid "Documents"
+#~ msgstr "Dokmenten"
+
+#~ msgid "Folders"
+#~ msgstr "Ornern"
+
+#~ msgid "Emails"
+#~ msgstr "Nettpost"
+
+#~ msgid "Calculator"
+#~ msgstr "Taschenreekner"
+
+#~ msgid "Bookmarks"
+#~ msgstr "Leestekens"

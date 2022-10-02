@@ -1,0 +1,72 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Volkan Gezer <volkangezer@gmail.com>, 2014, 2017.
+# Emir SARI <emir_sari@icloud.com>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-05-30 00:46+0000\n"
+"PO-Revision-Date: 2022-04-16 17:50+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
+
+#: qml/ResultDelegate.qml:42
+#, kde-format
+msgid "%1, in category %2"
+msgstr "%2 kategorisi içinde %1"
+
+#: qml/ResultDelegate.qml:44
+#, kde-format
+msgid "in category %1"
+msgstr "%1 kategorisi içinde"
+
+#: qml/ResultDelegate.qml:272
+#, kde-format
+msgctxt ""
+"placeholder is action e.g. run in terminal, in parenthesis is shortcut"
+msgid "%1 (Shift+Return)"
+msgstr "%1 (ÜstKarakter+Enter)"
+
+#~ msgid "Artist:"
+#~ msgstr "Sanatçı:"
+
+#~ msgid "Album:"
+#~ msgstr "Albüm:"
+
+#~ msgid "Duration:"
+#~ msgstr "Süre:"
+
+#~ msgid "From:"
+#~ msgstr "Gönderen:"
+
+#~ msgid "To:"
+#~ msgstr "Alıcı:"
+
+#~ msgid "Date:"
+#~ msgstr "Tarih:"
+
+#~ msgid "Subject:"
+#~ msgstr "Konu:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Ekler:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "Değiştirme:"
+
+#~ msgid "Size:"
+#~ msgstr "Boyut:"

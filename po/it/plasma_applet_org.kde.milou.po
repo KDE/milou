@@ -1,0 +1,35 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Luigi Toscano <luigi.toscano@tiscali.it>, 2014.
+# Paolo Zamponi <zapaolo@email.it>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-03-09 03:16+0100\n"
+"PO-Revision-Date: 2018-11-16 18:17+0100\n"
+"Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
+"Language-Team: Italian <kde-i18n-it@kde.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: package/contents/ui/SearchField.qml:30
+#, kde-format
+msgid "Search..."
+msgstr "Cerca..."
+
+#~ msgid "Search Results"
+#~ msgstr "Risultati della ricerca"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr "I risultati della ricerca mostrano solo i componenti selezionati"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr ""
+#~ "Trascina le categorie per cambiare l'ordine in cui sono mostrati i "
+#~ "risultati"

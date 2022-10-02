@@ -1,0 +1,32 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2014, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-03-09 03:16+0100\n"
+"PO-Revision-Date: 2018-11-12 21:53+0100\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: package/contents/ui/SearchField.qml:30
+#, kde-format
+msgid "Search..."
+msgstr "Sök..."
+
+#~ msgid "Search Results"
+#~ msgstr "Sökresultat"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr "Bara de valda komponenterna visas i sökresultaten"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr "Dra kategorier för att ändra ordningen som resultaten visas"

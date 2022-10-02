@@ -1,0 +1,83 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2017.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-05-30 00:46+0000\n"
+"PO-Revision-Date: 2017-11-26 15:40+0000\n"
+"Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
+"Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: qml/ResultDelegate.qml:42
+#, kde-format
+msgid "%1, in category %2"
+msgstr "%1, in category %2"
+
+#: qml/ResultDelegate.qml:44
+#, kde-format
+msgid "in category %1"
+msgstr "in category %1"
+
+#: qml/ResultDelegate.qml:272
+#, kde-format
+msgctxt ""
+"placeholder is action e.g. run in terminal, in parenthesis is shortcut"
+msgid "%1 (Shift+Return)"
+msgstr "%1 (Shift+Return)"
+
+#~ msgid "Artist:"
+#~ msgstr "Artist:"
+
+#~ msgid "Album:"
+#~ msgstr "Album:"
+
+#~ msgid "Duration:"
+#~ msgstr "Duration:"
+
+#~ msgid "From:"
+#~ msgstr "From:"
+
+#~ msgid "To:"
+#~ msgstr "To:"
+
+#~ msgid "Date:"
+#~ msgstr "Date:"
+
+#~ msgid "Subject:"
+#~ msgstr "Subject:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "Modified:"
+
+#~ msgid "Size:"
+#~ msgstr "Size:"
+
+#~ msgid "Search Results"
+#~ msgstr "Search Results"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr "Only the selected components are shown in the search results"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr "Drag categories to change the order in which results appear"
+
+#~ msgid "Search"
+#~ msgstr "Search"

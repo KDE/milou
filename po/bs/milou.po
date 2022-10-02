@@ -1,0 +1,75 @@
+# Bosnian translations for PACKAGE package
+# engleski prevodi za paket PACKAGE.
+# Copyright (C) 2014 This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: $2\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-05-30 00:46+0000\n"
+"PO-Revision-Date: 2015-02-15 12:59+0000\n"
+"Last-Translator: Samir Ribić <Unknown>\n"
+"Language-Team: none\n"
+"Language: bs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-02-16 06:46+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: qml/ResultDelegate.qml:42
+#, kde-format
+msgid "%1, in category %2"
+msgstr ""
+
+#: qml/ResultDelegate.qml:44
+#, kde-format
+msgid "in category %1"
+msgstr ""
+
+#: qml/ResultDelegate.qml:272
+#, kde-format
+msgctxt ""
+"placeholder is action e.g. run in terminal, in parenthesis is shortcut"
+msgid "%1 (Shift+Return)"
+msgstr ""
+
+#~ msgid "Artist:"
+#~ msgstr "Izvođač:"
+
+#~ msgid "Album:"
+#~ msgstr "Album:"
+
+#~ msgid "Duration:"
+#~ msgstr "Trajanje:"
+
+#~ msgid "From:"
+#~ msgstr "Od:"
+
+#~ msgid "To:"
+#~ msgstr "Do:"
+
+#~ msgid "Date:"
+#~ msgstr "Datum:"
+
+#~ msgid "Subject:"
+#~ msgstr "Predmet:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Prilozi:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "Izmijenjeno:"
+
+#~ msgid "Size:"
+#~ msgstr "Veličina:"

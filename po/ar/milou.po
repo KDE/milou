@@ -1,0 +1,115 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2014.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-05-30 00:46+0000\n"
+"PO-Revision-Date: 2022-01-20 19:21+0400\n"
+"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
+"Language-Team: ar\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Lokalize 21.07.70\n"
+
+#: qml/ResultDelegate.qml:42
+#, kde-format
+msgid "%1, in category %2"
+msgstr "‏%1، في تصنيف %2"
+
+#: qml/ResultDelegate.qml:44
+#, kde-format
+msgid "in category %1"
+msgstr "في تصنيف %1"
+
+#: qml/ResultDelegate.qml:272
+#, kde-format
+msgctxt ""
+"placeholder is action e.g. run in terminal, in parenthesis is shortcut"
+msgid "%1 (Shift+Return)"
+msgstr "‏%1 (Shift+Return)"
+
+#~ msgid "Artist:"
+#~ msgstr "الفنان:"
+
+#~ msgid "Album:"
+#~ msgstr "الألبوم:"
+
+#~ msgid "Duration:"
+#~ msgstr "المدة:"
+
+#~ msgid "From:"
+#~ msgstr "من:"
+
+#~ msgid "To:"
+#~ msgstr "إلى:"
+
+#~ msgid "Date:"
+#~ msgstr "التاريخ:"
+
+#~ msgid "Subject:"
+#~ msgstr "الموضوع:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "المرفقات:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "عُدّل في:"
+
+#~ msgid "Size:"
+#~ msgstr "الحجم:"
+
+#~ msgid "Applications"
+#~ msgstr "التطبيقات"
+
+#~ msgid "System Settings"
+#~ msgstr "إعدادات النظام"
+
+#~ msgid "Audio"
+#~ msgstr "الصوتيات"
+
+#~ msgid "Videos"
+#~ msgstr "الفيديوهات"
+
+#~ msgid "Images"
+#~ msgstr "الصور"
+
+#~ msgid "Documents"
+#~ msgstr "المستندات"
+
+#~ msgid "Folders"
+#~ msgstr "المجلدات"
+
+#~ msgid "Emails"
+#~ msgstr "البُرُد الإلكترونية"
+
+#~ msgid "Calculator"
+#~ msgstr "آلة حاسبة"
+
+#~ msgid "Bookmarks"
+#~ msgstr "العلامات"
+
+#~ msgid "Search Results"
+#~ msgstr "نتائج البحث"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr "فقط المكوّنات المحدّدة تظهر في نتائج البحث"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr "اسحب الفئات لتغيير ترتيب عرض النتائج"
+
+#~ msgid "Search"
+#~ msgstr "ابحث عن"

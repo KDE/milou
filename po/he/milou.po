@@ -1,0 +1,72 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Elkana Bardugo <ttv200@gmail.com>, 2016.
+# Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: milou\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-05-30 00:46+0000\n"
+"PO-Revision-Date: 2017-05-23 08:51-0400\n"
+"Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
+"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Zanata 3.9.6\n"
+
+#: qml/ResultDelegate.qml:42
+#, kde-format
+msgid "%1, in category %2"
+msgstr ""
+
+#: qml/ResultDelegate.qml:44
+#, kde-format
+msgid "in category %1"
+msgstr ""
+
+#: qml/ResultDelegate.qml:272
+#, kde-format
+msgctxt ""
+"placeholder is action e.g. run in terminal, in parenthesis is shortcut"
+msgid "%1 (Shift+Return)"
+msgstr "%1 (Shift+Return)"
+
+#~ msgid "Artist:"
+#~ msgstr "אמן:"
+
+#~ msgid "Album:"
+#~ msgstr "אלבום:"
+
+#~ msgid "Duration:"
+#~ msgstr "משך:"
+
+#~ msgid "From:"
+#~ msgstr "מ:"
+
+#~ msgid "To:"
+#~ msgstr "ל:"
+
+#~ msgid "Date:"
+#~ msgstr "תאריך:"
+
+#~ msgid "Subject:"
+#~ msgstr "נושא:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "מצורפים:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "נערך:"
+
+#~ msgid "Size:"
+#~ msgstr "גודל:"

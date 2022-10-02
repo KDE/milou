@@ -1,0 +1,32 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# wantoyo <wantoyek@gmail.com>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-03-09 03:16+0100\n"
+"PO-Revision-Date: 2018-11-13 21:18+0700\n"
+"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
+"Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: package/contents/ui/SearchField.qml:30
+#, kde-format
+msgid "Search..."
+msgstr "Cari..."
+
+#~ msgid "Search Results"
+#~ msgstr "Hasil Pencarian"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr ""
+#~ "Hanya komponen yang dipilih yang ditampilkan di dalam hasil pencarian"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr "Seret kategori untuk mengubah urutan di mana hasilnya muncul"
