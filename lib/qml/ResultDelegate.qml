@@ -200,6 +200,16 @@ MouseArea {
                     textFormat: model.multiLine ? Text.StyledText : Text.PlainText
                     // The extra spacing accounts for the right margin so the text doesn't overlap the actions
                     Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width - 2 * PlasmaCore.Units.smallSpacing
+
+                    PlasmaComponents3.ToolTip {
+                        text: displayLabel.text
+                        visible: displayLabelHoverHandler.hovered && displayLabel.truncated
+                        timeout: -1
+                    }
+
+                    HoverHandler {
+                        id: displayLabelHoverHandler
+                    }
                 }
 
                 PlasmaComponents3.Label {
@@ -224,12 +234,12 @@ MouseArea {
                     Layout.fillWidth: true
                     PlasmaComponents3.ToolTip {
                         text: subtextLabel.text
-                        visible: hoverHandler.hovered && subtextLabel.truncated
+                        visible: subtextLabelHoverHandler.hovered && subtextLabel.truncated
                         timeout: -1
                     }
 
                     HoverHandler {
-                        id: hoverHandler
+                        id: subtextLabelHoverHandler
                     }
                 }
             }
