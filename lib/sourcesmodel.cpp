@@ -376,6 +376,7 @@ bool SourcesModel::run(int index)
     Plasma::QueryMatch match = fetchMatch(index);
     Q_ASSERT(match.runner());
 
+#if KRUNNER_ENABLE_DEPRECATED_SINCE(5, 99)
     if (match.type() == Plasma::QueryMatch::InformationalMatch) {
         QString info = match.data().toString();
         int editPos = info.length();
@@ -397,6 +398,7 @@ bool SourcesModel::run(int index)
             return false;
         }
     }
+#endif
 
     m_manager->run(match);
     return true;
