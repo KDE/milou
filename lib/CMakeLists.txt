@@ -4,6 +4,7 @@ set (lib_SRCS
     resultsmodel.cpp
     runnerresultsmodel.cpp
     sourcesmodel.cpp
+    filemenu.cpp
     draghelper.cpp
     mousehelper.cpp
     resultsmodel.h
@@ -21,6 +22,8 @@ target_link_libraries (milou
     Qt::Quick
     Qt::Widgets # for QAction...
     KF5::ItemModels
+    KF5::KIOWidgets
+    KF5::Notifications # for KNotificationJobUiDelegate
     KF5::Service
     KF5::Plasma
     KF5::Runner

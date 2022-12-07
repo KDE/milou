@@ -63,6 +63,7 @@ public:
         EnabledRole,
         CategoryRole,
         SubtextRole,
+        UrlsRole,
         DuplicateRole,
         ActionsRole,
         MultiLineRole,

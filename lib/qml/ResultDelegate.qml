@@ -14,6 +14,8 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents // for ListItem
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 
+import org.kde.milou 0.3 as Milou
+
 MouseArea {
     id: resultDelegate
 
@@ -55,6 +57,7 @@ MouseArea {
         }
     }
 
+    // TODO incorporate menu button in this
     function activateNextAction() {
         if (activeAction === actionsRepeater.count - 1) { // last action, do nothing
             return false
@@ -78,15 +81,27 @@ MouseArea {
     width: listItem.implicitWidth
     height: listItem.implicitHeight
 
-    acceptedButtons: Qt.LeftButton
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
     hoverEnabled: true
     onPressed: {
+        if (fileMenu.valid && mouse.button === Qt.RightButton) {
+            // avoid menu button glowing if we didn't actually press it
+            menuButton.checked = false;
+            fileMenu.visualParent = resultDelegate;
+            fileMenu.open(mouse.x, mouse.y);
+            return;
+        }
+
         __pressed = true;
         __pressX = mouse.x;
         __pressY = mouse.y;
     }
 
     onReleased: {
+        if (mouse.button === Qt.RightButton) {
+            return;
+        }
+
         if (__pressed) {
             listView.currentIndex = model.index
             listView.runCurrentIndex()
@@ -128,6 +143,15 @@ MouseArea {
                 listView.moved = true
                 listView.currentIndex = index
             }
+        }
+    }
+
+    Keys.onMenuPressed: {
+        if (fileMenu.valid) {
+            menuButton.openMenu();
+            event.accepted = true;
+        } else {
+            event.accepted = false;
         }
     }
 
@@ -286,6 +310,36 @@ MouseArea {
                         }
 
                         onClicked: resultDelegate.ListView.view.runAction(index)
+                    }
+                }
+
+                PlasmaComponents3.ToolButton {
+                    id: menuButton
+                    width: height
+                    height: PlasmaCore.Units.iconSizes.medium
+                    text: i18ndc("milou", "@action:button", "More Options…")
+                    display: PlasmaComponents3.AbstractButton.IconOnly
+                    icon.name: "application-menu"
+                    visible: fileMenu.valid
+                    checked: fileMenu.visible
+                    onPressed: openMenu()
+
+                    function openMenu() {
+                        // fake "pressed" while menu is open
+                        checked = Qt.binding(() => fileMenu.visible);
+                        fileMenu.visualParent = menuButton;
+                        fileMenu.open();
+                    }
+
+                    PlasmaComponents3.ToolTip {
+                        text: parent.text
+                    }
+
+                    Milou.FileMenu {
+                        id: fileMenu
+                        url: model.urls.length > 0 ? model.urls[0] : ""
+                        // TODO add to history?
+                        onActionTriggered: resultDelegate.ListView.view.activated()
                     }
                 }
             }
