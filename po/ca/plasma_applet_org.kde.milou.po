@@ -25,15 +25,3 @@ msgstr ""
 #, kde-format
 msgid "Search..."
 msgstr "Cerca..."
-
-#~ msgid "Search Results"
-#~ msgstr "Resultat de la cerca"
-
-#~ msgid "Only the selected components are shown in the search results"
-#~ msgstr ""
-#~ "Només es mostren els components seleccionats en el resultat de la cerca"
-
-#~ msgid "Drag categories to change the order in which results appear"
-#~ msgstr ""
-#~ "Arrossegueu les categories per a canviar l'ordre en què apareixen els "
-#~ "resultats"

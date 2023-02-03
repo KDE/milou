@@ -38,39 +38,3 @@ msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
 msgid "%1 (Shift+Return)"
 msgstr "%1 (Majúscules+Retorn)"
-
-#~ msgid "Artist:"
-#~ msgstr "Artista:"
-
-#~ msgid "Album:"
-#~ msgstr "Àlbum:"
-
-#~ msgid "Duration:"
-#~ msgstr "Durada:"
-
-#~ msgid "From:"
-#~ msgstr "Des de:"
-
-#~ msgid "To:"
-#~ msgstr "A:"
-
-#~ msgid "Date:"
-#~ msgstr "Data:"
-
-#~ msgid "Subject:"
-#~ msgstr "Assumpte:"
-
-#~ msgid ""
-#~ "\n"
-#~ "Attachments:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Adjunts:\n"
-#~ "\n"
-
-#~ msgid "Modified:"
-#~ msgstr "Modificat:"
-
-#~ msgid "Size:"
-#~ msgstr "Mida:"
