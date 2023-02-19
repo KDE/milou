@@ -67,7 +67,12 @@ ListView {
                 runnerWindow.runnerManager = runnerManager
             }
         }
-        onQueryStringChanged: resetView()
+        onQueryStringChanged: () => {
+            resetView();
+            // Do not run the results automatically, if the query changed since we pressed enter
+            // BUG: 459859
+            runAutomatically = false;
+        }
         onModelReset: resetView()
 
         onRowsInserted: {
