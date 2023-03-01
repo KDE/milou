@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_milou_applet\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-31 18:13+0200\n"
+"POT-Creation-Date: 2021-03-09 03:16+0100\n"
 "PO-Revision-Date: 2014-06-05 21:49+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -18,23 +18,17 @@ msgstr ""
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
 
-#: applet.cpp:69
-#, kde-format
-msgid "Search Results"
-msgstr "Резултати претраге"
-
-#: configwidget.cpp:61
-#, kde-format
-msgid "Only the selected components are shown in the search results"
-msgstr "Само изабране компоненте дају се у резултатима претраге"
-
-#: configwidget.cpp:65
-#, kde-format
-msgid "Drag categories to change the order in which results appear"
-msgstr "Превлачењем категорија измените редослед навођења резултата"
-
-#: package/contents/ui/SearchField.qml:44
+#: package/contents/ui/SearchField.qml:30
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search..."
 msgstr "Тражи"
+
+#~ msgid "Search Results"
+#~ msgstr "Резултати претраге"
+
+#~ msgid "Only the selected components are shown in the search results"
+#~ msgstr "Само изабране компоненте дају се у резултатима претраге"
+
+#~ msgid "Drag categories to change the order in which results appear"
+#~ msgstr "Превлачењем категорија измените редослед навођења резултата"

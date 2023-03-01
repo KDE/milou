@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-30 03:38+0100\n"
+"POT-Creation-Date: 2022-11-20 00:48+0000\n"
 "PO-Revision-Date: 2017-11-04 20:03+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -18,75 +18,55 @@ msgstr ""
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
 
-#: previews/audioplugin.cpp:59
-#, kde-format
-msgid "Artist:"
-msgstr "Izvođač:"
-
-#: previews/audioplugin.cpp:59
-#, kde-format
-msgid "Album:"
-msgstr "Album:"
-
-#: previews/audioplugin.cpp:59
-#, kde-format
-msgid "Duration:"
-msgstr "Trajanje:"
-
-#: previews/emailplugin.cpp:99
-#, kde-format
-msgid "From:"
-msgstr "Od:"
-
-#: previews/emailplugin.cpp:104
-#, kde-format
-msgid "To:"
-msgstr "Za:"
-
-#: previews/emailplugin.cpp:109
-#, kde-format
-msgid "Date:"
-msgstr "Datum:"
-
-#: previews/emailplugin.cpp:114
-#, kde-format
-msgid "Subject:"
-msgstr "Tema:"
-
-#: previews/emailplugin.cpp:133
-#, kde-format
-msgid ""
-"\n"
-"Attachments:\n"
-"\n"
-msgstr ""
-"\n"
-"Prilozi:\n"
-"\n"
-
-#: previews/fileplugin.cpp:54
-#, kde-format
-msgid "Modified:"
-msgstr "Izmenjeno:"
-
-#: previews/fileplugin.cpp:54
-#, kde-format
-msgid "Size:"
-msgstr "Velična:"
-
-#: qml/ResultDelegate.qml:56
+#: qml/ResultDelegate.qml:42
 #, kde-format
 msgid "%1, in category %2"
 msgstr "%1, u kategoriji %2"
 
-#: qml/ResultDelegate.qml:58
+#: qml/ResultDelegate.qml:44
 #, kde-format
 msgid "in category %1"
 msgstr "u kategoriji %1"
 
-#: qml/ResultDelegate.qml:259
+#: qml/ResultDelegate.qml:282
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
 msgid "%1 (Shift+Return)"
 msgstr "%1 (Shift+Return)"
+
+#~ msgid "Artist:"
+#~ msgstr "Izvođač:"
+
+#~ msgid "Album:"
+#~ msgstr "Album:"
+
+#~ msgid "Duration:"
+#~ msgstr "Trajanje:"
+
+#~ msgid "From:"
+#~ msgstr "Od:"
+
+#~ msgid "To:"
+#~ msgstr "Za:"
+
+#~ msgid "Date:"
+#~ msgstr "Datum:"
+
+#~ msgid "Subject:"
+#~ msgstr "Tema:"
+
+#~ msgid ""
+#~ "\n"
+#~ "Attachments:\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Prilozi:\n"
+#~ "\n"
+
+#~ msgid "Modified:"
+#~ msgstr "Izmenjeno:"
+
+#~ msgid "Size:"
+#~ msgstr "Velična:"
