@@ -11,7 +11,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.1
 
 import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents // for ListItem
+import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 
 MouseArea {
@@ -148,7 +148,7 @@ MouseArea {
         }
     }
 
-    PlasmaComponents.ListItem {
+    PlasmaExtras.ListItem {
         id: listItem
 
         readonly property int indexModifier: reversed ? 0 : 1

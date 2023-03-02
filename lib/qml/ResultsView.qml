@@ -8,7 +8,7 @@
 
 import QtQuick 2.1
 
-import org.kde.plasma.components 2.0 as PlasmaComponents // for Highlight
+import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.milou 0.3 as Milou
 
@@ -29,7 +29,7 @@ ListView {
     // NOTE this also flips increment/decrementCurrentIndex (Bug 360789)
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
     keyNavigationWraps: true
-    highlight: PlasmaComponents.Highlight {}
+    highlight: PlasmaExtras.Highlight {}
     highlightMoveDuration: 0
     activeFocusOnTab: true
     Accessible.role: Accessible.List
