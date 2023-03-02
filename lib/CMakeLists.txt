@@ -20,10 +20,10 @@ target_link_libraries (milou
     Qt::Qml
     Qt::Quick
     Qt::Widgets # for QAction...
-    KF5::ItemModels
-    KF5::Service
-    KF5::Plasma
-    KF5::Runner
+    KF6::ItemModels
+    KF6::Service
+    KF6::Plasma
+    KF6::Runner
 )
 
 generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)

@@ -1,6 +1,8 @@
 /*
  * This file is part of the KDE Milou Project
  * SPDX-FileCopyrightText: 2019 Kai Uwe Broulik <kde@broulik.de>
+ * SPDX-FileCopyrightText: 2023 David Edmundson <davidedmundson@kde.org>
+ *
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  *
@@ -16,29 +18,28 @@
 #include "resultsmodel.h"
 
 using namespace Milou;
-using namespace Plasma;
+using namespace KRunner;
 
 RunnerResultsModel::RunnerResultsModel(QObject *parent)
     : QAbstractItemModel(parent)
     , m_manager(new RunnerManager(QStringLiteral("krunnerrc"), this))
 {
-    m_manager->enableKNotifyPluginWatcher();
     connect(m_manager, &RunnerManager::matchesChanged, this, &RunnerResultsModel::onMatchesChanged);
     connect(m_manager, &RunnerManager::queryFinished, this, [this] {
         setQuerying(false);
     });
-    connect(m_manager, &RunnerManager::setSearchTerm, this, &RunnerResultsModel::queryStringChangeRequested);
+    connect(m_manager, &RunnerManager::requestUpdateQueryString, this, &RunnerResultsModel::queryStringChangeRequested);
 }
 
 RunnerResultsModel::~RunnerResultsModel() = default;
 
-Plasma::QueryMatch RunnerResultsModel::fetchMatch(const QModelIndex &idx) const
+KRunner::QueryMatch RunnerResultsModel::fetchMatch(const QModelIndex &idx) const
 {
     const QString category = m_categories.value(int(idx.internalId() - 1));
     return m_matches.value(category).value(idx.row());
 }
 
-void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &matches)
+void RunnerResultsModel::onMatchesChanged(const QList<KRunner::QueryMatch> &matches)
 {
     // Build the list of new categories and matches
     QSet<QString> newCategories;
@@ -46,7 +47,7 @@ void RunnerResultsModel::onMatchesChanged(const QList<Plasma::QueryMatch> &match
     // of categories but just what matches we have for each one.
     // Below when we populate the actual m_matches we'll make sure to keep the order
     // of existing categories to avoid pointless model changes.
-    QHash<QString /*category*/, QVector<Plasma::QueryMatch>> newMatches;
+    QHash<QString /*category*/, QVector<KRunner::QueryMatch>> newMatches;
     for (const auto &match : matches) {
         const QString category = match.matchCategory();
         newCategories.insert(category);
@@ -199,16 +200,16 @@ void RunnerResultsModel::clear()
 
 bool RunnerResultsModel::run(const QModelIndex &idx)
 {
-    Plasma::QueryMatch match = fetchMatch(idx);
+    KRunner::QueryMatch match = fetchMatch(idx);
     if (match.isValid() && match.isEnabled()) {
-        return m_manager->runMatch(match);
+        return m_manager->run(match);
     }
     return false;
 }
 
 bool RunnerResultsModel::runAction(const QModelIndex &idx, int actionNumber)
 {
-    Plasma::QueryMatch match = fetchMatch(idx);
+    KRunner::QueryMatch match = fetchMatch(idx);
     if (!match.isValid() || !match.isEnabled()) {
         return false;
     }
@@ -218,8 +219,7 @@ bool RunnerResultsModel::runAction(const QModelIndex &idx, int actionNumber)
         return false;
     }
 
-    match.setSelectedAction(actions.at(actionNumber));
-    return m_manager->runMatch(match);
+    return m_manager->run(match, actions.at(actionNumber));
 }
 
 int RunnerResultsModel::columnCount(const QModelIndex &parent) const
@@ -257,7 +257,7 @@ QVariant RunnerResultsModel::data(const QModelIndex &index, int role) const
             return QVariant();
         }
 
-        Plasma::QueryMatch match = fetchMatch(index);
+        KRunner::QueryMatch match = fetchMatch(index);
         if (!match.isValid()) {
             return QVariant();
         }
@@ -377,7 +377,7 @@ QMimeData *RunnerResultsModel::mimeData(const QModelIndexList &indexes) const
         return nullptr;
     }
 
-    Plasma::QueryMatch match = fetchMatch(indexes.first());
+    KRunner::QueryMatch match = fetchMatch(indexes.first());
     if (!match.isValid()) {
         return nullptr;
     }
@@ -385,7 +385,7 @@ QMimeData *RunnerResultsModel::mimeData(const QModelIndexList &indexes) const
     return m_manager->mimeDataForMatch(match);
 }
 
-Plasma::RunnerManager *RunnerResultsModel::runnerManager() const
+KRunner::RunnerManager *RunnerResultsModel::runnerManager() const
 {
     return m_manager;
 }

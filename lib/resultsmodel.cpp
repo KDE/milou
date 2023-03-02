@@ -11,6 +11,7 @@
 #include "runnerresultsmodel.h"
 
 #include <QIdentityProxyModel>
+#include <QPointer>
 
 #include <KDescendantsProxyModel>
 #include <KModelIndexProxyMapper>
@@ -261,7 +262,7 @@ public:
 
     ResultsModel *q;
 
-    QPointer<Plasma::AbstractRunner> runner = nullptr;
+    QPointer<KRunner::AbstractRunner> runner;
 
     RunnerResultsModel *resultsModel;
     SortProxyModel *sortModel;
@@ -432,7 +433,7 @@ QMimeData *ResultsModel::getMimeData(const QModelIndex &idx) const
     return d->resultsModel->mimeData({resultsIdx});
 }
 
-Plasma::RunnerManager *Milou::ResultsModel::runnerManager() const
+KRunner::RunnerManager *Milou::ResultsModel::runnerManager() const
 {
     return d->resultsModel->runnerManager();
 }

@@ -23,8 +23,8 @@ SourcesModel::SourcesModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_size(0)
 {
-    m_manager = new Plasma::RunnerManager(this);
-    connect(m_manager, &Plasma::RunnerManager::matchesChanged, this, &SourcesModel::slotMatchesChanged);
+    m_manager = new KRunner::RunnerManager(this);
+    connect(m_manager, &KRunner::RunnerManager::matchesChanged, this, &SourcesModel::slotMatchesChanged);
 
     KDirWatch *watch = KDirWatch::self();
     connect(watch, &KDirWatch::created, this, &SourcesModel::slotSettingsFileChanged);
@@ -54,7 +54,7 @@ QHash<int, QByteArray> SourcesModel::roleNames() const
     return roles;
 }
 
-Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
+KRunner::QueryMatch SourcesModel::fetchMatch(int row) const
 {
     for (const QString &type : qAsConst(m_types)) {
         const TypeData data = m_matches.value(type);
@@ -68,7 +68,7 @@ Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
         }
     }
 
-    return Plasma::QueryMatch(nullptr);
+    return KRunner::QueryMatch(nullptr);
 }
 
 QVariant SourcesModel::data(const QModelIndex &index, int role) const
@@ -81,7 +81,7 @@ QVariant SourcesModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    Plasma::QueryMatch m = fetchMatch(index.row());
+    KRunner::QueryMatch m = fetchMatch(index.row());
     Q_ASSERT(m.runner());
 
     switch (role) {
@@ -235,7 +235,7 @@ void SourcesModel::slotResetTimeout()
     }
 }
 
-void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch> &l)
+void SourcesModel::slotMatchesChanged(const QList<KRunner::QueryMatch> &l)
 {
     // We do reset handling ourselves, so ignore clears if the reset timer
     // is supposed to handle them (see setQueryString)
@@ -249,7 +249,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch> &l)
     m_types.clear();
     m_duplicates.clear();
 
-    QList<Plasma::QueryMatch> list(l);
+    QList<KRunner::QueryMatch> list(l);
     std::sort(list.begin(), list.end());
 
     for (auto it = list.crbegin(), end = list.crend(); it != end; ++it) {
@@ -270,7 +270,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch> &l)
     for (const QString &type : qAsConst(m_types)) {
         const TypeData td = m_matches.value(type);
 
-        for (const Plasma::QueryMatch &match : td.shown) {
+        for (const KRunner::QueryMatch &match : td.shown) {
             const QString text = match.text().simplified();
             bool containsAll = true;
 
@@ -309,7 +309,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch> &l)
 // Tries to make sure that all the types have the same number
 // of visible items
 //
-void SourcesModel::slotMatchAdded(const Plasma::QueryMatch &m)
+void SourcesModel::slotMatchAdded(const KRunner::QueryMatch &m)
 {
     if (m_queryString.isEmpty()) {
         return;
@@ -339,7 +339,7 @@ void SourcesModel::slotMatchAdded(const Plasma::QueryMatch &m)
 
         // Remove the last shown row from maxShownType
         // and add it to matchType
-        Plasma::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
+        KRunner::QueryMatch transferMatch = m_matches[maxShownType].shown.takeLast();
         m_matches[maxShownType].hidden.append(transferMatch);
         m_size--;
         m_duplicates[transferMatch.text()]--;
@@ -373,11 +373,11 @@ void SourcesModel::clear()
 
 bool SourcesModel::run(int index)
 {
-    Plasma::QueryMatch match = fetchMatch(index);
+    KRunner::QueryMatch match = fetchMatch(index);
     Q_ASSERT(match.runner());
 
 #if KRUNNER_ENABLE_DEPRECATED_SINCE(5, 99)
-    if (match.type() == Plasma::QueryMatch::InformationalMatch) {
+    if (match.type() == KRunner::QueryMatch::InformationalMatch) {
         QString info = match.data().toString();
         int editPos = info.length();
 
@@ -406,7 +406,7 @@ bool SourcesModel::run(int index)
 
 bool SourcesModel::runAction(int index, int actionIndex)
 {
-    Plasma::QueryMatch match = fetchMatch(index);
+    KRunner::QueryMatch match = fetchMatch(index);
     Q_ASSERT(match.runner());
 
     const auto &actions = m_manager->actionsForMatch(match);
@@ -415,7 +415,7 @@ bool SourcesModel::runAction(int index, int actionIndex)
     }
 
     QAction *action = actions.at(actionIndex);
-    match.setSelectedAction(action);
+    // match.setSelectedAction(action);
     m_manager->run(match);
     return true;
 }
@@ -428,7 +428,7 @@ void SourcesModel::reloadConfiguration()
 
 QMimeData *SourcesModel::getMimeData(int index) const
 {
-    Plasma::QueryMatch match = fetchMatch(index);
+    KRunner::QueryMatch match = fetchMatch(index);
     Q_ASSERT(match.runner());
 
     // we're returning a parent-less QObject from a Q_INVOKABLE

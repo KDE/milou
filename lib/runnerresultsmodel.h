@@ -14,7 +14,7 @@
 
 #include <KRunner/QueryMatch>
 
-namespace Plasma
+namespace KRunner
 {
 class RunnerManager;
 }
@@ -54,7 +54,7 @@ public:
 
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
-    Plasma::RunnerManager *runnerManager() const;
+    KRunner::RunnerManager *runnerManager() const;
 
 Q_SIGNALS:
     void queryStringChangeRequested(const QString &queryString, int pos);
@@ -64,11 +64,11 @@ Q_SIGNALS:
 private:
     void setQuerying(bool querying);
 
-    Plasma::QueryMatch fetchMatch(const QModelIndex &idx) const;
+    KRunner::QueryMatch fetchMatch(const QModelIndex &idx) const;
 
-    void onMatchesChanged(const QList<Plasma::QueryMatch> &matches);
+    void onMatchesChanged(const QList<KRunner::QueryMatch> &matches);
 
-    Plasma::RunnerManager *m_manager;
+    KRunner::RunnerManager *m_manager;
 
     QString m_queryString;
     bool m_querying = false;
@@ -78,7 +78,7 @@ private:
     bool m_hasMatches = false;
 
     QStringList m_categories;
-    QHash<QString /*category*/, QVector<Plasma::QueryMatch>> m_matches;
+    QHash<QString /*category*/, QVector<KRunner::QueryMatch>> m_matches;
 };
 
 } // namespace Milou

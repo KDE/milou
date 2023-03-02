@@ -94,8 +94,8 @@ public Q_SLOTS:
     Q_INVOKABLE QMimeData *getMimeData(int index) const;
 
 private Q_SLOTS:
-    void slotMatchesChanged(const QList<Plasma::QueryMatch> &list);
-    void slotMatchAdded(const Plasma::QueryMatch &match);
+    void slotMatchesChanged(const QList<KRunner::QueryMatch> &list);
+    void slotMatchAdded(const KRunner::QueryMatch &match);
     void slotResetTimeout();
     void slotSettingsFileChanged(const QString &path);
 
@@ -104,13 +104,13 @@ public:
     QList<QString> m_types;
 
     struct TypeData {
-        QList<Plasma::QueryMatch> shown;
-        QList<Plasma::QueryMatch> hidden;
+        QList<KRunner::QueryMatch> shown;
+        QList<KRunner::QueryMatch> hidden;
     };
     QHash<QString, TypeData> m_matches;
     int m_size;
 
-    /// Counts the number of results for each visible Plasma::QueryMatch::text
+    /// Counts the number of results for each visible KRunner::QueryMatch::text
     /// We use this to show additional info when there are multiple visible
     /// results with the same text
     QHash<QString, int> m_duplicates;
@@ -119,11 +119,11 @@ public:
     int m_queryLimit;
     QString m_runner;
 
-    Plasma::RunnerManager *m_manager;
+    KRunner::RunnerManager *m_manager;
     bool m_modelPopulated;
     QTimer m_resetTimer;
 
-    Plasma::QueryMatch fetchMatch(int row) const;
+    KRunner::QueryMatch fetchMatch(int row) const;
 };
 
 }
