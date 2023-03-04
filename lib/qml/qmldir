@@ -1,8 +1,0 @@
-module org.kde.milou
-plugin milouqmlplugin
-
-ResultsView 0.1 ResultsView.qml
-ResultDelegate 0.1 ResultDelegate.qml
-
-ResultsListView 0.1 ResultsListView.qml
-ResultsListViewDelegate 0.1 ResultsListViewDelegate.qml
