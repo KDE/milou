@@ -159,6 +159,8 @@ MouseArea {
                        && !resultDelegate.isCurrent
                        && (index === 0 || resultDelegate.ListView.view.currentIndex !== (index - indexModifier))
 
+        implicitHeight: labelWrapper.implicitHeight + PlasmaCore.Units.mediumSpacing * 2
+
         Item {
             id: labelWrapper
             anchors {
