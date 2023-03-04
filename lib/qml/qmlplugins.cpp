@@ -11,7 +11,6 @@
 #include "draghelper.h"
 #include "mousehelper.h"
 #include "resultsmodel.h"
-#include "sourcesmodel.h"
 
 #include <QMimeData>
 #include <QQmlEngine>
@@ -22,7 +21,6 @@ void QmlPlugins::initializeEngine(QQmlEngine *, const char *)
 
 void QmlPlugins::registerTypes(const char *uri)
 {
-    qmlRegisterType<Milou::SourcesModel>(uri, 0, 1, "SourcesModel");
     qmlRegisterType<Milou::ResultsModel>(uri, 0, 3, "ResultsModel");
     qmlRegisterType<Milou::DragHelper>(uri, 0, 2, "DragHelper");
     qmlRegisterSingletonType<Milou::MouseHelper>(uri, 0, 1, "MouseHelper", [](QQmlEngine *, QJSEngine *) -> QObject * {

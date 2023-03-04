@@ -3,12 +3,10 @@ add_definitions(-DTRANSLATION_DOMAIN=\"milou\")
 set (lib_SRCS
     resultsmodel.cpp
     runnerresultsmodel.cpp
-    sourcesmodel.cpp
     draghelper.cpp
     mousehelper.cpp
     resultsmodel.h
     runnerresultsmodel.h
-    sourcesmodel.h
     draghelper.h
     mousehelper.h
 )
