@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-20 00:48+0000\n"
+"POT-Creation-Date: 2023-03-05 03:09+0000\n"
 "PO-Revision-Date: 2017-09-15 23:50+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -29,7 +29,7 @@ msgstr "%1, en la categoría %2"
 msgid "in category %1"
 msgstr "en la categoría %1"
 
-#: qml/ResultDelegate.qml:282
+#: qml/ResultDelegate.qml:284
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
