@@ -1,31 +1,21 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"milou\")
+add_library(milou STATIC)
 
-set (lib_SRCS
+set_property(TARGET milou PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_sources(milou PRIVATE
     resultsmodel.cpp
-    runnerresultsmodel.cpp
     draghelper.cpp
     mousehelper.cpp
     resultsmodel.h
-    runnerresultsmodel.h
     draghelper.h
     mousehelper.h
 )
 
-add_library(milou SHARED ${lib_SRCS})
-set_target_properties(milou PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR} )
-
-target_link_libraries (milou
+target_link_libraries(milou
     Qt::Qml
     Qt::Quick
-    Qt::Widgets # for QAction...
-    KF6::ItemModels
-    KF6::Service
-    KF6::Plasma
+    Qt::Widgets
     KF6::Runner
 )
-
-generate_export_header(milou BASE_NAME MILOU EXPORT_FILE_NAME milou_export.h)
-
-install(TARGETS milou EXPORT MilouLibraryTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 add_subdirectory(qml)

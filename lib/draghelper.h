@@ -9,14 +9,12 @@
 #include <QIcon>
 #include <QObject>
 
-#include "milou_export.h"
-
 class QQuickItem;
 class QMimeData;
 
 namespace Milou
 {
-class MILOU_EXPORT DragHelper : public QObject
+class DragHelper : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int dragIconSize READ dragIconSize WRITE setDragIconSize NOTIFY dragIconSizeChanged)

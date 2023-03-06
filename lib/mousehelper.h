@@ -11,11 +11,9 @@
 #include <QObject>
 #include <QPoint>
 
-#include "milou_export.h"
-
 namespace Milou
 {
-class MILOU_EXPORT MouseHelper : public QObject
+class MouseHelper : public QObject
 {
     Q_OBJECT
 
