@@ -15,11 +15,11 @@ import org.kde.milou 0.3 as Milou
 ListView {
     id: listView
     property alias queryString: resultModel.queryString
-    property alias runner: resultModel.runner
+    property alias singleRunner: resultModel.singleRunner
     property alias runnerManager: resultModel.runnerManager
 
-    property alias runnerName: resultModel.runnerName
-    property alias runnerIcon: resultModel.runnerIcon
+    property alias singleRunnerName: resultModel.singleRunnerName
+    property alias singleRunnerIcon: resultModel.singleRunnerIcon
     property alias querying: resultModel.querying
     property alias limit: resultModel.limit
     property bool reversed
