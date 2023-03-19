@@ -9,9 +9,9 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 
-import org.kde.plasma.components 2.0 as PlasmaComponents // for ListItem
 import org.kde.plasma.components 3.0 as PlasmaComponents3
-import org.kde.kquickcontrolsaddons 2.0 as QtExtra
+import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.extras 2.0 as PlasmaExtras
 import "globals.js" as Globals
 
 MouseArea {
@@ -26,7 +26,7 @@ MouseArea {
         listView.currentIndex = index
     }
 
-    PlasmaComponents.ListItem {
+    PlasmaExtras.ListItem {
         id: listItem
         enabled: true
 
@@ -38,12 +38,12 @@ MouseArea {
         RowLayout {
             spacing: 7
 
-            QtExtra.QIconItem {
+            PlasmaCore.IconItem {
                 id: typePixmap
                 width: Globals.IconSize
                 height: Globals.IconSize
 
-                icon: model.decoration
+                source: model.decoration
                 smooth: true
             }
 
