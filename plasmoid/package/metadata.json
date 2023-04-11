@@ -105,9 +105,6 @@
         "Name[x-test]": "xxSearchxx",
         "Name[zh_CN]": "查找",
         "Name[zh_TW]": "搜尋",
-        "ServiceTypes": [
-            "Plasma/Applet"
-        ],
         "Version": "0.1",
         "Website": "https://kde.org"
     },
@@ -115,5 +112,6 @@
     "X-Plasma-DropUrlPatterns": [
         "run:/"
     ],
-    "X-Plasma-MainScript": "ui/main.qml"
+    "X-Plasma-MainScript": "ui/main.qml",
+    "KPackageStructure": "Plasma/Applet"
 }
