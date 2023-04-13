@@ -4,11 +4,29 @@
         "Authors": [
             {
                 "Email": "me@vhanda.in",
-                "Name": "Vishesh Handa"
+                "Name": "Vishesh Handa",
+                "Name[ca@valencia]": "Vishesh Handa",
+                "Name[ca]": "Vishesh Handa",
+                "Name[es]": "Vishesh Handa",
+                "Name[eu]": "Vishesh Handa",
+                "Name[ia]": "Vishesh Handa",
+                "Name[nl]": "Vishesh Handa",
+                "Name[tr]": "Vişeş Handa",
+                "Name[uk]": "Vishesh Handa",
+                "Name[x-test]": "xxVishesh Handaxx"
             }
         ],
         "Category": "Utilities",
         "Description": "Search and Launch",
+        "Description[ca@valencia]": "Busca i inicia",
+        "Description[ca]": "Cerca i llança",
+        "Description[es]": "Buscar y lanzar",
+        "Description[eu]": "Bilatu eta abiarazi",
+        "Description[ia]": "Cerca  e lancea ",
+        "Description[nl]": "Zoeken en starten",
+        "Description[tr]": "Ara ve Başlat",
+        "Description[uk]": "Пошук і запуск",
+        "Description[x-test]": "xxSearch and Launchxx",
         "EnabledByDefault": true,
         "Icon": "system-search",
         "Id": "org.kde.milou",
