@@ -5,6 +5,7 @@
             {
                 "Email": "me@vhanda.in",
                 "Name": "Vishesh Handa",
+                "Name[ar]": "فيشيش هاندا",
                 "Name[bg]": "Vishesh Handa",
                 "Name[ca@valencia]": "Vishesh Handa",
                 "Name[ca]": "Vishesh Handa",
@@ -31,6 +32,7 @@
         ],
         "Category": "Utilities",
         "Description": "Search and Launch",
+        "Description[ar]": "ابحث وشغل",
         "Description[bg]": "Търсене и стартиране",
         "Description[ca@valencia]": "Busca i inicia",
         "Description[ca]": "Cerca i llança",
