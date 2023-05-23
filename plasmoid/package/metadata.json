@@ -29,6 +29,7 @@
                 "Name[tr]": "Vişeş Handa",
                 "Name[uk]": "Vishesh Handa",
                 "Name[x-test]": "xxVishesh Handaxx",
+                "Name[zh_CN]": "Vishesh Handa",
                 "Name[zh_TW]": "Vishesh Handa"
             }
         ],
@@ -57,6 +58,7 @@
         "Description[tr]": "Ara ve Başlat",
         "Description[uk]": "Пошук і запуск",
         "Description[x-test]": "xxSearch and Launchxx",
+        "Description[zh_CN]": "搜索并启动",
         "Description[zh_TW]": "搜尋與啟動",
         "EnabledByDefault": true,
         "Icon": "system-search",
@@ -108,7 +110,7 @@
         "Name[tr]": "Ara",
         "Name[uk]": "Пошук",
         "Name[x-test]": "xxSearchxx",
-        "Name[zh_CN]": "查找",
+        "Name[zh_CN]": "搜索",
         "Name[zh_TW]": "搜尋",
         "Version": "0.1",
         "Website": "https://kde.org"
