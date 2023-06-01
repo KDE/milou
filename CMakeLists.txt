@@ -25,7 +25,7 @@ include(KDEClangFormat)
 include(KDEGitCommitHooks)
 include(ECMQmlModule)
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Qml Quick Widgets)
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Qml Quick Widgets)
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n ItemModels Service Plasma Runner)
 
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
