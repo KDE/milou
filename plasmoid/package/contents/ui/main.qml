@@ -16,10 +16,10 @@ import org.kde.milou 0.1 as Milou
 
 import "globals.js" as Globals
 
-Item {
+PlasmoidItem {
     id: mainWidget
-    Plasmoid.switchWidth: Globals.SwitchWidth
-    Plasmoid.switchHeight: Globals.SwitchWidth
+    switchWidth: Globals.SwitchWidth
+    switchHeight: Globals.SwitchWidth
     Layout.minimumWidth: Globals.PlasmoidWidth
     Layout.maximumWidth: Globals.PlasmoidWidth
     Layout.minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
@@ -29,9 +29,11 @@ Item {
         return plasmoid.location == PlasmaCore.Types.BottomEdge;
     }
 
-    Item {
+    fullRepresentation: Item {
         id: wrapper
 
+        property alias searchField: searchField
+        property alias listView: listView
         property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5
                                                    : searchField.height
         property int maximumHeight: minimumHeight
@@ -49,7 +51,7 @@ Item {
             onSearchTextChanged: {
                 listView.setQueryString(text)
             }
-            onClose: plasmoid.expanded = false
+            onClose: mainWidget.expanded = false
         }
 
         Milou.ResultsView {
@@ -65,7 +67,7 @@ Item {
             reversed: isBottomEdge()
             onActivated: {
                 searchField.text = "";
-                plasmoid.expanded = false;
+                mainWidget.expanded = false;
             }
             onUpdateQueryString: function (text, cursorPosition) {
                 searchField.text = text
@@ -98,21 +100,21 @@ Item {
         repeat: false
 
         onTriggered: {
-            setTextFieldFocus(plasmoid.expanded)
+            setTextFieldFocus(mainWidget.expanded)
         }
     }
 
     function setTextFieldFocus(shown) {
-        searchField.setFocus();
-        searchField.selectAll();
+        mainWidget.fullRepresentationItem.searchField.setFocus();
+        mainWidget.fullRepresentationItem.searchField.selectAll();
     }
 
     function loadSettings() {
-        listView.loadSettings()
+        mainWidget.fullRepresentationItem.listView.loadSettings()
     }
 
-    Plasmoid.onExpandedChanged: {
-        setTextFieldFocus(plasmoid.expanded);
+    onExpandedChanged: {
+        setTextFieldFocus(mainWidget.expanded);
         //
         // The focus is not always set correctly. The hunch is that this
         // function is called before the popup is actually visible and
