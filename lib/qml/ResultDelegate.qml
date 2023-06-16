@@ -11,6 +11,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.1
 
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kirigami 2.20 as Kirigami
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 
@@ -159,7 +160,7 @@ MouseArea {
                        && !resultDelegate.isCurrent
                        && (index === 0 || resultDelegate.ListView.view.currentIndex !== (index - indexModifier))
 
-        implicitHeight: labelWrapper.implicitHeight + PlasmaCore.Units.mediumSpacing * 2
+        implicitHeight: labelWrapper.implicitHeight + Kirigami.Units.mediumSpacing * 2
 
         Item {
             id: labelWrapper
@@ -201,7 +202,7 @@ MouseArea {
                     // For multiLine we offer styled text, otherwise we default to plain text
                     textFormat: model.multiLine ? Text.StyledText : Text.PlainText
                     // The extra spacing accounts for the right margin so the text doesn't overlap the actions
-                    Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width - 2 * PlasmaCore.Units.smallSpacing
+                    Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width - 2 * Kirigami.Units.smallSpacing
 
                     PlasmaComponents3.ToolTip {
                         text: displayLabel.text
@@ -258,7 +259,7 @@ MouseArea {
 
                     PlasmaComponents3.ToolButton {
                         width: height
-                        height: PlasmaCore.Units.iconSizes.medium
+                        height: Kirigami.Units.iconSizes.medium
                         visible: modelData.visible || true
                         enabled: modelData.enabled || true
 

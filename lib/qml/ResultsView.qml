@@ -9,7 +9,6 @@
 import QtQuick 2.1
 
 import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.milou 0.3 as Milou
 
 ListView {
