@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-05 03:09+0000\n"
+"POT-Creation-Date: 2023-06-17 02:07+0000\n"
 "PO-Revision-Date: 2020-04-01 01:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 19.04.3\n"
 
-#: qml/ResultDelegate.qml:42
+#: qml/ResultDelegate.qml:43
 #, kde-format
 msgid "%1, in category %2"
 msgstr "%1, 분류 %2에 있음"
 
-#: qml/ResultDelegate.qml:44
+#: qml/ResultDelegate.qml:45
 #, kde-format
 msgid "in category %1"
 msgstr "분류 %1에 있음"
 
-#: qml/ResultDelegate.qml:284
+#: qml/ResultDelegate.qml:285
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"

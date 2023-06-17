@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-05 03:09+0000\n"
+"POT-Creation-Date: 2023-06-17 02:07+0000\n"
 "PO-Revision-Date: 2017-10-24 11:59+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -18,17 +18,17 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: qml/ResultDelegate.qml:42
+#: qml/ResultDelegate.qml:43
 #, kde-format
 msgid "%1, in category %2"
 msgstr "%1, в категории %2"
 
-#: qml/ResultDelegate.qml:44
+#: qml/ResultDelegate.qml:45
 #, kde-format
 msgid "in category %1"
 msgstr "в категории %1"
 
-#: qml/ResultDelegate.qml:284
+#: qml/ResultDelegate.qml:285
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
