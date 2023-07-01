@@ -81,7 +81,7 @@ MouseArea {
 
     acceptedButtons: Qt.LeftButton
     hoverEnabled: true
-    onPressed: {
+    onPressed: mouse => {
         __pressed = true;
         __pressX = mouse.x;
         __pressY = mouse.y;

@@ -109,8 +109,8 @@ ListView {
     // code, but the ListView doesn't seem forward keyboard events to the delgate when
     // it is not in activeFocus. Even manually adding Keys.forwardTo: resultDelegate
     // doesn't make any difference!
-    Keys.onReturnPressed: runCurrentIndex(event);
-    Keys.onEnterPressed: runCurrentIndex(event);
+    Keys.onReturnPressed: event => runCurrentIndex(event);
+    Keys.onEnterPressed: event => runCurrentIndex(event);
 
     function runCurrentIndex(event) {
         if (!currentItem) {
