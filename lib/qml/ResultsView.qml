@@ -17,8 +17,7 @@ ListView {
     property alias singleRunner: resultModel.singleRunner
     property alias runnerManager: resultModel.runnerManager
 
-    property alias singleRunnerName: resultModel.singleRunnerName
-    property alias singleRunnerIcon: resultModel.singleRunnerIcon
+    property alias singleRunnerMetaData: resultModel.singleRunnerMetaData
     property alias querying: resultModel.querying
     property alias limit: resultModel.limit
     property bool reversed
