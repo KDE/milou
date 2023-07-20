@@ -274,7 +274,7 @@ MouseArea {
                             implicitWidth: units.iconSizes.smallMedium
                             implicitHeight: units.iconSizes.smallMedium
                             // ToolButton cannot cope with QIcon
-                            source: modelData.icon || ""
+                            source: modelData.iconSource || ""
                             active: parent.hovered || parent.checked
                         }
 
