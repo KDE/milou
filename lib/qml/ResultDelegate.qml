@@ -8,6 +8,7 @@
  */
 
 import QtQuick 2.15
+import QtQuick.Controls as QQC2
 import QtQuick.Layouts 1.1
 
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -132,7 +133,7 @@ MouseArea {
         }
     }
 
-    PlasmaComponents3.Label {
+    QQC2.Label {
         id: typeText
         text: resultDelegate.typeText
         color: isCurrent ? Qt.tint(theme.disabledTextColor, Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.4)) : theme.disabledTextColor
@@ -191,7 +192,7 @@ MouseArea {
                     animated: false
                 }
 
-                PlasmaComponents3.Label {
+                QQC2.Label {
                     id: displayLabel
                     text: String(typeof modelData !== "undefined" ? modelData : model.display)
 
@@ -215,7 +216,7 @@ MouseArea {
                     }
                 }
 
-                PlasmaComponents3.Label {
+                QQC2.Label {
                     id: subtextLabel
 
                     // SourcesModel returns number of duplicates in this property
