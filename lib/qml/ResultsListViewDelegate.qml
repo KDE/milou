@@ -7,9 +7,9 @@
  */
 
 import QtQuick 2.1
-import QtQuick.Controls as QQC2
 import QtQuick.Layouts 1.1
 
+import org.kde.plasma.components 3.0 as PlasmaComponents3
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
@@ -49,7 +49,7 @@ MouseArea {
             ColumnLayout {
                 Layout.fillWidth: true
 
-                QQC2.Label {
+                PlasmaComponents3.Label {
                     id: displayLabel
                     text: String(model.display)
 
@@ -59,7 +59,7 @@ MouseArea {
                     Layout.maximumWidth: parent.width - displayLabel.x
                 }
 
-                QQC2.Label {
+                PlasmaComponents3.Label {
                     id: subtextLabel
                     text: String(model.subtext)
 
