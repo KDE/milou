@@ -10,7 +10,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.1
 
-import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kirigami 2.20 as Kirigami
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.plasma.components 3.0 as PlasmaComponents3
@@ -181,13 +180,12 @@ MouseArea {
                     verticalCenter: parent.verticalCenter
                 }
 
-                PlasmaCore.IconItem {
+                Kirigami.Icon {
                     id: typePixmap
                     Layout.preferredWidth: units.iconSizes.smallMedium
                     Layout.preferredHeight: units.iconSizes.smallMedium
                     Layout.fillHeight: true
                     source: model.decoration
-                    usesPlasmaTheme: false
                     animated: false
                 }
 
@@ -269,7 +267,7 @@ MouseArea {
                         checked: resultDelegate.activeAction === index
                         focus: resultDelegate.activeAction === index
 
-                        PlasmaCore.IconItem {
+                        Kirigami.Icon {
                             anchors.centerIn: parent
                             implicitWidth: units.iconSizes.smallMedium
                             implicitHeight: units.iconSizes.smallMedium
