@@ -9,6 +9,7 @@
 import QtQuick 2.1
 
 import org.kde.plasma.extras 2.0 as PlasmaExtras
+import org.kde.kirigami 2.20 as Kirigami
 import org.kde.milou 0.3 as Milou
 
 ListView {
@@ -51,7 +52,7 @@ ListView {
 
     Milou.DragHelper {
         id: dragHelper
-        dragIconSize: units.iconSizes.medium
+        dragIconSize: Kirigami.Units.iconSizes.medium
     }
 
     model: Milou.ResultsModel {

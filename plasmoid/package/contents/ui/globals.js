@@ -6,8 +6,10 @@
  *
  */
 
+.import org.kde.kirigami 2.20 as Kirigami
+
 // The Maximum and Minimum width of the Plasmoid
-var PlasmoidWidth = units.gridUnit * 35;
+var PlasmoidWidth = Kirigami.Units.gridUnit * 35;
 
 // The size in which the Plasmoid switches between compact and full
-var SwitchWidth = units.gridUnit * 20;
+var SwitchWidth = Kirigami.Units.gridUnit * 20;

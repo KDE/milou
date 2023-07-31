@@ -28,7 +28,7 @@ MouseArea {
 
     property string typeText: sectionHasChanged ? ListView.section : ""
     property var additionalActions: typeof actions !== "undefined" ? actions : []
-    property int categoryWidth: units.gridUnit * 10
+    property int categoryWidth: Kirigami.Units.gridUnit * 10
 
     Accessible.role: Accessible.ListItem
     Accessible.name: displayLabel.text
@@ -134,14 +134,14 @@ MouseArea {
     PlasmaComponents3.Label {
         id: typeText
         text: resultDelegate.typeText
-        color: isCurrent ? Qt.tint(theme.disabledTextColor, Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.4)) : theme.disabledTextColor
+        color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
 
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         textFormat: Text.PlainText
 
-        width: resultDelegate.categoryWidth - units.largeSpacing
+        width: resultDelegate.categoryWidth - Kirigami.Units.largeSpacing
         anchors {
             left: parent.left
             verticalCenter: listItem.verticalCenter
@@ -176,14 +176,14 @@ MouseArea {
                 anchors {
                     left: parent.left
                     right: actionsRow.left
-                    rightMargin: units.smallSpacing
+                    rightMargin: Kirigami.Units.smallSpacing
                     verticalCenter: parent.verticalCenter
                 }
 
                 Kirigami.Icon {
                     id: typePixmap
-                    Layout.preferredWidth: units.iconSizes.smallMedium
-                    Layout.preferredHeight: units.iconSizes.smallMedium
+                    Layout.preferredWidth: Kirigami.Units.iconSizes.smallMedium
+                    Layout.preferredHeight: Kirigami.Units.iconSizes.smallMedium
                     Layout.fillHeight: true
                     source: model.decoration
                     animated: false
@@ -224,7 +224,7 @@ MouseArea {
                     // but still render the text leading to it overlapping the action buttons looking horrible
                     opacity: width > 0 ? 1 : 0
 
-                    color: isCurrent ? Qt.tint(theme.disabledTextColor, Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.4)) : theme.disabledTextColor
+                    color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
 
                     elide: Text.ElideMiddle
                     wrapMode: Text.NoWrap
@@ -269,8 +269,8 @@ MouseArea {
 
                         Kirigami.Icon {
                             anchors.centerIn: parent
-                            implicitWidth: units.iconSizes.smallMedium
-                            implicitHeight: units.iconSizes.smallMedium
+                            implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                            implicitHeight: Kirigami.Units.iconSizes.smallMedium
                             // ToolButton cannot cope with QIcon
                             source: modelData.iconSource || ""
                             active: parent.hovered || parent.checked

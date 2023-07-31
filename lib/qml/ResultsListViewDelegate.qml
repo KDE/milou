@@ -39,8 +39,8 @@ MouseArea {
 
             Kirigami.Icon {
                 id: typePixmap
-                width: units.iconSizes.small
-                height: units.iconSizes.small
+                width: Kirigami.Units.iconSizes.small
+                height: Kirigami.Units.iconSizes.small
 
                 source: model.decoration
             }
