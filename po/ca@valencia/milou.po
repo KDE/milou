@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-17 02:07+0000\n"
+"POT-Creation-Date: 2023-08-01 02:16+0000\n"
 "PO-Revision-Date: 2017-09-14 22:29+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -22,17 +22,17 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: qml/ResultDelegate.qml:43
+#: qml/ResultDelegate.qml:42
 #, kde-format
 msgid "%1, in category %2"
 msgstr "%1, en la categoria %2"
 
-#: qml/ResultDelegate.qml:45
+#: qml/ResultDelegate.qml:44
 #, kde-format
 msgid "in category %1"
 msgstr "en la categoria %1"
 
-#: qml/ResultDelegate.qml:285
+#: qml/ResultDelegate.qml:283
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
