@@ -6,7 +6,7 @@
  *
  */
 
-import QtQuick 2.1
+import QtQuick
 
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.kirigami 2.20 as Kirigami
@@ -48,11 +48,6 @@ ListView {
     property point savedMousePosition: Milou.MouseHelper.globalMousePosition()
     function mouseMovedGlobally() {
         return savedMousePosition != Milou.MouseHelper.globalMousePosition();
-    }
-
-    Milou.DragHelper {
-        id: dragHelper
-        dragIconSize: Kirigami.Units.iconSizes.medium
     }
 
     model: Milou.ResultsModel {
@@ -201,5 +196,16 @@ ListView {
     function setQueryString(queryString) {
         resultModel.queryString = queryString
         runAutomatically = false
+    }
+
+    // Save drag data
+    Item {
+        id: dragHelper
+        Drag.dragType: Drag.Automatic
+        Drag.supportedActions: Qt.CopyAction | Qt.LinkAction
+        Drag.onDragFinished: {
+            Drag.mimeData = {};
+            Drag.imageSource = "";
+        }
     }
 }

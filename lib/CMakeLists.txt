@@ -4,10 +4,8 @@ add_library(milou STATIC)
 set_property(TARGET milou PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_sources(milou PRIVATE
     resultsmodel.cpp
-    draghelper.cpp
     mousehelper.cpp
     resultsmodel.h
-    draghelper.h
     mousehelper.h
 )
 

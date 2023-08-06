@@ -5,7 +5,6 @@
 #include <QQmlEngine>
 #include <QQmlExtensionPlugin>
 
-#include "draghelper.h"
 #include "mousehelper.h"
 #include "resultsmodel.h"
 
@@ -17,7 +16,6 @@ public:
     void registerTypes(const char *uri) override
     {
         qmlRegisterType<Milou::ResultsModel>(uri, 0, 3, "ResultsModel");
-        qmlRegisterType<Milou::DragHelper>(uri, 0, 2, "DragHelper");
         qmlRegisterSingletonType<Milou::MouseHelper>(uri, 0, 1, "MouseHelper", [](QQmlEngine *, QJSEngine *) -> QObject * {
             return new Milou::MouseHelper();
         });

@@ -10,6 +10,9 @@
 
 #include <QObject>
 #include <QPoint>
+#include <QVariantMap>
+
+class QMimeData;
 
 namespace Milou
 {
@@ -22,6 +25,12 @@ public:
     ~MouseHelper() override;
 
     Q_INVOKABLE QPointF globalMousePosition() const;
+
+    /*
+     * Converts QMimeData to QVariantMap
+     * @internal will be removed after https://codereview.qt-project.org/c/qt/qtdeclarative/+/491548
+     */
+    Q_INVOKABLE QVariantMap generateMimeDataMap(QMimeData *data) const;
 };
 
 }

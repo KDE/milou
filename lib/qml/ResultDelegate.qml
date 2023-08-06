@@ -7,17 +7,26 @@
  *
  */
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Layouts
 
-import org.kde.kirigami 2.20 as Kirigami
-import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.plasma.components 3.0 as PlasmaComponents3
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.extras as PlasmaExtras
+import org.kde.plasma.components as PlasmaComponents3
+import org.kde.milou as Milou
 
-MouseArea {
+PlasmaExtras.ListItem {
     id: resultDelegate
 
-    property variant theModel: model
+    implicitHeight: labelWrapper.implicitHeight + Kirigami.Units.mediumSpacing * 2
+    highlighted: tapHandler.pressed
+    hoverEnabled: true
+    separatorVisible: resultDelegate.sectionHasChanged
+                    && !resultDelegate.isCurrent
+                    && (index === 0 || resultDelegate.ListView.view.currentIndex !== (index - indexModifier))
+
+    readonly property int indexModifier: reversed ? 0 : 1
+    readonly property QtObject theModel: model
     property bool reversed: false
 
     readonly property bool isCurrent: ListView.isCurrentItem // cannot properly Connect {} to this
@@ -45,10 +54,6 @@ MouseArea {
         }
     }
 
-    property bool __pressed: false
-    property int __pressX: -1
-    property int __pressY: -1
-
     onIsCurrentChanged: {
         if (!isCurrent) {
             activeAction = -1
@@ -75,222 +80,190 @@ MouseArea {
         activeAction = actionsRepeater.count - 1
     }
 
-    width: listItem.implicitWidth
-    height: listItem.implicitHeight
-
-    acceptedButtons: Qt.LeftButton
-    hoverEnabled: true
-    onPressed: mouse => {
-        __pressed = true;
-        __pressX = mouse.x;
-        __pressY = mouse.y;
+    onClicked: {
+        resultDelegate.ListView.view.currentIndex = index
+        resultDelegate.ListView.view.runCurrentIndex()
     }
 
-    onReleased: {
-        if (__pressed) {
-            listView.currentIndex = model.index
-            listView.runCurrentIndex()
-        }
-
-        __pressed = false;
-        __pressX = -1;
-        __pressY = -1;
-    }
-
-    onPositionChanged: {
-        if (__pressX != -1 && typeof dragHelper !== "undefined" && dragHelper.isDrag(__pressX, __pressY, mouse.x, mouse.y)) {
-            var resultsModel = ListView.view.model;
-            var mimeData = resultsModel.getMimeData(resultsModel.index(index, 0));
-            if (mimeData) {
-                dragHelper.startDrag(resultDelegate, mimeData, model.decoration);
-                __pressed = false;
-                __pressX = -1;
-                __pressY = -1;
-            }
-        }
-
-        if (!listView.moved && listView.mouseMovedGlobally()) {
-            listView.moved = true
-            listView.currentIndex = index
-        }
-    }
-
-    onContainsMouseChanged: {
-        if (!containsMouse) {
-            __pressed = false;
-            __pressX = -1;
-            __pressY = -1;
+    DragHandler {
+        id: dragHandler
+        parent: labelWrapper
+        target: labelLayout
+        grabPermissions: PointerHandler.TakeOverForbidden
+        onActiveChanged: if (active) {
+            typePixmap.grabToImage((result) => {
+                const mimeData = resultDelegate.ListView.view.model.getMimeData(resultDelegate.ListView.view.model.index(index, 0));
+                if (!mimeData) {
+                    return;
+                }
+                dragHelper.Drag.imageSource = result.url;
+                dragHelper.Drag.mimeData = Milou.MouseHelper.generateMimeDataMap(mimeData);
+                dragHelper.Drag.active = dragHandler.active;
+            });
         } else {
-            // In case we display the history we have a QML ListView which does not have the moved property
-            if (!listView.hasOwnProperty("moved") || listView.moved) {
-                listView.currentIndex = index
-            } else if (listView.mouseMovedGlobally()) {
-                listView.moved = true
-                listView.currentIndex = index
-            }
+            dragHelper.Drag.active = false;
         }
     }
 
-    PlasmaComponents3.Label {
-        id: typeText
-        text: resultDelegate.typeText
-        color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
-
-        horizontalAlignment: Text.AlignRight
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        textFormat: Text.PlainText
-
-        width: resultDelegate.categoryWidth - Kirigami.Units.largeSpacing
+    Item {
+        id: labelWrapper
         anchors {
             left: parent.left
-            verticalCenter: listItem.verticalCenter
+            right: actionsRow.visible ? actionsRow.left : parent.right
+            rightMargin: actionsRow.visible ? Kirigami.Units.smallSpacing : 0
+        }
+        implicitHeight: labelLayout.implicitHeight
+
+        HoverHandler {
+            enabled: !resultDelegate.isCurrent
+            onPointChanged: {
+                // In case we display the history we have a QML ListView which does not have the moved property
+                if (!resultDelegate.ListView.view.hasOwnProperty("moved") || resultDelegate.ListView.view.moved) {
+                    resultDelegate.ListView.view.currentIndex = index
+                } else if (resultDelegate.ListView.view.mouseMovedGlobally()) {
+                    resultDelegate.ListView.view.moved = true
+                    resultDelegate.ListView.view.currentIndex = index
+                }
+            }
+        }
+
+        // QTBUG-63395: DragHandler blocks ItemDelegate's clicked signal
+        TapHandler {
+            id: tapHandler
+            onTapped: resultDelegate.clicked()
+        }
+
+        PlasmaComponents3.Label {
+            id: typeText
+            anchors {
+                left: parent.left
+                verticalCenter: labelWrapper.verticalCenter
+            }
+            width: resultDelegate.categoryWidth - Kirigami.Units.largeSpacing
+            color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
+            elide: Text.ElideRight
+            text: resultDelegate.typeText
+            textFormat: Text.PlainText
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        RowLayout {
+            id: labelLayout
+            anchors {
+                left: parent.left
+                leftMargin: resultDelegate.categoryWidth
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
+
+            Kirigami.Icon {
+                id: typePixmap
+                Layout.preferredWidth: Kirigami.Units.iconSizes.smallMedium
+                Layout.preferredHeight: Kirigami.Units.iconSizes.smallMedium
+                Layout.fillHeight: true
+                Layout.rightMargin: Kirigami.Units.smallSpacing
+                source: model.decoration
+                animated: false
+            }
+
+            PlasmaComponents3.Label {
+                id: displayLabel
+                text: String(typeof modelData !== "undefined" ? modelData : model.display)
+
+                elide: Text.ElideMiddle
+                wrapMode: model.multiLine ? Text.WordWrap : Text.NoWrap
+                maximumLineCount: model.multiLine ? Infinity : 1
+                verticalAlignment: Text.AlignVCenter
+                // For multiLine we offer styled text, otherwise we default to plain text
+                textFormat: model.multiLine ? Text.StyledText : Text.PlainText
+                // The extra spacing accounts for the right margin so the text doesn't overlap the actions
+                Layout.rightMargin: Kirigami.Units.smallSpacing
+                Layout.maximumWidth: labelLayout.width - typePixmap.implicitWidth
+
+                PlasmaComponents3.ToolTip {
+                    text: displayLabel.text
+                    visible: displayLabelHoverHandler.hovered && displayLabel.truncated
+                    timeout: -1
+                }
+
+                HoverHandler {
+                    id: displayLabelHoverHandler
+                }
+            }
+
+            PlasmaComponents3.Label {
+                id: subtextLabel
+                Layout.fillWidth: true
+                // HACK If displayLabel is too long it will shift this label outside boundaries
+                // but still render the text leading to it overlapping the action buttons looking horrible
+                opacity: width > 0 ? 1 : 0
+                // SourcesModel returns number of duplicates in this property
+                // ResultsModel just has it as a boolean as you would expect from the name of the property
+                text: model.isDuplicate === true || model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
+
+                color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
+                elide: Text.ElideMiddle
+                wrapMode: Text.NoWrap
+                maximumLineCount: 1
+                verticalAlignment: Text.AlignVCenter
+                textFormat: Text.PlainText
+
+                PlasmaComponents3.ToolTip {
+                    text: subtextLabel.text
+                    visible: subtextLabelHoverHandler.hovered && subtextLabel.truncated
+                    timeout: -1
+                }
+
+                HoverHandler {
+                    id: subtextLabelHoverHandler
+                }
+            }
         }
     }
 
-    PlasmaExtras.ListItem {
-        id: listItem
+    Row {
+        id: actionsRow
+        anchors.right: parent.right
+        anchors.verticalCenter: labelWrapper.verticalCenter
+        visible: resultDelegate.isCurrent && actionsRepeater.count > 0
 
-        readonly property int indexModifier: reversed ? 0 : 1
+        Repeater {
+            id: actionsRepeater
+            model: resultDelegate.additionalActions
 
-        // fake pressed look
-        checked: resultDelegate.pressed
-        separatorVisible: resultDelegate.sectionHasChanged
-                       && !resultDelegate.isCurrent
-                       && (index === 0 || resultDelegate.ListView.view.currentIndex !== (index - indexModifier))
+            PlasmaComponents3.ToolButton {
+                width: height
+                height: Kirigami.Units.iconSizes.medium
+                visible: modelData.visible || true
+                enabled: modelData.enabled || true
 
-        implicitHeight: labelWrapper.implicitHeight + Kirigami.Units.mediumSpacing * 2
-
-        onClicked: listView.runCurrentIndex(null)
-
-        Item {
-            id: labelWrapper
-            anchors {
-                left: parent.left
-                right: parent.right
-                leftMargin: resultDelegate.categoryWidth
-            }
-            implicitHeight: labelLayout.implicitHeight
-
-            RowLayout {
-                id: labelLayout
-
-                anchors {
-                    left: parent.left
-                    right: actionsRow.left
-                    rightMargin: Kirigami.Units.smallSpacing
-                    verticalCenter: parent.verticalCenter
-                }
+                Accessible.role: Accessible.Button
+                Accessible.name: modelData.text
+                checkable: checked
+                checked: resultDelegate.activeAction === index
+                focus: resultDelegate.activeAction === index
 
                 Kirigami.Icon {
-                    id: typePixmap
-                    Layout.preferredWidth: Kirigami.Units.iconSizes.smallMedium
-                    Layout.preferredHeight: Kirigami.Units.iconSizes.smallMedium
-                    Layout.fillHeight: true
-                    source: model.decoration
-                    animated: false
+                    anchors.centerIn: parent
+                    implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                    implicitHeight: Kirigami.Units.iconSizes.smallMedium
+                    // ToolButton cannot cope with QIcon
+                    source: modelData.iconSource || ""
+                    active: parent.hovered || parent.checked
                 }
 
-                PlasmaComponents3.Label {
-                    id: displayLabel
-                    text: String(typeof modelData !== "undefined" ? modelData : model.display)
-
-                    elide: Text.ElideMiddle
-                    wrapMode: model.multiLine ? Text.WordWrap : Text.NoWrap
-                    maximumLineCount: model.multiLine ? Infinity : 1
-                    verticalAlignment: Text.AlignVCenter
-                    // For multiLine we offer styled text, otherwise we default to plain text
-                    textFormat: model.multiLine ? Text.StyledText : Text.PlainText
-                    // The extra spacing accounts for the right margin so the text doesn't overlap the actions
-                    Layout.maximumWidth: labelWrapper.width - typePixmap.width - actionsRow.width - 2 * Kirigami.Units.smallSpacing
-
-                    PlasmaComponents3.ToolTip {
-                        text: displayLabel.text
-                        visible: displayLabelHoverHandler.hovered && displayLabel.truncated
-                        timeout: -1
-                    }
-
-                    HoverHandler {
-                        id: displayLabelHoverHandler
-                    }
-                }
-
-                PlasmaComponents3.Label {
-                    id: subtextLabel
-
-                    // SourcesModel returns number of duplicates in this property
-                    // ResultsModel just has it as a boolean as you would expect from the name of the property
-                    text: model.isDuplicate === true || model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
-
-                    // HACK If displayLabel is too long it will shift this label outside boundaries
-                    // but still render the text leading to it overlapping the action buttons looking horrible
-                    opacity: width > 0 ? 1 : 0
-
-                    color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
-
-                    elide: Text.ElideMiddle
-                    wrapMode: Text.NoWrap
-                    maximumLineCount: 1
-                    verticalAlignment: Text.AlignVCenter
-                    textFormat: Text.PlainText
-
-                    Layout.fillWidth: true
-                    PlasmaComponents3.ToolTip {
-                        text: subtextLabel.text
-                        visible: subtextLabelHoverHandler.hovered && subtextLabel.truncated
-                        timeout: -1
-                    }
-
-                    HoverHandler {
-                        id: subtextLabelHoverHandler
-                    }
-                }
-            }
-
-            Row {
-                id: actionsRow
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                visible: resultDelegate.isCurrent
-
-                Repeater {
-                    id: actionsRepeater
-                    model: resultDelegate.additionalActions
-
-                    PlasmaComponents3.ToolButton {
-                        width: height
-                        height: Kirigami.Units.iconSizes.medium
-                        visible: modelData.visible || true
-                        enabled: modelData.enabled || true
-
-                        Accessible.role: Accessible.Button
-                        Accessible.name: modelData.text
-                        checkable: checked
-                        checked: resultDelegate.activeAction === index
-                        focus: resultDelegate.activeAction === index
-
-                        Kirigami.Icon {
-                            anchors.centerIn: parent
-                            implicitWidth: Kirigami.Units.iconSizes.smallMedium
-                            implicitHeight: Kirigami.Units.iconSizes.smallMedium
-                            // ToolButton cannot cope with QIcon
-                            source: modelData.iconSource || ""
-                            active: parent.hovered || parent.checked
+                PlasmaComponents3.ToolTip {
+                    text: {
+                        var text = modelData.text || ""
+                        if (index === 0) { // Shift+Return will invoke first action
+                            text = i18ndc("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
                         }
-
-                        PlasmaComponents3.ToolTip {
-                            text: {
-                                var text = modelData.text || ""
-                                if (index === 0) { // Shift+Return will invoke first action
-                                    text = i18ndc("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
-                                }
-                                return text
-                            }
-                        }
-
-                        onClicked: resultDelegate.ListView.view.runAction(index)
+                        return text
                     }
                 }
+
+                onClicked: resultDelegate.ListView.view.runAction(index)
             }
         }
     }
