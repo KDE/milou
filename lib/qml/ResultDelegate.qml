@@ -161,6 +161,8 @@ MouseArea {
 
         implicitHeight: labelWrapper.implicitHeight + Kirigami.Units.mediumSpacing * 2
 
+        onClicked: listView.runCurrentIndex(null)
+
         Item {
             id: labelWrapper
             anchors {
