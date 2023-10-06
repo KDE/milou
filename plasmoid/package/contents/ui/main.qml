@@ -6,6 +6,7 @@
  *
  */
 
+import org.kde.plasma.plasmoid 2.0
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 
@@ -26,7 +27,7 @@ PlasmoidItem {
     Layout.maximumHeight: Layout.minimumHeight
 
     function isBottomEdge() {
-        return plasmoid.location == PlasmaCore.Types.BottomEdge;
+        return Plasmoid.location == PlasmaCore.Types.BottomEdge;
     }
 
     fullRepresentation: Item {
@@ -77,7 +78,7 @@ PlasmoidItem {
 
 
         Component.onCompleted: {
-            //plasmoid.settingsChanged.connect(loadSettings)
+            //Plasmoid.settingsChanged.connect(loadSettings)
 
             if (!isBottomEdge()) {
                 // Normal view
