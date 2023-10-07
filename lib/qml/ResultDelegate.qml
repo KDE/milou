@@ -200,7 +200,7 @@ PlasmaExtras.ListItem {
                 opacity: width > 0 ? 1 : 0
                 // SourcesModel returns number of duplicates in this property
                 // ResultsModel just has it as a boolean as you would expect from the name of the property
-                text: model.isDuplicate === true || model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
+                text: String(model.subtext || "")
 
                 color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
                 elide: Text.ElideMiddle
