@@ -122,12 +122,9 @@
         "Name[x-test]": "xxSearchxx",
         "Name[zh_CN]": "搜索",
         "Name[zh_TW]": "搜尋",
-        "Version": "0.1",
         "Website": "https://kde.org"
     },
-    "X-Plasma-API": "declarativeappletscript",
     "X-Plasma-DropUrlPatterns": [
         "run:/"
-    ],
-    "X-Plasma-MainScript": "ui/main.qml"
+    ]
 }
