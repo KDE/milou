@@ -11,6 +11,6 @@ Dependencies:
     'frameworks/kpackage': '@latest'
     'frameworks/krunner': '@latest'
     'frameworks/kservice': '@latest'
-    'frameworks/plasma-framework': '@latest'
+    'plasma/plasma-framework': 'kf5'
 Options:
   require-passing-tests-on: [ 'Linux', 'FreeBSD']
