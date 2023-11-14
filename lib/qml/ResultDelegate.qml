@@ -11,19 +11,16 @@ import QtQuick
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
-import org.kde.plasma.extras as PlasmaExtras
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.milou as Milou
+import org.kde.ksvg 1.0 as KSvg
 
-PlasmaExtras.ListItem {
+PlasmaComponents3.ItemDelegate {
     id: resultDelegate
 
     implicitHeight: labelWrapper.implicitHeight + Kirigami.Units.mediumSpacing * 2
     highlighted: tapHandler.pressed
     hoverEnabled: true
-    separatorVisible: resultDelegate.sectionHasChanged
-                    && !resultDelegate.isCurrent
-                    && (index === 0 || resultDelegate.ListView.view.currentIndex !== (index - indexModifier))
 
     readonly property int indexModifier: reversed ? 0 : 1
     readonly property QtObject theModel: model
@@ -105,13 +102,8 @@ PlasmaExtras.ListItem {
         }
     }
 
-    Item {
+    contentItem: Item {
         id: labelWrapper
-        anchors {
-            left: parent.left
-            right: actionsRow.visible ? actionsRow.left : parent.right
-            rightMargin: actionsRow.visible ? Kirigami.Units.smallSpacing : 0
-        }
         implicitHeight: labelLayout.implicitHeight
 
         HoverHandler {
@@ -131,6 +123,20 @@ PlasmaExtras.ListItem {
         TapHandler {
             id: tapHandler
             onTapped: resultDelegate.clicked()
+        }
+
+        KSvg.SvgItem {
+            width: parent.width
+            height: 1
+            anchors.bottom: parent.top
+            anchors.bottomMargin: Kirigami.Units.smallSpacing
+            imagePath: "widgets/line"
+            elementId: "horizontal-line"
+            visible: resultDelegate.sectionHasChanged
+                     && !resultDelegate.isCurrent
+                     && resultDelegate.index !== 0
+                     && resultDelegate.ListView.view.currentIndex !== (index - indexModifier)
+            opacity: 0.5
         }
 
         PlasmaComponents3.Label {
@@ -153,7 +159,8 @@ PlasmaExtras.ListItem {
             anchors {
                 left: parent.left
                 leftMargin: resultDelegate.categoryWidth
-                right: parent.right
+                right: actionsRow.visible ? actionsRow.left : parent.right
+                rightMargin: actionsRow.visible ? Kirigami.Units.smallSpacing : 0
                 verticalCenter: parent.verticalCenter
             }
 
@@ -161,8 +168,8 @@ PlasmaExtras.ListItem {
                 id: typePixmap
                 Layout.preferredWidth: Kirigami.Units.iconSizes.smallMedium
                 Layout.preferredHeight: Kirigami.Units.iconSizes.smallMedium
-                Layout.fillHeight: true
                 Layout.rightMargin: Kirigami.Units.smallSpacing
+                Layout.alignment: Qt.AlignVCenter
                 source: model.decoration
                 animated: false
             }
@@ -220,50 +227,50 @@ PlasmaExtras.ListItem {
                 }
             }
         }
-    }
 
-    Row {
-        id: actionsRow
-        anchors.right: parent.right
-        anchors.verticalCenter: labelWrapper.verticalCenter
-        visible: resultDelegate.isCurrent && actionsRepeater.count > 0
+        Row {
+            id: actionsRow
+            anchors.right: parent.right
+            anchors.verticalCenter: labelWrapper.verticalCenter
+            visible: resultDelegate.isCurrent && actionsRepeater.count > 0
 
-        Repeater {
-            id: actionsRepeater
-            model: resultDelegate.additionalActions
+            Repeater {
+                id: actionsRepeater
+                model: resultDelegate.additionalActions
 
-            PlasmaComponents3.ToolButton {
-                width: height
-                height: Kirigami.Units.iconSizes.medium
-                visible: modelData.visible || true
-                enabled: modelData.enabled || true
+                PlasmaComponents3.ToolButton {
+                    width: height
+                    height: Kirigami.Units.iconSizes.medium
+                    visible: modelData.visible || true
+                    enabled: modelData.enabled || true
 
-                Accessible.role: Accessible.Button
-                Accessible.name: modelData.text
-                checkable: checked
-                checked: resultDelegate.activeAction === index
-                focus: resultDelegate.activeAction === index
+                    Accessible.role: Accessible.Button
+                    Accessible.name: modelData.text
+                    checkable: checked
+                    checked: resultDelegate.activeAction === index
+                    focus: resultDelegate.activeAction === index
 
-                Kirigami.Icon {
-                    anchors.centerIn: parent
-                    implicitWidth: Kirigami.Units.iconSizes.smallMedium
-                    implicitHeight: Kirigami.Units.iconSizes.smallMedium
-                    // ToolButton cannot cope with QIcon
-                    source: modelData.iconSource || ""
-                    active: parent.hovered || parent.checked
-                }
-
-                PlasmaComponents3.ToolTip {
-                    text: {
-                        var text = modelData.text || ""
-                        if (index === 0) { // Shift+Return will invoke first action
-                            text = i18ndc("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
-                        }
-                        return text
+                    Kirigami.Icon {
+                        anchors.centerIn: parent
+                        implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                        implicitHeight: Kirigami.Units.iconSizes.smallMedium
+                        // ToolButton cannot cope with QIcon
+                        source: modelData.iconSource || ""
+                        active: parent.hovered || parent.checked
                     }
-                }
 
-                onClicked: resultDelegate.ListView.view.runAction(index)
+                    PlasmaComponents3.ToolTip {
+                        text: {
+                            var text = modelData.text || ""
+                            if (index === 0) { // Shift+Return will invoke first action
+                                text = i18ndc("milou", "placeholder is action e.g. run in terminal, in parenthesis is shortcut", "%1 (Shift+Return)", text)
+                            }
+                            return text
+                        }
+                    }
+
+                    onClicked: resultDelegate.ListView.view.runAction(index)
+                }
             }
         }
     }
