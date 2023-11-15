@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-30 01:42+0000\n"
+"POT-Creation-Date: 2023-11-15 01:39+0000\n"
 "PO-Revision-Date: 2014-08-12 21:40+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -19,17 +19,17 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: qml/ResultDelegate.qml:51
+#: qml/ResultDelegate.qml:48
 #, kde-format
 msgid "%1, in category %2"
 msgstr ""
 
-#: qml/ResultDelegate.qml:53
+#: qml/ResultDelegate.qml:50
 #, kde-format
 msgid "in category %1"
 msgstr ""
 
-#: qml/ResultDelegate.qml:260
+#: qml/ResultDelegate.qml:266
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-30 01:42+0000\n"
+"POT-Creation-Date: 2023-11-15 01:39+0000\n"
 "PO-Revision-Date: 2014-05-02 11:54+0300\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
 
-#: qml/ResultDelegate.qml:51
+#: qml/ResultDelegate.qml:48
 #, kde-format
 msgid "%1, in category %2"
 msgstr ""
 
-#: qml/ResultDelegate.qml:53
+#: qml/ResultDelegate.qml:50
 #, kde-format
 msgid "in category %1"
 msgstr ""
 
-#: qml/ResultDelegate.qml:260
+#: qml/ResultDelegate.qml:266
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-30 01:42+0000\n"
+"POT-Creation-Date: 2023-11-15 01:39+0000\n"
 "PO-Revision-Date: 2017-11-27 19:33+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: qml/ResultDelegate.qml:51
+#: qml/ResultDelegate.qml:48
 #, kde-format
 msgid "%1, in category %2"
 msgstr "%1, i kategorien %2"
 
-#: qml/ResultDelegate.qml:53
+#: qml/ResultDelegate.qml:50
 #, kde-format
 msgid "in category %1"
 msgstr "i kategorien %1"
 
-#: qml/ResultDelegate.qml:260
+#: qml/ResultDelegate.qml:266
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
