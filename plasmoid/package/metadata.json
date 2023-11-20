@@ -125,6 +125,7 @@
         "Name[zh_TW]": "搜尋",
         "Website": "https://kde.org"
     },
+    "X-Plasma-API-Minimum-Version": "6.0",
     "X-Plasma-DropUrlPatterns": [
         "run:/"
     ]
