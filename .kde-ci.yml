@@ -7,6 +7,6 @@ Dependencies:
     'frameworks/extra-cmake-modules': '@latest-kf6'
     'frameworks/ki18n': '@latest-kf6'
     'frameworks/krunner': '@latest-kf6'
-    'plasma/plasma-framework': '@same'
+    'plasma/libplasma': '@same'
 Options:
   require-passing-tests-on: [ 'Linux', 'FreeBSD']
