@@ -27,7 +27,7 @@ Item {
     PlasmaComponents3.TextField {
         id: textField
         clearButtonShown: true
-        placeholderText: i18n("Search...")
+        placeholderText: i18n("Search…")
         anchors {
             left: parent.left
             right: parent.right
