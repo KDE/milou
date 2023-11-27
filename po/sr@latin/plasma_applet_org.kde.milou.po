@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_milou_applet\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-09 03:16+0100\n"
+"POT-Creation-Date: 2023-11-27 01:38+0000\n"
 "PO-Revision-Date: 2014-06-05 21:49+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: package/contents/ui/SearchField.qml:30
 #, fuzzy, kde-format
 #| msgid "Search"
-msgid "Search..."
+msgid "Search…"
 msgstr "Traži"
 
 #~ msgid "Search Results"

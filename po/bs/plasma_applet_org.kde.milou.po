@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: $2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-09 03:16+0100\n"
+"POT-Creation-Date: 2023-11-27 01:38+0000\n"
 "PO-Revision-Date: 2014-10-21 18:49+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: none\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: package/contents/ui/SearchField.qml:30
 #, fuzzy, kde-format
 #| msgid "Search"
-msgid "Search..."
+msgid "Search…"
 msgstr "Traži"
 
 #~ msgid "Search Results"
