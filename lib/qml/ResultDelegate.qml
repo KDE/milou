@@ -19,7 +19,7 @@ PlasmaComponents3.ItemDelegate {
     id: resultDelegate
 
     implicitHeight: labelWrapper.implicitHeight + Kirigami.Units.mediumSpacing * 2
-    highlighted: tapHandler.pressed
+    down: tapHandler.pressed
     hoverEnabled: true
 
     readonly property int indexModifier: reversed ? 0 : 1
@@ -106,6 +106,16 @@ PlasmaComponents3.ItemDelegate {
         id: labelWrapper
         implicitHeight: labelLayout.implicitHeight
 
+        readonly property color dimmedTextColor: {
+            if (resultDelegate.down) {
+                return Qt.tint(Kirigami.Theme.highlightedTextColor, Qt.alpha(Kirigami.Theme.textColor, 0.2));
+            } else if (resultDelegate.isCurrent) {
+                return Qt.tint(Kirigami.Theme.disabledTextColor, Qt.alpha(Kirigami.Theme.textColor, 0.4));
+            } else {
+                return Kirigami.Theme.disabledTextColor;
+            }
+        }
+
         HoverHandler {
             enabled: !resultDelegate.isCurrent
             onPointChanged: {
@@ -146,7 +156,7 @@ PlasmaComponents3.ItemDelegate {
                 verticalCenter: labelWrapper.verticalCenter
             }
             width: resultDelegate.categoryWidth - Kirigami.Units.largeSpacing
-            color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
+            color: labelWrapper.dimmedTextColor
             elide: Text.ElideRight
             text: resultDelegate.typeText
             textFormat: Text.PlainText
@@ -172,6 +182,7 @@ PlasmaComponents3.ItemDelegate {
                 Layout.alignment: Qt.AlignVCenter
                 source: model.decoration
                 animated: false
+                selected: resultDelegate.down
             }
 
             PlasmaComponents3.Label {
@@ -184,6 +195,7 @@ PlasmaComponents3.ItemDelegate {
                 verticalAlignment: Text.AlignVCenter
                 // For multiLine we offer styled text, otherwise we default to plain text
                 textFormat: model.multiLine ? Text.StyledText : Text.PlainText
+                color: resultDelegate.down ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
                 // The extra spacing accounts for the right margin so the text doesn't overlap the actions
                 Layout.rightMargin: Kirigami.Units.smallSpacing
                 Layout.maximumWidth: labelLayout.width - typePixmap.implicitWidth
@@ -209,7 +221,7 @@ PlasmaComponents3.ItemDelegate {
                 // ResultsModel just has it as a boolean as you would expect from the name of the property
                 text: model.isDuplicate === true || model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
 
-                color: isCurrent ? Qt.tint(Kirigami.Theme.disabledTextColor, Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)) : Kirigami.Theme.disabledTextColor
+                color: labelWrapper.dimmedTextColor
                 elide: Text.ElideMiddle
                 wrapMode: Text.NoWrap
                 maximumLineCount: 1

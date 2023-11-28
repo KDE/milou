@@ -28,7 +28,9 @@ ListView {
     // NOTE this also flips increment/decrementCurrentIndex (Bug 360789)
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
     keyNavigationWraps: true
-    highlight: PlasmaExtras.Highlight {}
+    highlight: PlasmaExtras.Highlight {
+        pressed: listView.currentItem !== null && listView.currentItem.down === true
+    }
     highlightMoveDuration: 0
     activeFocusOnTab: true
     Accessible.role: Accessible.List
