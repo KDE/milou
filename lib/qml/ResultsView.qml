@@ -7,6 +7,7 @@
  */
 
 import QtQuick
+import QtQuick.Templates as T
 
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.kirigami 2.20 as Kirigami
@@ -29,7 +30,7 @@ ListView {
     verticalLayoutDirection: reversed ? ListView.BottomToTop : ListView.TopToBottom
     keyNavigationWraps: true
     highlight: PlasmaExtras.Highlight {
-        pressed: listView.currentItem !== null && listView.currentItem.down === true
+        pressed: (listView.currentItem as T.AbstractButton)?.down ?? false
     }
     highlightMoveDuration: 0
     activeFocusOnTab: true
