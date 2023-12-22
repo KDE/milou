@@ -20,7 +20,6 @@ msgstr ""
 "X-Source-Language: en_US\n"
 
 #: package/contents/ui/SearchField.qml:30
-#, fuzzy, kde-format
-#| msgid "Search..."
+#, kde-format
 msgid "Search…"
-msgstr "Hledat..."
+msgstr "Hledat…"
