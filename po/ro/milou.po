@@ -1,14 +1,14 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# Sergiu Bivol <sergiu@cip.md>, 2014.
+# Sergiu Bivol <sergiu@cip.md>, 2014, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 01:38+0000\n"
-"PO-Revision-Date: 2014-05-02 11:54+0300\n"
-"Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
+"PO-Revision-Date: 2024-02-27 20:53+0000\n"
+"Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -16,23 +16,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: qml/ResultDelegate.qml:48
 #, kde-format
 msgid "%1, in category %2"
-msgstr ""
+msgstr "%1, în categoria %2"
 
 #: qml/ResultDelegate.qml:50
 #, kde-format
 msgid "in category %1"
-msgstr ""
+msgstr "în categoria %1"
 
 #: qml/ResultDelegate.qml:278
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
 msgid "%1 (Shift+Return)"
-msgstr ""
+msgstr "%1 (Shift+Retur)"
 
 #~ msgid "Artist:"
 #~ msgstr "Interpret:"
