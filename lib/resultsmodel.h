@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <KConfigWatcher>
 #include <KRunner/ResultsModel>
 
 namespace Milou
@@ -13,9 +14,25 @@ namespace Milou
 class ResultsModel : public KRunner::ResultsModel
 {
     Q_OBJECT
+    Q_PROPERTY(QStringList favoriteIds READ favoriteIds WRITE setFavoriteIds NOTIFY favoriteIdsChanged RESET resetFavoriteIds)
 public:
     explicit ResultsModel(QObject *parent = nullptr);
-    ~ResultsModel() override;
+
+    void setFavoriteIds(const QStringList &ids)
+    {
+        m_favoritesExplicitlySet = true;
+        KRunner::ResultsModel::setFavoriteIds(ids);
+    }
+    void resetFavoriteIds()
+    {
+        m_favoritesExplicitlySet = false;
+        KRunner::ResultsModel::setFavoriteIds(m_configFavoriteIds);
+    }
+
+private:
+    KConfigWatcher::Ptr m_configWatcher;
+    QStringList m_configFavoriteIds;
+    bool m_favoritesExplicitlySet = false;
 };
 
 } // namespace Milou

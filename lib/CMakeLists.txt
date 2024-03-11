@@ -14,6 +14,7 @@ target_link_libraries(milou
     Qt::Quick
     Qt::Widgets
     KF6::Runner
+    KF6::ConfigCore
 )
 
 add_subdirectory(qml)
