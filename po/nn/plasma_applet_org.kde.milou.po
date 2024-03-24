@@ -1,6 +1,5 @@
 # Translation of plasma_applet_org.kde.milou to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2015, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -17,7 +16,7 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #: package/contents/ui/SearchField.qml:30
 #, kde-format
