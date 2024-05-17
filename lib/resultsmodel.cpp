@@ -17,7 +17,7 @@ ResultsModel::ResultsModel(QObject *parent)
     m_configWatcher = KConfigWatcher::create(config);
     const auto assignFavoriteIds = [this, config]() {
         const KConfigGroup grp = config->group(u"General"_s).parent().group(u"Plugins"_s).group(u"Favorites"_s);
-        m_configFavoriteIds = grp.readEntry("plugins", QStringList(u"krunner_services"_s));
+        m_configFavoriteIds = grp.readEntry("plugins", QStringList{u"krunner_services"_s, u"krunner_systemsettings"_s});
         if (!m_favoritesExplicitlySet) {
             KRunner::ResultsModel::setFavoriteIds(m_configFavoriteIds);
         }
