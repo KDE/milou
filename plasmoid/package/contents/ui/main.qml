@@ -22,8 +22,8 @@ PlasmoidItem {
     switchHeight: Globals.SwitchWidth
     Layout.minimumWidth: Globals.PlasmoidWidth
     Layout.maximumWidth: Globals.PlasmoidWidth
-    Layout.minimumHeight: wrapper.minimumHeight + wrapper.anchors.topMargin + wrapper.anchors.bottomMargin
-    Layout.maximumHeight: Layout.minimumHeight
+    Layout.minimumHeight: fullRepresentationItem?.minimumHeight ?? 0
+    Layout.maximumHeight: fullRepresentationItem?.maximumHeight ?? 0
 
     function isBottomEdge() {
         return plasmoid.location == PlasmaCore.Types.BottomEdge;
@@ -34,8 +34,11 @@ PlasmoidItem {
 
         property alias searchField: searchField
         property alias listView: listView
-        property int minimumHeight: listView.count ? listView.contentHeight + searchField.height + 5
-                                                   : searchField.height
+
+        property int minimumHeight: listView.count > 0
+            ? listView.contentHeight + searchField.height + 5
+            : searchField.height
+
         property int maximumHeight: minimumHeight
         anchors.fill: parent
 
@@ -46,7 +49,6 @@ PlasmoidItem {
             anchors {
                 left: parent.left
                 right: parent.right
-                verticalCenter: parent.height / 2
             }
             onSearchTextChanged: {
                 listView.setQueryString(text)
