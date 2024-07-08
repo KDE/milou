@@ -6,9 +6,9 @@
  *
  */
 
-import QtQuick 2.1
+import QtQuick
 
-import org.kde.plasma.components 3.0 as PlasmaComponents3
+import org.kde.plasma.components as PlasmaComponents3
 import "globals.js" as Globals
 
 /*
@@ -17,11 +17,14 @@ import "globals.js" as Globals
  * using searchTextChanged.
  */
 Item {
-    signal searchTextChanged()
-    signal close()
+    id: root
+
     property alias text: textField.text
 
-    height: childrenRect.height
+    signal searchTextChanged()
+    signal close()
+
+    height: textField.height
     width: Globals.PlasmoidWidth
 
     PlasmaComponents3.TextField {
@@ -42,25 +45,25 @@ Item {
         Timer {
             id: timer
             interval: 200
-            onTriggered: searchTextChanged()
+            onTriggered: root.searchTextChanged()
         }
 
         onTextChanged: timer.restart()
     }
 
-    function selectAll() {
-        textField.selectAll()
+    function selectAll(): void {
+        textField.selectAll();
     }
 
-    function setFocus() {
-        textField.focus = true
+    function setFocus(): void {
+        textField.focus = true;
     }
 
     Keys.onEscapePressed: {
         if (textField.text) {
-            textField.text = ""
+            textField.text = "";
         } else {
-            close()
+            close();
         }
     }
 }

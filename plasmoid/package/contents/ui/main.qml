@@ -6,27 +6,29 @@
  *
  */
 
-import QtQuick 2.1
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Layouts
 
-import org.kde.plasma.plasmoid 2.0
+import org.kde.plasma.plasmoid
 
 import org.kde.plasma.core as PlasmaCore
-import org.kde.milou 0.1 as Milou
+import org.kde.milou as Milou
 
 import "globals.js" as Globals
 
 PlasmoidItem {
     id: mainWidget
+
     switchWidth: Globals.SwitchWidth
     switchHeight: Globals.SwitchWidth
+
     Layout.minimumWidth: Globals.PlasmoidWidth
     Layout.maximumWidth: Globals.PlasmoidWidth
     Layout.minimumHeight: fullRepresentationItem?.minimumHeight ?? 0
     Layout.maximumHeight: fullRepresentationItem?.maximumHeight ?? 0
 
-    function isBottomEdge() {
-        return plasmoid.location == PlasmaCore.Types.BottomEdge;
+    function isBottomEdge(): bool {
+        return Plasmoid.location === PlasmaCore.Types.BottomEdge;
     }
 
     fullRepresentation: Item {
@@ -40,8 +42,8 @@ PlasmoidItem {
             : searchField.height
 
         property int maximumHeight: minimumHeight
-        anchors.fill: parent
 
+        anchors.fill: parent
 
         SearchField {
             id: searchField
@@ -58,7 +60,8 @@ PlasmoidItem {
 
         Milou.ResultsView {
             id: listView
-            //in case is expanded
+
+            // in case is expanded
             clip: true
 
             anchors {
@@ -66,28 +69,28 @@ PlasmoidItem {
                 right: parent.right
             }
 
-            reversed: isBottomEdge()
+            reversed: mainWidget.isBottomEdge()
+
             onActivated: {
                 searchField.text = "";
                 mainWidget.expanded = false;
             }
-            onUpdateQueryString: function (text, cursorPosition) {
-                searchField.text = text
-                searchField.cursorPosition = cursorPosition
+
+            onUpdateQueryString: (text, cursorPosition) => {
+                searchField.text = text;
+                searchField.cursorPosition = cursorPosition;
             }
         }
-
 
         Component.onCompleted: {
             //plasmoid.settingsChanged.connect(loadSettings)
 
-            if (!isBottomEdge()) {
+            if (!mainWidget.isBottomEdge()) {
                 // Normal view
                 searchField.anchors.top = wrapper.top
                 listView.anchors.top = searchField.bottom
                 listView.anchors.bottom = wrapper.bottom
-            }
-            else {
+            } else {
                 // When on the bottom
                 listView.anchors.top = wrapper.top
                 listView.anchors.bottom = searchField.top
@@ -102,7 +105,7 @@ PlasmoidItem {
         repeat: false
 
         onTriggered: {
-            setTextFieldFocus(mainWidget.expanded)
+            mainWidget.setTextFieldFocus(mainWidget.expanded);
         }
     }
 
@@ -112,7 +115,7 @@ PlasmoidItem {
     }
 
     function loadSettings() {
-        mainWidget.fullRepresentationItem.listView.loadSettings()
+        mainWidget.fullRepresentationItem.listView.loadSettings();
     }
 
     onExpandedChanged: {
@@ -125,5 +128,4 @@ PlasmoidItem {
         //
         theFocusDoesNotAlwaysWorkTimer.start()
     }
-
 }
