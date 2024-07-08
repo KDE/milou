@@ -105,11 +105,11 @@ PlasmoidItem {
         repeat: false
 
         onTriggered: {
-            mainWidget.setTextFieldFocus(mainWidget.expanded);
+            mainWidget.setTextFieldFocus();
         }
     }
 
-    function setTextFieldFocus(shown) {
+    function setTextFieldFocus() {
         mainWidget.fullRepresentationItem.searchField.setFocus();
         mainWidget.fullRepresentationItem.searchField.selectAll();
     }
@@ -119,7 +119,7 @@ PlasmoidItem {
     }
 
     onExpandedChanged: {
-        setTextFieldFocus(mainWidget.expanded);
+        setTextFieldFocus();
         //
         // The focus is not always set correctly. The hunch is that this
         // function is called before the popup is actually visible and
