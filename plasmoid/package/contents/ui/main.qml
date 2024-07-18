@@ -31,27 +31,25 @@ PlasmoidItem {
         return Plasmoid.location === PlasmaCore.Types.BottomEdge;
     }
 
-    fullRepresentation: Item {
+    fullRepresentation: ColumnLayout {
         id: wrapper
 
         property alias searchField: searchField
         property alias listView: listView
 
         property int minimumHeight: listView.count > 0
-            ? listView.contentHeight + searchField.height + 5
+            ? listView.contentHeight + searchField.height + spacing
             : searchField.height
 
         property int maximumHeight: minimumHeight
 
-        anchors.fill: parent
+        spacing: Kirigami.Units.smallSpacing
 
         SearchField {
             id: searchField
 
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            Layout.fillWidth: true
+
             onSearchTextChanged: {
                 listView.setQueryString(text)
             }
@@ -64,10 +62,8 @@ PlasmoidItem {
             // in case is expanded
             clip: true
 
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             reversed: mainWidget.isBottomEdge()
 
@@ -82,20 +78,19 @@ PlasmoidItem {
             }
         }
 
-        Component.onCompleted: {
-            //plasmoid.settingsChanged.connect(loadSettings)
-
-            if (!mainWidget.isBottomEdge()) {
-                // Normal view
-                searchField.anchors.top = wrapper.top
-                listView.anchors.top = searchField.bottom
-                listView.anchors.bottom = wrapper.bottom
+        function changeLocation(): void {
+            if (mainWidget.isBottomEdge()) {
+                // Search field is at the bottom
+                children = [listView, searchField];
             } else {
-                // When on the bottom
-                listView.anchors.top = wrapper.top
-                listView.anchors.bottom = searchField.top
-                searchField.anchors.bottom = wrapper.bottom
+                // Search field is on top
+                children = [searchField, listView];
             }
+        }
+
+        Component.onCompleted: {
+            Plasmoid.locationChanged.connect(changeLocation);
+            changeLocation();
         }
     }
 
