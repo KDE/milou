@@ -59,8 +59,8 @@ Item {
         textField.focus = true;
     }
 
-    Keys.onEscapePressed: {
-        if (textField.text) {
+    Keys.onEscapePressed: event => {
+        if (textField.text !== "") {
             textField.text = "";
         } else {
             close();
