@@ -1,7 +1,7 @@
 # Burkhard Lück <lueck@hube-lueck.de>, 2014, 2018.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: plasma_applet_org.kde.milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-14 00:39+0000\n"
 "PO-Revision-Date: 2018-11-16 10:36+0100\n"
