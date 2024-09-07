@@ -187,13 +187,65 @@ ListView {
             }
         }
     }
-    Keys.onPressed: function(e) {
-        if (e.key == Qt.Key_Up) {
+    Keys.onPressed: event => navigationKeyHandler(event, true)
+
+    // Moving up/down categories, see 
+    function __move_category_up(event) {
+        event.accepted = true;
+        const originalCategory = getCategoryName(results.currentIndex);
+        const originalIdx = results.currentIndex;;
+        let idx = results.currentIndex;
+        while (originalCategory === getCategoryName(idx)
+            || getCategoryName(idx) === getCategoryName(idx - 1)
+        ) {
+            idx--;
+            if (idx < 0) { // IF we are at the top and want to go to the previous category, we have to check from the bottom
+                idx = results.count -1;
+            }
+            if (idx === originalIdx) {
+                return; // Avoid endless loop if we only have one category
+            }
+        } 
+        results.currentIndex = idx;
+        queryField.focus && results.forceActiveFocus();
+    }
+
+    function __move_category_down(event) {
+        event.accepted = true;
+        const originalCategory = getCategoryName(results.currentIndex);
+        let idx = results.currentIndex;
+        while (originalCategory === getCategoryName(idx)) {
+            idx++;
+            if (idx === results.count) {
+                idx = 0; // The first item is always the first item if it's category'
+                break;
+            }
+        } 
+        results.currentIndex = idx;
+        queryField.focus && results.forceActiveFocus();
+    }
+
+
+    function navigationKeyHandler(e, handleHomeAndEnd = false) {
+        var ctrl = e.modifiers & Qt.ControlModifier;
+        if (ctrl && e.key === Qt.Key_Up) {
+            reversed ? __move_category_down(e) : __move_category_up(e)
+            e.accepted = true;
+        } else if (ctrl && e.key === Qt.Key_Down) {
+            reversed ? __move_category_up(e) : __move_category_down(e)
+            e.accepted = true;
+        } else if (e.key === Qt.Key_Up || (ctrl && e.key === Qt.Key_K)) {
             reversed ? incrementCurrentIndex() : decrementCurrentIndex();
             e.accepted = true;
-        } else if (e.key == Qt.Key_Down) {
+        } else if (e.key === Qt.Key_Down || (ctrl && e.key === Qt.Key_J)) {
             reversed ? decrementCurrentIndex() : incrementCurrentIndex();
             e.accepted = true;
+        } else if ((e.key === Qt.Key_Home && handleHomeAndEnd)|| e.key === Qt.Key_PageUp) {
+            e.accepted = true;
+            results.currentIndex = reversed ? results.count - 1 : 0
+        } else if ((e.key === Qt.Key_End && handleHomeAndEnd) || e.key === Qt.Key_PageDown) {
+            e.accepted = true;
+            results.currentIndex = reversed ? 0 : results.count - 1
         }
     }
 
