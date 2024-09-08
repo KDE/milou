@@ -189,7 +189,10 @@ ListView {
     }
     Keys.onPressed: event => navigationKeyHandler(event, true)
 
-    // Moving up/down categories, see 
+    // Moving up/down categories
+    function getCategoryName(i) {
+        return results.model.data(results.model.index(i, 0), Milou.ResultsModel.CategoryRole)
+    }
     function __move_category_up(event) {
         event.accepted = true;
         const originalCategory = getCategoryName(results.currentIndex);
@@ -227,7 +230,7 @@ ListView {
 
 
     function navigationKeyHandler(e, handleHomeAndEnd = false) {
-        var ctrl = e.modifiers & Qt.ControlModifier;
+        const ctrl = e.modifiers & Qt.ControlModifier;
         if (ctrl && e.key === Qt.Key_Up) {
             reversed ? __move_category_down(e) : __move_category_up(e)
             e.accepted = true;
