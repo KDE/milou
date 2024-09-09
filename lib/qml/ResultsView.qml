@@ -191,41 +191,40 @@ ListView {
 
     // Moving up/down categories
     function getCategoryName(i) {
-        return results.model.data(results.model.index(i, 0), Milou.ResultsModel.CategoryRole)
+        return model.data(model.index(i, 0), Milou.ResultsModel.CategoryRole)
     }
     function __move_category_up(event) {
         event.accepted = true;
-        const originalCategory = getCategoryName(results.currentIndex);
-        const originalIdx = results.currentIndex;;
-        let idx = results.currentIndex;
+        const originalCategory = getCategoryName(currentIndex);
+        let idx = currentIndex;
         while (originalCategory === getCategoryName(idx)
             || getCategoryName(idx) === getCategoryName(idx - 1)
         ) {
             idx--;
             if (idx < 0) { // IF we are at the top and want to go to the previous category, we have to check from the bottom
-                idx = results.count -1;
+                idx = count -1;
             }
-            if (idx === originalIdx) {
+            if (idx === currentIndex) {
                 return; // Avoid endless loop if we only have one category
             }
         } 
-        results.currentIndex = idx;
-        queryField.focus && results.forceActiveFocus();
+        currentIndex = idx;
+        queryField.focus && forceActiveFocus();
     }
 
     function __move_category_down(event) {
         event.accepted = true;
-        const originalCategory = getCategoryName(results.currentIndex);
-        let idx = results.currentIndex;
+        const originalCategory = getCategoryName(currentIndex);
+        let idx = currentIndex;
         while (originalCategory === getCategoryName(idx)) {
             idx++;
-            if (idx === results.count) {
+            if (idx === count) {
                 idx = 0; // The first item is always the first item if it's category'
                 break;
             }
         } 
-        results.currentIndex = idx;
-        queryField.focus && results.forceActiveFocus();
+        currentIndex = idx;
+        queryField.focus && forceActiveFocus();
     }
 
 
@@ -245,10 +244,10 @@ ListView {
             e.accepted = true;
         } else if ((e.key === Qt.Key_Home && handleHomeAndEnd)|| e.key === Qt.Key_PageUp) {
             e.accepted = true;
-            results.currentIndex = reversed ? results.count - 1 : 0
+            currentIndex = reversed ? count - 1 : 0
         } else if ((e.key === Qt.Key_End && handleHomeAndEnd) || e.key === Qt.Key_PageDown) {
             e.accepted = true;
-            results.currentIndex = reversed ? 0 : results.count - 1
+            currentIndex = reversed ? 0 : count - 1
         }
     }
 
