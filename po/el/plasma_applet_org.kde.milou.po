@@ -20,10 +20,9 @@ msgstr ""
 "X-Generator: Lokalize 20.04.2\n"
 
 #: package/contents/ui/SearchField.qml:33
-#, fuzzy, kde-format
-#| msgid "Search..."
+#, kde-format
 msgid "Search…"
-msgstr "Αναζήτηση..."
+msgstr "Αναζήτηση…"
 
 #~ msgid "Search Results"
 #~ msgstr "Αποτελέσματα αναζήτησης"
