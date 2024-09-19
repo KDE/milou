@@ -47,6 +47,7 @@
         ],
         "Category": "Utilities",
         "Description": "Search and launch",
+        "Description[ca@valencia]": "Busca i inicia",
         "Description[ca]": "Cerca i llança",
         "Description[en_GB]": "Search and launch",
         "Description[es]": "Buscar y lanzar",
