@@ -189,7 +189,33 @@ ListView {
     }
     Keys.onUpPressed: reversed ? incrementCurrentIndex() : decrementCurrentIndex();
     Keys.onDownPressed: reversed ? decrementCurrentIndex() : incrementCurrentIndex();
+    }
+    
+    function indexOfNextCategory() {
+        for (var i = currentIndex + 1; i < resultModel.count; i++) {
+            if (resultModel.get(i).category !== currentItem.category) {
+                return i
+            }
+        }
+        return currentIndex
+    }
 
+    function indexOfPreviousCategory() {
+        for (var i = currentIndex - 1; i >= 0; i--) {
+            if (resultModel.get(i).category !== currentItem.category) {
+                return i
+            }
+        }
+        return currentIndex
+    }
+
+    Keys.onPressed: {
+        if ((event.key == Qt.Key_Down) && (event.modifiers & Qt.CtrlModifier))
+            currentIndex = reversed ? indexOfPreviousCategory() : indexOfNextCategory()
+        else if ((event.key == Qt.Key_Up) && (event.modifiers & Qt.CtrlModifier))
+            currentIndex = reversed ? indexOfNextCategory() : indexOfPreviousCategory()
+    }
+    
     boundsBehavior: Flickable.StopAtBounds
 
     function loadSettings() {
@@ -199,7 +225,6 @@ ListView {
     function setQueryString(queryString) {
         resultModel.queryString = queryString
         runAutomatically = false
-    }
 
     // Save drag data
     Item {
