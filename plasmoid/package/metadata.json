@@ -75,6 +75,7 @@
         "Description[tr]": "Ara ve başlat",
         "Description[uk]": "Пошук і запуск",
         "Description[x-test]": "xxSearch and launchxx",
+        "Description[zh_CN]": "搜索并启动",
         "Description[zh_TW]": "搜尋與啟動",
         "EnabledByDefault": true,
         "Icon": "system-search",
