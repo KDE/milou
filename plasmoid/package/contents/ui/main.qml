@@ -58,6 +58,7 @@ PlasmoidItem {
 
         Milou.ResultsView {
             id: listView
+            queryField: searchField.queryField
 
             // in case is expanded
             clip: true

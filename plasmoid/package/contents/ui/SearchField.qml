@@ -20,6 +20,7 @@ Item {
     id: root
 
     property alias text: textField.text
+    readonly property var queryField: textField
 
     signal searchTextChanged()
     signal close()

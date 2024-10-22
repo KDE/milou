@@ -18,6 +18,7 @@ ListView {
     property alias queryString: resultModel.queryString
     property alias singleRunner: resultModel.singleRunner
     property alias runnerManager: resultModel.runnerManager
+    property var queryField
 
     property alias singleRunnerMetaData: resultModel.singleRunnerMetaData
     property alias querying: resultModel.querying
@@ -209,7 +210,8 @@ ListView {
             }
         } 
         currentIndex = idx;
-        queryField.focus && forceActiveFocus();
+        queryField?.focus && forceActiveFocus();
+        console.log(queryField?.focus)
     }
 
     function __move_category_down(event) {
@@ -224,30 +226,43 @@ ListView {
             }
         } 
         currentIndex = idx;
-        queryField.focus && forceActiveFocus();
+        queryField?.focus && forceActiveFocus();
     }
 
 
     function navigationKeyHandler(e, handleHomeAndEnd = false) {
         const ctrl = e.modifiers & Qt.ControlModifier;
         if (ctrl && e.key === Qt.Key_Up) {
+            queryField?.focus && forceActiveFocus();
             reversed ? __move_category_down(e) : __move_category_up(e)
             e.accepted = true;
         } else if (ctrl && e.key === Qt.Key_Down) {
+            queryField?.focus && forceActiveFocus();
             reversed ? __move_category_up(e) : __move_category_down(e)
             e.accepted = true;
         } else if (e.key === Qt.Key_Up || (ctrl && e.key === Qt.Key_K)) {
+            queryField?.focus && forceActiveFocus();
             reversed ? incrementCurrentIndex() : decrementCurrentIndex();
             e.accepted = true;
         } else if (e.key === Qt.Key_Down || (ctrl && e.key === Qt.Key_J)) {
+            queryField?.focus && forceActiveFocus();
             reversed ? decrementCurrentIndex() : incrementCurrentIndex();
             e.accepted = true;
         } else if ((e.key === Qt.Key_Home && handleHomeAndEnd)|| e.key === Qt.Key_PageUp) {
+            queryField?.focus && forceActiveFocus();
             e.accepted = true;
             currentIndex = reversed ? count - 1 : 0
         } else if ((e.key === Qt.Key_End && handleHomeAndEnd) || e.key === Qt.Key_PageDown) {
+            queryField?.focus && forceActiveFocus();
             e.accepted = true;
             currentIndex = reversed ? 0 : count - 1
+        } else if (e.text !== "" && queryField?.focus === false) {
+            // This prevents unprintable control characters from being inserted
+            if (!/[\x00-\x1F\x7F]/.test(e.text)) {
+                queryField.text += e.text;
+            }
+            queryField.cursorPosition = queryField.text.length
+            queryField.focus = true;
         }
     }
 
