@@ -188,7 +188,7 @@ ListView {
             }
         }
     }
-    Keys.onPressed: event => navigationKeyHandler(event, true)
+    Keys.onPressed: event => navigationKeyHandler(event)
 
     // Moving up/down categories
     function getCategoryName(i) {
@@ -230,8 +230,12 @@ ListView {
     }
 
 
-    function navigationKeyHandler(e, handleHomeAndEnd = false) {
+    function navigationKeyHandler(e) {
         const ctrl = e.modifiers & Qt.ControlModifier;
+        const queryFieldPos = queryField ? queryField.cursorPosition :-1
+        const handleHome = queryField ? queryField.cursorPosition === 0 || !queryField.focus : true
+        const handleEnd = queryField ? queryField.cursorPosition === queryString.length || !queryField.focus : true
+
         if (ctrl && e.key === Qt.Key_Up) {
             queryField?.focus && forceActiveFocus();
             reversed ? __move_category_down(e) : __move_category_up(e)
@@ -248,11 +252,11 @@ ListView {
             queryField?.focus && forceActiveFocus();
             reversed ? decrementCurrentIndex() : incrementCurrentIndex();
             e.accepted = true;
-        } else if ((e.key === Qt.Key_Home && handleHomeAndEnd)|| e.key === Qt.Key_PageUp) {
+        } else if ((e.key === Qt.Key_Home && handleHome)|| e.key === Qt.Key_PageUp) {
             queryField?.focus && forceActiveFocus();
             e.accepted = true;
             currentIndex = reversed ? count - 1 : 0
-        } else if ((e.key === Qt.Key_End && handleHomeAndEnd) || e.key === Qt.Key_PageDown) {
+        } else if ((e.key === Qt.Key_End && handleEnd) || e.key === Qt.Key_PageDown) {
             queryField?.focus && forceActiveFocus();
             e.accepted = true;
             currentIndex = reversed ? 0 : count - 1
