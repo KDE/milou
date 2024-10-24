@@ -10,7 +10,6 @@ import QtQuick
 import QtQuick.Templates as T
 
 import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.kirigami 2.20 as Kirigami
 import org.kde.milou 0.3 as Milou
 
 ListView {
@@ -57,14 +56,14 @@ ListView {
     model: Milou.ResultsModel {
         id: resultModel
         limit: 15
-        onQueryStringChangeRequested: {
+        onQueryStringChangeRequested: (queryString, pos) => {
             listView.updateQueryString(queryString, pos)
         }
         onQueryStringChanged: () => {
             resetView();
             // Do not run the results automatically, if the query changed since we pressed enter
             // BUG: 459859
-            runAutomatically = false;
+            listView.runAutomatically = false;
         }
         onModelReset: resetView()
 
@@ -77,7 +76,7 @@ ListView {
                 });
             }
 
-            if (runAutomatically) {
+            if (listView.runAutomatically) {
                 // This needs to be delayed as running a result may close the window and clear the query
                 // having us reset the model whilst in the middle of processing the insertion.
                 // The proxy model chain that comes after us really doesn't like this.
