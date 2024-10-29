@@ -210,7 +210,6 @@ ListView {
         } 
         currentIndex = idx;
         queryField?.focus && forceActiveFocus();
-        console.log(queryField?.focus)
     }
 
     function __move_category_down(event) {
@@ -235,11 +234,11 @@ ListView {
         const handleHome = queryField ? queryField.cursorPosition === 0 || !queryField.focus : true
         const handleEnd = queryField ? queryField.cursorPosition === queryString.length || !queryField.focus : true
 
-        if (ctrl && e.key === Qt.Key_Up) {
+        if (ctrl && e.key === Qt.Key_Up || e.key === Qt.Key_PageUp) {
             queryField?.focus && forceActiveFocus();
             reversed ? __move_category_down(e) : __move_category_up(e)
             e.accepted = true;
-        } else if (ctrl && e.key === Qt.Key_Down) {
+        } else if (ctrl && e.key === Qt.Key_Down || e.key === Qt.Key_PageDown) {
             queryField?.focus && forceActiveFocus();
             reversed ? __move_category_up(e) : __move_category_down(e)
             e.accepted = true;
@@ -251,11 +250,11 @@ ListView {
             queryField?.focus && forceActiveFocus();
             reversed ? decrementCurrentIndex() : incrementCurrentIndex();
             e.accepted = true;
-        } else if ((e.key === Qt.Key_Home && handleHome)|| e.key === Qt.Key_PageUp) {
+        } else if (e.key === Qt.Key_Home && handleHome) {
             queryField?.focus && forceActiveFocus();
             e.accepted = true;
             currentIndex = reversed ? count - 1 : 0
-        } else if ((e.key === Qt.Key_End && handleEnd) || e.key === Qt.Key_PageDown) {
+        } else if (e.key === Qt.Key_End && handleEnd) {
             queryField?.focus && forceActiveFocus();
             e.accepted = true;
             currentIndex = reversed ? 0 : count - 1

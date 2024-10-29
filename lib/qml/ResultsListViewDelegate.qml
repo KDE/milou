@@ -15,7 +15,6 @@ import org.kde.kirigami 2.20 as Kirigami
 
 MouseArea {
     id: resultDelegate
-    property variant theModel: model
 
     width: listItem.implicitWidth
     height: listItem.implicitHeight

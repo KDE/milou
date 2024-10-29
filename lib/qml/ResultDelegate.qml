@@ -23,7 +23,6 @@ PlasmaComponents3.ItemDelegate {
     hoverEnabled: true
 
     readonly property int indexModifier: reversed ? 0 : 1
-    readonly property QtObject theModel: model
     property bool reversed: false
 
     readonly property bool isCurrent: ListView.isCurrentItem // cannot properly Connect {} to this
