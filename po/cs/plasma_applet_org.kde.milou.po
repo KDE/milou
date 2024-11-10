@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-14 00:39+0000\n"
+"POT-Creation-Date: 2024-11-10 00:42+0000\n"
 "PO-Revision-Date: 2014-04-08 12:46+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Language: cs_CZ\n"
 "X-Source-Language: en_US\n"
 
-#: package/contents/ui/SearchField.qml:33
+#: package/contents/ui/SearchField.qml:34
 #, kde-format
 msgid "Search…"
 msgstr "Hledat…"

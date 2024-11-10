@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-14 00:39+0000\n"
+"POT-Creation-Date: 2024-11-10 00:42+0000\n"
 "PO-Revision-Date: 2023-08-12 01:50+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Text-Markup: kde4\n"
 "X-Generator: Lokalize 23.04.3\n"
 
-#: package/contents/ui/SearchField.qml:33
+#: package/contents/ui/SearchField.qml:34
 #, fuzzy, kde-format
 #| msgid "Search..."
 msgid "Search…"
