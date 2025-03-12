@@ -24,8 +24,6 @@ public:
     explicit MouseHelper(QObject *parent = nullptr);
     ~MouseHelper() override;
 
-    Q_INVOKABLE QPointF globalMousePosition() const;
-
     /*
      * Converts QMimeData to QVariantMap
      * @internal will be removed after https://codereview.qt-project.org/c/qt/qtdeclarative/+/491548

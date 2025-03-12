@@ -81,6 +81,12 @@ PlasmaComponents3.ItemDelegate {
         resultDelegate.ListView.view.runCurrentIndex()
     }
 
+    onHoveredChanged: {
+        if (hovered) {
+            resultDelegate.ListView.view.currentIndex = index
+        }
+    }
+
     DragHandler {
         id: dragHandler
         parent: labelWrapper
@@ -112,19 +118,6 @@ PlasmaComponents3.ItemDelegate {
                 return Qt.tint(Kirigami.Theme.disabledTextColor, Qt.alpha(Kirigami.Theme.textColor, 0.4));
             } else {
                 return Kirigami.Theme.disabledTextColor;
-            }
-        }
-
-        HoverHandler {
-            enabled: !resultDelegate.isCurrent
-            onPointChanged: {
-                // In case we display the history we have a QML ListView which does not have the moved property
-                if (!resultDelegate.ListView.view.hasOwnProperty("moved") || resultDelegate.ListView.view.moved) {
-                    resultDelegate.ListView.view.currentIndex = index
-                } else if (resultDelegate.ListView.view.mouseMovedGlobally()) {
-                    resultDelegate.ListView.view.moved = true
-                    resultDelegate.ListView.view.currentIndex = index
-                }
             }
         }
 

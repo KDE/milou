@@ -22,11 +22,6 @@ MouseHelper::~MouseHelper()
 {
 }
 
-QPointF MouseHelper::globalMousePosition() const
-{
-    return QCursor::pos();
-}
-
 QVariantMap MouseHelper::generateMimeDataMap(QMimeData *data) const
 {
     QVariantMap dataMap;
