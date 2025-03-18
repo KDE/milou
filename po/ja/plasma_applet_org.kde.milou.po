@@ -1,10 +1,10 @@
-# Ryuichi Yamada <ryuichi_ya220@outlook.jp>, 2023.
+# SPDX-FileCopyrightText: 2023, 2025 Ryuichi Yamada <ryuichi_ya220@outlook.jp>
 msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-10 00:42+0000\n"
-"PO-Revision-Date: 2023-08-12 01:50+0900\n"
+"PO-Revision-Date: 2025-03-09 00:33+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
@@ -14,10 +14,9 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #: package/contents/ui/SearchField.qml:34
-#, fuzzy, kde-format
-#| msgid "Search..."
+#, kde-format
 msgid "Search…"
 msgstr "検索..."
