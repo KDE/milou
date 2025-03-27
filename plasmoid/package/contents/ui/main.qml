@@ -19,12 +19,10 @@ import "globals.js" as Globals
 PlasmoidItem {
     id: mainWidget
 
+    readonly property bool isBottomEdge: Plasmoid.location === PlasmaCore.Types.BottomEdge
+
     switchWidth: Globals.SwitchWidth
     switchHeight: Globals.SwitchWidth
-
-    function isBottomEdge(): bool {
-        return Plasmoid.location === PlasmaCore.Types.BottomEdge;
-    }
 
     fullRepresentation: ColumnLayout {
         id: wrapper
@@ -53,6 +51,11 @@ PlasmoidItem {
             onClose: mainWidget.expanded = false
         }
 
+        LayoutItemProxy {
+            target: searchField
+            visible: !mainWidget.isBottomEdge
+        }
+
         Milou.ResultsView {
             id: listView
             queryField: searchField.queryField
@@ -64,7 +67,7 @@ PlasmoidItem {
             Layout.fillHeight: true
             implicitHeight: contentHeight
 
-            reversed: mainWidget.isBottomEdge()
+            reversed: mainWidget.isBottomEdge
 
             onActivated: {
                 searchField.text = "";
@@ -77,19 +80,9 @@ PlasmoidItem {
             }
         }
 
-        function changeLocation(): void {
-            if (mainWidget.isBottomEdge()) {
-                // Search field is at the bottom
-                children = [listView, searchField];
-            } else {
-                // Search field is on top
-                children = [searchField, listView];
-            }
-        }
-
-        Component.onCompleted: {
-            Plasmoid.locationChanged.connect(changeLocation);
-            changeLocation();
+        LayoutItemProxy {
+            target: searchField
+            visible: mainWidget.isBottomEdge
         }
     }
 
