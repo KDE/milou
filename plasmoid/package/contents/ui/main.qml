@@ -32,10 +32,7 @@ PlasmoidItem {
         property alias searchField: searchField
         property alias listView: listView
 
-        property int minimumHeight: listView.count > 0
-            ? listView.contentHeight + searchField.height + spacing
-            : searchField.height
-
+        property int minimumHeight: implicitHeight
         property int maximumHeight: minimumHeight
 
         Layout.minimumWidth: Globals.PlasmoidWidth
@@ -65,6 +62,7 @@ PlasmoidItem {
 
             Layout.fillWidth: true
             Layout.fillHeight: true
+            implicitHeight: contentHeight
 
             reversed: mainWidget.isBottomEdge()
 

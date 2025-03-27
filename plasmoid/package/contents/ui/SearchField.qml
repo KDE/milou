@@ -25,8 +25,8 @@ Item {
     signal searchTextChanged()
     signal close()
 
-    height: textField.height
-    width: Globals.PlasmoidWidth
+    implicitHeight: textField.height
+    implicitWidth: Globals.PlasmoidWidth
 
     PlasmaComponents3.TextField {
         id: textField
