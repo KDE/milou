@@ -22,11 +22,6 @@ PlasmoidItem {
     switchWidth: Globals.SwitchWidth
     switchHeight: Globals.SwitchWidth
 
-    Layout.minimumWidth: Globals.PlasmoidWidth
-    Layout.maximumWidth: Globals.PlasmoidWidth
-    Layout.minimumHeight: fullRepresentationItem?.minimumHeight ?? 0
-    Layout.maximumHeight: fullRepresentationItem?.maximumHeight ?? 0
-
     function isBottomEdge(): bool {
         return Plasmoid.location === PlasmaCore.Types.BottomEdge;
     }
@@ -42,6 +37,11 @@ PlasmoidItem {
             : searchField.height
 
         property int maximumHeight: minimumHeight
+
+        Layout.minimumWidth: Globals.PlasmoidWidth
+        Layout.maximumWidth: Globals.PlasmoidWidth
+        Layout.minimumHeight: minimumHeight
+        Layout.maximumHeight: maximumHeight
 
         spacing: Kirigami.Units.smallSpacing
 
