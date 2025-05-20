@@ -1,15 +1,15 @@
 # Spanish translations for milou.po package.
-# Copyright (C) 2014 This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Copyright (C) 2014-2025 This file is copyright:
+# This file is distributed under the same license as the milou package.
 # Automatically generated, 2014.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2014, 2017.
+#
+# SPDX-FileCopyrightText: 2014, 2017, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-15 00:43+0000\n"
-"PO-Revision-Date: 2017-09-15 23:50+0100\n"
+"PO-Revision-Date: 2025-05-20 02:13+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -35,54 +35,3 @@ msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
 msgid "%1 (Shift+Return)"
 msgstr "%1 (Mayúsculas+Intro)"
-
-#~ msgid "Artist:"
-#~ msgstr "Artista:"
-
-#~ msgid "Album:"
-#~ msgstr "Álbum:"
-
-#~ msgid "Duration:"
-#~ msgstr "Duración:"
-
-#~ msgid "From:"
-#~ msgstr "De:"
-
-#~ msgid "To:"
-#~ msgstr "Para:"
-
-#~ msgid "Date:"
-#~ msgstr "Fecha:"
-
-#~ msgid "Subject:"
-#~ msgstr "Asunto:"
-
-#~ msgid ""
-#~ "\n"
-#~ "Attachments:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Adjuntos:\n"
-#~ "\n"
-
-#~ msgid "Modified:"
-#~ msgstr "Modificado:"
-
-#~ msgid "Size:"
-#~ msgstr "Tamaño:"
-
-#~ msgid "Search Results"
-#~ msgstr "Resultado de la búsqueda"
-
-#~ msgid "Only the selected components are shown in the search results"
-#~ msgstr ""
-#~ "Solo se muestran los componentes seleccionados en el resultado de la "
-#~ "búsqueda"
-
-#~ msgid "Drag categories to change the order in which results appear"
-#~ msgstr ""
-#~ "Arrastre categorías para cambiar el orden en el que aparecerá el resultado"
-
-#~ msgid "Search"
-#~ msgstr "Buscar"
