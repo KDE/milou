@@ -1,15 +1,15 @@
 # Spanish translations for plasma_applet_org.kde.milou.po package.
-# Copyright (C) 2014 This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Copyright (C) 2014-2025 This file is copyright:
+# This file is distributed under the same license as the milou package.
 # Automatically generated, 2014.
-# SPDX-FileCopyrightText: 2014, 2018, 2023 Eloy Cuadra <ecuadra@eloihr.net>
+#
+# SPDX-FileCopyrightText: 2014, 2018, 2023, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
-"Project-Id-Version: plasma_applet_org\n"
+"Project-Id-Version: plasma_applet_org.kde.milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-10 00:42+0000\n"
-"PO-Revision-Date: 2023-11-28 00:02+0100\n"
+"PO-Revision-Date: 2025-05-20 02:12+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -22,16 +22,4 @@ msgstr ""
 #: package/contents/ui/SearchField.qml:34
 #, kde-format
 msgid "Search…"
-msgstr "Buscar..."
-
-#~ msgid "Search Results"
-#~ msgstr "Resultado de la búsqueda"
-
-#~ msgid "Only the selected components are shown in the search results"
-#~ msgstr ""
-#~ "Solo se muestran los componentes seleccionados en el resultado de la "
-#~ "búsqueda"
-
-#~ msgid "Drag categories to change the order in which results appear"
-#~ msgstr ""
-#~ "Arrastre categorías para cambiar el orden en el que aparecerá el resultado"
+msgstr "Buscar…"
