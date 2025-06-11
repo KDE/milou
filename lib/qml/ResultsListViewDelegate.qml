@@ -61,7 +61,7 @@ MouseArea {
                     id: subtextLabel
                     text: String(model.subtext)
 
-                    opacity: 0.3
+                    opacity: 0.75
 
                     elide: Text.ElideRight
                     maximumLineCount: 1
