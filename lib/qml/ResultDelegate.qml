@@ -111,16 +111,6 @@ PlasmaComponents3.ItemDelegate {
         id: labelWrapper
         implicitHeight: labelLayout.implicitHeight
 
-        readonly property color dimmedTextColor: {
-            if (resultDelegate.down) {
-                return Qt.tint(Kirigami.Theme.highlightedTextColor, Qt.alpha(Kirigami.Theme.textColor, 0.2));
-            } else if (resultDelegate.isCurrent) {
-                return Qt.tint(Kirigami.Theme.disabledTextColor, Qt.alpha(Kirigami.Theme.textColor, 0.4));
-            } else {
-                return Kirigami.Theme.disabledTextColor;
-            }
-        }
-
         // QTBUG-63395: DragHandler blocks ItemDelegate's clicked signal
         TapHandler {
             id: tapHandler
@@ -148,7 +138,7 @@ PlasmaComponents3.ItemDelegate {
                 verticalCenter: labelWrapper.verticalCenter
             }
             width: resultDelegate.categoryWidth - Kirigami.Units.largeSpacing
-            color: labelWrapper.dimmedTextColor
+            opacity: 0.75
             elide: Text.ElideRight
             text: resultDelegate.typeText
             textFormat: Text.PlainText
@@ -208,12 +198,11 @@ PlasmaComponents3.ItemDelegate {
                 Layout.fillWidth: true
                 // HACK If displayLabel is too long it will shift this label outside boundaries
                 // but still render the text leading to it overlapping the action buttons looking horrible
-                opacity: width > 0 ? 1 : 0
+                opacity: width > 0 ? 0.75 : 0
                 // SourcesModel returns number of duplicates in this property
                 // ResultsModel just has it as a boolean as you would expect from the name of the property
                 text: model.isDuplicate === true || model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
 
-                color: labelWrapper.dimmedTextColor
                 elide: Text.ElideMiddle
                 wrapMode: Text.NoWrap
                 maximumLineCount: 1
