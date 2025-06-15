@@ -8,17 +8,19 @@
 #ifndef MOUSEHELPER_H
 #define MOUSEHELPER_H
 
+#include <QMimeData>
 #include <QObject>
 #include <QPoint>
 #include <QVariantMap>
-
-class QMimeData;
+#include <qqmlregistration.h>
 
 namespace Milou
 {
 class MouseHelper : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
     explicit MouseHelper(QObject *parent = nullptr);

@@ -9,7 +9,7 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 
-import org.kde.milou 0.1 as Milou
+import org.kde.milou as Milou
 
 Milou.ResultsView {
     id: listView
