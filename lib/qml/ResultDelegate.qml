@@ -139,6 +139,7 @@ PlasmaComponents3.ItemDelegate {
             }
             width: resultDelegate.categoryWidth - Kirigami.Units.largeSpacing
             opacity: 0.75
+            color: resultDelegate.down ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
             elide: Text.ElideRight
             text: resultDelegate.typeText
             textFormat: Text.PlainText
@@ -199,6 +200,7 @@ PlasmaComponents3.ItemDelegate {
                 // HACK If displayLabel is too long it will shift this label outside boundaries
                 // but still render the text leading to it overlapping the action buttons looking horrible
                 opacity: width > 0 ? 0.75 : 0
+                color: resultDelegate.down ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
                 // SourcesModel returns number of duplicates in this property
                 // ResultsModel just has it as a boolean as you would expect from the name of the property
                 text: model.isDuplicate === true || model.isDuplicate > 1 || resultDelegate.isCurrent ? String(model.subtext || "") : ""
