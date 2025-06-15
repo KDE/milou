@@ -1,7 +1,7 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"milou\")
-add_library(milou STATIC)
 
-set_property(TARGET milou PROPERTY POSITION_INDEPENDENT_CODE ON)
+ecm_add_qml_module(milou URI "org.kde.milou" GENERATE_PLUGIN_SOURCE)
+
 target_sources(milou PRIVATE
     resultsmodel.cpp
     mousehelper.cpp
@@ -9,12 +9,13 @@ target_sources(milou PRIVATE
     mousehelper.h
 )
 
-target_link_libraries(milou
-    Qt::Qml
-    Qt::Quick
-    Qt::Widgets
-    KF6::Runner
-    KF6::ConfigCore
+ecm_target_qml_sources(milou SOURCES
+    ResultDelegate.qml
+    ResultsView.qml
+    ResultsListViewDelegate.qml
+    ResultsListView.qml
 )
 
-add_subdirectory(qml)
+target_link_libraries (milou PRIVATE Qt::Gui Qt::Qml KF6::ConfigCore KF6::Runner)
+
+ecm_finalize_qml_module(milou DESTINATION ${KDE_INSTALL_QMLDIR})

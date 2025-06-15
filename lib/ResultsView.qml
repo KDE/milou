@@ -10,7 +10,7 @@ import QtQuick
 import QtQuick.Templates as T
 
 import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.milou 0.3 as Milou
+import org.kde.milou as Milou
 
 ListView {
     id: listView

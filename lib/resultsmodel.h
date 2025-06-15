@@ -9,11 +9,14 @@
 #include <KConfigWatcher>
 #include <KRunner/ResultsModel>
 
+#include <qqmlregistration.h>
+
 namespace Milou
 {
 class ResultsModel : public KRunner::ResultsModel
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(QStringList favoriteIds READ favoriteIds WRITE setFavoriteIds NOTIFY favoriteIdsChanged RESET resetFavoriteIds)
 public:
     explicit ResultsModel(QObject *parent = nullptr);
