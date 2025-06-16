@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-12 00:43+0000\n"
+"POT-Creation-Date: 2025-06-16 00:44+0000\n"
 "PO-Revision-Date: 2017-10-06 13:41+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -27,7 +27,7 @@ msgstr "%1, v kategorii %2"
 msgid "in category %1"
 msgstr "v kategorii %1"
 
-#: qml/ResultDelegate.qml:259
+#: qml/ResultDelegate.qml:261
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
