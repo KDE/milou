@@ -11,3 +11,4 @@ Dependencies:
       'plasma/libplasma': '@same'
 Options:
   require-passing-tests-on: ['Linux', 'FreeBSD']
+  run-qmllint: True
