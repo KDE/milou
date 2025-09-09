@@ -40,7 +40,6 @@
                 "Name[ta]": "விஷேஷ் ஹண்டா",
                 "Name[tr]": "Vişeş Handa",
                 "Name[uk]": "Vishesh Handa",
-                "Name[x-test]": "xxVishesh Handaxx",
                 "Name[zh_CN]": "Vishesh Handa",
                 "Name[zh_TW]": "Vishesh Handa"
             }
@@ -80,7 +79,6 @@
         "Description[ta]": "தேடி இயக்க உதவும்",
         "Description[tr]": "Ara ve başlat",
         "Description[uk]": "Пошук і запуск",
-        "Description[x-test]": "xxSearch and launchxx",
         "Description[zh_CN]": "搜索并启动",
         "Description[zh_TW]": "搜尋與啟動",
         "EnabledByDefault": true,
@@ -137,7 +135,6 @@
         "Name[ta]": "தேடல்",
         "Name[tr]": "Ara",
         "Name[uk]": "Пошук",
-        "Name[x-test]": "xxSearchxx",
         "Name[zh_CN]": "搜索",
         "Name[zh_TW]": "搜尋",
         "Website": "https://kde.org"
