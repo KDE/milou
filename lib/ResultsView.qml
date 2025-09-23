@@ -184,40 +184,46 @@ ListView {
     function getCategoryName(i) {
         return model.data(model.index(i, 0), Milou.ResultsModel.CategoryRole)
     }
+
+    // Move in any direction.
+    // We consume an array of all indexes (this is either spinning up [0,1,2...], or down [4,3,2...]) and iterate it
+    // up to 2x using the remainder operator to wrap around. The effective end result is that can visit all indexes,
+    // in order, starting from the currentIndex.
+    // This helps prevent code duplication for the up/down variants. It's slightly more work to wrap your head around.
+    function __move_category(event, indexes) {
+        const getIndex = i => indexes[i % indexes.length]
+
+        event.accepted = true
+        const originalCategory = getCategoryName(currentIndex)
+        let index = currentIndex
+        for (let i = indexes.indexOf(currentIndex); i < count * 2; i++) {
+            index = getIndex(i)
+            const categoryChanged = originalCategory !== getCategoryName(index)
+            // when spinning down (i.e. moving upwards visually) we need to consider if there are more items of the same category before the current index
+            const nextIndex = getIndex(i + 1)
+            const spinningDown = nextIndex < index
+            const isFirstInCategory = spinningDown ? (getCategoryName(index) !== getCategoryName(nextIndex)) : true
+            if (categoryChanged && isFirstInCategory) {
+                break
+            }
+        }
+        currentIndex = index
+        queryField?.focus && forceActiveFocus()
+    }
+
     function __move_category_up(event) {
-        event.accepted = true;
-        const originalCategory = getCategoryName(currentIndex);
-        let idx = currentIndex;
-        while (originalCategory === getCategoryName(idx)
-            || getCategoryName(idx) === getCategoryName(idx - 1)
-        ) {
-            idx--;
-            if (idx < 0) { // IF we are at the top and want to go to the previous category, we have to check from the bottom
-                idx = count -1;
-            }
-            if (idx === currentIndex) {
-                return; // Avoid endless loop if we only have one category
-            }
-        } 
-        currentIndex = idx;
-        queryField?.focus && forceActiveFocus();
+        if (count === 0) {
+            return
+        }
+        __move_category(event, [...Array(count).keys()].reverse())
     }
 
     function __move_category_down(event) {
-        event.accepted = true;
-        const originalCategory = getCategoryName(currentIndex);
-        let idx = currentIndex;
-        while (originalCategory === getCategoryName(idx)) {
-            idx++;
-            if (idx === count) {
-                idx = 0; // The first item is always the first item if it's category'
-                break;
-            }
-        } 
-        currentIndex = idx;
-        queryField?.focus && forceActiveFocus();
+        if (count === 0) {
+            return
+        }
+        __move_category(event, [...Array(count).keys()])
     }
-
 
     function navigationKeyHandler(e) {
         const ctrl = e.modifiers & Qt.ControlModifier;
