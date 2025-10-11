@@ -1,4 +1,4 @@
-# Burkhard Lück <lueck@hube-lueck.de>, 2014, 2018.
+# SPDX-FileCopyrightText: 2014, 2018 Burkhard Lück <lueck@hube-lueck.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_org.kde.milou\n"
