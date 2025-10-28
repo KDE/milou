@@ -11,6 +11,8 @@
 
 #include <qqmlregistration.h>
 
+#include <QMimeData>
+
 namespace Milou
 {
 class ResultsModel : public KRunner::ResultsModel
@@ -30,6 +32,12 @@ public:
     {
         m_favoritesExplicitlySet = false;
         KRunner::ResultsModel::setFavoriteIds(m_configFavoriteIds);
+    }
+
+    // Workaround for https://bugs.kde.org/show_bug.cgi?id=511228
+    Q_INVOKABLE QMimeData *getMimeData(const QModelIndex &idx) const
+    {
+        return KRunner::ResultsModel::getMimeData(idx);
     }
 
 private:
