@@ -12,8 +12,6 @@ target_sources(milou PRIVATE
 ecm_target_qml_sources(milou SOURCES
     ResultDelegate.qml
     ResultsView.qml
-    ResultsListViewDelegate.qml
-    ResultsListView.qml
 )
 
 target_link_libraries (milou PRIVATE Qt::Gui Qt::Qml KF6::ConfigCore KF6::Runner)
