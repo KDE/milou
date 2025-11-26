@@ -108,7 +108,7 @@ ListView {
         } else {
             // If user presses Shift+Return to invoke an action, invoke the first runner action
             if (event && event.modifiers === Qt.ShiftModifier
-                    && currentItem.additionalActions && currentItem.additionalActions.length > 0) {
+                    && currentItem.actions && currentItem.actions.length > 0) {
                 runAction(0)
                 return
             }

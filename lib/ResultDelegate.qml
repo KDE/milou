@@ -32,8 +32,15 @@ PlasmaComponents3.ItemDelegate {
     property int activeAction: -1
 
     property string typeText: sectionHasChanged ? ListView.section : ""
-    property var additionalActions: typeof actions !== "undefined" ? actions : []
     property int categoryWidth: Kirigami.Units.gridUnit * 10
+
+    required property int index
+    required property var model
+    required property var actions
+
+    property alias displayText: displayLabel.text
+
+    displayText: model.display
 
     Accessible.role: Accessible.ListItem
     Accessible.name: displayLabel.text
@@ -94,7 +101,7 @@ PlasmaComponents3.ItemDelegate {
         grabPermissions: PointerHandler.TakeOverForbidden
         onActiveChanged: if (active) {
             typePixmap.grabToImage((result) => {
-                const mimeData = resultDelegate.ListView.view.model.getMimeData(resultDelegate.ListView.view.model.index(index, 0));
+                const mimeData = resultDelegate.ListView.view.model.getMimeData(resultDelegate.ListView.view.model.index(resultDelegate.index, 0));
                 if (!mimeData) {
                     return;
                 }
@@ -127,7 +134,7 @@ PlasmaComponents3.ItemDelegate {
             visible: resultDelegate.sectionHasChanged
                      && !resultDelegate.isCurrent
                      && resultDelegate.index !== 0
-                     && resultDelegate.ListView.view.currentIndex !== (index - indexModifier)
+                     && resultDelegate.ListView.view.currentIndex !== (resultDelegate.index - indexModifier)
             opacity: 0.5
         }
 
@@ -170,7 +177,6 @@ PlasmaComponents3.ItemDelegate {
 
             PlasmaComponents3.Label {
                 id: displayLabel
-                text: String(typeof modelData !== "undefined" ? modelData : model.display)
 
                 elide: Text.ElideMiddle
                 wrapMode: model.multiLine ? Text.WordWrap : Text.NoWrap
@@ -231,7 +237,7 @@ PlasmaComponents3.ItemDelegate {
 
             Repeater {
                 id: actionsRepeater
-                model: resultDelegate.additionalActions
+                model: resultDelegate.actions
 
                 PlasmaComponents3.ToolButton {
                     width: height
