@@ -1,5 +1,4 @@
 {
-    "KPackageStructure": "Plasma/Applet",
     "KPlugin": {
         "Authors": [
             {
@@ -85,7 +84,6 @@
         "Description[zh_TW]": "搜尋與啟動",
         "EnabledByDefault": true,
         "Icon": "system-search",
-        "Id": "org.kde.milou",
         "License": "LGPL 2.1+",
         "Name": "Search",
         "Name[ar]": "ابحث",
