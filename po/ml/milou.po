@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2025-12-04 00:45+0000\n"
 "PO-Revision-Date: 2018-11-12 04:04+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc."
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ResultDelegate.qml:47
+#: ResultDelegate.qml:54
 #, kde-format
 msgid "%1, in category %2"
 msgstr ""
 
-#: ResultDelegate.qml:49
+#: ResultDelegate.qml:56
 #, kde-format
 msgid "in category %1"
 msgstr ""
 
-#: ResultDelegate.qml:261
+#: ResultDelegate.qml:267
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"

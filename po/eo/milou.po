@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2025-12-04 00:45+0000\n"
 "PO-Revision-Date: 2023-05-07 18:25+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -16,17 +16,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: ResultDelegate.qml:47
+#: ResultDelegate.qml:54
 #, kde-format
 msgid "%1, in category %2"
 msgstr "%1, en kategorio %2"
 
-#: ResultDelegate.qml:49
+#: ResultDelegate.qml:56
 #, kde-format
 msgid "in category %1"
 msgstr "en kategorio %1"
 
-#: ResultDelegate.qml:261
+#: ResultDelegate.qml:267
 #, kde-format
 msgctxt ""
 "placeholder is action e.g. run in terminal, in parenthesis is shortcut"
