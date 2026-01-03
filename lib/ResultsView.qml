@@ -45,6 +45,7 @@ ListView {
     // the first result has been shown, in the case the first result should
     // be run when the model is populated
     property bool runAutomatically
+    property int oldIndex: -1
 
     model: Milou.ResultsModel {
         id: resultModel
@@ -56,18 +57,15 @@ ListView {
             resetView();
             // Do not run the results automatically, if the query changed since we pressed enter
             // BUG: 459859
+            listView.oldIndex = -1
             listView.runAutomatically = false;
         }
         onModelReset: resetView()
 
         onRowsInserted: {
-            // Keep the selection at the top as items inserted to the beginning will shift it downwards
-            // ListView will update its view after this signal is processed and then our callLater will set it back
-            if (listView.currentIndex === 0) {
-                Qt.callLater(function() {
-                    listView.currentIndex = 0;
-                });
-            }
+            // ListView will keep the currentItem the same if new data is added. If the user hasn't interacted
+            // with the results, we want the new first entry selected, so store the state to check later
+            listView.oldIndex = listView.currentIndex
 
             if (listView.runAutomatically) {
                 // This needs to be delayed as running a result may close the window and clear the query
@@ -91,6 +89,12 @@ ListView {
         id: resultDelegate
         width: listView.width
         reversed: listView.reversed
+    }
+
+    onCountChanged: {
+        if (currentIndex !== oldIndex && oldIndex === 0) {
+            currentIndex = oldIndex
+        }
     }
 
     //
