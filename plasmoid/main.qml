@@ -49,6 +49,7 @@ PlasmoidItem {
                 listView.setQueryString(text)
             }
             onClose: mainWidget.expanded = false
+            Keys.forwardTo: listView.count > 0 ? listView : null
         }
 
         LayoutItemProxy {
@@ -62,6 +63,7 @@ PlasmoidItem {
 
             // in case is expanded
             clip: true
+            activeFocusOnTab: count > 0
 
             Layout.fillWidth: true
             Layout.fillHeight: true
