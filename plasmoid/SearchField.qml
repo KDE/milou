@@ -39,7 +39,6 @@ Item {
         }
 
         focus: true
-        Keys.forwardTo: listView
 
         // We do not want to send the text instantly as that would result
         // in too many queries. Therefore we add a small 200msec delay
