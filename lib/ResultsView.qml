@@ -44,6 +44,7 @@ ListView {
     // This is used to keep track if the user has pressed enter before
     // the first result has been shown, in the case the first result should
     // be run when the model is populated
+    property bool pendingFirstResults: false
     property bool runAutomatically
     property int oldIndex: -1
 
@@ -59,6 +60,7 @@ ListView {
             // BUG: 459859
             listView.oldIndex = -1
             listView.runAutomatically = false;
+            listView.pendingFirstResults = true
         }
         onModelReset: resetView()
 
@@ -92,6 +94,7 @@ ListView {
     }
 
     onCountChanged: {
+        pendingFirstResults = false
         if (currentIndex !== oldIndex && oldIndex === 0) {
             currentIndex = oldIndex
         }
@@ -106,7 +109,7 @@ ListView {
     Keys.onEnterPressed: event => runCurrentIndex(event);
 
     function runCurrentIndex(event) {
-        if (!currentItem) {
+        if (!currentItem || pendingFirstResults) {
             runAutomatically = true
             return;
         } else {
