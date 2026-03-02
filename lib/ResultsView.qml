@@ -232,8 +232,8 @@ ListView {
     function navigationKeyHandler(e) {
         const ctrl = e.modifiers & Qt.ControlModifier;
         const queryFieldPos = queryField ? queryField.cursorPosition :-1
-        const handleHome = queryField ? queryField.cursorPosition === 0 || !queryField.focus : true
-        const handleEnd = queryField ? queryField.cursorPosition === queryString.length || !queryField.focus : true
+        const handleHome = queryField ? (queryField.cursorPosition === 0 && queryField.selectedText === "")|| !queryField.focus : true
+        const handleEnd = queryField ? (queryField.cursorPosition === queryString.length && queryField.selectedText === "") || !queryField.focus : true
 
         if (ctrl && e.key === Qt.Key_Up || e.key === Qt.Key_PageUp) {
             queryField?.focus && forceActiveFocus();
