@@ -17,3 +17,5 @@ ecm_target_qml_sources(milou SOURCES
 target_link_libraries (milou PRIVATE Qt::Gui Qt::Qml KF6::ConfigCore KF6::Runner)
 
 ecm_finalize_qml_module(milou DESTINATION ${KDE_INSTALL_QMLDIR})
+
+add_test(NAME qml-smoketest COMMAND ${QT6_INSTALL_PREFIX}/${QT6_INSTALL_BINS}/qml${CMAKE_EXECUTABLE_SUFFIX} --quit-after 500 ${CMAKE_CURRENT_SOURCE_DIR}/test/main.qml)
