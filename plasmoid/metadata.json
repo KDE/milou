@@ -39,6 +39,7 @@
                 "Name[sv]": "Vishesh Handa",
                 "Name[ta]": "விஷேஷ் ஹண்டா",
                 "Name[tr]": "Vişeş Handa",
+                "Name[ug]": "Vishesh Handa",
                 "Name[uk]": "Vishesh Handa",
                 "Name[zh_CN]": "Vishesh Handa",
                 "Name[zh_TW]": "Vishesh Handa"
@@ -81,6 +82,7 @@
         "Description[sv]": "Sök och starta",
         "Description[ta]": "தேடி இயக்க உதவும்",
         "Description[tr]": "Ara ve başlat",
+        "Description[ug]": "ئىزدە ۋە ئىجرا قىل",
         "Description[uk]": "Пошук і запуск",
         "Description[zh_CN]": "搜索并启动",
         "Description[zh_TW]": "搜尋與啟動",
@@ -136,6 +138,7 @@
         "Name[sv]": "Sök",
         "Name[ta]": "தேடல்",
         "Name[tr]": "Ara",
+        "Name[ug]": "ئىزدە",
         "Name[uk]": "Пошук",
         "Name[zh_CN]": "搜索",
         "Name[zh_TW]": "搜尋",
