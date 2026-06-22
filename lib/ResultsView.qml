@@ -64,11 +64,7 @@ ListView {
         }
         onModelReset: resetView()
 
-        onRowsInserted: {
-            // ListView will keep the currentItem the same if new data is added. If the user hasn't interacted
-            // with the results, we want the new first entry selected, so store the state to check later
-            listView.oldIndex = listView.currentIndex
-
+        function runAutomaticallyIfQueued() : void {
             if (listView.runAutomatically) {
                 // This needs to be delayed as running a result may close the window and clear the query
                 // having us reset the model whilst in the middle of processing the insertion.
@@ -78,8 +74,30 @@ ListView {
                     listView.activated();
                 });
 
-                runAutomatically = false;
+                listView.runAutomatically = false;
             }
+        }
+
+        onQueryingChanged: {
+            if (!querying) {
+                listView.pendingFirstResults = false
+                runAutomaticallyIfQueued()
+            }
+        }
+
+        onDataChanged: {
+            listView.pendingFirstResults = false
+            runAutomaticallyIfQueued()
+        }
+        onRowsRemoved: {
+            listView.pendingFirstResults = false
+            runAutomaticallyIfQueued()
+        }
+        onRowsInserted: {
+            // ListView will keep the currentItem the same if new data is added. If the user hasn't interacted
+            // with the results, we want the new first entry selected, so store the state to check later
+            listView.oldIndex = listView.currentIndex
+            runAutomaticallyIfQueued()
         }
 
         function resetView() {
