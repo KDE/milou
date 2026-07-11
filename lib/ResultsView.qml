@@ -18,6 +18,7 @@ ListView {
     property alias singleRunner: resultModel.singleRunner
     property alias runnerManager: resultModel.runnerManager
     property var queryField
+    property int queryFieldAlignment: reversed ? Qt.BottomEdge : Qt.TopEdge
 
     property alias singleRunnerMetaData: resultModel.singleRunnerMetaData
     property alias querying: resultModel.querying
@@ -250,13 +251,33 @@ ListView {
         __move_category(event, [...Array(count).keys()])
     }
 
+    function shouldNavigateToQueryField(key, ctrl) {
+        if (!queryField || queryField.focus) {
+            return false;
+        }
+        if (key === Qt.Key_Up || (ctrl && key === Qt.Key_K) || key === Qt.Key_Home) {
+            return queryFieldAlignment === Qt.TopEdge && currentIndex === (reversed ? (count - 1) : 0);
+        } else if (key === Qt.Key_Down || (ctrl && key === Qt.Key_J) || key === Qt.Key_End) {
+            return queryFieldAlignment === Qt.BottomEdge && currentIndex === (reversed ? 0 : (count - 1));
+        } else if (key === Qt.Key_Left || (ctrl && key === Qt.Key_H)) {
+            return queryFieldAlignment === Qt.LeftEdge;
+        } else if (key === Qt.Key_Right || (ctrl && key === Qt.Key_L)) {
+            return queryFieldAlignment === Qt.RightEdge;
+        }
+        return false;
+    }
+
     function navigationKeyHandler(e) {
         const ctrl = e.modifiers & Qt.ControlModifier;
         const queryFieldPos = queryField ? queryField.cursorPosition :-1
         const handleHome = queryField ? (queryField.cursorPosition === 0 && queryField.selectedText === "" && count > 0) || !queryField.focus : true
         const handleEnd = queryField ? (queryField.cursorPosition === queryString.length && queryField.selectedText === "" && count > 0) || !queryField.focus : true
 
-        if (ctrl && e.key === Qt.Key_Up || e.key === Qt.Key_PageUp) {
+        if (shouldNavigateToQueryField(e.key, ctrl)) {
+            queryField.forceActiveFocus();
+            currentIndex = 0;
+            e.accepted = true;
+        } else if (ctrl && e.key === Qt.Key_Up || e.key === Qt.Key_PageUp) {
             queryField?.focus && forceActiveFocus();
             reversed ? __move_category_down(e) : __move_category_up(e)
             e.accepted = true;
@@ -274,12 +295,12 @@ ListView {
             e.accepted = true;
         } else if (e.key === Qt.Key_Home && handleHome) {
             queryField?.focus && forceActiveFocus();
+            currentIndex = reversed ? count - 1 : 0;
             e.accepted = true;
-            currentIndex = reversed ? count - 1 : 0
         } else if (e.key === Qt.Key_End && handleEnd) {
             queryField?.focus && forceActiveFocus();
+            currentIndex = reversed ? 0 : count - 1;
             e.accepted = true;
-            currentIndex = reversed ? 0 : count - 1
         } else if (e.text !== "" && queryField?.focus === false) {
             // This prevents unprintable control characters from being inserted
             if (!/[\x00-\x1F\x7F]/.test(e.text)) {
