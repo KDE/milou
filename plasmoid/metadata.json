@@ -45,6 +45,7 @@
                 "Name[zh_TW]": "Vishesh Handa"
             }
         ],
+        "BugReportUrl": "https://bugs.kde.org/enter_bug.cgi?product=plasmashell&component=Search%20widget",
         "Category": "Utilities",
         "Description": "Search and launch",
         "Description[ar]": "ابحث وشغل",
