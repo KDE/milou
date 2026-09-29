@@ -266,12 +266,12 @@ ListView {
             e.accepted = true;
         } else if (e.key === Qt.Key_Up || (ctrl && e.key === Qt.Key_K)) {
             queryField?.focus && forceActiveFocus();
+            e.accepted = keyNavigationWraps || (!reversed && currentIndex !== 0) || (reversed && currentIndex !== count - 1);
             reversed ? incrementCurrentIndex() : decrementCurrentIndex();
-            e.accepted = true;
         } else if (e.key === Qt.Key_Down || (ctrl && e.key === Qt.Key_J)) {
             queryField?.focus && forceActiveFocus();
+            e.accepted = keyNavigationWraps || (!reversed && currentIndex !== count - 1) || (reversed && currentIndex !== 0);
             reversed ? decrementCurrentIndex() : incrementCurrentIndex();
-            e.accepted = true;
         } else if (e.key === Qt.Key_Home && handleHome) {
             queryField?.focus && forceActiveFocus();
             e.accepted = true;
