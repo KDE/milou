@@ -49,7 +49,21 @@ PlasmoidItem {
                 listView.setQueryString(text)
             }
             onClose: mainWidget.expanded = false
-            Keys.forwardTo: listView.count > 0 ? listView : null
+
+            Keys.forwardTo: listView.count > 0 ? [queryField, listView] : queryField
+            Component.onCompleted: {
+                queryField.Keys.onUpPressed.connect(event => {
+                    listView.currentIndex = mainWidget.isBottomEdge ? 1 : listView.count - 1
+                    event.accepted = listView.count === 0 // pass to KeyNavigation if we have results
+                })
+                queryField.KeyNavigation.up = listView
+
+                queryField.Keys.onDownPressed.connect(event => {
+                    listView.currentIndex = mainWidget.isBottomEdge ? listView.count - 1 : 1
+                    event.accepted = listView.count === 0 // pass to KeyNavigation if we have results
+                })
+                queryField.KeyNavigation.down = listView
+            }
         }
 
         LayoutItemProxy {
@@ -64,6 +78,7 @@ PlasmoidItem {
             // in case is expanded
             clip: true
             activeFocusOnTab: count > 0
+            keyNavigationWraps: false
 
             Layout.fillWidth: true
             Layout.fillHeight: true
