@@ -292,10 +292,6 @@ ListView {
 
     boundsBehavior: Flickable.StopAtBounds
 
-    function loadSettings() {
-        resultModel.loadSettings()
-    }
-
     function setQueryString(queryString) {
         resultModel.queryString = queryString
         runAutomatically = false

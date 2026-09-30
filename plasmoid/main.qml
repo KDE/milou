@@ -103,10 +103,6 @@ PlasmoidItem {
         mainWidget.fullRepresentationItem.searchField.selectAll();
     }
 
-    function loadSettings() {
-        mainWidget.fullRepresentationItem.listView.loadSettings();
-    }
-
     onExpandedChanged: {
         setTextFieldFocus();
         //
