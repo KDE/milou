@@ -251,6 +251,9 @@ PlasmaComponents3.ItemDelegate {
                     checked: resultDelegate.activeAction === index
                     focus: resultDelegate.activeAction === index
 
+                    Keys.onTabPressed: event => resultDelegate.ListView.view.Keys.tabPressed(event)
+                    Keys.onBacktabPressed: event => resultDelegate.ListView.view.Keys.backtabPressed(event)
+
                     Kirigami.Icon {
                         anchors.centerIn: parent
                         implicitWidth: Kirigami.Units.iconSizes.smallMedium
