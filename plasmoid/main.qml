@@ -63,6 +63,25 @@ PlasmoidItem {
                     event.accepted = listView.count === 0 // pass to KeyNavigation if we have results
                 })
                 queryField.KeyNavigation.down = listView
+
+                queryField.Keys.onPressed.connect(event => {
+                    if (listView.count > 0 && event.modifiers | Qt.ControlModifier && (event.key == Qt.Key_J || event.key == Qt.Key_K)) {
+                        event.accepted = true
+                        if (event.key == Qt.Key_K) {
+                            listView.currentIndex = mainWidget.isBottomEdge ? 1 : listView.count - 1
+                            listView.forceActiveFocus(Qt.BacktabFocusReason)
+                        } else {
+                            listView.currentIndex = mainWidget.isBottomEdge ? listView.count - 1 : 1
+                            listView.forceActiveFocus(Qt.BacktabFocusReason)
+                        }
+                    }
+                })
+            }
+        }
+
+        Keys.onPressed: event => {
+            if (event.modifiers | Qt.ControlModifier && (event.key == Qt.Key_J || event.key == Qt.Key_K)) {
+                searchField.queryField.forceActiveFocus(event.key == Qt.Key_K ? Qt.BacktabFocusReason : Qt.TabFocusReason)
             }
         }
 
