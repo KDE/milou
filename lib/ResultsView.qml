@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  *
  */
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Templates as T
@@ -105,7 +106,7 @@ ListView {
         }
     }
 
-    delegate: ResultDelegate {
+    delegate: Milou.ResultDelegate {
         id: resultDelegate
         width: listView.width
         reversed: listView.reversed
@@ -131,15 +132,16 @@ ListView {
             runAutomatically = true
             return;
         } else {
+            const currentDelegate = currentItem as Milou.ResultDelegate
             // If user presses Shift+Return to invoke an action, invoke the first runner action
             if (event && event.modifiers === Qt.ShiftModifier
-                    && currentItem.actions && currentItem.actions.length > 0) {
+                    && currentDelegate?.actions?.length > 0) {
                 runAction(0)
                 return
             }
 
-            if (currentItem.activeAction > -1) {
-                runAction(currentItem.activeAction)
+            if (currentDelegate?.activeAction > -1) {
+                runAction(currentDelegate.activeAction)
                 return
             }
 
@@ -163,7 +165,8 @@ ListView {
     }
 
     Keys.onTabPressed: {
-        if (!currentItem || !currentItem.activateNextAction()) {
+        const currentDelegate = currentItem as Milou.ResultDelegate;
+        if (!currentItem || !currentDelegate.activateNextAction()) {
             if (reversed) {
                 if (currentIndex == 0) {
                     listView.nextItemInFocusChain(false).forceActiveFocus();
@@ -180,7 +183,8 @@ ListView {
         }
     }
     Keys.onBacktabPressed: {
-        if (!currentItem || !currentItem.activatePreviousAction()) {
+        const currentDelegate = currentItem as Milou.ResultDelegate;
+        if (!currentItem || !currentDelegate.activatePreviousAction()) {
             if (reversed) {
                 if (currentIndex == listView.count-1) {
                     listView.nextItemInFocusChain(true).forceActiveFocus();
@@ -198,8 +202,8 @@ ListView {
             // activate previous action cannot know whether we want to back tab from an action
             // to the main result or back tab from another search result, so we explicitly highlight
             // the last action here to provide a consistent navigation experience
-            if (currentItem) {
-                currentItem.activateLastAction()
+            if (currentDelegate) {
+                currentDelegate.activateLastAction()
             }
         }
     }
@@ -233,7 +237,6 @@ ListView {
             }
         }
         currentIndex = index
-        queryField?.focus && forceActiveFocus()
     }
 
     function __move_category_up(event) {
@@ -250,6 +253,12 @@ ListView {
         __move_category(event, [...Array(count).keys()])
     }
 
+    function grabFocusFromQueryField (focusReason) {
+        if (queryField?.focus) {
+            forceActiveFocus(focusReason)
+        }
+    }
+
     function navigationKeyHandler(e) {
         const ctrl = e.modifiers & Qt.ControlModifier;
         const queryFieldPos = queryField ? queryField.cursorPosition :-1
@@ -257,27 +266,27 @@ ListView {
         const handleEnd = queryField ? (queryField.cursorPosition === queryString.length && queryField.selectedText === "") || !queryField.focus : true
 
         if (ctrl && e.key === Qt.Key_Up || e.key === Qt.Key_PageUp) {
-            queryField?.focus && forceActiveFocus();
+            grabFocusFromQueryField(Qt.BacktabFocusReason)
             reversed ? __move_category_down(e) : __move_category_up(e)
             e.accepted = true;
         } else if (ctrl && e.key === Qt.Key_Down || e.key === Qt.Key_PageDown) {
-            queryField?.focus && forceActiveFocus();
+            grabFocusFromQueryField(Qt.TabFocusReason)
             reversed ? __move_category_up(e) : __move_category_down(e)
             e.accepted = true;
         } else if (e.key === Qt.Key_Up || (ctrl && e.key === Qt.Key_K)) {
-            queryField?.focus && forceActiveFocus();
+            grabFocusFromQueryField(Qt.BacktabFocusReason)
             e.accepted = keyNavigationWraps || (!reversed && currentIndex !== 0) || (reversed && currentIndex !== count - 1);
             reversed ? incrementCurrentIndex() : decrementCurrentIndex();
         } else if (e.key === Qt.Key_Down || (ctrl && e.key === Qt.Key_J)) {
-            queryField?.focus && forceActiveFocus();
+            grabFocusFromQueryField(Qt.TabFocusReason)
             e.accepted = keyNavigationWraps || (!reversed && currentIndex !== count - 1) || (reversed && currentIndex !== 0);
             reversed ? decrementCurrentIndex() : incrementCurrentIndex();
         } else if (e.key === Qt.Key_Home && handleHome) {
-            queryField?.focus && forceActiveFocus();
+            grabFocusFromQueryField(Qt.BacktabFocusReason)
             e.accepted = true;
             currentIndex = reversed ? count - 1 : 0
         } else if (e.key === Qt.Key_End && handleEnd) {
-            queryField?.focus && forceActiveFocus();
+            grabFocusFromQueryField(Qt.TabFocusReason)
             e.accepted = true;
             currentIndex = reversed ? 0 : count - 1
         } else if (e.text !== "" && queryField?.focus === false) {

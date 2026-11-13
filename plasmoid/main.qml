@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  *
  */
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
@@ -27,7 +28,7 @@ PlasmoidItem {
     fullRepresentation: ColumnLayout {
         id: wrapper
 
-        property alias searchField: searchField
+        property alias searchField: searchFieldItem
         property alias listView: listView
 
         property int minimumHeight: implicitHeight
@@ -41,7 +42,7 @@ PlasmoidItem {
         spacing: Kirigami.Units.smallSpacing
 
         SearchField {
-            id: searchField
+            id: searchFieldItem
 
             Layout.fillWidth: true
 
@@ -91,18 +92,18 @@ PlasmoidItem {
 
         Keys.onPressed: event => {
             if (event.modifiers | Qt.ControlModifier && (event.key == Qt.Key_J || event.key == Qt.Key_K)) {
-                searchField.queryField.forceActiveFocus(event.key == Qt.Key_K ? Qt.BacktabFocusReason : Qt.TabFocusReason)
+                searchFieldItem.queryField.forceActiveFocus(event.key == Qt.Key_K ? Qt.BacktabFocusReason : Qt.TabFocusReason)
             }
         }
 
         LayoutItemProxy {
-            target: searchField
+            target: searchFieldItem
             visible: !mainWidget.isBottomEdge
         }
 
         Milou.ResultsView {
             id: listView
-            queryField: searchField.queryField
+            queryField: searchFieldItem.queryField
 
             // in case is expanded
             clip: true
@@ -116,33 +117,36 @@ PlasmoidItem {
             reversed: mainWidget.isBottomEdge
 
             onActivated: {
-                searchField.text = "";
+                searchFieldItem.text = "";
                 mainWidget.expanded = false;
             }
 
             onUpdateQueryString: (text, cursorPosition) => {
-                searchField.text = text;
-                searchField.cursorPosition = cursorPosition;
+                searchFieldItem.text = text;
+                searchFieldItem.queryField.cursorPosition = cursorPosition;
             }
         }
 
         LayoutItemProxy {
-            target: searchField
+            target: searchFieldItem
             visible: mainWidget.isBottomEdge
         }
-    }
 
-    function resetFocusAndCurrentItem() {
-        mainWidget.fullRepresentationItem.searchField.setFocus();
-        mainWidget.fullRepresentationItem.searchField.selectAll();
-        mainWidget.fullRepresentationItem.listView.currentIndex = 0;
-    }
+        function resetFocusAndCurrentItem() {
+            wrapper.searchField.setFocus();
+            wrapper.searchField.selectAll();
+            wrapper.listView.currentIndex = 0;
+        }
 
-    onExpandedChanged: expanded => {
-        if (expanded) {
-            // callLater as the window is not visible yet. We can't use the usual trick
-            // of doing it on !expanded, as the text selection doesn't persist
-            Qt.callLater(resetFocusAndCurrentItem);
+        Connections {
+            target: mainWidget
+            function onExpandedChanged(expanded) {
+                if (expanded) {
+                    // callLater as the window is not visible yet. We can't use the usual trick
+                    // of doing it on !expanded, as the text selection doesn't persist
+                    Qt.callLater(wrapper.resetFocusAndCurrentItem);
+                }
+            }
         }
     }
 }

@@ -6,8 +6,7 @@
  *
  */
 
-import QtQuick 2.1
-import QtQuick.Layouts 1.1
+import QtQuick
 
 import org.kde.milou as Milou
 

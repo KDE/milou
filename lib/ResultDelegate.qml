@@ -13,7 +13,7 @@ import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.milou as Milou
-import org.kde.ksvg 1.0 as KSvg
+import org.kde.ksvg as KSvg
 
 PlasmaComponents3.ItemDelegate {
     id: resultDelegate
