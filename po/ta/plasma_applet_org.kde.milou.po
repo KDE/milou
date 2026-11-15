@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: milou\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-06 00:44+0000\n"
+"POT-Creation-Date: 2026-11-14 15:31+0000\n"
 "PO-Revision-Date: 2024-02-18 18:43+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -18,6 +18,8 @@ msgstr ""
 "X-Generator: Lokalize 23.08.5\n"
 
 #: SearchField.qml:34
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search…"
+msgctxt "@info:placheholder search field"
 msgid "Search…"
 msgstr "தேடு…"
