@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-14 15:31+0000\n"
-"PO-Revision-Date: 2024-02-07 10:40+0300\n"
+"PO-Revision-Date: 2026-11-15 09:46+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -20,8 +20,7 @@ msgstr ""
 "X-Generator: Lokalize 23.08.4\n"
 
 #: SearchField.qml:34
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgctxt "@info:placheholder search field"
 msgid "Search…"
 msgstr "Поиск…"
