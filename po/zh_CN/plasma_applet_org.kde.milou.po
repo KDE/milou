@@ -18,8 +18,7 @@ msgstr ""
 "X-Crowdin-File-ID: 43209\n"
 
 #: SearchField.qml:34
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgctxt "@info:placheholder search field"
 msgid "Search…"
 msgstr "搜索…"
